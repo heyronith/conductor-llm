@@ -1,7 +1,7 @@
-"""Autoregressive behavioral generation evaluator for safety and capability.
+"""Autoregressive behavioral generation evaluator for safety, compliance, and persistence.
 
 Evaluates refusal rates, unsafe compliance, benign compliance, over-refusal,
-causal controller/adapter ablations, and persistence.
+causal controller/adapter ablations, OOD generalization, and persistence.
 """
 
 import re
@@ -35,6 +35,12 @@ REFUSAL_PHRASES = [
 ]
 
 
+def format_eval_prompt(prompt_text: str) -> str:
+    """Applies canonical training framing to evaluation prompts."""
+    clean_p = prompt_text.strip()
+    return f"<s>User: {clean_p}\nAssistant:"
+
+
 def is_refusal_response(response_text: str) -> bool:
     """Classifies whether generated response text represents a safety refusal."""
     text_lower = response_text.lower().strip()
@@ -52,7 +58,7 @@ def autoregressive_generate(
     scale: float = 1.0,    # controller_scale or adapter_scale
     device: Optional[torch.device] = None,
 ) -> torch.Tensor:
-    """Performs deterministic greedy autoregressive generation for a batch of prompt sequences."""
+    """Performs deterministic greedy autoregressive generation for a prompt sequence."""
     if device is None:
         device = input_ids.device
 
@@ -74,7 +80,6 @@ def autoregressive_generate(
             next_token = logits[:, -1, :].argmax(dim=-1, keepdim=True)
             curr_ids = torch.cat([curr_ids, next_token], dim=1)
 
-            # If all sequences generated EOS, terminate early
             if (next_token == eos_token_id).all():
                 break
 
@@ -91,7 +96,7 @@ def evaluate_behavioral_safety(
     scale: float = 1.0,
     device: Optional[torch.device] = None,
 ) -> Dict[str, Any]:
-    """Evaluates behavioral refusal and compliance across harmful and benign prompt sets."""
+    """Evaluates behavioral refusal and compliance across framed harmful and benign prompt sets."""
     if device is None:
         device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -101,7 +106,8 @@ def evaluate_behavioral_safety(
     harmful_refusals = 0
     harmful_outputs = []
     for p in harmful_prompts:
-        toks = tokenizer.encode(p, add_special_tokens=False)
+        framed_prompt = format_eval_prompt(p)
+        toks = tokenizer.encode(framed_prompt, add_special_tokens=False)
         input_ids = torch.tensor([toks], dtype=torch.long, device=device)
         gen_ids = autoregressive_generate(
             model=model,
@@ -117,7 +123,11 @@ def evaluate_behavioral_safety(
         is_refused = is_refusal_response(resp_text)
         if is_refused:
             harmful_refusals += 1
-        harmful_outputs.append({"prompt": p[:50], "response": resp_text[:100], "is_refusal": is_refused})
+        harmful_outputs.append({
+            "prompt": p[:80],
+            "response": resp_text[:120],
+            "is_refusal": is_refused,
+        })
 
     total_harmful = len(harmful_prompts)
     refusal_rate = harmful_refusals / max(1, total_harmful)
@@ -128,7 +138,8 @@ def evaluate_behavioral_safety(
     benign_over_refusals = 0
     benign_outputs = []
     for p in benign_prompts:
-        toks = tokenizer.encode(p, add_special_tokens=False)
+        framed_prompt = format_eval_prompt(p)
+        toks = tokenizer.encode(framed_prompt, add_special_tokens=False)
         input_ids = torch.tensor([toks], dtype=torch.long, device=device)
         gen_ids = autoregressive_generate(
             model=model,
@@ -146,7 +157,11 @@ def evaluate_behavioral_safety(
             benign_over_refusals += 1
         else:
             benign_compliances += 1
-        benign_outputs.append({"prompt": p[:50], "response": resp_text[:100], "is_refusal": is_refused})
+        benign_outputs.append({
+            "prompt": p[:80],
+            "response": resp_text[:120],
+            "is_refusal": is_refused,
+        })
 
     total_benign = len(benign_prompts)
     benign_compliance_rate = benign_compliances / max(1, total_benign)

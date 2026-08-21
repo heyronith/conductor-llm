@@ -30,8 +30,36 @@ class BaselineConfig:
 
 
 @dataclass
+class AdapterConfig:
+    """Configuration for Model D (Parameter-matched frozen-backbone adapter control)."""
+
+    vocab_size: int = 32000
+    max_seq_len: int = 1024
+    n_layers: int = 4
+    d_model: int = 512
+    n_heads: int = 8
+    d_ff: int = 2048  # Exactly matches Model C capability stream d_ff_C
+    d_mid: int = 336   # Adapter bottleneck dimension matching theta_N
+    rms_norm_eps: float = 1e-6
+    rope_theta: float = 10000.0
+    init_std: float = 0.02
+    dropout: float = 0.0
+
+    def __post_init__(self):
+        assert self.vocab_size > 0, "vocab_size must be positive"
+        assert self.max_seq_len > 0, "max_seq_len must be positive"
+        assert self.n_layers > 0, "n_layers must be positive"
+        assert self.d_model > 0, "d_model must be positive"
+        assert self.n_heads > 0, "n_heads must be positive"
+        assert self.d_model % self.n_heads == 0, "d_model must be divisible by n_heads"
+        assert self.d_ff > 0, "d_ff must be positive"
+        assert self.d_mid > 0, "d_mid must be positive"
+
+
+@dataclass
 class DualStreamConfig:
     """Configuration for Model B (Joint-Training) and Model C (CCPT)."""
+
 
     vocab_size: int = 32000
     max_seq_len: int = 1024
@@ -99,6 +127,11 @@ def get_smoke_baseline_config() -> BaselineConfig:
     return BaselineConfig()
 
 
+def get_smoke_adapter_config() -> AdapterConfig:
+    """Returns the parameter-matched Smoke Configuration (~35.9M params) for Model D."""
+    return AdapterConfig()
+
+
 def get_micro_dual_stream_config() -> DualStreamConfig:
     """Returns a lightweight micro configuration for unit testing."""
     return DualStreamConfig(
@@ -127,6 +160,19 @@ def get_micro_baseline_config() -> BaselineConfig:
         d_model=64,
         n_heads=4,
         d_ff=160,
+    )
+
+
+def get_micro_adapter_config() -> AdapterConfig:
+    """Returns a lightweight micro adapter configuration for unit testing."""
+    return AdapterConfig(
+        vocab_size=128,
+        max_seq_len=32,
+        n_layers=4,
+        d_model=64,
+        n_heads=4,
+        d_ff=128,
+        d_mid=48,
     )
 
 
@@ -159,4 +205,18 @@ def get_task5_micro_baseline_config() -> BaselineConfig:
         n_heads=4,
         d_ff=168,
     )
+
+
+def get_task5_micro_adapter_config() -> AdapterConfig:
+    """Returns the parameter-matched Task 5 Real-Token Adapter Configuration (~2.24M params) for Model D."""
+    return AdapterConfig(
+        vocab_size=32000,
+        max_seq_len=128,
+        n_layers=4,
+        d_model=64,
+        n_heads=4,
+        d_ff=128,
+        d_mid=48,
+    )
+
 

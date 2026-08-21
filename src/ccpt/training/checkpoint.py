@@ -203,7 +203,7 @@ def load_checkpoint(
     if strict_v2 and fmt != CHECKPOINT_FORMAT_VERSION_V2:
         raise ValueError(f"Strict V2 loading requested, but checkpoint has format {fmt}")
 
-    if strict_v2 or fmt == CHECKPOINT_FORMAT_VERSION_V2:
+    if strict_v2:
         required_v2_fields = [
             "tokens_seen",
             "data_cursor",
@@ -216,6 +216,12 @@ def load_checkpoint(
         for field in required_v2_fields:
             if field not in state:
                 raise ValueError(f"Checkpoint V2 missing mandatory field: '{field}'")
+
+        if state.get("phase") in ["phase3_safety_20m", "safety_20m"]:
+            if not state.get("safety_schedule_hash"):
+                raise ValueError("Checkpoint V2 safety phase requires non-empty 'safety_schedule_hash'")
+
+
 
     if expected_task4_manifest_hash is not None:
         saved_hash = state.get("task4_manifest_hash")

@@ -10,7 +10,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from ccpt.config import BaselineConfig
+from ccpt.config import AdapterConfig, BaselineConfig
 from ccpt.modeling.layers import (
     CausalSelfAttention,
     RMSNorm,
@@ -29,7 +29,8 @@ class ResidualBottleneckAdapter(nn.Module):
         self.up_proj = nn.Linear(d_mid, d_model, bias=False)
 
         nn.init.normal_(self.down_proj.weight, mean=0.0, std=init_std)
-        nn.init.normal_(self.up_proj.weight, mean=0.0, std=init_std)
+        # Identity-preserving zero initialization for output up_proj
+        nn.init.zeros_(self.up_proj.weight)
         nn.init.ones_(self.norm.weight)
 
     def forward(self, x: torch.Tensor, adapter_scale: float = 1.0) -> torch.Tensor:
@@ -42,8 +43,9 @@ class ResidualBottleneckAdapter(nn.Module):
 class FrozenBackboneAdapterBlock(nn.Module):
     """Transformer block wrapping frozen capability attention/FFN with trainable Houlsby adapters."""
 
-    def __init__(self, config: BaselineConfig, d_mid: int = 336) -> None:
+    def __init__(self, config: Union[AdapterConfig, BaselineConfig], d_mid: Optional[int] = None) -> None:
         super().__init__()
+        d_mid_val = d_mid if d_mid is not None else getattr(config, "d_mid", 336)
         self.attn_norm = RMSNorm(config.d_model, eps=config.rms_norm_eps)
         self.attn = CausalSelfAttention(
             d_model=config.d_model,
@@ -54,7 +56,7 @@ class FrozenBackboneAdapterBlock(nn.Module):
         )
         self.attn_adapter = ResidualBottleneckAdapter(
             d_model=config.d_model,
-            d_mid=d_mid,
+            d_mid=d_mid_val,
             eps=config.rms_norm_eps,
             init_std=config.init_std,
         )
@@ -63,7 +65,7 @@ class FrozenBackboneAdapterBlock(nn.Module):
         self.mlp = SwiGLU(d_model=config.d_model, d_ff=config.d_ff)
         self.mlp_adapter = ResidualBottleneckAdapter(
             d_model=config.d_model,
-            d_mid=d_mid,
+            d_mid=d_mid_val,
             eps=config.rms_norm_eps,
             init_std=config.init_std,
         )
@@ -90,15 +92,15 @@ class FrozenBackboneAdapterModel(nn.Module):
     Trainable safety parameters match Model C theta_N (~2.75M).
     """
 
-    def __init__(self, config: BaselineConfig, d_mid: int = 336) -> None:
+    def __init__(self, config: Union[AdapterConfig, BaselineConfig], d_mid: Optional[int] = None) -> None:
         super().__init__()
         self.config = config
-        self.d_mid = d_mid
+        self.d_mid = d_mid if d_mid is not None else getattr(config, "d_mid", 336)
 
         # Backbone (Frozen during safety training) - Tied Embeddings
         self.embedding = nn.Embedding(config.vocab_size, config.d_model)
         self.layers = nn.ModuleList([
-            FrozenBackboneAdapterBlock(config, d_mid=d_mid) for _ in range(config.n_layers)
+            FrozenBackboneAdapterBlock(config, d_mid=self.d_mid) for _ in range(config.n_layers)
         ])
         self.final_norm = RMSNorm(config.d_model, eps=config.rms_norm_eps)
 

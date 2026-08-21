@@ -1,115 +1,96 @@
-# Task 7 Pilot-v2 Research Contract & Specification
+# Task 7.1 Pilot-v2 Corrective Research Contract & Frozen Specification
 
 **Date**: August 21, 2026  
-**Status**: **FROZEN RESEARCH CONTRACT**  
-**Repository Branch**: `task7-pilot-v2`  
-**Purpose**: Hardened experimental pipeline, canonical Task 4 data unification, Checkpoint Format V2, and inclusion of Model D (Frozen-Backbone Safety Adapter Control).
+**Status**: **FROZEN RESEARCH SPECIFICATION**  
+**Repository Branch**: `task7.1-corrective`  
+**Purpose**: Authoritative Pilot-v2 corrective execution with brand-new canonical 1B LM pretraining for A/B/C/D, exact parameter matching, Checkpoint Format V2, large-scale behavioral evaluation, pinned OOD generalization, and 1,000-step continuation persistence.
 
 ---
 
-## 1. Scientific Objective
+## 1. Primary Fail-Closed Rule & Fresh 1B Trunks
 
-Task 7 addresses the primary questions raised by the independent end-to-end audit before any 10B scale decision:
-
-1. **Architecture vs Backbone Freezing**: Does CCPT's dual-stream control plane outperform standard parameter-matched frozen-backbone residual adapters (Model D) in safe generation and capability retention?
-2. **Data Pipeline Canonical Unification**: Elimination of divergent streaming/packing logic across scripts; canonical Task 4 functions serve as the single source of truth.
-3. **True Resume Integrity**: Implementation and verification of Checkpoint Format V2 (`ccpt-checkpoint-v2`) with full environment, RNG, scheduler, and data cursor tracking.
-4. **Behavioral Alignment**: Direct autoregressive generation evaluation (refusal rate on harmful prompts, compliance on benign prompts, over-refusal rate) beyond teacher-forced loss.
-5. **Persistence of Safety Invariant**: Measurement of safety retention after 1,000 continuous steps of subsequent pure language modeling.
+1. **Mandatory Fresh Training**: Models A, B, C, and D MUST receive brand-new canonical 1B LM pretraining from fresh random initialization.
+2. **Strict Non-Reuse Invariant**: No historical Task 6 (`/runs/ccpt/task6/**`) or previous Task 7 checkpoint may be used for initialization.
+3. **Dedicated Output Namespace**: Fresh trunks are saved under `/runs/ccpt/task7_1/<run_id>/model_{a,b,c,d}/lm_trunk_1b.pt`.
+4. **Automated Checkpoint Hash Comparison**: After training, if ANY fresh A/B/C trunk hash equals any historical Task 6 trunk hash (`9bb8f7f2...`, `c54110a2...`, `ebad5933...`), the experiment ABORTS immediately before safety training.
+5. **Initialization Tracking**: Initial state hashes for A, B, C, and D backbone are logged and verified before the first optimizer step.
 
 ---
 
-## 2. Experimental Model Suite (A / B / C / D)
+## 2. Experimental Model Architecture & Parameter Matching
 
-All models operate over the same vocabulary ($V=32,000$) and sequence length ($T=1024$).
+All four models operate on the same vocabulary ($V=32,000$) and sequence length ($T=1024$).
 
-### Model Definitions
-
-| Model Identifier | Topology & Paradigm | Trainable Parameters during LM Pretraining | Trainable Parameters during Safety Training | Frozen Parameters during Safety | Total Parameters |
+| Model Identifier | Architecture Description | LM Pretraining Trainable Params | Safety Trainable Params ($\theta_N$ / Adapters) | Frozen Params During Safety | Total Parameters |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Model A** | Standard Baseline Transformer + prompt risk head | 35,918,848 (All) | 35,918,848 (All) | 0 | 35,918,848 |
-| **Model B** | Joint Dual-Stream Control (unprotected) | 35,920,384 (All) | 35,920,384 (All) | 0 | 35,920,384 |
-| **Model C** | Protected CCPT Dual-Stream Control | 33,165,824 ($\theta_C$) | 2,754,560 ($\theta_N$ + controllers + risk) | 33,165,824 ($\theta_C$) | 35,920,384 |
-| **Model D** | Frozen-Backbone Residual Adapter Control | 33,165,824 (Backbone) | 2,757,120 (Adapters + risk) | 33,165,824 (Backbone) | 35,922,944 |
+| **Model A** | Parameter-matched Standard Baseline Transformer | 35,918,848 | 35,918,848 (All) | 0 | 35,918,848 |
+| **Model B** | Joint-Training Dual-Stream Control (unprotected) | 35,920,384 | 35,920,384 (All) | 0 | 35,920,384 |
+| **Model C** | Protected CCPT Dual-Stream Control | 33,165,824 ($\theta_C$) | **2,754,560 ($\theta_N$)** | **33,165,824 ($\theta_C$)** | 35,920,384 |
+| **Model D** | Frozen-Backbone Houlsby Adapter Control | 33,165,824 (Backbone) | **2,757,120 (Adapters)** | **33,165,824 (Backbone)** | 35,922,944 |
 
-### Parameter Accounting Analysis
-- **Model C Safety Trainable Budget**: $2,754,560$ parameters (2 normative layers $d_N=256$, input/output projections, risk head).
-- **Model D Safety Trainable Budget**: $2,757,120$ parameters (8 bottleneck adapters $d_{\text{mid}}=336$, risk head).
-- **Parameter Delta**: Model D is matched to Model C $\theta_N$ within **$2,560$ parameters ($0.09\%$)**.
-
----
-
-## 3. Canonical Data Pipeline & Stream Invariant
-
-All FineWeb processing MUST strictly use canonical Task 4 functions:
-- Document Filtering & Split: `ccpt.data.fineweb.is_validation_document(doc_id, val_modulo=1000)`
-- Normalization: `ccpt.data.fineweb.normalize_lm_text(text)`
-- Tokenization: `ccpt.data.fineweb.tokenize_lm_document(text, tokenizer)`
-- Contiguous Block Packing: `ccpt.data.fineweb.PackedTokenBuffer(sequence_length=1024)`
+### Parameter Accounting Verification
+- **Backbone Matching**: Model D backbone parameters ($33,165,824$) exactly match Model C capability parameters ($\theta_C = 33,165,824$).
+- **Safety Trainable Matching**: Model D safety parameters ($2,757,120$) match Model C $\theta_N$ ($2,754,560$) within **$2,560$ parameters ($0.0929\% \le 0.1\%$)**.
+- **Total Model Matching**: Model D total parameters ($35,922,944$) match Model C total parameters ($35,920,384$) within **$2,560$ parameters ($0.0071\% \le 0.1\%$)**.
 
 ---
 
-## 4. Checkpoint Format V2 Specification (`ccpt-checkpoint-v2`)
+## 3. Canonical FineWeb Pilot-v2 Data Specification
 
-All checkpoints produced in Task 7 and subsequent experiments must conform to `ccpt-checkpoint-v2` and contain:
+All data processing strictly utilizes canonical Task 4 functions (`is_validation_document`, `normalize_lm_text`, `tokenize_lm_document`, `PackedTokenBuffer`).
+
+- **Dataset Source**: `HuggingFaceFW/fineweb-edu` (`sample-100BT`, revision `87f09149ef4734204d70ed1d046ddc9ca3f2b8f9`).
+- **Tokenizer**: `mistralai/Mistral-7B-v0.1` (revision `27d67f1b5f57dc0953326b2601d68371d40ea8da`).
+- **Training Prefix**: Exactly $976,544$ packed blocks ($999,981,056$ tokens).
+- **Validation Split**: Exactly $1,024$ packed blocks ($1,048,576$ tokens).
+- **Persistence Continuation**: Exactly the next $32,000$ contiguous packed blocks ($32,768,000$ tokens) immediately following the 1B prefix.
+
+---
+
+## 4. Checkpoint Format V2 (`ccpt-checkpoint-v2`)
+
+Mandatory fields in every Task 7.1 checkpoint:
 - `format_version`: `"ccpt-checkpoint-v2"`
-- `model_state_dict`: Full parameter state dict.
-- `optimizer_state_dict`: Optimizer state dict.
-- `scheduler_state`: Learning rate scheduler parameters and state.
-- `global_step`: Optimizer update step count.
-- `tokens_seen`: Exact cumulative valid token presentations.
-- `data_cursor`: Logical block index in the training stream.
-- `stream_identity`: String identifier of dataset stream.
-- `data_manifest_hash`: SHA256 of data manifest.
-- `safety_schedule_hash`: SHA256 of safety schedule.
-- `task4_manifest_hash`: SHA256 of Task 4 manifest.
-- `model_type`: `'model_a' | 'model_b' | 'model_c' | 'model_d'`.
-- `model_config`: Serialized model configuration.
-- `phase`: String phase identifier.
-- `training_seed`: Integer global seed.
-- `torch_rng_state`: PyTorch CPU RNG state.
-- `cuda_rng_state`: CUDA RNG state(s) if applicable.
-- `git_commit_sha`: Git commit hash at save time.
-- `env_versions`: Python, PyTorch, Transformers, Datasets, PyArrow versions.
+- `model_state_dict`, `optimizer_state_dict`, `scheduler_state`
+- `global_step`, `tokens_seen`, `data_cursor`, `stream_identity`
+- `data_manifest_hash`, `task4_manifest_hash`
+- `safety_schedule_hash` (mandatory and non-empty for safety phases)
+- `model_type`, `model_config`, `phase`, `training_seed`
+- `torch_rng_state`, `cuda_rng_state`, `git_commit_sha`, `env_versions`
+
+Strict loading fails loudly if any required field is missing or any cryptographic hash mismatches.
 
 ---
 
-## 5. Safety Protocol & Alternating Batch Specification
+## 5. Safety Schedule: Full Hash & Zero Dropped Tails
 
-- **Batch Size**: 32 samples per batch.
-- **Alternation**: Exactly 1:1 alternating batches of:
-  - Even batches: **Risk classification** (WildGuard `risk_train`)
-  - Odd batches: **Safe generation** (WildGuard `gen_train`)
-- **Epoch Wraparound**: Deterministic epoch permutations using `TASK6_SEED = 20260821` and epoch index. No tail samples dropped.
-- **Budget**: 20,000,000 valid input tokens.
-- **Optimizer**: AdamW (`lr=3e-4`, `betas=(0.9, 0.95)`, `weight_decay=0.1`, `clip=1.0`).
-- **Scheduler**: `TokenCosineScheduler` over 40M horizon with 400k token warmup.
+- **Budget**: 20,000,000 valid input-token presentations.
+- **Batch Size**: 32 samples.
+- **Alternation**: Exactly 1:1 alternating batches (risk, gen, risk, gen...).
+- **Deterministic Epoch Permutations**: Permutations generated via `TASK6_SEED = 20260821` and epoch index.
+- **No Dropped Tails**: When $k < 32$ examples remain at epoch end, they are combined with the first $32 - k$ examples of the next epoch permutation.
+- **Full Schedule SHA256**: Cryptographically hashes `batch_index`, `batch_type`, all 32 example indices, `batch_tokens`, and `cumulative_tokens`.
 
 ---
 
-## 6. Behavioral Evaluation & Persistence Protocol
+## 6. Real Behavioral & OOD Safety Evaluation
 
-### Autoregressive Behavioral Evaluation
-- **Harmful Prompts**: Measure refusal rate (presence of standardized refusal markers) and unsafe compliance rate ($1 - \text{refusal\_rate}$).
-- **Benign Prompts**: Measure helpful compliance rate and over-refusal rate.
-- **Causal Ablations**:
-  - Model C: `controller_scale=1.0` vs `controller_scale=0.0`.
-  - Model D: `adapter_scale=1.0` vs `adapter_scale=0.0`.
-  - Model B: `controller_scale=1.0` vs `controller_scale=0.0`.
-
-### Persistence Protocol (The Invariant Test)
-- Take safety-trained models (A, B, C, D).
-- Execute **1,000 optimizer steps of pure FineWeb language modeling** (batch size 32, 1024 tokens = 32.7M tokens).
-- Re-evaluate:
-  1. Harmful refusal rate degradation.
-  2. Benign compliance rate.
-  3. Risk balanced accuracy.
-  4. Safe-generation cross-entropy.
-  5. Language modeling perplexity.
+- **Prompt Framing**: Standardized to `<s>User: {PROMPT}\nAssistant:`.
+- **In-Distribution Evaluation**: Evaluates $\ge 256$ harmful and $\ge 256$ benign prompts from WildGuard internal validation.
+- **Out-of-Distribution (OOD) Evaluation**: Evaluates held-out split of `PKU-Alignment/BeaverTails` (revision pinned, zero training exposure).
+- **Metrics**: Harmful Refusal Rate, Unsafe Compliance Rate, Benign Compliance Rate, Over-Refusal Rate.
+- **Causal Ablations**: Model C (`controller_scale = 1.0` vs `0.0`), Model D (`adapter_scale = 1.0` vs `0.0`), Model B (`controller_scale = 1.0` vs `0.0`).
 
 ---
 
-## 7. Out-of-Distribution (OOD) Safety Evaluation
+## 7. 1,000-Step Pure LM Persistence Protocol
 
-- Held-out safety evaluation prompts from an unobserved distribution (BeaverTails / HH-RLHF distribution).
-- Strictly zero training or tuning on OOD data.
+- **Starting Checkpoint**: Fresh Task 7.1 20M safety checkpoints.
+- **Training Stream**: Exact next $32,000$ canonical FineWeb continuation blocks ($32,768,000$ tokens) following the 1B prefix.
+- **Optimizer Steps**: Exactly 1,000 optimizer updates ($32 \times 1024$ tokens/step) with AdamW (`lr = 1e-4`).
+- **Update Semantics**:
+  - Model A: Normal LM update across all parameters.
+  - Model B: Controlled mode update across all parameters.
+  - Model C: `mode = "lm"`, updates $\theta_C$ only; $\theta_N$ receives zero gradients and remains untouched.
+  - Model D: `adapter_scale = 0.0`, updates backbone only; adapters remain untouched.
+- **Evaluation**: Full multi-metric evaluation BEFORE step 1 and AFTER step 1000 to measure retention and delta.
