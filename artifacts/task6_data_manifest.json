@@ -1,0 +1,119 @@
+{
+  "block_length": 1024,
+  "dataset_name": "fineweb-edu-100BT-stage6a-1b",
+  "dtype": "uint16",
+  "manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+  "source_dataset": "HuggingFaceFW/fineweb-edu",
+  "source_revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+  "tokenizer": "mistralai/Mistral-7B-v0.1",
+  "tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+  "total_train_blocks": 976544,
+  "total_train_tokens": 999981056,
+  "total_val_blocks": 1024,
+  "total_val_tokens": 1048576,
+  "train_logical_hash": "90cea0057f89480af7f1c3fd97a4b3b87f05d6feb17c18cad1071d7f36656d9a",
+  "train_shards": [
+    {
+      "filename": "train_shard_00000.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00000.bin",
+      "sha256": "449b4c3d1ca9dd861e6eea1bba7f5979159472cafd952c58a23808f469ec12c6",
+      "shard_index": 0,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00001.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00001.bin",
+      "sha256": "c6930e6c5d3bf0de57da09adb20201a6ebd42675ee9d38cc585822f3875a5fa7",
+      "shard_index": 1,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00002.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00002.bin",
+      "sha256": "62637f23098136d92f1ffaf3ac07fb3cbe806f902fd15782a935ac31327ebceb",
+      "shard_index": 2,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00003.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00003.bin",
+      "sha256": "670b41df37f396a79ea581aa3f15dc516afa571af2723100f5ef8a3142008669",
+      "shard_index": 3,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00004.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00004.bin",
+      "sha256": "81cdcbcad568a561cd8661fb60dec77a4d1e3e7d46dc9a2b4931cfbc81f76e25",
+      "shard_index": 4,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00005.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00005.bin",
+      "sha256": "6097b6ac918239e44d470113ce682aa0fed70397299fca67049c9deb90237c71",
+      "shard_index": 5,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00006.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00006.bin",
+      "sha256": "c9e2116e9c462a743131d1ec5864582ceb3749f65ca53695a72e4f5b1616a5e8",
+      "shard_index": 6,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00007.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00007.bin",
+      "sha256": "1d7d6271c6f91e75f193a0f41d7528dae9b62be037cc03ea0a660bcaca017abf",
+      "shard_index": 7,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00008.bin",
+      "num_blocks": 100000,
+      "num_tokens": 102400000,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00008.bin",
+      "sha256": "ff2e8fbd1ef2c4206fa8c7592fa6e2491d05675be83f3320ee539ad2b29304e8",
+      "shard_index": 8,
+      "size_bytes": 204800000
+    },
+    {
+      "filename": "train_shard_00009.bin",
+      "num_blocks": 76544,
+      "num_tokens": 78381056,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/train/train_shard_00009.bin",
+      "sha256": "2857b65f4d537b721e69f91091fffb9433df346af201f86acedc2e8e21be9317",
+      "shard_index": 9,
+      "size_bytes": 156762112
+    }
+  ],
+  "val_logical_hash": "a968bb52d210bd2b01b1307b4b599d83e16f40e54dee02c3e21e1b934be41bed",
+  "val_shards": [
+    {
+      "filename": "val_shard_00000.bin",
+      "num_blocks": 1024,
+      "num_tokens": 1048576,
+      "path": "/data/task6/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/stage6a_1b/validation/val_shard_00000.bin",
+      "sha256": "04f1f7c236a65207436e7f9a53b966d9cd05eec318d9557980d2d6659bfb9e24",
+      "shard_index": 0,
+      "size_bytes": 2097152
+    }
+  ]
+}

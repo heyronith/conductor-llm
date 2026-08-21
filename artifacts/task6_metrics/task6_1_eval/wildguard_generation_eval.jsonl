@@ -1,0 +1,3 @@
+{"model": "model_a", "safe_generation_loss": 2.1941028755903242, "safe_generation_perplexity": 8.971948491289012, "valid_continuation_tokens": 25258}
+{"model": "model_b", "safe_generation_loss": 2.2237019401788714, "safe_generation_perplexity": 9.241479022172513, "valid_continuation_tokens": 25258}
+{"model": "model_c", "safe_generation_loss": 2.696194197535515, "safe_generation_perplexity": 14.823210028631156, "valid_continuation_tokens": 25258}

@@ -1,0 +1,146 @@
+{
+  "ccpt_diagnostics": {
+    "controller_gradients_nonzero": true,
+    "deep_n_gradients_nonzero": true,
+    "final_gate_mean": 0.9905320405960083,
+    "final_mean_steering_l2": 1.0739502906799316,
+    "gate_max_overall": 1.0390307903289795,
+    "gate_mean_overall": 0.9975873865187168,
+    "gate_min_overall": 0.9652073383331299,
+    "learned_steering_nonzero": true,
+    "max_controller_grad": 0.9954089522361755,
+    "max_deep_n_grad": 0.999821662902832,
+    "max_gate_near_lower_bound_fraction": 0.0,
+    "max_gate_near_upper_bound_fraction": 0.0,
+    "max_observed_mean_steering_l2": 1.0870130062103271,
+    "max_steering_l2": 1.2955659627914429,
+    "max_steering_saturate_fraction": 0.0
+  },
+  "data_lineage": {
+    "all_checkpoint_subset_hashes_match": true,
+    "all_checkpoint_task4_hashes_match": true,
+    "checkpoint_contents_modified": false,
+    "checkpoint_count_verified": 9,
+    "sanitized_review_manifest_hash": "1b315015ee2e01c86da989192ea789526ec232b052a2349451611552f6935132",
+    "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+    "training_subset_manifest_hash": "3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f"
+  },
+  "failure_flags": {
+    "capability_mutation_detected": false,
+    "data_leakage_detected": false,
+    "dead_controller_detected": false,
+    "gate_collapse_detected": false,
+    "nan_or_inf_detected": false,
+    "steering_saturation_detected": false
+  },
+  "models": {
+    "model_a": {
+      "phase1_lm": {
+        "b_joint_grads_seen": null,
+        "final_acc": 0.5029527544975281,
+        "final_loss": 3.1283204555511475,
+        "initial_acc": 0.0019685039296746254,
+        "initial_loss": 10.390297889709473,
+        "loss_reduction_fraction": 0.6989190792451264,
+        "passed_acc_criterion": true,
+        "passed_reduction_criterion": true
+      },
+      "phase2_risk": {
+        "final_acc": 1.0,
+        "final_loss": 0.0032966374419629574,
+        "initial_acc": 0.5,
+        "initial_loss": 0.7088273763656616,
+        "passed_accuracy_criterion": true,
+        "passed_loss_reduction": true,
+        "theta_c_changed_tensors": null
+      },
+      "phase3_gen": {
+        "ablated_safe_gen_loss": null,
+        "ablation_penalty_relative": null,
+        "causal_lm_allclose": null,
+        "controlled_safe_gen_loss": 1.4019943475723267,
+        "passed_ablation_criterion": null,
+        "passed_safe_gen_reduction": true,
+        "pre_safe_gen_loss": 10.415861129760742,
+        "safe_gen_loss_reduction": 0.8653981336630463,
+        "theta_c_changed_tensors": null,
+        "theta_n_changed_tensors": null
+      }
+    },
+    "model_b": {
+      "phase1_lm": {
+        "b_joint_grads_seen": true,
+        "final_acc": 0.4758858382701874,
+        "final_loss": 3.28202223777771,
+        "initial_acc": 0.0024606299120932817,
+        "initial_loss": 10.38699722290039,
+        "loss_reduction_fraction": 0.6840258866593534,
+        "passed_acc_criterion": true,
+        "passed_reduction_criterion": true
+      },
+      "phase2_risk": {
+        "final_acc": 1.0,
+        "final_loss": 0.024636561051011086,
+        "initial_acc": 0.5,
+        "initial_loss": 0.6921349763870239,
+        "passed_accuracy_criterion": true,
+        "passed_loss_reduction": true,
+        "theta_c_changed_tensors": null
+      },
+      "phase3_gen": {
+        "ablated_safe_gen_loss": null,
+        "ablation_penalty_relative": null,
+        "causal_lm_allclose": null,
+        "controlled_safe_gen_loss": 1.0353635549545288,
+        "passed_ablation_criterion": null,
+        "passed_safe_gen_reduction": true,
+        "pre_safe_gen_loss": 12.484015464782715,
+        "safe_gen_loss_reduction": 0.9170648612319267,
+        "theta_c_changed_tensors": null,
+        "theta_n_changed_tensors": null
+      }
+    },
+    "model_c": {
+      "phase1_lm": {
+        "b_joint_grads_seen": null,
+        "final_acc": 0.45521652698516846,
+        "final_loss": 3.3025166988372803,
+        "initial_acc": 0.0024606299120932817,
+        "initial_loss": 10.38699722290039,
+        "loss_reduction_fraction": 0.6820527985165756,
+        "passed_acc_criterion": true,
+        "passed_reduction_criterion": true
+      },
+      "phase2_risk": {
+        "final_acc": 1.0,
+        "final_loss": 0.029192086309194565,
+        "initial_acc": 0.5,
+        "initial_loss": 0.6926771402359009,
+        "passed_accuracy_criterion": true,
+        "passed_loss_reduction": true,
+        "theta_c_changed_tensors": 0
+      },
+      "phase3_gen": {
+        "ablated_safe_gen_loss": 11.747198104858398,
+        "ablation_penalty_relative": 0.509615968520923,
+        "causal_lm_allclose": true,
+        "controlled_safe_gen_loss": 7.781580448150635,
+        "passed_ablation_criterion": true,
+        "passed_safe_gen_reduction": true,
+        "pre_safe_gen_loss": 11.747198104858398,
+        "safe_gen_loss_reduction": 0.3375798740524914,
+        "theta_c_changed_tensors": 0,
+        "theta_n_changed_tensors": 27
+      }
+    }
+  },
+  "system": {
+    "cuda_version": "13.0",
+    "elapsed_seconds": 40.43378043174744,
+    "gpu_count": 1,
+    "gpu_model": "NVIDIA A10G",
+    "peak_gpu_memory_mb": 3127.19140625,
+    "precision": "float32",
+    "torch_version": "2.13.0+cu130"
+  }
+}

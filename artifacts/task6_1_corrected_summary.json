@@ -1,0 +1,608 @@
+{
+  "capability_evaluation": {
+    "A clean": {
+      "checkpoint_phase": "lm",
+      "controller_scale": 1.0,
+      "cross_entropy": 3.3985409662127495,
+      "eval_name": "A clean",
+      "forward_mode": "normal",
+      "is_primary": true,
+      "model_type": "model_a",
+      "next_token_accuracy": 0.3810541173443198,
+      "perplexity": 29.92041329100008,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "A post-safety": {
+      "checkpoint_phase": "safety",
+      "controller_scale": 1.0,
+      "cross_entropy": 3.849615551531315,
+      "eval_name": "A post-safety",
+      "forward_mode": "normal",
+      "is_primary": true,
+      "model_type": "model_a",
+      "next_token_accuracy": 0.3435543058440089,
+      "perplexity": 46.97500029273814,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "B clean bypass": {
+      "checkpoint_phase": "lm",
+      "controller_scale": 1.0,
+      "cross_entropy": 4.8585085570812225,
+      "eval_name": "B clean bypass",
+      "forward_mode": "lm",
+      "is_primary": false,
+      "model_type": "model_b",
+      "next_token_accuracy": 0.28555050306022167,
+      "perplexity": 128.83191330432504,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "B clean controlled": {
+      "checkpoint_phase": "lm",
+      "controller_scale": 1.0,
+      "cross_entropy": 3.4320852160453796,
+      "eval_name": "B clean controlled",
+      "forward_mode": "controlled",
+      "is_primary": true,
+      "model_type": "model_b",
+      "next_token_accuracy": 0.37850627209991217,
+      "perplexity": 30.941094395014975,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "B post-safety bypass": {
+      "checkpoint_phase": "safety",
+      "controller_scale": 1.0,
+      "cross_entropy": 4.955091089010239,
+      "eval_name": "B post-safety bypass",
+      "forward_mode": "lm",
+      "is_primary": false,
+      "model_type": "model_b",
+      "next_token_accuracy": 0.27952311746776104,
+      "perplexity": 141.89553090777565,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "B post-safety controlled": {
+      "checkpoint_phase": "safety",
+      "controller_scale": 1.0,
+      "cross_entropy": 3.7406220957636833,
+      "eval_name": "B post-safety controlled",
+      "forward_mode": "controlled",
+      "is_primary": true,
+      "model_type": "model_b",
+      "next_token_accuracy": 0.35107087902724743,
+      "perplexity": 42.124187294054764,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "C clean capability-only": {
+      "checkpoint_phase": "lm",
+      "controller_scale": 1.0,
+      "cross_entropy": 3.418016739189625,
+      "eval_name": "C clean capability-only",
+      "forward_mode": "lm",
+      "is_primary": true,
+      "model_type": "model_c",
+      "next_token_accuracy": 0.3784680888056755,
+      "perplexity": 30.508847978216572,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "C clean controlled": {
+      "checkpoint_phase": "lm",
+      "controller_scale": 1.0,
+      "cross_entropy": 3.4180125817656517,
+      "eval_name": "C clean controlled",
+      "forward_mode": "controlled",
+      "is_primary": true,
+      "model_type": "model_c",
+      "next_token_accuracy": 0.3784633157774806,
+      "perplexity": 30.508721140264257,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "C post capability-only": {
+      "checkpoint_phase": "safety",
+      "controller_scale": 1.0,
+      "cross_entropy": 3.418016739189625,
+      "eval_name": "C post capability-only",
+      "forward_mode": "lm",
+      "is_primary": true,
+      "model_type": "model_c",
+      "next_token_accuracy": 0.3784680888056755,
+      "perplexity": 30.508847978216572,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    },
+    "C post controlled": {
+      "checkpoint_phase": "safety",
+      "controller_scale": 1.0,
+      "cross_entropy": 3.4920084178447723,
+      "eval_name": "C post controlled",
+      "forward_mode": "controlled",
+      "is_primary": true,
+      "model_type": "model_c",
+      "next_token_accuracy": 0.37045416235923767,
+      "perplexity": 32.85186175798505,
+      "total_evaluated_blocks": 1024,
+      "total_evaluated_tokens": 1048576
+    }
+  },
+  "checkpoint_inventory": {
+    "model_a": {
+      "lm_trunk": {
+        "format_version": "ccpt-checkpoint-v1",
+        "global_step": 30517,
+        "has_data_cursor": true,
+        "has_model_state": true,
+        "has_optimizer_state": true,
+        "has_rng_state": false,
+        "has_scheduler_inputs": true,
+        "model_type": "model_a",
+        "phase": "phase1_lm",
+        "sha256": "9bb8f7f2213498b6a0753eaf880c195cc7db6908d5e6c51d8f32738f27ed2135",
+        "size_bytes": 431076941,
+        "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+        "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+        "tokens_seen": 999981056,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_a/lm/checkpoints/lm_trunk_1b.pt"
+      },
+      "safety_branch": {
+        "format_version": "ccpt-checkpoint-v1",
+        "global_step": 1189,
+        "has_model_state": true,
+        "has_optimizer_state": true,
+        "has_rng_state": false,
+        "model_type": "model_a",
+        "phase": "phase3_safety",
+        "sha256": "f0cfbffde4edec9e50f333cc31132eb91225af3659d83394f1afea1f7a58aee4",
+        "size_bytes": 431082923,
+        "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+        "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+        "tokens_seen": 10004960,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_a/safety/checkpoints/safety_branch_10m.pt"
+      }
+    },
+    "model_b": {
+      "lm_trunk": {
+        "format_version": "ccpt-checkpoint-v1",
+        "global_step": 30517,
+        "has_data_cursor": true,
+        "has_model_state": true,
+        "has_optimizer_state": true,
+        "has_rng_state": false,
+        "has_scheduler_inputs": true,
+        "model_type": "model_b",
+        "phase": "phase1_lm",
+        "sha256": "c54110a2b95d9ee1414d14fa5c5cf0ca7731bfeca733abb2a543215f9e24a926",
+        "size_bytes": 431128471,
+        "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+        "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+        "tokens_seen": 999981056,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_b/lm/checkpoints/lm_trunk_1b.pt"
+      },
+      "safety_branch": {
+        "format_version": "ccpt-checkpoint-v1",
+        "global_step": 1189,
+        "has_model_state": true,
+        "has_optimizer_state": true,
+        "has_rng_state": false,
+        "model_type": "model_b",
+        "phase": "phase3_safety",
+        "sha256": "8d942343461d427e7e7a2788e183465ff28e5480b5a2b7b43f41db75753fdae4",
+        "size_bytes": 431135915,
+        "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+        "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+        "tokens_seen": 10004960,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_b/safety/checkpoints/safety_branch_10m.pt"
+      }
+    },
+    "model_c": {
+      "lm_trunk": {
+        "format_version": "ccpt-checkpoint-v1",
+        "global_step": 30517,
+        "has_data_cursor": true,
+        "has_model_state": true,
+        "has_optimizer_state": true,
+        "has_rng_state": false,
+        "has_scheduler_inputs": true,
+        "model_type": "model_c",
+        "phase": "phase1_lm",
+        "sha256": "ebad5933c0eb2b51d8cfca4515193779b858bfaa03de90a9f00bbd8180c4e1bb",
+        "size_bytes": 409074689,
+        "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+        "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+        "tokens_seen": 999981056,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_c/lm/checkpoints/lm_trunk_1b.pt"
+      },
+      "safety_branch": {
+        "format_version": "ccpt-checkpoint-v1",
+        "global_step": 1189,
+        "has_model_state": true,
+        "has_optimizer_state": true,
+        "has_rng_state": false,
+        "model_type": "model_c",
+        "phase": "phase3_safety",
+        "sha256": "17da544b0e790d3561b0c64d427da9617823a5f9fdb06c03ea50793422c42fdf",
+        "size_bytes": 165776027,
+        "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+        "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+        "tokens_seen": 10004960,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_c/safety/checkpoints/safety_branch_10m.pt"
+      }
+    }
+  },
+  "controller_ablation": {
+    "model_a": {
+      "ablated_ce": 2.1941028755903242,
+      "ablated_matches_lm_mode": true,
+      "controlled_ce": 2.1941028755903242,
+      "lm_mode_ce": 2.1941028755903242,
+      "relative_ablation_penalty": 0.0
+    },
+    "model_b": {
+      "ablated_ce": 3.2393337941169738,
+      "ablated_matches_lm_mode": true,
+      "controlled_ce": 2.2237019401788714,
+      "lm_mode_ce": 3.239319269657135,
+      "relative_ablation_penalty": 0.45673020992031266
+    },
+    "model_c": {
+      "ablated_ce": 3.393429465293884,
+      "ablated_matches_lm_mode": true,
+      "controlled_ce": 2.696194197535515,
+      "lm_mode_ce": 3.393425931930542,
+      "relative_ablation_penalty": 0.25859979536922256
+    }
+  },
+  "costs_summary": {
+    "benchmark_gpu_cost_usd": 0.197,
+    "lm_pretraining_gpu_costs_usd": {
+      "model_a": 1.681,
+      "model_b": 1.621,
+      "model_c": 1.667,
+      "total_lm": 4.969
+    },
+    "production_gpu_rate_usd_hr": 3.9492,
+    "safety_branch_gpu_costs_usd": {
+      "model_a": 0.154,
+      "model_b": 0.151,
+      "model_c": 0.152,
+      "total_safety": 0.457
+    },
+    "total_task6_actual_gpu_cost_usd": 5.624
+  },
+  "hardware_lineage": {
+    "benchmark_final_winner": "H200",
+    "checkpoint_reuse_after_later_benchmark": true,
+    "lineage_explanation": "Production training for Models A, B, and C was fully executed and completed on NVIDIA H100! workers. A subsequent orchestration run benchmarked H200 (which scored slightly lower projected cost for future runs), and correctly recognized and reused the already-existing H100! checkpoints rather than spending duplicate compute. All reported model weights, metrics, and checkpoints originate directly from the H100! training run.",
+    "production_gpu_name": "NVIDIA H100 80GB HBM3",
+    "production_hardware_rate_usd_hr": 3.9492,
+    "production_training_gpu": "H100!"
+  },
+  "parameter_changes": {
+    "model_a": {
+      "all": {
+        "aggregate_l2_delta": 55.64056624161475,
+        "changed_params": 35918848,
+        "changed_tensors": 39,
+        "tensor_count": 39,
+        "total_params": 35918848,
+        "unchanged_tensors": 0
+      },
+      "core_lm": {
+        "aggregate_l2_delta": 55.64051667293013,
+        "changed_params": 35918336,
+        "changed_tensors": 38,
+        "tensor_count": 38,
+        "total_params": 35918336,
+        "unchanged_tensors": 0
+      },
+      "risk_head": {
+        "aggregate_l2_delta": 0.07427016159068608,
+        "changed_params": 512,
+        "changed_tensors": 1,
+        "tensor_count": 1,
+        "total_params": 512,
+        "unchanged_tensors": 0
+      }
+    },
+    "model_b": {
+      "all": {
+        "aggregate_l2_delta": 44.68008894169075,
+        "changed_params": 35920384,
+        "changed_tensors": 65,
+        "tensor_count": 65,
+        "total_params": 35920384,
+        "unchanged_tensors": 0
+      },
+      "controller": {
+        "aggregate_l2_delta": 1.8415403763934075,
+        "changed_params": 262656,
+        "changed_tensors": 4,
+        "tensor_count": 4,
+        "total_params": 262656,
+        "unchanged_tensors": 0
+      },
+      "risk_head": {
+        "aggregate_l2_delta": 0.30899232162114265,
+        "changed_params": 256,
+        "changed_tensors": 1,
+        "tensor_count": 1,
+        "total_params": 256,
+        "unchanged_tensors": 0
+      },
+      "theta_c": {
+        "aggregate_l2_delta": 43.69360612124802,
+        "changed_params": 33165824,
+        "changed_tensors": 38,
+        "tensor_count": 38,
+        "total_params": 33165824,
+        "unchanged_tensors": 0
+      },
+      "theta_n": {
+        "aggregate_l2_delta": 9.336976596234654,
+        "changed_params": 2754560,
+        "changed_tensors": 27,
+        "tensor_count": 27,
+        "total_params": 2754560,
+        "unchanged_tensors": 0
+      }
+    },
+    "model_c": {
+      "all": {
+        "aggregate_l2_delta": 16.614818132257625,
+        "changed_params": 2754560,
+        "changed_tensors": 27,
+        "tensor_count": 65,
+        "total_params": 35920384,
+        "unchanged_tensors": 38
+      },
+      "controller": {
+        "aggregate_l2_delta": 4.232645683285946,
+        "changed_params": 262656,
+        "changed_tensors": 4,
+        "tensor_count": 4,
+        "total_params": 262656,
+        "unchanged_tensors": 0
+      },
+      "risk_head": {
+        "aggregate_l2_delta": 0.32466524471931774,
+        "changed_params": 256,
+        "changed_tensors": 1,
+        "tensor_count": 1,
+        "total_params": 256,
+        "unchanged_tensors": 0
+      },
+      "theta_c": {
+        "aggregate_l2_delta": 0.0,
+        "changed_params": 0,
+        "changed_tensors": 0,
+        "tensor_count": 38,
+        "total_params": 33165824,
+        "unchanged_tensors": 38
+      },
+      "theta_n": {
+        "aggregate_l2_delta": 16.614818132257625,
+        "changed_params": 2754560,
+        "changed_tensors": 27,
+        "tensor_count": 27,
+        "total_params": 2754560,
+        "unchanged_tensors": 0
+      }
+    }
+  },
+  "progress_audit": {
+    "BENCH_H100!": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "BENCH_H200": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "BENCH_L40S": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "LM_model_a": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "LM_model_b": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "LM_model_c": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "SAFETY_model_a": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "SAFETY_model_b": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "SAFETY_model_c": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    },
+    "TASK6_FINEWEB": {
+      "complete": true,
+      "expected_percentages": 100,
+      "missing_percentages": [],
+      "observed_percentages": 100
+    }
+  },
+  "resume_readiness": {
+    "checkpoint_details": {
+      "model_a": {
+        "global_step": 30517,
+        "has_global_step": true,
+        "has_model_state": true,
+        "has_optimizer_state": true
+      },
+      "model_b": {
+        "global_step": 30517,
+        "has_global_step": true,
+        "has_model_state": true,
+        "has_optimizer_state": true
+      },
+      "model_c": {
+        "global_step": 30517,
+        "has_global_step": true,
+        "has_model_state": true,
+        "has_optimizer_state": true
+      }
+    },
+    "continuation_10b_ready": true,
+    "data_stream_continuation_ready": true,
+    "dry_run_results": {
+      "model_a": {
+        "checkpoint_sha256": "9bb8f7f2213498b6a0753eaf880c195cc7db6908d5e6c51d8f32738f27ed2135",
+        "verified_immutable": true
+      },
+      "model_b": {
+        "checkpoint_sha256": "c54110a2b95d9ee1414d14fa5c5cf0ca7731bfeca733abb2a543215f9e24a926",
+        "verified_immutable": true
+      },
+      "model_c": {
+        "checkpoint_sha256": "ebad5933c0eb2b51d8cfca4515193779b858bfaa03de90a9f00bbd8180c4e1bb",
+        "verified_immutable": true
+      }
+    },
+    "model_optimizer_resume_ready": true,
+    "scheduler_audit": {
+      "checkpoint_recorded_lr": 0.00029392,
+      "checkpoint_tokens_seen": 999981056,
+      "next_lr": 0.00029392376065489007,
+      "next_step": 30518,
+      "next_tokens_seen": 1000013824,
+      "reconstructed_lr": 0.000293924200086918,
+      "scheduler_resume_ready": true
+    },
+    "scheduler_resume_ready": true
+  },
+  "run_id": "run_1787329929",
+  "scale_gate": {
+    "gate_1_numerical_health": {
+      "formula": "no_nans_or_infs",
+      "observed": "all gradients finite, max norm <= 26.2",
+      "passed": true
+    },
+    "gate_2_sustained_lm_learning": {
+      "formula": "final_lm_loss < 6.0",
+      "observed": "Model A=3.64, Model B=3.63, Model C=3.32",
+      "passed": true
+    },
+    "gate_3_pre_safety_parity": {
+      "formula": "C_clean_controlled_ppl <= 1.10 * A_clean_ppl",
+      "observed_A": 29.92,
+      "observed_C": 30.51,
+      "passed": true,
+      "relative_delta_pct": 1.97,
+      "threshold": 32.91
+    },
+    "gate_4_theta_c_exact_freeze": {
+      "formula": "C_theta_c_changed_tensors == 0",
+      "observed_changed_tensors": 0,
+      "observed_total_theta_c_tensors": 38,
+      "passed": true
+    },
+    "gate_5_risk_balanced_accuracy": {
+      "best_control_risk": 0.6489,
+      "formula": "C_risk_bal_acc >= max(A_risk_bal_acc, B_risk_bal_acc) - 0.05",
+      "observed_A": 0.6489,
+      "observed_B": 0.5,
+      "observed_C": 0.5829,
+      "passed": false,
+      "threshold": 0.5989
+    },
+    "gate_6_safe_generation_ce": {
+      "best_control_ce": 2.1941,
+      "formula": "C_safe_gen_ce <= 1.10 * min(A_safe_gen_ce, B_safe_gen_ce)",
+      "observed_A": 2.1941,
+      "observed_B": 2.2237,
+      "observed_C": 2.6962,
+      "passed": false,
+      "relative_delta_pct": 22.88,
+      "threshold": 2.4135
+    },
+    "gate_7_controller_ablation_effect": {
+      "formula": "C_relative_ablation_penalty >= 0.05",
+      "observed_C_penalty": 0.2586,
+      "passed": true,
+      "threshold": 0.05
+    },
+    "gate_8_post_safety_capability_preservation": {
+      "formula": "C_post_controlled_ppl <= 1.15 * C_clean_controlled_ppl",
+      "observed_C_post": 32.85,
+      "observed_C_pre": 30.51,
+      "passed": true,
+      "relative_delta_pct": 7.68,
+      "threshold": 35.09
+    },
+    "scale_candidate": false
+  },
+  "wildguard_evaluation": {
+    "model_a": {
+      "benign_accuracy": 0.7940379403794038,
+      "benign_total": 369,
+      "harmful_accuracy": 0.5038167938931297,
+      "harmful_total": 131,
+      "risk_accuracy": 0.718,
+      "risk_balanced_accuracy": 0.6489273671362668,
+      "risk_bce": 0.8264373779296875,
+      "safe_generation_loss": 2.1941028755903242,
+      "safe_generation_perplexity": 8.971948491289012,
+      "valid_continuation_tokens": 25258
+    },
+    "model_b": {
+      "benign_accuracy": 0.0,
+      "benign_total": 369,
+      "harmful_accuracy": 1.0,
+      "harmful_total": 131,
+      "risk_accuracy": 0.262,
+      "risk_balanced_accuracy": 0.5,
+      "risk_bce": 4.264889419555664,
+      "safe_generation_loss": 2.2237019401788714,
+      "safe_generation_perplexity": 9.241479022172513,
+      "valid_continuation_tokens": 25258
+    },
+    "model_c": {
+      "benign_accuracy": 0.17344173441734417,
+      "benign_total": 369,
+      "harmful_accuracy": 0.9923664122137404,
+      "harmful_total": 131,
+      "risk_accuracy": 0.388,
+      "risk_balanced_accuracy": 0.5829040733155423,
+      "risk_bce": 1.7957627410888672,
+      "safe_generation_loss": 2.696194197535515,
+      "safe_generation_perplexity": 14.823210028631156,
+      "valid_continuation_tokens": 25258
+    }
+  }
+}

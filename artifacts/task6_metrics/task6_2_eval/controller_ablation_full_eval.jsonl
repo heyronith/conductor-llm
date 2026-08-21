@@ -1,0 +1,3 @@
+{"model": "model_a", "controlled_token_weighted_ce": 2.621345848500272, "ablated_token_weighted_ce": 2.621345848500272, "lm_mode_token_weighted_ce": 2.621345848500272, "relative_ablation_penalty": 0.0, "ablated_matches_lm_mode": true}
+{"model": "model_b", "controlled_token_weighted_ce": 2.626519440936283, "ablated_token_weighted_ce": 3.6860559506221633, "lm_mode_token_weighted_ce": 3.6860586292547026, "relative_ablation_penalty": 0.40339945449182896, "ablated_matches_lm_mode": true}
+{"model": "model_c", "controlled_token_weighted_ce": 2.9049282119723285, "ablated_token_weighted_ce": 3.4599011227988536, "lm_mode_token_weighted_ce": 3.4599021002243844, "relative_ablation_penalty": 0.19104531001463923, "ablated_matches_lm_mode": true}

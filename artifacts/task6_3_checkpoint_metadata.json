@@ -1,0 +1,21 @@
+{
+  "clean_1b_trunks": {
+    "model_a": "9bb8f7f2213498b6a0753eaf880c195cc7db6908d5e6c51d8f32738f27ed2135",
+    "model_b": "c54110a2b95d9ee1414d14fa5c5cf0ca7731bfeca733abb2a543215f9e24a926",
+    "model_c": "ebad5933c0eb2b51d8cfca4515193779b858bfaa03de90a9f00bbd8180c4e1bb"
+  },
+  "checkpoints_20m": {
+    "model_a": {
+      "path": "/runs/ccpt/task6_3/model_a/safety_20m.pt",
+      "sha256": "acc212db1592c6e99caea3d3cad899e8d5b4ba32b10195180d59162feb3292ae"
+    },
+    "model_b": {
+      "path": "/runs/ccpt/task6_3/model_b/safety_20m.pt",
+      "sha256": "58e6e306ec185de4061c8a2e90b4c73b440ac2973c013aafd75bc5f9564dab60"
+    },
+    "model_c": {
+      "path": "/runs/ccpt/task6_3/model_c/safety_20m.pt",
+      "sha256": "1213a06ece7309458088c9a9d471e41919ea27bc722dc98eb5cd718038e4660f"
+    }
+  }
+}

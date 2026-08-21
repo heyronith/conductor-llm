@@ -1,0 +1,418 @@
+---
+trigger: always_on
+---
+
+---
+
+description: "Persistent research and engineering rules for the CCPT intrinsic-alignment architecture project"
+alwaysApply: true
+-----------------
+
+# CCPT Research Project Rules
+
+## Project purpose
+
+This repository is a research project testing whether an architectural separation between general language-model capability and normative/safety computation can make learned safety behavior more persistent, interpretable, and robust.
+
+The working hypothesis is called **CCPT — Constitutional Control-Plane Transformer**.
+
+The research question is:
+
+> Does giving normative/safety computation its own protected internal pathway produce more robust alignment than a conventional Transformer trained with the same data, supervision, parameter budget, and approximately comparable compute?
+
+This is an experimental hypothesis, not an established result.
+
+Do not describe CCPT as proven safer, aligned, intrinsically safe, or superior unless experimental evidence supports that claim.
+
+---
+
+# Current architecture hypothesis
+
+The architecture contains two distinct computational modules.
+
+## Capability stream `C`
+
+The capability stream is the ordinary autoregressive language-model pathway.
+
+Its purpose is to learn:
+
+* language
+* factual knowledge
+* reasoning patterns
+* normal next-token prediction
+* general capabilities
+
+Conceptually:
+
+`tokens -> embeddings -> causal Transformer blocks -> LM head -> logits`
+
+Its primary objective is next-token cross-entropy.
+
+---
+
+## Normative stream `N`
+
+The normative stream is a smaller Transformer-like module.
+
+Its purpose is to learn safety-relevant representations such as:
+
+* harmful vs benign intent
+* contextual risk
+* whether intervention is appropriate
+* how to steer a frozen capability model toward a desired safe continuation
+
+The normative stream must be considered a **separate module**, not merely an attention head.
+
+It may contain multiple attention heads and multiple layers.
+
+---
+
+# Intended information-flow invariant
+
+The current hypothesis requires asymmetric information flow.
+
+The normative pathway may read capability representations:
+
+`C -> N`
+
+but ordinary capability computation must not directly overwrite normative parameters.
+
+A conceptual normative update is:
+
+`N_(l+1) = N_l + F_N(N_l, stop_gradient(C_l))`
+
+The exact final equation and implementation must be frozen in the architecture specification before implementation.
+
+The normative module may produce control signals that affect capability computation:
+
+`N -> controller -> C`
+
+The controller is expected to produce some combination of:
+
+* multiplicative gating
+* additive residual steering
+
+A conceptual form is:
+
+`C_(l+1) = C_l + g_l * DeltaC_l + s_l`
+
+where:
+
+* `DeltaC_l` is the normal capability-layer update
+* `g_l` is a bounded gate derived from the normative state
+* `s_l` is a bounded steering vector derived from the normative state
+
+The exact gate granularity, steering parameterization, normalization, layer placement, initialization, and tensor shapes are NOT yet frozen. Task 1 must resolve them.
+
+---
+
+# Critical gradient invariant
+
+The project is specifically investigating **optimization separation**.
+
+Two parameter groups are expected:
+
+* capability parameters `theta_C`
+* normative/controller parameters `theta_N`
+
+There must be no accidental trainable parameter sharing between these groups unless explicitly justified in the frozen specification.
+
+A shared tokenizer is fine because it has no trainable parameters.
+
+Shared trainable embeddings, LayerNorm parameters, projection matrices, or LM-head parameters would violate strict isolation unless intentionally approved.
+
+### Ordinary LM-training mode
+
+The intended invariant is:
+
+`grad(theta_N, L_LM) = 0`
+
+Ordinary language-model training must not silently update normative/controller parameters.
+
+### Normative-training mode
+
+The intended invariant is:
+
+`grad(theta_C, L_normative) = 0`
+
+However, when capability parameters are frozen during normative training, do NOT assume the capability forward pass can simply run under `no_grad()`.
+
+The normative controller may need gradients to propagate **through frozen capability operations with respect to their inputs** so that steering parameters can learn how changes to capability activations affect final logits.
+
+Parameter freezing and computational-graph detachment are different operations.
+
+This distinction must be preserved.
+
+---
+
+# Normative training objective
+
+A normative module that only predicts whether something is harmful may become a classifier without learning how to control generation.
+
+The working normative objective therefore includes at least two conceptually different signals:
+
+`L_N = L_risk + lambda_generation * L_safe_generation`
+
+where:
+
+* `L_risk` teaches recognition of safety-relevant state
+* `L_safe_generation` teaches the controller how to steer the frozen capability pathway toward a desired continuation
+
+The final objective, weights, masking, labels, and exact loss flow must be frozen before implementation.
+
+---
+
+# Training-mode hypothesis
+
+The current revised hypothesis uses distinct update modes rather than allowing every loss to update every parameter.
+
+Conceptually:
+
+## General-language batch
+
+* capability pathway performs next-token prediction
+* capability parameters update
+* normative/controller parameters must not update
+
+## Normative/safety batch
+
+* capability parameters are frozen
+* normative pathway reads capability activations
+* controller affects capability activations
+* risk and safe-generation losses are computed
+* normative/controller parameters update
+* capability parameters must not update
+
+Task 1 must determine the precise forward-pass behavior in each mode.
+
+In particular, it must explicitly decide whether the normative controller is:
+
+* disabled during LM updates,
+* active but gradient-detached,
+* or handled using another mathematically justified mechanism.
+
+Do not silently choose one.
+
+---
+
+# Planned experimental comparison
+
+The project is expected to compare at least:
+
+1. **Standard Transformer baseline**
+2. **Appropriate architectural/control baseline**
+3. **Protected CCPT model**
+
+All models must receive equivalent information and supervision wherever scientifically possible.
+
+The experiment must avoid accidentally comparing:
+
+* more safety data vs less safety data
+* more parameters vs fewer parameters without accounting for it
+* different token orders
+* different optimizers
+* different training budgets
+* different evaluation data
+* different preprocessing pipelines
+
+The architecture should be the meaningful independent variable.
+
+Task 1 must define the exact control model needed to isolate the CCPT hypothesis.
+
+---
+
+# Experimental integrity
+
+Unless an experiment explicitly studies one of these variables, matched models should use the same:
+
+* tokenizer
+* training examples
+* token ordering
+* train/evaluation split
+* sequence length
+* optimizer family
+* learning-rate schedule
+* random-seed policy
+* evaluation procedures
+* generation settings
+
+Record parameter counts and estimated or measured compute separately.
+
+Never hide capability degradation when reporting safety improvements.
+
+Never select only favorable seeds or checkpoints.
+
+---
+
+# Planned scale
+
+The research should begin small.
+
+Expected stages are approximately:
+
+* micro/debug configuration: very small model used for correctness tests
+* smoke experiment: approximately 14M–30M total parameters
+* larger follow-up only if the smoke experiment produces a reproducible signal
+
+Do not scale training before architectural, gradient, and data-pipeline invariants have been verified.
+
+---
+
+# Repository knowledge
+
+Do NOT assume the repository's:
+
+* programming language
+* ML framework
+* dependency manager
+* directory layout
+* testing framework
+* configuration system
+* model implementation
+* training infrastructure
+* Modal integration
+* CI setup
+* linting tools
+* formatting conventions
+
+Inspect the repository first.
+
+Facts discovered from repository contents must be explicitly distinguished from assumptions or proposed design decisions.
+
+If the repository is empty or lacks an established convention, state that fact and propose the minimum sensible choice rather than pretending a convention exists.
+
+Once Task 1 creates the frozen architecture specification, that specification becomes the authoritative technical reference for CCPT.
+
+---
+
+# Engineering rules
+
+Before modifying unfamiliar code:
+
+1. inspect the relevant files;
+2. trace imports and callers;
+3. inspect tests;
+4. inspect configuration;
+5. inspect existing abstractions;
+6. determine whether an established pattern already exists.
+
+Prefer existing project abstractions and conventions.
+
+Do not duplicate functionality already present.
+
+Do not introduce new dependencies unless strictly necessary and explicitly justified.
+
+Do not perform unrelated refactors.
+
+Do not rename or reorganize existing code merely for preference.
+
+Do not modify generated files unless the repository explicitly expects them to be regenerated.
+
+Do not delete or overwrite user work.
+
+Inspect `git status` before editing.
+
+Never use destructive Git commands to remove existing changes.
+
+---
+
+# Research implementation rules
+
+When implementation begins in later tasks:
+
+* tensor shapes must be documented;
+* parameter ownership must be explicit;
+* gradient boundaries must be testable;
+* initialization must preserve near-baseline behavior unless intentionally testing otherwise;
+* controllers must use bounded parameterizations where appropriate;
+* causal/autoregressive masking must remain valid;
+* no future-token information may leak into generation;
+* inference must remain autoregressive;
+* KV-cache implications must be considered;
+* numerical stability must be tested;
+* controller ablation must be possible;
+* normative-stream ablation must be possible;
+* relevant activations should be hookable for mechanistic analysis.
+
+Do not implement clever optimizations before correctness is demonstrated.
+
+---
+
+# Validation rules
+
+Every implementation task must run the most relevant existing validation available in the repository.
+
+Depending on the repository, this may include:
+
+* targeted tests
+* full tests
+* linting
+* formatting checks
+* static type checking
+* build checks
+* import checks
+* small forward passes
+* gradient assertions
+* deterministic reproducibility checks
+
+Never claim validation succeeded unless the command actually ran successfully.
+
+If a validation step cannot run, report:
+
+* the exact command attempted;
+* why it failed;
+* whether the failure appears pre-existing or caused by the change.
+
+---
+
+# Reporting rules
+
+Every task report must distinguish:
+
+### Repository facts
+
+Things directly observed from files, commands, tests, or runtime behavior.
+
+### Decisions made
+
+Choices made during the task and their justification.
+
+### Assumptions
+
+Things that could not be confirmed directly.
+
+### Validation
+
+Commands/checks actually executed and their results.
+
+### Remaining risks or open questions
+
+Anything that should be reviewed before the next research stage.
+
+Do not present assumptions as facts.
+
+---
+
+# Review-package requirement
+
+At the end of every major task, create a compact review package containing the files necessary for independent technical review.
+
+Never include:
+
+* secrets
+* `.env` files
+* credentials
+* API keys
+* full datasets
+* model checkpoints unless explicitly requested
+* caches
+* virtual environments
+* `.git`
+
+Include a manifest describing:
+
+* each included file;
+* its original repository path;
+* why it is relevant.
+
+The review package must allow another researcher to understand exactly what changed without requiring the entire repository.

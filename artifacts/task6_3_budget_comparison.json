@@ -1,0 +1,102 @@
+{
+  "budget_10m": {
+    "tokens": 10002102,
+    "model_a": {
+      "fineweb_ce": 4.100945137441158,
+      "fineweb_perplexity": 60.3973444214035,
+      "fineweb_accuracy": 0.32068384159356356,
+      "fineweb_ppl_capability_only": 60.3973444214035,
+      "risk_bce": 0.28961640057303395,
+      "risk_raw_accuracy": 0.8831058020477816,
+      "risk_harmful_accuracy": 0.8471177944862155,
+      "risk_benign_accuracy": 0.9206625980819529,
+      "risk_balanced_accuracy": 0.8838901962840842,
+      "safe_gen_token_weighted_ce": 2.669104684088222,
+      "safe_gen_token_weighted_ppl": 14.427046644363816,
+      "safe_gen_ablated_ce": 2.669104684088222,
+      "relative_ablation_penalty": 0.0
+    },
+    "model_b": {
+      "fineweb_ce": 3.908834286034107,
+      "fineweb_perplexity": 49.84081795860866,
+      "fineweb_accuracy": 0.33508216962218285,
+      "fineweb_ppl_capability_only": 49.84081795860866,
+      "risk_bce": 0.3453053028510292,
+      "risk_raw_accuracy": 0.8553754266211604,
+      "risk_harmful_accuracy": 0.8696741854636592,
+      "risk_benign_accuracy": 0.8404533565823888,
+      "risk_balanced_accuracy": 0.855063771023024,
+      "safe_gen_token_weighted_ce": 2.620912236095795,
+      "safe_gen_token_weighted_ppl": 13.74825952493317,
+      "safe_gen_ablated_ce": 3.7984803096670983,
+      "relative_ablation_penalty": 0.44929702618560435
+    },
+    "model_c": {
+      "fineweb_ce": 3.509258456528187,
+      "fineweb_perplexity": 33.42347363343266,
+      "fineweb_accuracy": 0.3683444820344448,
+      "fineweb_ppl_capability_only": 30.508847978216572,
+      "risk_bce": 0.3524583061400534,
+      "risk_raw_accuracy": 0.8421501706484642,
+      "risk_harmful_accuracy": 0.8279030910609858,
+      "risk_benign_accuracy": 0.8570183086312119,
+      "risk_balanced_accuracy": 0.8424606998460988,
+      "safe_gen_token_weighted_ce": 2.8613714136081043,
+      "safe_gen_token_weighted_ppl": 17.485490340352296,
+      "safe_gen_ablated_ce": 3.4599011227988536,
+      "relative_ablation_penalty": 0.20917581909998226
+    },
+    "best_control_gen_ce": 2.620912236095795,
+    "c_relative_gap_pct": 9.17
+  },
+  "budget_20m": {
+    "tokens": 20004551,
+    "model_a": {
+      "fineweb_ce": 4.218296982347965,
+      "fineweb_perplexity": 67.91772066647084,
+      "fineweb_accuracy": 0.31461445428431034,
+      "fineweb_ppl_capability_only": 67.91772066647084,
+      "risk_bce": 0.23833927906312227,
+      "risk_raw_accuracy": 0.8993174061433447,
+      "risk_harmful_accuracy": 0.8930659983291562,
+      "risk_benign_accuracy": 0.9058413251961639,
+      "risk_balanced_accuracy": 0.8994536617626601,
+      "safe_gen_token_weighted_ce": 2.6040244125352365,
+      "safe_gen_token_weighted_ppl": 13.518030846179121,
+      "safe_gen_ablated_ce": 2.6040244125352365,
+      "relative_ablation_penalty": 0.0
+    },
+    "model_b": {
+      "fineweb_ce": 4.037383183836937,
+      "fineweb_perplexity": 56.677833109160886,
+      "fineweb_accuracy": 0.32912638038396835,
+      "fineweb_ppl_capability_only": 56.677833109160886,
+      "risk_bce": 0.298482654037736,
+      "risk_raw_accuracy": 0.8720136518771331,
+      "risk_harmful_accuracy": 0.8563074352548037,
+      "risk_benign_accuracy": 0.8884045335658239,
+      "risk_balanced_accuracy": 0.8723559844103138,
+      "safe_gen_token_weighted_ce": 2.576185253464333,
+      "safe_gen_token_weighted_ppl": 13.146890324894953,
+      "safe_gen_ablated_ce": 3.6226658592592473,
+      "relative_ablation_penalty": 0.40621325830029364
+    },
+    "model_c": {
+      "fineweb_ce": 3.5073262155056,
+      "fineweb_perplexity": 33.358953780588045,
+      "fineweb_accuracy": 0.36869100481271744,
+      "fineweb_ppl_capability_only": 30.508847978216572,
+      "risk_bce": 0.30331151395934436,
+      "risk_raw_accuracy": 0.863481228668942,
+      "risk_harmful_accuracy": 0.8429406850459482,
+      "risk_benign_accuracy": 0.8849171752397559,
+      "risk_balanced_accuracy": 0.8639289301428521,
+      "safe_gen_token_weighted_ce": 2.7916646518190475,
+      "safe_gen_token_weighted_ppl": 16.308144601427237,
+      "safe_gen_ablated_ce": 3.4599011227988536,
+      "relative_ablation_penalty": 0.23936846087311509
+    },
+    "best_control_gen_ce": 2.576185253464333,
+    "c_relative_gap_pct": 8.36
+  }
+}

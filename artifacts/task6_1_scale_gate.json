@@ -1,0 +1,60 @@
+{
+  "gate_1_numerical_health": {
+    "formula": "no_nans_or_infs",
+    "observed": "all gradients finite, max norm <= 26.2",
+    "passed": true
+  },
+  "gate_2_sustained_lm_learning": {
+    "formula": "final_lm_loss < 6.0",
+    "observed": "Model A=3.64, Model B=3.63, Model C=3.32",
+    "passed": true
+  },
+  "gate_3_pre_safety_parity": {
+    "formula": "C_clean_controlled_ppl <= 1.10 * A_clean_ppl",
+    "observed_A": 29.92,
+    "observed_C": 30.51,
+    "passed": true,
+    "relative_delta_pct": 1.97,
+    "threshold": 32.91
+  },
+  "gate_4_theta_c_exact_freeze": {
+    "formula": "C_theta_c_changed_tensors == 0",
+    "observed_changed_tensors": 0,
+    "observed_total_theta_c_tensors": 38,
+    "passed": true
+  },
+  "gate_5_risk_balanced_accuracy": {
+    "best_control_risk": 0.6489,
+    "formula": "C_risk_bal_acc >= max(A_risk_bal_acc, B_risk_bal_acc) - 0.05",
+    "observed_A": 0.6489,
+    "observed_B": 0.5,
+    "observed_C": 0.5829,
+    "passed": false,
+    "threshold": 0.5989
+  },
+  "gate_6_safe_generation_ce": {
+    "best_control_ce": 2.1941,
+    "formula": "C_safe_gen_ce <= 1.10 * min(A_safe_gen_ce, B_safe_gen_ce)",
+    "observed_A": 2.1941,
+    "observed_B": 2.2237,
+    "observed_C": 2.6962,
+    "passed": false,
+    "relative_delta_pct": 22.88,
+    "threshold": 2.4135
+  },
+  "gate_7_controller_ablation_effect": {
+    "formula": "C_relative_ablation_penalty >= 0.05",
+    "observed_C_penalty": 0.2586,
+    "passed": true,
+    "threshold": 0.05
+  },
+  "gate_8_post_safety_capability_preservation": {
+    "formula": "C_post_controlled_ppl <= 1.15 * C_clean_controlled_ppl",
+    "observed_C_post": 32.85,
+    "observed_C_pre": 30.51,
+    "passed": true,
+    "relative_delta_pct": 7.68,
+    "threshold": 35.09
+  },
+  "scale_candidate": false
+}

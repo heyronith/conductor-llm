@@ -1,0 +1,307 @@
+{
+  "benchmark": {
+    "H100!": {
+      "gpu_detected": "NVIDIA H100 80GB HBM3",
+      "gpu_requested": "H100!",
+      "model_a": {
+        "median_step_sec": 0.052368760108947754,
+        "model_type": "model_a",
+        "p10_step_sec": 0.05191044807434082,
+        "p90_step_sec": 0.05252399444580078,
+        "peak_allocated_mb": 17377.92138671875,
+        "peak_reserved_mb": 23212.0,
+        "projected_cost_usd_1b": 1.7531567851125,
+        "projected_hours_1b": 0.4439270700679885,
+        "tokens_per_sec": 625716.5518494153
+      },
+      "model_dual": {
+        "median_step_sec": 0.05965685844421387,
+        "model_type": "model_dual",
+        "p10_step_sec": 0.05946331024169922,
+        "p90_step_sec": 0.05979487895965576,
+        "peak_allocated_mb": 18210.44287109375,
+        "peak_reserved_mb": 24304.0,
+        "projected_cost_usd_1b": 1.9971415390088558,
+        "projected_hours_1b": 0.5057078747616874,
+        "tokens_per_sec": 549274.6492952174
+      },
+      "price_per_gpu_hour": 3.9492,
+      "projected_concurrent_wall_hours": 0.5057078747616874,
+      "projected_total_cost_usd": 5.747439863130212
+    },
+    "H200": {
+      "gpu_detected": "NVIDIA H200",
+      "gpu_requested": "H200",
+      "model_a": {
+        "median_step_sec": 0.04483354091644287,
+        "model_type": "model_a",
+        "p10_step_sec": 0.04473791122436523,
+        "p90_step_sec": 0.04494636058807373,
+        "peak_allocated_mb": 17377.92138671875,
+        "peak_reserved_mb": 23212.0,
+        "projected_cost_usd_1b": 1.7252814970334769,
+        "projected_hours_1b": 0.3800514355964131,
+        "tokens_per_sec": 730881.3743056867
+      },
+      "model_dual": {
+        "median_step_sec": 0.050903916358947754,
+        "model_type": "model_dual",
+        "p10_step_sec": 0.05084524154663086,
+        "p90_step_sec": 0.050968718528747556,
+        "peak_allocated_mb": 18210.44287109375,
+        "peak_reserved_mb": 24304.0,
+        "projected_cost_usd_1b": 1.9588813023782967,
+        "projected_hours_1b": 0.4315096709794468,
+        "tokens_per_sec": 643722.5727179266
+      },
+      "price_per_gpu_hour": 4.5396,
+      "projected_concurrent_wall_hours": 0.4315096709794468,
+      "projected_total_cost_usd": 5.64304410179007
+    },
+    "L40S": {
+      "gpu_detected": "NVIDIA L40S",
+      "gpu_requested": "L40S",
+      "model_a": {
+        "median_step_sec": 0.15797889232635498,
+        "model_type": "model_a",
+        "p10_step_sec": 0.15742671489715576,
+        "p90_step_sec": 0.15823163986206054,
+        "peak_allocated_mb": 17330.73388671875,
+        "peak_reserved_mb": 23184.0,
+        "projected_cost_usd_1b": 2.6130046865608696,
+        "projected_hours_1b": 1.339178293645382,
+        "tokens_per_sec": 207420.11491198084
+      },
+      "model_dual": {
+        "median_step_sec": 0.17234313488006592,
+        "model_type": "model_dual",
+        "p10_step_sec": 0.17173514366149903,
+        "p90_step_sec": 0.17269716262817383,
+        "peak_allocated_mb": 18163.81787109375,
+        "peak_reserved_mb": 24280.0,
+        "projected_cost_usd_1b": 2.8505923323471545,
+        "projected_hours_1b": 1.4609431797597143,
+        "tokens_per_sec": 190132.31958907645
+      },
+      "price_per_gpu_hour": 1.9512,
+      "projected_concurrent_wall_hours": 1.4609431797597143,
+      "projected_total_cost_usd": 8.314189351255179
+    }
+  },
+  "costs_summary": {
+    "benchmark_gpu_cost_usd": 0.197,
+    "lm_pretraining_gpu_costs_usd": {
+      "model_a": 1.681,
+      "model_b": 1.621,
+      "model_c": 1.667,
+      "total_lm": 4.969
+    },
+    "production_gpu_rate_usd_hr": 3.9492,
+    "safety_branch_gpu_costs_usd": {
+      "model_a": 0.154,
+      "model_b": 0.151,
+      "model_c": 0.152,
+      "total_safety": 0.457
+    },
+    "total_task6_actual_gpu_cost_usd": 5.624
+  },
+  "data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+  "hardware_lineage": {
+    "benchmark_final_winner": "H200",
+    "checkpoint_reuse_after_later_benchmark": true,
+    "lineage_explanation": "Production training for Models A, B, and C was fully executed and completed on NVIDIA H100! workers. A subsequent orchestration run benchmarked H200 (which scored slightly lower projected cost for future runs), and correctly recognized and reused the already-existing H100! checkpoints rather than spending duplicate compute. All reported model weights, metrics, and checkpoints originate directly from the H100! training run.",
+    "production_gpu_name": "NVIDIA H100 80GB HBM3",
+    "production_hardware_rate_usd_hr": 3.9492,
+    "production_training_gpu": "H100!"
+  },
+  "lm_pretraining": {
+    "clean_val_eval": {
+      "model_a": {
+        "val_accuracy": 0.3810541173443198,
+        "val_loss": 3.3985409662127495,
+        "val_perplexity": 29.92041329100008
+      },
+      "model_b": {
+        "val_accuracy": 0.28555050306022167,
+        "val_loss": 4.8585085570812225,
+        "val_perplexity": 128.83191330432504
+      },
+      "model_c": {
+        "val_accuracy": 0.3784680888056755,
+        "val_loss": 3.418016739189625,
+        "val_perplexity": 30.508847978216572
+      }
+    },
+    "model_a": {
+      "clean_trunk": {
+        "next_block_index": 976544,
+        "next_lr": 0.00029392,
+        "next_tokens_seen": 999981056,
+        "sha256": "9bb8f7f2213498b6a0753eaf880c195cc7db6908d5e6c51d8f32738f27ed2135",
+        "size_bytes": 431076941,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_a/lm/checkpoints/lm_trunk_1b.pt"
+      },
+      "final_loss": 3.6387,
+      "final_lr": 0.00029392,
+      "final_step": 30517,
+      "model_type": "model_a",
+      "theta_n_changed_tensors": 0,
+      "tokens_seen": 999981056
+    },
+    "model_b": {
+      "clean_trunk": {
+        "next_block_index": 976544,
+        "next_lr": 0.00029392,
+        "next_tokens_seen": 999981056,
+        "sha256": "c54110a2b95d9ee1414d14fa5c5cf0ca7731bfeca733abb2a543215f9e24a926",
+        "size_bytes": 431128471,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_b/lm/checkpoints/lm_trunk_1b.pt"
+      },
+      "final_loss": 3.6272,
+      "final_lr": 0.00029392,
+      "final_step": 30517,
+      "model_type": "model_b",
+      "theta_n_changed_tensors": 0,
+      "tokens_seen": 999981056
+    },
+    "model_c": {
+      "clean_trunk": {
+        "next_block_index": 976544,
+        "next_lr": 0.00029392,
+        "next_tokens_seen": 999981056,
+        "sha256": "ebad5933c0eb2b51d8cfca4515193779b858bfaa03de90a9f00bbd8180c4e1bb",
+        "size_bytes": 409074689,
+        "volume_path": "/runs/ccpt/task6/run_1787329929/model_c/lm/checkpoints/lm_trunk_1b.pt"
+      },
+      "final_loss": 3.3205,
+      "final_lr": 0.00029392,
+      "final_step": 30517,
+      "model_type": "model_c",
+      "theta_n_changed_tensors": 0,
+      "tokens_seen": 999981056
+    },
+    "total_steps": 30517,
+    "total_tokens": 999981056
+  },
+  "run_id": "run_1787329929",
+  "safety_branch": {
+    "model_a": {
+      "model_type": "model_a",
+      "safety_checkpoint": "/runs/ccpt/task6/run_1787329929/model_a/safety/checkpoints/safety_branch_10m.pt",
+      "theta_c_changed_tensors": 0,
+      "theta_n_changed_tensors": 0,
+      "total_safety_batches": 1189,
+      "total_safety_tokens": 10004960
+    },
+    "model_b": {
+      "model_type": "model_b",
+      "safety_checkpoint": "/runs/ccpt/task6/run_1787329929/model_b/safety/checkpoints/safety_branch_10m.pt",
+      "theta_c_changed_tensors": 0,
+      "theta_n_changed_tensors": 0,
+      "total_safety_batches": 1189,
+      "total_safety_tokens": 10004960
+    },
+    "model_c": {
+      "model_type": "model_c",
+      "safety_checkpoint": "/runs/ccpt/task6/run_1787329929/model_c/safety/checkpoints/safety_branch_10m.pt",
+      "theta_c_changed_tensors": 0,
+      "theta_n_changed_tensors": 26,
+      "total_safety_batches": 1189,
+      "total_safety_tokens": 10004960
+    },
+    "safety_eval": {
+      "model_a": {
+        "ablation_penalty_relative": 0.0,
+        "post_safety_fw_loss": 3.8462903946638107,
+        "post_safety_perplexity": 46.81906045380813,
+        "risk_accuracy": 0.718,
+        "risk_balanced_accuracy": 0.6489273671362668,
+        "safe_gen_loss_ablated": 2.1941028755903242,
+        "safe_gen_loss_controlled": 2.1941028755903242
+      },
+      "model_b": {
+        "ablation_penalty_relative": 0.45673020992031266,
+        "post_safety_fw_loss": 3.7364695966243744,
+        "post_safety_perplexity": 41.94962931932085,
+        "risk_accuracy": 0.262,
+        "risk_balanced_accuracy": 0.5,
+        "safe_gen_loss_ablated": 3.2393337941169738,
+        "safe_gen_loss_controlled": 2.2237019401788714
+      },
+      "model_c": {
+        "ablation_penalty_relative": 0.25859979536922256,
+        "post_safety_fw_loss": 3.405926451086998,
+        "post_safety_perplexity": 30.142208073642287,
+        "risk_accuracy": 0.388,
+        "risk_balanced_accuracy": 0.5829040733155423,
+        "safe_gen_loss_ablated": 3.393429465293884,
+        "safe_gen_loss_controlled": 2.696194197535515
+      }
+    },
+    "target_tokens": 10000000
+  },
+  "scale_candidate_gate": {
+    "gate_1_numerical_health": {
+      "formula": "no_nans_or_infs",
+      "observed": "all gradients finite, max norm <= 26.2",
+      "passed": true
+    },
+    "gate_2_sustained_lm_learning": {
+      "formula": "final_lm_loss < 6.0",
+      "observed": "Model A=3.64, Model B=3.63, Model C=3.32",
+      "passed": true
+    },
+    "gate_3_pre_safety_parity": {
+      "formula": "C_clean_controlled_ppl <= 1.10 * A_clean_ppl",
+      "observed_A": 29.92,
+      "observed_C": 30.51,
+      "passed": true,
+      "relative_delta_pct": 1.97,
+      "threshold": 32.91
+    },
+    "gate_4_theta_c_exact_freeze": {
+      "formula": "C_theta_c_changed_tensors == 0",
+      "observed_changed_tensors": 0,
+      "observed_total_theta_c_tensors": 38,
+      "passed": true
+    },
+    "gate_5_risk_balanced_accuracy": {
+      "best_control_risk": 0.6489,
+      "formula": "C_risk_bal_acc >= max(A_risk_bal_acc, B_risk_bal_acc) - 0.05",
+      "observed_A": 0.6489,
+      "observed_B": 0.5,
+      "observed_C": 0.5829,
+      "passed": false,
+      "threshold": 0.5989
+    },
+    "gate_6_safe_generation_ce": {
+      "best_control_ce": 2.1941,
+      "formula": "C_safe_gen_ce <= 1.10 * min(A_safe_gen_ce, B_safe_gen_ce)",
+      "observed_A": 2.1941,
+      "observed_B": 2.2237,
+      "observed_C": 2.6962,
+      "passed": false,
+      "relative_delta_pct": 22.88,
+      "threshold": 2.4135
+    },
+    "gate_7_controller_ablation_effect": {
+      "formula": "C_relative_ablation_penalty >= 0.05",
+      "observed_C_penalty": 0.2586,
+      "passed": true,
+      "threshold": 0.05
+    },
+    "gate_8_post_safety_capability_preservation": {
+      "formula": "C_post_controlled_ppl <= 1.15 * C_clean_controlled_ppl",
+      "observed_C_post": 32.85,
+      "observed_C_pre": 30.51,
+      "passed": true,
+      "relative_delta_pct": 7.68,
+      "threshold": 35.09
+    },
+    "scale_candidate": false
+  },
+  "selected_gpu": "H200",
+  "selection_rationale": "Lowest projected total cost ($5.64)",
+  "task6_1_corrected_summary_file": "artifacts/task6_1_corrected_summary.json",
+  "task6_1_correction_applied": true
+}

@@ -1,0 +1,20 @@
+{
+  "tokenizer_repo": "mistralai/Mistral-7B-v0.1",
+  "tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+  "lm_dataset_repo": "HuggingFaceFW/fineweb-edu",
+  "lm_dataset_revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+  "lm_dataset_config": "sample-100BT",
+  "safety_dataset_repo": "allenai/wildguardmix",
+  "safety_dataset_revision": "d29c47f41c8b51348b5c8e8c81c039b3132b66d1",
+  "safety_train_config": "wildguardtrain",
+  "safety_eval_config": "wildguardtest",
+  "libraries": {
+    "python": "3.9.6",
+    "transformers": "4.57.6",
+    "tokenizers": "0.22.2",
+    "datasets": "4.5.0",
+    "huggingface_hub": "0.36.2",
+    "pyarrow": "21.0.0",
+    "numpy": "2.0.2"
+  }
+}

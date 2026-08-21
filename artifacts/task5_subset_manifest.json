@@ -1,0 +1,164 @@
+{
+  "generation": {
+    "benign_compliance_count": 16,
+    "example_ids": [
+      "bd8d6a5a1073c32fd446152598f4936fbfc83832343206473c5d50b99be3f5e0",
+      "9bab1af7e999dda6b44e66627c9ec280d6dd6729c097610455aa8e8b20f0cfe6",
+      "592fd5fdb1357bfa68336119a5ff7be9fe6f012e6227fd38ec106d36faf204fd",
+      "3e4d89958a604409433a696a884ba02c866b4e3c8410a62e47e7018eb25b8c6e",
+      "c0ee6682dee005e7624823a494852d07acaa3ac480aa483726eb123d91f905aa",
+      "fa369f9d3d08a5403fbb2d572dbe82de5cc7ef61215c88eb9db66562a0fac6a3",
+      "96813353ed7c90bd4c4c177bb9641ea975c3a52d3635b9e811e7675a468d7cb8",
+      "0eafef96e5bba8c76a070164242593848aaf65cc6a60a61e3d1d4172d23b6f63",
+      "c892afb47421dc909334b4bd4b1beb30ea4d45c9e045c5d3e44c1db70f7b2efd",
+      "8b323eead74a4f84e73359e61dae538b678dd3405572e05b3ee0e0e59f3c0495",
+      "972e3feabd939be14b0045b20ea044ceec8e9e29a20eab23bca17d3c13270d43",
+      "fd7a286c4ae74674c8578cff60c4b9f104185e240ff4df02b220c47afe66c8e4",
+      "c0e50524d7e67013d425a07361ec8bf4933bddaab8cbe7b52fbdf6020556e7c0",
+      "7b6157607cd225c184264774f92008082eefad4d1d3d2a2c0eace4362923e628",
+      "9ff4abc9d33489347474f942615e1af2a6b2689dea9ea02f89f8caf4ece5545b",
+      "972d9ba1c0468e2f8d5312a35ea64ee2e15a85760ce5fe242f1c0ed3b5781543",
+      "dc6b8591817e8435d4d285ba03ba514f05b30141d89d36b746c24f66ed9c4951",
+      "f6e2912c43d7bb77b87420d9e2a32e9ef7e6c7fd2a57508108ad7172e98eecd4",
+      "64227e6d8766f11bfe428d35b113dfba0f26642fe64afbae77ad7a5bc7cede35",
+      "3d78e41f0785bf3158b343f2c6ea54bb6234b7b9211303d2701c19204d7f61c7",
+      "0c46e169278fc32e051f337cb031a66532ed76eb4933c287edd3ea98899d6afa",
+      "9112cd721bb4290f14f2ddac4849005d52794c3c8a6fc0a19295ec10570224f1",
+      "3635acbc451849064c72d48c26c362fdb14a06dcf5661460d5f6b91ed3315d4f",
+      "00c6c64113490cc43e6bd21ebc0b603902d69540f9c644eddf3cc7ab2c9ad71e",
+      "bc06b0476d96742d0ef0fce2000d15ab113c157c40455fbc28ce912158af0ba6",
+      "accfe34449005eb5a327f70cfcd04a2882a3ede72cca028f06f9308c86f3f5fc",
+      "f4ab0474b911bb3c00a9310468e0f5f93c2c23e995b5aaadfd999ef177abe9f2",
+      "5fc8a2c54e3d1ca8bfce0b463622b5a9a27cdb861d4ba910209c5446553faa54",
+      "9c90230c7c0a627b5e565e2f631189423ab744d097d02e269de27079c927185b",
+      "de2f8666fee18228135e45da8267a3bc7951f5162a5f5f091142887c4b0e0cb9",
+      "6465f10965efa9962bb36d49cd83229c92d4d24346490f0a46b3557f84810e82",
+      "11c8ac58ed89f0f04a8ee5bc4b9fabce549beb4b3a14e645d4202cc2dc51c19f"
+    ],
+    "harmful_refusal_count": 16,
+    "logical_hash": "bca3358d57649f402554c2edd620d99205b4f0b41c09151957943b62401661d2",
+    "num_examples": 32,
+    "source": "/data/ccpt/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/generation/train.arrow"
+  },
+  "lm": {
+    "logical_hash": "bf504fcaaa3d6c119cbfe20af8cdf0e4ac20bb5fe6b55525fa0f7445219517e3",
+    "num_sequences": 16,
+    "sequence_length": 128,
+    "slices": [
+      [
+        0,
+        128
+      ],
+      [
+        128,
+        256
+      ],
+      [
+        256,
+        384
+      ],
+      [
+        384,
+        512
+      ],
+      [
+        512,
+        640
+      ],
+      [
+        640,
+        768
+      ],
+      [
+        768,
+        896
+      ],
+      [
+        896,
+        1024
+      ],
+      [
+        1024,
+        1152
+      ],
+      [
+        1152,
+        1280
+      ],
+      [
+        1280,
+        1408
+      ],
+      [
+        1408,
+        1536
+      ],
+      [
+        1536,
+        1664
+      ],
+      [
+        1664,
+        1792
+      ],
+      [
+        1792,
+        1920
+      ],
+      [
+        1920,
+        2048
+      ]
+    ],
+    "source_shard": "/data/ccpt/fineweb/87f09149ef4734204d70ed1d046ddc9ca3f2b8f9/smoke/train/smoke_tokens.bin",
+    "total_tokens": 2048
+  },
+  "manifest_kind": "sanitized_review_manifest",
+  "risk": {
+    "benign_count": 16,
+    "example_ids": [
+      "3a23bf62d843975186ff57ec4f158abfd54d4b14aada14100d21a5bc5d5bfd4e",
+      "8d560e69a9c0ed521744d47bdd42f190169dda5a514971ebede15135fd221baf",
+      "c707f6a78cbe3135de5a3d27afd890b514b40cdfbb87302e2190d12c80f5869d",
+      "16e4e83c6acf7f8a04bcb4d4128e1fc8c1516279a40aa659ecf5c8e6c24bc5c2",
+      "01eb62c939a47c53ffe97ce91465b82a083520108f4a2c9ecff259ad874c44fd",
+      "19470874a19cf2aaff5706d4f6438c925d0494ab09fb6c79b4cc65ada51fa18b",
+      "d45dcaf67be93049607d59e5cee4c202f3f01942c94733ac302d607e7f36030b",
+      "b9b76552e3f069b504d326725c6d22ce518ec2bd53d7e69cc1567621d7f49ffa",
+      "be811ead792b8137e30792b47a6cb9429b8a03ba2b339d4eb1488dabd42278d8",
+      "b0b57e519cf0f54c71d59176d617b23c8c0eb6c428890a0efddbbe7dcb161e24",
+      "0ca45448acab58626e8ece0323115e38afc196f0ebfa3fca4a4a88f0020c449d",
+      "022e50cf418be7bc9edca62dd213d1ee79fc018e378cd5b34ae51ff50c51414c",
+      "a9e1220873a1f075a5a44262dcd1a01d6dc109ee2e9baa2f579cb58e10247324",
+      "edac815a38031637c0317ab4d6c4764dd4851b345e80461259210daa873fde12",
+      "b6a23cc1fd3052a121141eaccc7ae665b69e2441363cc75cd9504d1a8a1838b7",
+      "a58415bb29f5fdfeec0ae265306e16bb3841873d719d898de090ab1cc1407fde",
+      "3860481b66612ef87a6b171cb732c51b178d47655a74eb155f687516b89ad735",
+      "306d9df94915040697d17c7d33cc64380a2e191dda48f8b1aae7de17733cc7f9",
+      "8aa5c8d8602cc8847a0f9149310b72c92de3f3718b8201067abb5fcb10c2eb41",
+      "5783632f0be1b435c7cada6dee219668219dafe1c978530d01936d758f573eec",
+      "95a2ca7f0ebff9ae4c6aa8f006f690ee417d5506568b32bf9c0cbc842271288e",
+      "a690897be11394f74e95ae252aa7ba8878b06ba8d8cb85ddb2d63871c2ad3a83",
+      "6b312c681eb67c28849f7a049147e96de6f18f106f94e56f10b7e07919389f0a",
+      "5eb50ea62d144cf18a6877474f06584a270ad62dd634eb7cb6b6af51be286a3a",
+      "a21f15ef9aff088b368897890c833db5defed447ce2643801cffa5281fde7e25",
+      "00bc9120d6d5d2d5e05f875205975d336b5790d9a066e5491a3e9605e791c482",
+      "3965fd9e56d9054aa16c7a5f78a5ba60dc47b257ed48018dda76d9a5139f069c",
+      "6e9ed550bb81faef233bf53e5a30765ef187a21af1322388dde7dff044b45ff7",
+      "ce2d9ec9d321ba5b896312d80c70d13c3f9e3ee6a55b7a1822a46a59db4656ac",
+      "7491d501630854924edff1ce6a75349d3552bd34dd17eacd58c1ad016409018b",
+      "9664c975bc3ac35985a8761c73a6290ff71a5cdc9152943cad3441d3d114ac1e",
+      "2f5097d7aedb5c37e06d4a1985f38aca59310b970e8995fe12b3ac688462024f"
+    ],
+    "harmful_count": 16,
+    "logical_hash": "1f044df37e2e227aee6469325759c97b5a68a5ee12063d107271b87322cdb4a3",
+    "num_examples": 32,
+    "source": "/data/ccpt/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/risk/train.arrow"
+  },
+  "sanitized_review_manifest_hash": "1b315015ee2e01c86da989192ea789526ec232b052a2349451611552f6935132",
+  "seed": 20260821,
+  "sequence_length": 128,
+  "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+  "training_subset_manifest_hash": "3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f",
+  "version": "task5-micro-v1"
+}

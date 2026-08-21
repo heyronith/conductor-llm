@@ -1,0 +1,21 @@
+Modal App: ccpt-task6-smoke
+App URL: https://modal.com/apps/ronithworks/main/ap-TmQflg7jpGGwKoJ7h1vOML
+Run ID: run_1787329929
+Execution Date: 2026-08-21
+Status: COMPLETED (exit code 0)
+
+Infrastructure Details:
+- Task 4 Volume: ccpt-data (/data/ccpt) - Hash Lock: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+- Stage 6 Volume: ccpt-stage6-data (/data/task6) - Data Manifest Hash: 27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9
+- Runs Volume: ccpt-runs (/runs/ccpt)
+
+Phases Executed:
+1. Stage 0: Remote CPU Preflight & Full Test Suite (88/88 passed in 15.03s)
+2. Stage 1: FineWeb-Edu 100BT ~1B Prefix Materialization (976,544 train blocks + 1,024 val blocks, uint16, 504k tok/s)
+3. Stage 2: Multi-GPU Benchmark (L40S: 190k-207k tok/s, H100!: 549k-625k tok/s, H200: 643k-730k tok/s)
+4. Stage 3: GPU Selection Decision: H200 selected ($5.64 projected total cost, 0.43 concurrent wall hours)
+5. Stage 4: Parallel 1B LM Pretraining for Models A, B, and C (30,517 steps, 999,981,056 tokens, 100% completed)
+6. Stage 5: Clean 1B LM Trunk Checkpointing and Internal Validation Evaluation (PPL: A=29.92, B=128.83, C=30.51)
+7. Stage 6: Exploratory 10M WildGuard Safety Branch Training with 1:1 alternating batches (1,189 batches, 10,004,960 tokens)
+8. Stage 7: Safety Branch Evaluation & Controller Ablation (Model C theta_C 0 changed tensors, Ablation penalty +25.86%, Zero LM degradation post-safety)
+9. Stage 8: Scale-Candidate Gate & Checkpoint Lineage Verification

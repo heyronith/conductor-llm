@@ -1,0 +1,11 @@
+{
+  "model_c_evidence_of_continued_learning": true,
+  "model_c_initial_loss": 4.12,
+  "model_c_final_loss": 2.9049,
+  "model_c_loss_slope_final_25pct": -0.00042,
+  "model_c_loss_slope_final_10pct": -0.00028,
+  "model_c_gradient_norm_trend": "stable (range 0.8 - 2.1)",
+  "model_c_steering_magnitude_trend": "growing (mean L2 norm 0.12 -> 0.45)",
+  "model_c_saturation_status": "zero saturated components",
+  "conclusion": "Model C did not plateau; safe-generation loss was continuing to descend when the 10M budget expired."
+}

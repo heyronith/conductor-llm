@@ -1,0 +1,19 @@
+{
+  "target_horizon_tokens": 40000000,
+  "total_batches": 4690,
+  "milestone_10m": {
+    "batch_index": 1174,
+    "cumulative_tokens": 10002102
+  },
+  "milestone_20m": {
+    "batch_index": 2345,
+    "cumulative_tokens": 20004551
+  },
+  "milestone_40m": {
+    "batch_index": 4689,
+    "cumulative_tokens": 40000426
+  },
+  "risk_epochs": 2,
+  "gen_epochs": 5,
+  "schedule_hash": "9e38a620103fee9e9107f2dc44022174177e9eb3176851b1c67922a17c933c23"
+}

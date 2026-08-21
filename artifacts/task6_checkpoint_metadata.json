@@ -1,0 +1,38 @@
+{
+  "clean_lm_trunks": {
+    "model_a": {
+      "next_block_index": 976544,
+      "next_lr": 0.00029392,
+      "next_tokens_seen": 999981056,
+      "sha256": "9bb8f7f2213498b6a0753eaf880c195cc7db6908d5e6c51d8f32738f27ed2135",
+      "size_bytes": 431076941,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_a/lm/checkpoints/lm_trunk_1b.pt"
+    },
+    "model_b": {
+      "next_block_index": 976544,
+      "next_lr": 0.00029392,
+      "next_tokens_seen": 999981056,
+      "sha256": "c54110a2b95d9ee1414d14fa5c5cf0ca7731bfeca733abb2a543215f9e24a926",
+      "size_bytes": 431128471,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_b/lm/checkpoints/lm_trunk_1b.pt"
+    },
+    "model_c": {
+      "next_block_index": 976544,
+      "next_lr": 0.00029392,
+      "next_tokens_seen": 999981056,
+      "sha256": "ebad5933c0eb2b51d8cfca4515193779b858bfaa03de90a9f00bbd8180c4e1bb",
+      "size_bytes": 409074689,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_c/lm/checkpoints/lm_trunk_1b.pt"
+    }
+  },
+  "continuation_10b_ready": true,
+  "run_id": "run_1787329929",
+  "safety_branch_checkpoints": {
+    "model_a": "/runs/ccpt/task6/run_1787329929/model_a/safety/checkpoints/safety_branch_10m.pt",
+    "model_b": "/runs/ccpt/task6/run_1787329929/model_b/safety/checkpoints/safety_branch_10m.pt",
+    "model_c": "/runs/ccpt/task6/run_1787329929/model_c/safety/checkpoints/safety_branch_10m.pt"
+  },
+  "selected_gpu": "H200",
+  "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+  "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9"
+}

@@ -1,0 +1,11 @@
+{
+  "data_stream_continuation_ready": true,
+  "next_batch_block_count": 32,
+  "next_batch_hash": "12977c5a1d896662d7ef2d0dbfe7da9d75e5b91c75280de06cb020123ffcd0e2",
+  "next_block_end_exclusive": 976576,
+  "next_block_start": 976544,
+  "prefix_blocks": 976544,
+  "prefix_reproduction_verified": true,
+  "prefix_tokens": 999981056,
+  "residual_packing_state_verified": true
+}

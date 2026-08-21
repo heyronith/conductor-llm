@@ -1,0 +1,110 @@
+{
+  "format_version": "ccpt-data-v1",
+  "execution_environment": "modal",
+  "modal_volume": "ccpt-data",
+  "modal_volume_root": "/data/ccpt",
+  "wildguard_live_validated": true,
+  "statistics_source": "pinned_live_dataset",
+  "tokenizer": {
+    "repo": "mistralai/Mistral-7B-v0.1",
+    "revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    "vocab_size": 32000,
+    "special_tokens": {
+      "unk_token_id": 0,
+      "bos_token_id": 1,
+      "eos_token_id": 2,
+      "pad_token_id": 2
+    },
+    "file_hashes": {
+      "tokenizer.json": "11c08db21487c885d8c792180f0be237f6a261b89a46f128a6a80a3aa4bd1720",
+      "tokenizer_config.json": "ddb008229511e51607002ffe28925001c4a9ca4177dc4de3a655d085cc610b99",
+      "special_tokens_map.json": "6fa06efa2785e450051989a6f8fb4416b10149ded485ddd3f127a40734f5cfd0",
+      "tokenizer.model": "dadfd56d766715c61d2ef780a525ab43b8e6da4de6865bda3d95fdef5e134055"
+    }
+  },
+  "fineweb": {
+    "repo": "HuggingFaceFW/fineweb-edu",
+    "revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+    "config": "sample-100BT",
+    "split_algorithm": "SHA256(doc_id) % 1000 == 0 (0.1% validation, 99.9% train)",
+    "sequence_length": 1024,
+    "eos_handling": "append exactly 1 EOS after every document; no BOS; count EOS in token budget",
+    "token_dtype": "uint16",
+    "smoke_document_count": 100,
+    "smoke_token_count": 113664,
+    "smoke_block_count": 111,
+    "smoke_hash": "869f2e7e1cc89c2aa907b98532d6054973fe5ae2d00d458200af30c932673307",
+    "production_target_token_budget": 10000000000,
+    "production_target_blocks": 9765625
+  },
+  "wildguard": {
+    "repo": "allenai/wildguardmix",
+    "revision": "d29c47f41c8b51348b5c8e8c81c039b3132b66d1",
+    "train_config": "wildguardtrain",
+    "eval_config": "wildguardtest",
+    "raw_train_row_count": 86759,
+    "usable_risk_train_count": 45492,
+    "usable_risk_val_count": 2344,
+    "eligible_safe_gen_train_count": 18015,
+    "eligible_safe_gen_val_count": 928,
+    "raw_eval_row_count": 1725,
+    "usable_eval_record_count": 1699,
+    "harmful_refusal_count": 10651,
+    "benign_compliance_count": 8292,
+    "conflicting_prompt_groups_excluded": 15,
+    "risk_train_logical_hash": "aa7aa36243f43f2779a3914371464fb07df1eda103ec3c24e529eb50ac85523b",
+    "risk_val_logical_hash": "f47f5fed050a798357fecde8eb595e42f2b60c1ad4723ab8b6a34c7af49cd89d",
+    "gen_train_logical_hash": "b3d4705f8cb3d8150a2605af03ad7456a33403a29293919ae2ab1c9fc7a54102",
+    "gen_val_logical_hash": "f7bb470f000c8b4e3254a2e62c3318fbf6fda9fbdbff1b483b7e9578b4855321",
+    "eval_logical_hash": "94c8c5322ff5fd013099e2d50727b50c8806e3c4e02216e1d35e8d75b8e175d4",
+    "length_and_truncation_stats": {
+      "risk_prompt_token_lengths": {
+        "p50": 75.0,
+        "p90": 277.0,
+        "p95": 351.0,
+        "p99": 514.6500000000015,
+        "max": 5256.0
+      },
+      "risk_total_records": 47836,
+      "risk_truncated_count": 47,
+      "risk_truncated_fraction": 0.0009825236223764528,
+      "prompt_token_lengths": {
+        "p50": 59.0,
+        "p90": 243.0,
+        "p95": 308.0,
+        "p99": 426.5799999999981,
+        "max": 1031.0
+      },
+      "response_token_lengths": {
+        "p50": 229.0,
+        "p90": 719.0,
+        "p95": 879.8999999999978,
+        "p99": 1347.7399999999943,
+        "max": 2666.0
+      },
+      "combined_token_lengths": {
+        "p50": 349.0,
+        "p90": 870.0,
+        "p95": 1047.0,
+        "p99": 1547.1599999999962,
+        "max": 2686.0
+      },
+      "total_eligible_candidates": 18943,
+      "truncated_count": 1044,
+      "truncated_fraction": 0.055112706540674655,
+      "prompt_left_truncated_count": 1043,
+      "response_right_truncated_count": 547,
+      "exhausted_response_count": 0
+    },
+    "excluded_reasons": {
+      "benign_refusal": 8329,
+      "missing_response": 48781,
+      "harmful_response": 8368,
+      "harmful_compliance": 2294
+    }
+  },
+  "ordering": {
+    "data_seed": 20260820,
+    "algorithm": "SHA256(f'{seed}:{epoch}:{example_id}') sort key"
+  }
+}

@@ -1,0 +1,45 @@
+CCPT TASK 4.2 MODAL REMOTE EXECUTION REPORT
+======================================================================
+Timestamp (UTC): 2026-08-21T04:41:24Z
+App: ccpt-task4-data
+Resources: 8.0 CPU, 32768 MiB RAM, 0 GPU
+Volume: ccpt-data (/data/ccpt)
+Elapsed: 117.9s
+
+ENVIRONMENT:
+  - python: 3.11.12
+  - modal: 1.2.6
+  - torch: 2.13.0+cu130
+  - transformers: 5.15.1
+  - datasets: 5.0.1
+  - huggingface_hub: 1.28.0
+  - pyarrow: 25.0.1
+  - numpy: 2.4.6
+
+TOKENIZER:
+  - Repo: mistralai/Mistral-7B-v0.1@27d67f1b5f57dc0953326b2601d68371d40ea8da
+  - Vocab: 32000, BOS=1, EOS=2, PAD=2
+
+FINEWEB SMOKE:
+  - Docs: 100
+  - Tokens: 113664
+  - Blocks: 111
+  - SHA256: 869f2e7e1cc89c2aa907b98532d6054973fe5ae2d00d458200af30c932673307
+
+WILDGUARD VALIDATION:
+  - Live Validated: True
+  - Statistics Source: pinned_live_dataset
+  - Total Raw Rows (Train / Test): 86759 / 1725
+  - Usable Groups: 47836
+  - Risk Train/Val: 45492 / 2344
+  - Gen Train/Val:  18015 / 928
+  - Eval Records:  1699
+  - Risk Train Hash: aa7aa36243f43f2779a3914371464fb07df1eda103ec3c24e529eb50ac85523b
+  - Risk Val Hash:   f47f5fed050a798357fecde8eb595e42f2b60c1ad4723ab8b6a34c7af49cd89d
+  - Gen Train Hash:  b3d4705f8cb3d8150a2605af03ad7456a33403a29293919ae2ab1c9fc7a54102
+  - Gen Val Hash:    f7bb470f000c8b4e3254a2e62c3318fbf6fda9fbdbff1b483b7e9578b4855321
+  - Eval Hash:       94c8c5322ff5fd013099e2d50727b50c8806e3c4e02216e1d35e8d75b8e175d4
+  - Arrow Round-Trip Verified (All 5 Files): True
+  - Determinism Verified (All 5 Splits):    True
+
+MANIFEST HASH: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097

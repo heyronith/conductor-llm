@@ -1,0 +1,10 @@
+{
+  "20m_decision": {
+    "20m_safety_sufficient": true,
+    "continue_to_40m": false,
+    "c_gap_10m_pct": 9.17,
+    "c_gap_20m_pct": 8.36,
+    "gap_improved": true
+  },
+  "safety_budget_result": "PASS_AT_20M"
+}

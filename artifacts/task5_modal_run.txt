@@ -1,0 +1,86 @@
+CCPT TASK 5.2 CHECKPOINT DATA LINEAGE AUDIT REPORT
+======================================================================
+Run ID:                         run_1787321375
+Task 4 Manifest Hash:           2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+Training Subset Manifest Hash:  3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+Sanitized Review Manifest Hash: 1b315015ee2e01c86da989192ea789526ec232b052a2349451611552f6935132
+Checkpoints Inspected:          9 (All 9 verified)
+Task 4 Hashes Match:            True
+Training Subset Hashes Match:   True
+Checkpoint Contents Modified:   False
+
+INSPECTED CHECKPOINTS:
+  - [model_a/phase1_lm] (step 200):
+      Path:        /runs/ccpt/task5/run_1787321375/model_a/checkpoints/phase1_lm.pt
+      Size:        26,972,043 bytes
+      SHA256:      64620d0d73297a0ce4b8c642662018b4d7c1be5cfdc27b21533b5471c1947181
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+  - [model_a/phase2_risk] (step 350):
+      Path:        /runs/ccpt/task5/run_1787321375/model_a/checkpoints/phase2_risk.pt
+      Size:        26,973,715 bytes
+      SHA256:      84e5a9add6651cfc39521369e37538aaddba103637ec6dec0b85075ffbda72bd
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+  - [model_a/phase3_gen] (step 650):
+      Path:        /runs/ccpt/task5/run_1787321375/model_a/checkpoints/phase3_gen.pt
+      Size:        26,973,487 bytes
+      SHA256:      6c5d272fb82eaabbba48ffbe2bb6f73fc13c1a5b148bc26cd484d6535747ba3a
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+  - [model_b/phase1_lm] (step 200):
+      Path:        /runs/ccpt/task5/run_1787321375/model_b/checkpoints/phase1_lm.pt
+      Size:        27,006,859 bytes
+      SHA256:      4bb885e57ffcdab70e28b227097bede6812c391550c5f02b59f37a5552f663ad
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+  - [model_b/phase2_risk] (step 350):
+      Path:        /runs/ccpt/task5/run_1787321375/model_b/checkpoints/phase2_risk.pt
+      Size:        9,241,383 bytes
+      SHA256:      a28c2f7d59fda184c866e16a788639665c270b67cedda3c10d96a85beb87dd0e
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+  - [model_b/phase3_gen] (step 650):
+      Path:        /runs/ccpt/task5/run_1787321375/model_b/checkpoints/phase3_gen.pt
+      Size:        27,009,303 bytes
+      SHA256:      e9f2f891185f32f20b64c5fca5280ae5a0e616c797f4c7362309af00f27f0913
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+  - [model_c/phase1_lm] (step 200):
+      Path:        /runs/ccpt/task5/run_1787321375/model_c/checkpoints/phase1_lm.pt
+      Size:        26,738,507 bytes
+      SHA256:      21d609c56a17cde33c5f7c14492b4b3e0a5100c7da0998cf7c3f89c91455b368
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+  - [model_c/phase2_risk] (step 350):
+      Path:        /runs/ccpt/task5/run_1787321375/model_c/checkpoints/phase2_risk.pt
+      Size:        9,241,319 bytes
+      SHA256:      eeb265abac97eddf91b6a2876584f80d368893d0f085d8d59ba432054c6ece0d
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+  - [model_c/phase3_gen] (step 650):
+      Path:        /runs/ccpt/task5/run_1787321375/model_c/checkpoints/phase3_gen.pt
+      Size:        9,277,797 bytes
+      SHA256:      f9e51da2c9972ab2cf0aa60ea65bfcc1b8c1c0f25c43b3ed80938238d0ddab7b
+      Task 4 Hash: 2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097
+      Subset Hash: 3480afd5769b483a5b269f0bc8c87188454974bf13f5a862e7906501f933960f
+
+TASK 5 CORE TRAINING METRICS (UNCHANGED):
+  - Model A Phase 1 LM:   10.3903 -> 3.1283 (Reduction: 69.9%)
+  - Model A Phase 2 Risk: Acc: 100.0%
+  - Model B Phase 1 LM:   10.3870 -> 3.2820 (Reduction: 68.4%)
+  - Model B Phase 2 Risk: Acc: 100.0%
+  - Model C Phase 1 LM:   10.3870 -> 3.3025 (Reduction: 68.2%)
+  - Model C Phase 2 Risk: Acc: 100.0% (theta_C changed: 0)
+  - Model C Phase 3 Gen:  Controlled: 7.7816, Ablated: 11.7472 (Penalty: 51.0%)
+  - Model C Invariant:    Causal LM allclose == True
+  - theta_C changed tensors (Phase 3): 0
+  - theta_N changed tensors (Phase 3): 27
+
+FAILURE FLAGS:
+  - NaN/Inf Detected:             False
+  - Gate Collapse Detected:       False
+  - Steering Saturation Detected: False
+  - Dead Controller Detected:     False
+  - Capability Mutation Detected: False
+  - Data Leakage Detected:        False

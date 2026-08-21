@@ -1,0 +1,89 @@
+{
+  "H100!": {
+    "gpu_detected": "NVIDIA H100 80GB HBM3",
+    "gpu_requested": "H100!",
+    "model_a": {
+      "median_step_sec": 0.052368760108947754,
+      "model_type": "model_a",
+      "p10_step_sec": 0.05191044807434082,
+      "p90_step_sec": 0.05252399444580078,
+      "peak_allocated_mb": 17377.92138671875,
+      "peak_reserved_mb": 23212.0,
+      "projected_cost_usd_1b": 1.7531567851125,
+      "projected_hours_1b": 0.4439270700679885,
+      "tokens_per_sec": 625716.5518494153
+    },
+    "model_dual": {
+      "median_step_sec": 0.05965685844421387,
+      "model_type": "model_dual",
+      "p10_step_sec": 0.05946331024169922,
+      "p90_step_sec": 0.05979487895965576,
+      "peak_allocated_mb": 18210.44287109375,
+      "peak_reserved_mb": 24304.0,
+      "projected_cost_usd_1b": 1.9971415390088558,
+      "projected_hours_1b": 0.5057078747616874,
+      "tokens_per_sec": 549274.6492952174
+    },
+    "price_per_gpu_hour": 3.9492,
+    "projected_concurrent_wall_hours": 0.5057078747616874,
+    "projected_total_cost_usd": 5.747439863130212
+  },
+  "H200": {
+    "gpu_detected": "NVIDIA H200",
+    "gpu_requested": "H200",
+    "model_a": {
+      "median_step_sec": 0.04483354091644287,
+      "model_type": "model_a",
+      "p10_step_sec": 0.04473791122436523,
+      "p90_step_sec": 0.04494636058807373,
+      "peak_allocated_mb": 17377.92138671875,
+      "peak_reserved_mb": 23212.0,
+      "projected_cost_usd_1b": 1.7252814970334769,
+      "projected_hours_1b": 0.3800514355964131,
+      "tokens_per_sec": 730881.3743056867
+    },
+    "model_dual": {
+      "median_step_sec": 0.050903916358947754,
+      "model_type": "model_dual",
+      "p10_step_sec": 0.05084524154663086,
+      "p90_step_sec": 0.050968718528747556,
+      "peak_allocated_mb": 18210.44287109375,
+      "peak_reserved_mb": 24304.0,
+      "projected_cost_usd_1b": 1.9588813023782967,
+      "projected_hours_1b": 0.4315096709794468,
+      "tokens_per_sec": 643722.5727179266
+    },
+    "price_per_gpu_hour": 4.5396,
+    "projected_concurrent_wall_hours": 0.4315096709794468,
+    "projected_total_cost_usd": 5.64304410179007
+  },
+  "L40S": {
+    "gpu_detected": "NVIDIA L40S",
+    "gpu_requested": "L40S",
+    "model_a": {
+      "median_step_sec": 0.15797889232635498,
+      "model_type": "model_a",
+      "p10_step_sec": 0.15742671489715576,
+      "p90_step_sec": 0.15823163986206054,
+      "peak_allocated_mb": 17330.73388671875,
+      "peak_reserved_mb": 23184.0,
+      "projected_cost_usd_1b": 2.6130046865608696,
+      "projected_hours_1b": 1.339178293645382,
+      "tokens_per_sec": 207420.11491198084
+    },
+    "model_dual": {
+      "median_step_sec": 0.17234313488006592,
+      "model_type": "model_dual",
+      "p10_step_sec": 0.17173514366149903,
+      "p90_step_sec": 0.17269716262817383,
+      "peak_allocated_mb": 18163.81787109375,
+      "peak_reserved_mb": 24280.0,
+      "projected_cost_usd_1b": 2.8505923323471545,
+      "projected_hours_1b": 1.4609431797597143,
+      "tokens_per_sec": 190132.31958907645
+    },
+    "price_per_gpu_hour": 1.9512,
+    "projected_concurrent_wall_hours": 1.4609431797597143,
+    "projected_total_cost_usd": 8.314189351255179
+  }
+}

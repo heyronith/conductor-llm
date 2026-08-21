@@ -1,0 +1,104 @@
+{
+  "model_a": {
+    "lm_trunk": {
+      "format_version": "ccpt-checkpoint-v1",
+      "global_step": 30517,
+      "has_data_cursor": true,
+      "has_model_state": true,
+      "has_optimizer_state": true,
+      "has_rng_state": false,
+      "has_scheduler_inputs": true,
+      "model_type": "model_a",
+      "phase": "phase1_lm",
+      "sha256": "9bb8f7f2213498b6a0753eaf880c195cc7db6908d5e6c51d8f32738f27ed2135",
+      "size_bytes": 431076941,
+      "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+      "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+      "tokens_seen": 999981056,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_a/lm/checkpoints/lm_trunk_1b.pt"
+    },
+    "safety_branch": {
+      "format_version": "ccpt-checkpoint-v1",
+      "global_step": 1189,
+      "has_model_state": true,
+      "has_optimizer_state": true,
+      "has_rng_state": false,
+      "model_type": "model_a",
+      "phase": "phase3_safety",
+      "sha256": "f0cfbffde4edec9e50f333cc31132eb91225af3659d83394f1afea1f7a58aee4",
+      "size_bytes": 431082923,
+      "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+      "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+      "tokens_seen": 10004960,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_a/safety/checkpoints/safety_branch_10m.pt"
+    }
+  },
+  "model_b": {
+    "lm_trunk": {
+      "format_version": "ccpt-checkpoint-v1",
+      "global_step": 30517,
+      "has_data_cursor": true,
+      "has_model_state": true,
+      "has_optimizer_state": true,
+      "has_rng_state": false,
+      "has_scheduler_inputs": true,
+      "model_type": "model_b",
+      "phase": "phase1_lm",
+      "sha256": "c54110a2b95d9ee1414d14fa5c5cf0ca7731bfeca733abb2a543215f9e24a926",
+      "size_bytes": 431128471,
+      "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+      "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+      "tokens_seen": 999981056,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_b/lm/checkpoints/lm_trunk_1b.pt"
+    },
+    "safety_branch": {
+      "format_version": "ccpt-checkpoint-v1",
+      "global_step": 1189,
+      "has_model_state": true,
+      "has_optimizer_state": true,
+      "has_rng_state": false,
+      "model_type": "model_b",
+      "phase": "phase3_safety",
+      "sha256": "8d942343461d427e7e7a2788e183465ff28e5480b5a2b7b43f41db75753fdae4",
+      "size_bytes": 431135915,
+      "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+      "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+      "tokens_seen": 10004960,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_b/safety/checkpoints/safety_branch_10m.pt"
+    }
+  },
+  "model_c": {
+    "lm_trunk": {
+      "format_version": "ccpt-checkpoint-v1",
+      "global_step": 30517,
+      "has_data_cursor": true,
+      "has_model_state": true,
+      "has_optimizer_state": true,
+      "has_rng_state": false,
+      "has_scheduler_inputs": true,
+      "model_type": "model_c",
+      "phase": "phase1_lm",
+      "sha256": "ebad5933c0eb2b51d8cfca4515193779b858bfaa03de90a9f00bbd8180c4e1bb",
+      "size_bytes": 409074689,
+      "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+      "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+      "tokens_seen": 999981056,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_c/lm/checkpoints/lm_trunk_1b.pt"
+    },
+    "safety_branch": {
+      "format_version": "ccpt-checkpoint-v1",
+      "global_step": 1189,
+      "has_model_state": true,
+      "has_optimizer_state": true,
+      "has_rng_state": false,
+      "model_type": "model_c",
+      "phase": "phase3_safety",
+      "sha256": "17da544b0e790d3561b0c64d427da9617823a5f9fdb06c03ea50793422c42fdf",
+      "size_bytes": 165776027,
+      "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+      "task6_data_manifest_hash": "27ed7085db343ecc62e872b2ade183f460ba6da109d75cc807614df6225ca7d9",
+      "tokens_seen": 10004960,
+      "volume_path": "/runs/ccpt/task6/run_1787329929/model_c/safety/checkpoints/safety_branch_10m.pt"
+    }
+  }
+}

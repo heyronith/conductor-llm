@@ -1,0 +1,30 @@
+{
+  "benchmark_gpu_cost_usd": 0.197,
+  "lm_pretraining_costs_usd": {
+    "model_a": 1.681,
+    "model_b": 1.621,
+    "model_c": 1.667,
+    "total_lm": 4.969
+  },
+  "parsed_durations_sec": {
+    "benchmarks": 180.0,
+    "lm_model_a": 1532.0,
+    "lm_model_b": 1478.0,
+    "lm_model_c": 1520.0,
+    "safety_model_a": 140.0,
+    "safety_model_b": 138.0,
+    "safety_model_c": 139.0,
+    "task6_1_eval": 45.0,
+    "task6_2_eval": 65.0
+  },
+  "production_gpu_rate_usd_hr": 3.9492,
+  "safety_branch_costs_usd": {
+    "model_a": 0.154,
+    "model_b": 0.151,
+    "model_c": 0.152,
+    "total_safety": 0.457
+  },
+  "task6_1_eval_gpu_cost_usd": 0.049,
+  "task6_2_eval_gpu_cost_usd": 0.071,
+  "total_measured_gpu_cost_usd": 5.745
+}

@@ -1,0 +1,112 @@
+{
+  "model_a": {
+    "all": {
+      "aggregate_l2_delta": 55.64056624161475,
+      "changed_params": 35918848,
+      "changed_tensors": 39,
+      "tensor_count": 39,
+      "total_params": 35918848,
+      "unchanged_tensors": 0
+    },
+    "core_lm": {
+      "aggregate_l2_delta": 55.64051667293013,
+      "changed_params": 35918336,
+      "changed_tensors": 38,
+      "tensor_count": 38,
+      "total_params": 35918336,
+      "unchanged_tensors": 0
+    },
+    "risk_head": {
+      "aggregate_l2_delta": 0.07427016159068608,
+      "changed_params": 512,
+      "changed_tensors": 1,
+      "tensor_count": 1,
+      "total_params": 512,
+      "unchanged_tensors": 0
+    }
+  },
+  "model_b": {
+    "all": {
+      "aggregate_l2_delta": 44.68008894169075,
+      "changed_params": 35920384,
+      "changed_tensors": 65,
+      "tensor_count": 65,
+      "total_params": 35920384,
+      "unchanged_tensors": 0
+    },
+    "controller": {
+      "aggregate_l2_delta": 1.8415403763934075,
+      "changed_params": 262656,
+      "changed_tensors": 4,
+      "tensor_count": 4,
+      "total_params": 262656,
+      "unchanged_tensors": 0
+    },
+    "risk_head": {
+      "aggregate_l2_delta": 0.30899232162114265,
+      "changed_params": 256,
+      "changed_tensors": 1,
+      "tensor_count": 1,
+      "total_params": 256,
+      "unchanged_tensors": 0
+    },
+    "theta_c": {
+      "aggregate_l2_delta": 43.69360612124802,
+      "changed_params": 33165824,
+      "changed_tensors": 38,
+      "tensor_count": 38,
+      "total_params": 33165824,
+      "unchanged_tensors": 0
+    },
+    "theta_n": {
+      "aggregate_l2_delta": 9.336976596234654,
+      "changed_params": 2754560,
+      "changed_tensors": 27,
+      "tensor_count": 27,
+      "total_params": 2754560,
+      "unchanged_tensors": 0
+    }
+  },
+  "model_c": {
+    "all": {
+      "aggregate_l2_delta": 16.614818132257625,
+      "changed_params": 2754560,
+      "changed_tensors": 27,
+      "tensor_count": 65,
+      "total_params": 35920384,
+      "unchanged_tensors": 38
+    },
+    "controller": {
+      "aggregate_l2_delta": 4.232645683285946,
+      "changed_params": 262656,
+      "changed_tensors": 4,
+      "tensor_count": 4,
+      "total_params": 262656,
+      "unchanged_tensors": 0
+    },
+    "risk_head": {
+      "aggregate_l2_delta": 0.32466524471931774,
+      "changed_params": 256,
+      "changed_tensors": 1,
+      "tensor_count": 1,
+      "total_params": 256,
+      "unchanged_tensors": 0
+    },
+    "theta_c": {
+      "aggregate_l2_delta": 0.0,
+      "changed_params": 0,
+      "changed_tensors": 0,
+      "tensor_count": 38,
+      "total_params": 33165824,
+      "unchanged_tensors": 38
+    },
+    "theta_n": {
+      "aggregate_l2_delta": 16.614818132257625,
+      "changed_params": 2754560,
+      "changed_tensors": 27,
+      "tensor_count": 27,
+      "total_params": 2754560,
+      "unchanged_tensors": 0
+    }
+  }
+}

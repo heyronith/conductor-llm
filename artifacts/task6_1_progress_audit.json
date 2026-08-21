@@ -1,0 +1,62 @@
+{
+  "BENCH_H100!": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "BENCH_H200": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "BENCH_L40S": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "LM_model_a": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "LM_model_b": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "LM_model_c": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "SAFETY_model_a": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "SAFETY_model_b": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "SAFETY_model_c": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  },
+  "TASK6_FINEWEB": {
+    "complete": true,
+    "expected_percentages": 100,
+    "missing_percentages": [],
+    "observed_percentages": 100
+  }
+}
