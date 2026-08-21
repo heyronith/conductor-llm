@@ -1,0 +1,74 @@
+"""Canonical production FineWeb stream and packed block generator for CCPT / Pilot-v2.
+
+Uses canonical Task 4 text normalization, document splitting, tokenization,
+and token packing as the single source of truth.
+"""
+
+from pathlib import Path
+from typing import Any, Dict, Generator, Iterator, List, Optional, Tuple, Union
+
+import numpy as np
+from transformers import PreTrainedTokenizerFast
+
+from ccpt.data.fineweb import (
+    PackedTokenBuffer,
+    is_validation_document,
+    normalize_lm_text,
+    tokenize_lm_document,
+)
+
+
+class CanonicalFineWebStream:
+    """Streams and packs FineWeb-Edu documents into contiguous fixed-size token blocks.
+
+    Guarantees bit-for-bit equivalence with the canonical Task 4 data specification:
+    - Normalization: normalize_lm_text
+    - Split: is_validation_document(doc_id)
+    - Tokenization: tokenize_lm_document
+    - Packing: PackedTokenBuffer
+    """
+
+    def __init__(
+        self,
+        tokenizer: PreTrainedTokenizerFast,
+        sequence_length: int = 1024,
+        split: str = "train",  # "train" or "validation"
+        val_modulo: int = 1000,
+    ) -> None:
+        self.tokenizer = tokenizer
+        self.sequence_length = sequence_length
+        self.split = split
+        self.val_modulo = val_modulo
+        self.packer = PackedTokenBuffer(sequence_length=sequence_length)
+        self.total_docs_processed = 0
+        self.total_docs_accepted = 0
+        self.total_tokens_seen = 0
+
+    def process_document(self, text: str, doc_id: str) -> List[np.ndarray]:
+        """Processes a single raw text document and yields completed blocks if buffer fills."""
+        self.total_docs_processed += 1
+
+        is_val = is_validation_document(doc_id, val_modulo=self.val_modulo)
+        if (self.split == "validation" and not is_val) or (self.split == "train" and is_val):
+            return []
+
+        norm_text = normalize_lm_text(text)
+        if norm_text is None:
+            return []
+
+        self.total_docs_accepted += 1
+        tokens = tokenize_lm_document(norm_text, self.tokenizer)
+        self.total_tokens_seen += len(tokens)
+
+        return self.packer.add_tokens(tokens)
+
+    def iter_blocks(self, dataset_iterable: Iterator[Dict[str, Any]]) -> Generator[np.ndarray, None, None]:
+        """Iterates over raw HuggingFace dataset items and yields packed numpy blocks."""
+        doc_count = 0
+        for item in dataset_iterable:
+            doc_count += 1
+            doc_id = str(item.get("id", doc_count))
+            text = item.get("text", "")
+            blocks = self.process_document(text, doc_id)
+            for blk in blocks:
+                yield blk

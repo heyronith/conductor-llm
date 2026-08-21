@@ -19,6 +19,8 @@ from ccpt.data.fineweb import (
     tokenize_lm_document,
     write_token_shard,
 )
+from ccpt.data.production_stream import CanonicalFineWebStream
+
 from ccpt.data.hashing import (
     sha256_bytes,
     sha256_file,
@@ -83,7 +85,9 @@ __all__ = [
     "is_validation_document",
     "tokenize_lm_document",
     "PackedTokenBuffer",
+    "CanonicalFineWebStream",
     "write_token_shard",
+
     "load_token_shard",
     "process_lm_document_stream",
     "canonicalize_prompt",

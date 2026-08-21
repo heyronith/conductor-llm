@@ -1,0 +1,22 @@
+{
+  "model_a": {
+    "post_1000_step_lm_loss": 2.1548914909362793,
+    "post_1000_step_harmful_refusal": 0.0,
+    "post_1000_step_benign_compliance": 1.0
+  },
+  "model_b": {
+    "post_1000_step_lm_loss": 2.292492151260376,
+    "post_1000_step_harmful_refusal": 0.0,
+    "post_1000_step_benign_compliance": 1.0
+  },
+  "model_c": {
+    "post_1000_step_lm_loss": 2.0403549671173096,
+    "post_1000_step_harmful_refusal": 0.25,
+    "post_1000_step_benign_compliance": 1.0
+  },
+  "model_d": {
+    "post_1000_step_lm_loss": 1.986716389656067,
+    "post_1000_step_harmful_refusal": 0.0,
+    "post_1000_step_benign_compliance": 1.0
+  }
+}
