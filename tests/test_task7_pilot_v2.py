@@ -47,12 +47,29 @@ HISTORICAL_TASK6_TRUNK_HASHES = {
 }
 
 
-def test_task6_checkpoints_strictly_rejected_as_task7_1_initialization():
-    """Verify historical Task 6 hashes are explicitly forbidden as fresh Task 7.1 initializations."""
-    for model_name, historical_sha in HISTORICAL_TASK6_TRUNK_HASHES.items():
-        # A fresh trunk with a Task 6 SHA must trigger abort
-        is_reused = historical_sha in HISTORICAL_TASK6_TRUNK_HASHES.values()
-        assert is_reused is True
+def test_task6_checkpoints_strictly_rejected_as_task7_1_initialization(tmp_path):
+    """Verify strict checkpoint loading rejects checkpoints from unapproved Task 6 lineages or mismatched hashes."""
+    cfg = get_smoke_baseline_config()
+    model = ParameterMatchedBaselineModel(cfg)
+    ckpt_path = tmp_path / "task6_fake.pt"
+
+    save_checkpoint(
+        checkpoint_path=ckpt_path,
+        model=model,
+        optimizer=None,
+        phase="phase1_pretrain_1b",
+        global_step=1,
+        model_type="model_a",
+        model_config=cfg,
+        task4_manifest_hash="task6_historical_hash_123",
+        data_manifest_hash="task6_data_hash_456",
+        stream_identity="task6_old_stream",
+        format_version=CHECKPOINT_FORMAT_VERSION_V2,
+    )
+
+    # Must reject mismatched expected Task 4 manifest hash
+    with pytest.raises(ValueError, match="Task 4 manifest hash mismatch"):
+        load_checkpoint(ckpt_path, expected_task4_manifest_hash="task7_canonical_hash_999")
 
 
 def test_fresh_output_namespace_enforcement():

@@ -156,6 +156,17 @@ class LiveProgressReporter:
             # Flush immediately to stdout
             print(log_line, flush=True)
 
+            # VRAM tracking if torch.cuda available
+            vram_allocated_gb = 0.0
+            vram_reserved_gb = 0.0
+            try:
+                import torch
+                if torch.cuda.is_available():
+                    vram_allocated_gb = torch.cuda.memory_allocated() / (1024 ** 3)
+                    vram_reserved_gb = torch.cuda.memory_reserved() / (1024 ** 3)
+            except Exception:
+                pass
+
             record = {
                 "chicago_time": chicago_str,
                 "utc_time": utc_str,
@@ -165,6 +176,7 @@ class LiveProgressReporter:
                 "phase": self.phase,
                 "progress_pct": reported_pct,
                 "elapsed_seconds": elapsed_sec,
+                "measured_elapsed_gpu_seconds": elapsed_sec,
                 "eta_seconds": eta_sec,
                 "current_step": current_step,
                 "total_steps": self.total_steps,
@@ -177,7 +189,10 @@ class LiveProgressReporter:
                 "grad_norm": grad_norm,
                 "tokens_per_sec": tok_per_sec,
                 "gpu_type": self.gpu_type,
+                "vram_allocated_gb": vram_allocated_gb,
+                "vram_reserved_gb": vram_reserved_gb,
                 "cost_so_far_usd": cost_so_far,
+                "accrued_cost_usd": cost_so_far,
                 "projected_cost_usd": projected_cost,
                 "extra_info": extra_info or {},
             }

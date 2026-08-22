@@ -65,6 +65,21 @@ from ccpt.data.wildguard import (
     tokenize_safe_generation_example,
 )
 
+from ccpt.data.canonical_materializer import (
+    FINEWEB_SOURCE_CONFIG,
+    FINEWEB_SOURCE_REPO,
+    FINEWEB_SOURCE_REVISION,
+    TARGET_PERSISTENCE_BLOCKS,
+    TARGET_TOTAL_TRAIN_BLOCKS,
+    TARGET_TRAIN_PREFIX_BLOCKS,
+    TARGET_VAL_BLOCKS,
+    TOKENIZER_REPO,
+    TOKENIZER_REVISION,
+    build_task7_2_data_manifest,
+    compute_ordered_shards_hash,
+    materialize_bounded_canonical_fineweb_proof,
+)
+
 __all__ = [
     "DataConfig",
     "DEFAULT_DATA_ROOT",
@@ -87,7 +102,6 @@ __all__ = [
     "PackedTokenBuffer",
     "CanonicalFineWebStream",
     "write_token_shard",
-
     "load_token_shard",
     "process_lm_document_stream",
     "canonicalize_prompt",
@@ -114,5 +128,17 @@ __all__ = [
     "compute_records_logical_hash",
     "record_to_dict",
     "build_task4_manifest",
+    "build_task7_2_data_manifest",
+    "compute_ordered_shards_hash",
+    "materialize_bounded_canonical_fineweb_proof",
+    "FINEWEB_SOURCE_REPO",
+    "FINEWEB_SOURCE_CONFIG",
+    "FINEWEB_SOURCE_REVISION",
+    "TOKENIZER_REPO",
+    "TOKENIZER_REVISION",
+    "TARGET_TRAIN_PREFIX_BLOCKS",
+    "TARGET_PERSISTENCE_BLOCKS",
+    "TARGET_TOTAL_TRAIN_BLOCKS",
+    "TARGET_VAL_BLOCKS",
 ]
 

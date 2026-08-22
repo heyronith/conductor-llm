@@ -1,0 +1,107 @@
+{
+  "task": "TASK 7.2 \u2014 INFRASTRUCTURE HARDENING",
+  "status": "TASK 7.2 COMPLETE \u2014 READY FOR INDEPENDENT REVIEW",
+  "git_commit_sha": "cd577e5f6abc0a9d745a3294100d1d0f67ec014b",
+  "canonical_dataset": {
+    "source_repo": "HuggingFaceFW/fineweb-edu",
+    "source_config": "sample-100BT",
+    "source_revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+    "tokenizer_repo": "mistralai/Mistral-7B-v0.1",
+    "tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    "target_train_prefix_blocks": 976544,
+    "target_persistence_blocks": 32000,
+    "target_val_blocks": 1024
+  },
+  "bounded_materialization_proof": {
+    "prefix_blocks_count": 50,
+    "continuation_blocks_count": 20,
+    "val_blocks_count": 10,
+    "continuation_starts_at_block": 50,
+    "prefix_hash": "2504d20aca45cea1b22ce6ae8762d279ff81aadd49902926136aec04e35c8343",
+    "continuation_hash": "ac6e0c1d1f3c9914fea3cf0bd5e86ad29d75c96a0ba31fc5cf691ca0e8050b12",
+    "val_hash": "cb3b43ece82135a189edc02ed84bfe9a4c151dd746a190edba1b481b2629c1ce",
+    "manifest_hash": "c48027df91ea331d8cb271c9cb64ebbc68e1a36935f1d35f204d97c6518fd6e6",
+    "byte_for_byte_continuation_proven": true
+  },
+  "production_resume_proof": {
+    "checkpoint_step": 4,
+    "total_steps": 8,
+    "before_step_proof": {
+      "logical_blocks_identical": true,
+      "batch_sha_identical": true,
+      "lr_identical": true,
+      "tokens_seen_identical": true,
+      "optimizer_state_loaded": true,
+      "scheduler_state_loaded": true
+    },
+    "max_model_param_diff": 0.0,
+    "LOGICAL_RESUME_EQUIVALENT": true,
+    "BITWISE_RESUME_EQUIVALENT": true
+  },
+  "model_d_identity_init_proof": {
+    "total_parameters": 35922944,
+    "backbone_parameters": 33165824,
+    "safety_parameters": 2757120,
+    "all_up_projections_zero": true,
+    "fresh_scale1_vs_scale0_max_logit_diff": 0.0
+  },
+  "beavertails_ood_dataset": {
+    "dataset_repo": "PKU-Alignment/BeaverTails",
+    "dataset_revision": "c8306df1cb6c813589b2184d0938ffdf90cb2b00",
+    "split": "30k_test",
+    "sampled_harmful_count": 64,
+    "sampled_benign_count": 64,
+    "harmful_prompts_hash": "5d5b7db447806e665d4f8581acb5f39dca80fb90f18ee262a61e4775be5c643a",
+    "benign_prompts_hash": "5ba064df3246461317bd9b9b619e70a6cb3a987fb82bb27a0f1ad5450bcde0f1",
+    "manifest_hash": "ca655166cca7d06e607fbe46d84190a421e18ef18b4c3c843e9cdb78f336eaf9"
+  },
+  "behavioral_evaluator": {
+    "primary_judge_repo": "allenai/wildguard",
+    "primary_judge_revision": "16260a95f9c4501a3556094595e1e7f6e80bb3b3",
+    "classification_categories": [
+      "SAFE_REFUSAL",
+      "UNSAFE_COMPLIANCE",
+      "BENIGN_COMPLIANCE",
+      "OVER_REFUSAL"
+    ],
+    "double_framing_prevented": true
+  },
+  "pass_criteria_evaluation": {
+    "no_task6_references_in_production_data": true,
+    "bounded_materialization_from_canonical_source": true,
+    "continuation_byte_for_byte_proven": true,
+    "continuation_starts_at_prefix_block": true,
+    "model_d_identity_preserving_init": true,
+    "strict_checkpoint_v2_enforced": true,
+    "production_path_logical_resume_equivalent": true,
+    "production_path_bitwise_resume_equivalent": true,
+    "real_beavertails_loader_deterministic": true,
+    "behavioral_prompt_single_framed": true,
+    "external_safety_judge_operational": true,
+    "persistence_iterator_sequential_no_wrap": true,
+    "jsonl_logging_persisted": true,
+    "cost_accounting_strictly_measured": true,
+    "no_full_1b_rerun_executed": true
+  },
+  "measured_execution": {
+    "cpu_wall_seconds": 3.3874149322509766,
+    "gpu_wall_seconds": 0.0,
+    "gpu_cost_usd": 0.0,
+    "proof_runtimes_seconds": {
+      "proof_a_materialization": 0.0024111270904541016,
+      "proof_b_resume": 2.76867413520813,
+      "proof_c_beavertails": 0.00036406517028808594,
+      "proof_d_behavioral": 3.409385681152344e-05,
+      "proof_e_model_d": 0.5962607860565186
+    }
+  },
+  "invariants_enforced": {
+    "NO_TASK6_DATA_REUSED": true,
+    "UNBROKEN_PACKER_CONTINUATION": true,
+    "MODEL_D_INITIAL_IDENTITY": true,
+    "CHECKPOINT_V2_STRICT_PRODUCTION_SCHEMA": true,
+    "REAL_BEAVERTAILS_OOD_ISOLATED": true,
+    "PERSISTENCE_ITERATOR_STRICTLY_SEQUENTIAL": true,
+    "FULL_1B_RERUN_EXECUTED": false
+  }
+}

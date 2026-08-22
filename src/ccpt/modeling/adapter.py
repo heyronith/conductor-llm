@@ -110,13 +110,43 @@ class FrozenBackboneAdapterModel(nn.Module):
         self._init_backbone_weights()
 
     def _init_backbone_weights(self) -> None:
-        for module in self.modules():
-            if isinstance(module, nn.Linear):
-                nn.init.normal_(module.weight, mean=0.0, std=self.config.init_std)
-            elif isinstance(module, nn.Embedding):
-                nn.init.normal_(module.weight, mean=0.0, std=self.config.init_std)
-            elif isinstance(module, RMSNorm):
-                nn.init.ones_(module.weight)
+        """Initializes backbone, risk head, and adapters cleanly.
+        
+        Backbone and risk head use standard normal/ones initialization.
+        Adapters initialize down_proj normally, norm to ones, and up_proj STRICTLY to zeros,
+        guaranteeing exact identity-preservation before safety training.
+        """
+        # 1. Backbone Embedding & Final Norm
+        nn.init.normal_(self.embedding.weight, mean=0.0, std=self.config.init_std)
+        nn.init.ones_(self.final_norm.weight)
+
+        # 2. Backbone Transformer Layers
+        for layer in self.layers:
+            # Backbone Attention
+            nn.init.ones_(layer.attn_norm.weight)
+            nn.init.normal_(layer.attn.q_proj.weight, mean=0.0, std=self.config.init_std)
+            nn.init.normal_(layer.attn.k_proj.weight, mean=0.0, std=self.config.init_std)
+            nn.init.normal_(layer.attn.v_proj.weight, mean=0.0, std=self.config.init_std)
+            nn.init.normal_(layer.attn.o_proj.weight, mean=0.0, std=self.config.init_std)
+
+            # Backbone MLP
+            nn.init.ones_(layer.mlp_norm.weight)
+            nn.init.normal_(layer.mlp.gate_proj.weight, mean=0.0, std=self.config.init_std)
+            nn.init.normal_(layer.mlp.up_proj.weight, mean=0.0, std=self.config.init_std)
+            nn.init.normal_(layer.mlp.down_proj.weight, mean=0.0, std=self.config.init_std)
+
+            # Attention Adapter (Houlsby-style)
+            nn.init.ones_(layer.attn_adapter.norm.weight)
+            nn.init.normal_(layer.attn_adapter.down_proj.weight, mean=0.0, std=self.config.init_std)
+            nn.init.zeros_(layer.attn_adapter.up_proj.weight)
+
+            # MLP Adapter (Houlsby-style)
+            nn.init.ones_(layer.mlp_adapter.norm.weight)
+            nn.init.normal_(layer.mlp_adapter.down_proj.weight, mean=0.0, std=self.config.init_std)
+            nn.init.zeros_(layer.mlp_adapter.up_proj.weight)
+
+        # 3. Trainable Risk Head
+        nn.init.normal_(self.risk_head.weight, mean=0.0, std=self.config.init_std)
 
     @property
     def backbone_parameters(self) -> List[nn.Parameter]:

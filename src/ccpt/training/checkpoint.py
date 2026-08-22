@@ -15,12 +15,46 @@ from typing import Any, Dict, Optional, Sequence, Union
 import torch
 import torch.nn as nn
 
-from ccpt.config import BaselineConfig, DualStreamConfig
+from ccpt.config import AdapterConfig, BaselineConfig, DualStreamConfig
 
 
 CHECKPOINT_FORMAT_VERSION_V1 = "ccpt-checkpoint-v1"
 CHECKPOINT_FORMAT_VERSION_V2 = "ccpt-checkpoint-v2"
-CHECKPOINT_FORMAT_VERSION = CHECKPOINT_FORMAT_VERSION_V1
+CHECKPOINT_FORMAT_VERSION = CHECKPOINT_FORMAT_VERSION_V2
+
+MANDATORY_V2_BASE_FIELDS = [
+    "format_version",
+    "model_state_dict",
+    "optimizer_state_dict",
+    "scheduler_state",
+    "global_step",
+    "tokens_seen",
+    "data_cursor",
+    "stream_identity",
+    "data_manifest_hash",
+    "task4_manifest_hash",
+    "model_type",
+    "model_config",
+    "phase",
+    "training_seed",
+    "torch_rng_state",
+    "cuda_rng_state",
+    "git_commit_sha",
+    "env_versions",
+]
+
+PRODUCTION_LM_PHASES = {
+    "phase1_pretrain_1b",
+    "phase1_lm",
+    "lm_pretrain",
+    "persistence_continuation",
+    "persistence_1000",
+}
+
+PRODUCTION_SAFETY_PHASES = {
+    "phase3_safety_20m",
+    "safety_20m",
+}
 
 
 def validate_checkpoint_lineage(
@@ -67,8 +101,6 @@ def validate_checkpoint_lineage(
     }
 
 
-
-
 def get_git_commit_sha() -> str:
     """Attempts to retrieve the current git commit SHA, falling back to 'unknown'."""
     try:
@@ -109,12 +141,11 @@ def save_checkpoint(
     phase: str,
     global_step: int,
     model_type: str,
-    model_config: Union[BaselineConfig, DualStreamConfig, Dict[str, Any]],
-    task4_manifest_hash: str,
+    model_config: Union[BaselineConfig, DualStreamConfig, AdapterConfig, Dict[str, Any]],
+    task4_manifest_hash: str = "",
     task5_subset_hash: str = "",
     training_seed: int = 20260821,
     metrics_so_far: Optional[Dict[str, Any]] = None,
-    # V2 Enhancements (optional in v1 callers, required in v2)
     format_version: str = CHECKPOINT_FORMAT_VERSION_V2,
     tokens_seen: int = 0,
     data_cursor: int = 0,
@@ -132,6 +163,19 @@ def save_checkpoint(
 
     config_dict = model_config if isinstance(model_config, dict) else model_config.__dict__
 
+    scheduler_state = None
+    if scheduler is not None:
+        if hasattr(scheduler, "state_dict"):
+            scheduler_state = scheduler.state_dict()
+        else:
+            scheduler_state = {
+                "max_lr": getattr(scheduler, "max_lr", None),
+                "min_lr": getattr(scheduler, "min_lr", None),
+                "warmup_tokens": getattr(scheduler, "warmup_tokens", None),
+                "total_tokens": getattr(scheduler, "total_tokens", None),
+                "tokens_seen": getattr(scheduler, "tokens_seen", tokens_seen),
+            }
+
     state = {
         "format_version": format_version,
         "phase": phase,
@@ -143,34 +187,18 @@ def save_checkpoint(
         "training_seed": training_seed,
         "model_state_dict": model.state_dict(),
         "optimizer_state_dict": optimizer.state_dict() if optimizer is not None else None,
+        "scheduler_state": scheduler_state,
+        "tokens_seen": tokens_seen,
+        "data_cursor": data_cursor,
+        "stream_identity": stream_identity,
+        "data_manifest_hash": data_manifest_hash,
+        "safety_schedule_hash": safety_schedule_hash,
         "torch_rng_state": torch.get_rng_state(),
         "cuda_rng_state": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None,
+        "git_commit_sha": get_git_commit_sha(),
+        "env_versions": get_environment_versions(),
         "metrics_so_far": metrics_so_far or {},
     }
-
-    if format_version == CHECKPOINT_FORMAT_VERSION_V2:
-        scheduler_state = None
-        if scheduler is not None:
-            if hasattr(scheduler, "state_dict"):
-                scheduler_state = scheduler.state_dict()
-            else:
-                scheduler_state = {
-                    "max_lr": getattr(scheduler, "max_lr", None),
-                    "min_lr": getattr(scheduler, "min_lr", None),
-                    "warmup_tokens": getattr(scheduler, "warmup_tokens", None),
-                    "total_tokens": getattr(scheduler, "total_tokens", None),
-                }
-
-        state.update({
-            "tokens_seen": tokens_seen,
-            "data_cursor": data_cursor,
-            "stream_identity": stream_identity,
-            "data_manifest_hash": data_manifest_hash,
-            "safety_schedule_hash": safety_schedule_hash,
-            "scheduler_state": scheduler_state,
-            "git_commit_sha": get_git_commit_sha(),
-            "env_versions": get_environment_versions(),
-        })
 
     tmp_path = path.with_suffix(".tmp")
     torch.save(state, tmp_path)
@@ -186,6 +214,9 @@ def load_checkpoint(
     expected_data_manifest_hash: Optional[str] = None,
     expected_safety_schedule_hash: Optional[str] = None,
     expected_model_type: Optional[str] = None,
+    expected_model_config: Optional[Union[BaselineConfig, DualStreamConfig, AdapterConfig, Dict[str, Any]]] = None,
+    expected_stream_identity: Optional[str] = None,
+    expected_phase: Optional[str] = None,
     strict_v2: bool = False,
     map_location: Optional[Union[str, torch.device]] = "cpu",
 ) -> Dict[str, Any]:
@@ -201,27 +232,39 @@ def load_checkpoint(
 
     fmt = state.get("format_version", CHECKPOINT_FORMAT_VERSION_V1)
     if strict_v2 and fmt != CHECKPOINT_FORMAT_VERSION_V2:
-        raise ValueError(f"Strict V2 loading requested, but checkpoint has format {fmt}")
+        raise ValueError(f"Strict V2 loading requested, but checkpoint has format '{fmt}'")
 
     if strict_v2:
-        required_v2_fields = [
-            "tokens_seen",
-            "data_cursor",
-            "stream_identity",
-            "data_manifest_hash",
-            "git_commit_sha",
-            "env_versions",
-            "torch_rng_state",
-        ]
-        for field in required_v2_fields:
+        for field in MANDATORY_V2_BASE_FIELDS:
             if field not in state:
-                raise ValueError(f"Checkpoint V2 missing mandatory field: '{field}'")
+                raise ValueError(f"Checkpoint V2 missing mandatory base field: '{field}'")
 
-        if state.get("phase") in ["phase3_safety_20m", "safety_20m"]:
+        ckpt_phase = state.get("phase", "")
+        # Production LM Checkpoint rules
+        if ckpt_phase in PRODUCTION_LM_PHASES:
+            if state.get("optimizer_state_dict") is None:
+                raise ValueError(f"Production LM checkpoint ({ckpt_phase}) requires non-null 'optimizer_state_dict'")
+            if state.get("scheduler_state") is None:
+                raise ValueError(f"Production LM checkpoint ({ckpt_phase}) requires non-null 'scheduler_state'")
+            if not state.get("data_manifest_hash"):
+                raise ValueError(f"Production LM checkpoint ({ckpt_phase}) requires non-empty 'data_manifest_hash'")
+            if not state.get("task4_manifest_hash"):
+                raise ValueError(f"Production LM checkpoint ({ckpt_phase}) requires non-empty 'task4_manifest_hash'")
+            if not state.get("stream_identity"):
+                raise ValueError(f"Production LM checkpoint ({ckpt_phase}) requires non-empty 'stream_identity'")
+            if not state.get("model_config"):
+                raise ValueError(f"Production LM checkpoint ({ckpt_phase}) requires non-empty 'model_config'")
+
+        # Production Safety Checkpoint rules
+        if ckpt_phase in PRODUCTION_SAFETY_PHASES:
+            if state.get("optimizer_state_dict") is None:
+                raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-null 'optimizer_state_dict'")
+            if state.get("scheduler_state") is None:
+                raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-null 'scheduler_state'")
             if not state.get("safety_schedule_hash"):
-                raise ValueError("Checkpoint V2 safety phase requires non-empty 'safety_schedule_hash'")
-
-
+                raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-empty 'safety_schedule_hash'")
+            if not state.get("model_config"):
+                raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-empty 'model_config'")
 
     if expected_task4_manifest_hash is not None:
         saved_hash = state.get("task4_manifest_hash")
@@ -258,6 +301,30 @@ def load_checkpoint(
                 f"Checkpoint model_type mismatch! Saved: {saved_type}, Expected: {expected_model_type}"
             )
 
+    if expected_stream_identity is not None:
+        saved_stream = state.get("stream_identity")
+        if saved_stream != expected_stream_identity:
+            raise ValueError(
+                f"Checkpoint stream_identity mismatch! Saved: {saved_stream}, Expected: {expected_stream_identity}"
+            )
+
+    if expected_phase is not None:
+        saved_phase = state.get("phase")
+        if saved_phase != expected_phase:
+            raise ValueError(
+                f"Checkpoint phase mismatch! Saved: {saved_phase}, Expected: {expected_phase}"
+            )
+
+    if expected_model_config is not None:
+        expected_dict = expected_model_config if isinstance(expected_model_config, dict) else expected_model_config.__dict__
+        saved_dict = state.get("model_config", {})
+        for key in ["d_model", "n_layers", "n_heads", "vocab_size", "max_seq_len"]:
+            if key in expected_dict and key in saved_dict:
+                if expected_dict[key] != saved_dict[key]:
+                    raise ValueError(
+                        f"Checkpoint model_config mismatch on '{key}'! Saved: {saved_dict[key]}, Expected: {expected_dict[key]}"
+                    )
+
     return state
 
 
@@ -273,7 +340,7 @@ def inspect_checkpoint_metadata(
     total_tensors = len(model_state)
 
     meta = {
-        "format_version": state.get("format_version", "ccpt-checkpoint-v1"),
+        "format_version": state.get("format_version", CHECKPOINT_FORMAT_VERSION_V1),
         "phase": state.get("phase"),
         "global_step": state.get("global_step"),
         "model_type": state.get("model_type"),
@@ -283,6 +350,7 @@ def inspect_checkpoint_metadata(
         "total_parameters": total_params,
         "total_tensors": total_tensors,
         "has_optimizer_state": state.get("optimizer_state_dict") is not None,
+        "has_scheduler_state": state.get("scheduler_state") is not None,
         "has_rng_state": state.get("torch_rng_state") is not None,
         "metrics_so_far": state.get("metrics_so_far", {}),
     }

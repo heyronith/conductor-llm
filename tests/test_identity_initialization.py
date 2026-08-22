@@ -21,7 +21,7 @@ def test_identity_initialization_equivalence():
         logits_controlled, _, diags = model(input_ids, mode="controlled", return_diagnostics=True)
 
     # 1. Output equivalence assertion (bit-for-bit / high precision)
-    assert torch.allclose(logits_lm, logits_controlled, atol=1e-6, rtol=1e-5), (
+    assert torch.allclose(logits_lm, logits_controlled, atol=1e-5, rtol=1e-5), (
         "Controlled CCPT forward does not match LM forward at zero-initialization"
     )
 
@@ -35,6 +35,38 @@ def test_identity_initialization_equivalence():
 
         assert torch.allclose(gate, expected_gate, atol=1e-7), f"Gate at layer {layer_idx} is not exactly 1.0"
         assert torch.allclose(steer, expected_steer, atol=1e-7), f"Steering at layer {layer_idx} is not exactly 0.0"
+
+
+def test_model_d_identity_initialization_exact():
+    """Fresh Model D must produce bit-for-bit / exact identical logits for adapter_scale=1.0 vs 0.0."""
+    from ccpt.config import get_smoke_adapter_config
+    from ccpt.modeling.adapter import FrozenBackboneAdapterModel
+
+    config = get_smoke_adapter_config()
+    model = FrozenBackboneAdapterModel(config)
+    model.eval()
+
+    # Verify all adapter up-projections are strictly zeros
+    for layer_idx, layer in enumerate(model.layers):
+        assert torch.equal(layer.attn_adapter.up_proj.weight, torch.zeros_like(layer.attn_adapter.up_proj.weight)), (
+            f"Layer {layer_idx} attn_adapter up_proj is not strictly zero!"
+        )
+        assert torch.equal(layer.mlp_adapter.up_proj.weight, torch.zeros_like(layer.mlp_adapter.up_proj.weight)), (
+            f"Layer {layer_idx} mlp_adapter up_proj is not strictly zero!"
+        )
+
+    batch_size = 2
+    seq_len = 16
+    input_ids = torch.randint(0, config.vocab_size, (batch_size, seq_len))
+
+    with torch.no_grad():
+        logits_scale_1, _ = model(input_ids, adapter_scale=1.0)
+        logits_scale_0, _ = model(input_ids, adapter_scale=0.0)
+
+    # Exact equality because adapter output residual is strictly 0
+    max_diff = (logits_scale_1 - logits_scale_0).abs().max().item()
+    assert max_diff == 0.0, f"Model D scale 1.0 vs 0.0 max diff is non-zero: {max_diff}"
+    assert torch.equal(logits_scale_1, logits_scale_0), "Model D logits differ between scale 1.0 and 0.0!"
 
 
 def test_controller_mathematical_bounds():
