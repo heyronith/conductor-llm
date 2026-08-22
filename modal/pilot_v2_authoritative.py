@@ -236,6 +236,7 @@ def train_authoritative_1b_trunk(
                     "status": "already_completed",
                     "model_type": model_type,
                     "final_checkpoint_path": str(final_ckpt_path),
+                    "final_checkpoint_sha256": ckpt_sha,
                     "checkpoint_sha256": ckpt_sha,
                     "tokens_seen": 999_981_056,
                     "data_cursor": 976_544,
@@ -601,6 +602,7 @@ def train_authoritative_20m_safety(
                     "status": "already_completed",
                     "model_type": model_type,
                     "final_checkpoint_path": str(safety_final_ckpt_path),
+                    "final_checkpoint_sha256": final_sha,
                     "checkpoint_sha256": final_sha,
                     "tokens_seen": ckpt.get("tokens_seen"),
                 }
@@ -1118,6 +1120,7 @@ def train_authoritative_persistence_continuation(
                     "status": "already_completed",
                     "model_type": model_type,
                     "final_checkpoint_path": str(final_ckpt_path),
+                    "final_checkpoint_sha256": final_sha,
                     "checkpoint_sha256": final_sha,
                 }
         except Exception:
@@ -1419,7 +1422,8 @@ def main():
             model_type=m,
             data_manifest_hash=manifest_hash,
         )
-        print(f"1B LM {m} completed: Checkpoint SHA = {lm_results[m]['final_checkpoint_sha256'][:16]}...", flush=True)
+        ckpt_sha = lm_results[m].get("final_checkpoint_sha256") or lm_results[m].get("checkpoint_sha256", "UNKNOWN")
+        print(f"1B LM {m} completed: Checkpoint SHA = {ckpt_sha[:16]}...", flush=True)
 
     # 3. Clean 1B Evaluation
     print("\n--- [Phase 3/6] Clean 1B Capability Evaluation ---", flush=True)
@@ -1433,7 +1437,8 @@ def main():
     safety_results = {}
     for m in ["model_a", "model_b", "model_c", "model_d"]:
         safety_results[m] = train_authoritative_20m_safety.remote(model_type=m)
-        print(f"20M Safety {m} completed: Checkpoint SHA = {safety_results[m]['final_checkpoint_sha256'][:16]}...", flush=True)
+        s_sha = safety_results[m].get("final_checkpoint_sha256") or safety_results[m].get("checkpoint_sha256", "UNKNOWN")
+        print(f"20M Safety {m} completed: Checkpoint SHA = {s_sha[:16]}...", flush=True)
 
     # 5. Pre-Persistence Evaluation
     print("\n--- [Phase 5/6] Pre-Persistence Comprehensive Evaluation ---", flush=True)
