@@ -57,18 +57,24 @@ EXPECTED_TASK4_HASH = "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf
 
 
 def resolve_arrow_path(rel_path: str) -> Path:
-    """Finds prepared Arrow files across task4 volume mount locations or local repository paths."""
-    candidates = [
-        Path(f"/data_task4/{rel_path}"),
-        Path(f"/data/ccpt/{rel_path}"),
-        Path(f"/data/{rel_path}"),
-        Path(rel_path),
-        Path(f"data/{rel_path}"),
-    ]
-    for c in candidates:
-        if c.exists():
-            return c
-    raise FileNotFoundError(f"Could not locate prepared data for {rel_path}. Checked: {candidates}")
+    """Finds prepared Arrow files across task4 volume mount locations, revision subdirs, or local paths."""
+    base_dirs = [Path("/data_task4"), Path("/data/ccpt"), Path("/data"), Path("data"), Path(".")]
+    for base in base_dirs:
+        if not base.exists():
+            continue
+        direct = base / rel_path
+        if direct.exists():
+            return direct
+        matches = list(base.glob(f"**/{rel_path}"))
+        if matches:
+            return matches[0]
+        parts = Path(rel_path).parts
+        if len(parts) >= 2:
+            wildcard_matches = list(base.glob(f"{parts[0]}/**/{'/'.join(parts[1:])}"))
+            if wildcard_matches:
+                return wildcard_matches[0]
+    raise FileNotFoundError(f"Could not locate prepared data for {rel_path} across {base_dirs}")
+
 
 
 
