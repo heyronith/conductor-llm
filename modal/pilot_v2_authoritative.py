@@ -45,11 +45,31 @@ authoritative_image = (
 
 # Persistent Volumes
 data_volume = modal.Volume.from_name("ccpt-authoritative-data", create_if_missing=True)
+task4_data_volume = modal.Volume.from_name("ccpt-data", create_if_missing=True)
 runs_volume = modal.Volume.from_name("ccpt-authoritative-runs", create_if_missing=True)
+
+# HuggingFace Secret for authenticated streaming and WildGuard judge access
+hf_secrets = [modal.Secret.from_name("huggingface", create_if_missing=False)]
 
 TASK7_3_RUN_ID = "pilot_v2_authoritative_run_20260822"
 PRIMARY_SEED = 20260821
 EXPECTED_TASK4_HASH = "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097"
+
+
+def resolve_arrow_path(rel_path: str) -> Path:
+    """Finds prepared Arrow files across task4 volume mount locations or local repository paths."""
+    candidates = [
+        Path(f"/data_task4/{rel_path}"),
+        Path(f"/data/ccpt/{rel_path}"),
+        Path(f"/data/{rel_path}"),
+        Path(rel_path),
+        Path(f"data/{rel_path}"),
+    ]
+    for c in candidates:
+        if c.exists():
+            return c
+    raise FileNotFoundError(f"Could not locate prepared data for {rel_path}. Checked: {candidates}")
+
 
 
 # -----------------------------------------------------------------------------
@@ -77,7 +97,8 @@ def load_shards_into_tensor(shards_meta: List[Dict[str, Any]], sequence_length: 
 
 @app.function(
     image=authoritative_image,
-    volumes={"/data": data_volume},
+    volumes={"/data": data_volume, "/data_task4": task4_data_volume},
+    secrets=hf_secrets,
     cpu=4.0,
     memory=16384,
     timeout=7200,
@@ -114,13 +135,8 @@ def materialize_production_data_and_schedule() -> Dict[str, Any]:
     # 2. Safety Schedule Generation
     print("=== Generating Authoritative Safety Schedule ===", flush=True)
     t1 = time.time()
-    risk_arrow_path = Path("/data/wildguard/risk/train.arrow")
-    gen_arrow_path = Path("/data/wildguard/generation/train.arrow")
-
-    # Fallback to local test paths if not yet in /data
-    if not risk_arrow_path.exists() and Path("data/wildguard/risk/train.arrow").exists():
-        risk_arrow_path = Path("data/wildguard/risk/train.arrow")
-        gen_arrow_path = Path("data/wildguard/generation/train.arrow")
+    risk_arrow_path = resolve_arrow_path("wildguard/risk/train.arrow")
+    gen_arrow_path = resolve_arrow_path("wildguard/generation/train.arrow")
 
     risk_records = load_wildguard_records_arrow(risk_arrow_path, record_type="risk")
     gen_records = load_wildguard_records_arrow(gen_arrow_path, record_type="generation")
@@ -162,6 +178,7 @@ def materialize_production_data_and_schedule() -> Dict[str, Any]:
 @app.function(
     image=authoritative_image,
     volumes={"/data": data_volume, "/runs": runs_volume},
+    secrets=hf_secrets,
     gpu="H100!",
     timeout=28800,
 )
@@ -413,6 +430,7 @@ def train_authoritative_1b_trunk(
 @app.function(
     image=authoritative_image,
     volumes={"/data": data_volume, "/runs": runs_volume},
+    secrets=hf_secrets,
     gpu="L40S",
     timeout=3600,
 )
@@ -524,7 +542,8 @@ def evaluate_clean_1b_capability(
 
 @app.function(
     image=authoritative_image,
-    volumes={"/data": data_volume, "/runs": runs_volume},
+    volumes={"/data": data_volume, "/data_task4": task4_data_volume, "/runs": runs_volume},
+    secrets=hf_secrets,
     gpu="H100!",
     timeout=28800,
 )
@@ -593,11 +612,8 @@ def train_authoritative_20m_safety(
     batches_meta = schedule["batches"]
 
     # Load prepared Arrow data for batch assembly
-    risk_arrow_path = Path("/data/wildguard/risk/train.arrow")
-    gen_arrow_path = Path("/data/wildguard/generation/train.arrow")
-    if not risk_arrow_path.exists():
-        risk_arrow_path = Path("data/wildguard/risk/train.arrow")
-        gen_arrow_path = Path("data/wildguard/generation/train.arrow")
+    risk_arrow_path = resolve_arrow_path("wildguard/risk/train.arrow")
+    gen_arrow_path = resolve_arrow_path("wildguard/generation/train.arrow")
 
     risk_records = {r.example_id: r for r in load_wildguard_records_arrow(risk_arrow_path, record_type="risk")}
     gen_records = {r.example_id: r for r in load_wildguard_records_arrow(gen_arrow_path, record_type="generation")}
@@ -779,7 +795,8 @@ def train_authoritative_20m_safety(
 
 @app.function(
     image=authoritative_image,
-    volumes={"/data": data_volume, "/runs": runs_volume},
+    volumes={"/data": data_volume, "/data_task4": task4_data_volume, "/runs": runs_volume},
+    secrets=hf_secrets,
     gpu="L40S",
     timeout=7200,
 )
@@ -882,9 +899,7 @@ def evaluate_authoritative_complete_suite(
         }
 
     # 2. WildGuard Risk Validation (all 2,344 examples)
-    risk_val_path = Path("/data/wildguard/risk/validation.arrow")
-    if not risk_val_path.exists():
-        risk_val_path = Path("data/wildguard/risk/validation.arrow")
+    risk_val_path = resolve_arrow_path("wildguard/risk/validation.arrow")
     risk_val_recs = load_wildguard_records_arrow(risk_val_path, record_type="risk")
 
     risk_input_ids, risk_ends, risk_targets, _ = pad_and_collate_risk_records(risk_val_recs)
@@ -913,9 +928,7 @@ def evaluate_authoritative_complete_suite(
     raw_acc = float(correct.mean().item())
 
     # 3. WildGuard Safe Generation Validation (all 928 examples)
-    gen_val_path = Path("/data/wildguard/generation/validation.arrow")
-    if not gen_val_path.exists():
-        gen_val_path = Path("data/wildguard/generation/validation.arrow")
+    gen_val_path = resolve_arrow_path("wildguard/generation/validation.arrow")
     gen_val_recs = load_wildguard_records_arrow(gen_val_path, record_type="generation")
 
     gen_input_ids, gen_ends, _, _, gen_attn_mask = pad_and_collate_gen_records(gen_val_recs)
@@ -1050,6 +1063,7 @@ def evaluate_authoritative_complete_suite(
 @app.function(
     image=authoritative_image,
     volumes={"/data": data_volume, "/runs": runs_volume},
+    secrets=hf_secrets,
     gpu="H100!",
     timeout=14400,
 )
