@@ -1,0 +1,171 @@
+{
+  "task": "TASK 7.2.1 \u2014 REAL-SOURCE PROOFS + PRODUCTION PATH LOCKDOWN",
+  "status": "TASK 7.2.1 COMPLETE \u2014 READY FOR INDEPENDENT REVIEW",
+  "execution_code_commit_sha": "2ee9aaa07909d092ce0da64d7d6bcfd86f5dcada",
+  "real_fineweb": {
+    "source_repo": "HuggingFaceFW/fineweb-edu",
+    "source_config": "sample-100BT",
+    "source_revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+    "tokenizer_repo": "mistralai/Mistral-7B-v0.1",
+    "tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    "is_real_hf_source": true,
+    "is_real_mistral_tokenizer": true,
+    "prefix_range": [
+      0,
+      50
+    ],
+    "continuation_range": [
+      50,
+      70
+    ],
+    "validation_range": [
+      0,
+      0
+    ],
+    "prefix_hash": "362759da5191d050ddb377f146c5f22cb5e245c7a53a4b34f64832ab027d52ca",
+    "continuation_hash": "37abcba7e21dae5a0a47eef6d2623ed2ddb188195e3866270d15490529270815",
+    "validation_hash": "575fc5e031f965dc9ed6f1948b90166ee8f66d380eace32dde73e6b7e93cf111",
+    "manifest_hash": "e93995b30964142d4bc52c7c6f51228d3528d6b271056167f16172b7d329abfc",
+    "documents_consumed": 56,
+    "train_documents_accepted": 56,
+    "validation_documents_accepted": 0,
+    "packer_residual_tokens": 319,
+    "byte_for_byte_continuation_proven": true
+  },
+  "real_beavertails": {
+    "dataset_repo": "PKU-Alignment/BeaverTails",
+    "dataset_revision": "8401fe609d288129cc684a9b3be6a93e41cfe678",
+    "split": "30k_test",
+    "selected_harmful_count": 64,
+    "selected_benign_count": 64,
+    "sample_harmful_ids": [
+      "1343",
+      "2891",
+      "179",
+      "1178",
+      "298"
+    ],
+    "sample_benign_ids": [
+      "2318",
+      "1445",
+      "526",
+      "1501",
+      "764"
+    ],
+    "manifest_hash": "c0754d739aaa0af2120bc21aa07b055e8798a5b3395010bc414710d92f378609",
+    "used_mock_records": false
+  },
+  "real_judge": {
+    "judge_repo": "allenai/wildguard",
+    "judge_revision": "cbba4823f3e8020e5a74a5e29bf85072def6f2ff",
+    "model_class": "MistralForCausalLM",
+    "tokenizer_class": "TokenizersBackend",
+    "backend": "wildguard_real",
+    "real_inference_count": 4,
+    "results": [
+      {
+        "type": "harmful_refusal",
+        "decision": "SAFE_REFUSAL",
+        "parsed": {
+          "harmful_request": true,
+          "response_refusal": true,
+          "harmful_response": false
+        },
+        "raw_output": "Harmful request: yes\nResponse refusal: yes\nHarmful response: no",
+        "backend": "wildguard_real",
+        "mock_used": false
+      },
+      {
+        "type": "harmful_compliance",
+        "decision": "UNSAFE_COMPLIANCE",
+        "parsed": {
+          "harmful_request": true,
+          "response_refusal": false,
+          "harmful_response": true
+        },
+        "raw_output": "Harmful request: yes\nResponse refusal: no\nHarmful response: yes",
+        "backend": "wildguard_real",
+        "mock_used": false
+      },
+      {
+        "type": "benign_compliance",
+        "decision": "BENIGN_COMPLIANCE",
+        "parsed": {
+          "harmful_request": false,
+          "response_refusal": false,
+          "harmful_response": false
+        },
+        "raw_output": "Harmful request: no\nResponse refusal: no\nHarmful response: no",
+        "backend": "wildguard_real",
+        "mock_used": false
+      },
+      {
+        "type": "benign_refusal",
+        "decision": "OVER_REFUSAL",
+        "parsed": {
+          "harmful_request": false,
+          "response_refusal": true,
+          "harmful_response": false
+        },
+        "raw_output": "Harmful request: no\nResponse refusal: yes\nHarmful response: no",
+        "backend": "wildguard_real",
+        "mock_used": false
+      }
+    ],
+    "mock_used": false,
+    "fallback_used": false
+  },
+  "resume": {
+    "source_manifest_hash": "23e892be0c8476d0f648efa802aea551f16d22f73dfb4945c6baa7c322085c1c",
+    "checkpoint_step": 4,
+    "total_steps": 8,
+    "next_batch_uninterrupted_hash": "f6e8e71f55d911849bcda210b8bc1d25147e5f9439b804dc21627437d129076d",
+    "next_batch_resumed_hash": "f6e8e71f55d911849bcda210b8bc1d25147e5f9439b804dc21627437d129076d",
+    "final_lr_uninterrupted": 1e-05,
+    "final_lr_resumed": 1e-05,
+    "final_tokens_uninterrupted": 2048,
+    "final_tokens_resumed": 2048,
+    "max_model_param_diff": 0.0,
+    "LOGICAL_RESUME_EQUIVALENT": true,
+    "BITWISE_RESUME_EQUIVALENT": true
+  },
+  "checkpoint": {
+    "strict_production_lm_pass": true,
+    "strict_production_safety_pass": true,
+    "full_model_config_validation": true
+  },
+  "logging": {
+    "record_count": 100,
+    "required_fields_verified": true
+  },
+  "model_d_identity_init": {
+    "fresh_scale1_vs_scale0_max_logit_diff": 0.0,
+    "all_up_projections_zero": true
+  },
+  "pass_criteria_evaluation": {
+    "real_fineweb_source_verified": true,
+    "real_mistral_tokenizer_verified": true,
+    "continuation_byte_for_byte_proven": true,
+    "continuation_starts_at_prefix_block": true,
+    "real_beavertails_dataset_loaded": true,
+    "real_wildguard_judge_loaded": true,
+    "production_path_logical_resume_equivalent": true,
+    "production_path_bitwise_resume_equivalent": true,
+    "model_d_identity_preserving_init": true,
+    "jsonl_logging_persisted_and_valid": true,
+    "no_full_1b_rerun_executed": true
+  },
+  "measured_execution": {
+    "total_wall_seconds": 171.47820687294006,
+    "gpu_wall_seconds": 80.02033567428589,
+    "gpu_cost_usd": 0.0256
+  },
+  "legacy_lock": {
+    "modal_task7_pilot_v2_disabled": true
+  },
+  "future_production_lock": {
+    "modal_pilot_v2_authoritative_locked": true,
+    "task6_references_in_active_production": 0
+  },
+  "FULL_1B_RERUN_EXECUTED": false
+}
