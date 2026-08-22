@@ -104,3 +104,22 @@ class DataCollatorForSafeGenerationTraining:
             "risk_labels": torch.tensor(labels, dtype=torch.long),
             "example_ids": ex_ids,
         }
+
+
+def pad_and_collate_risk_records(
+    records: Sequence[Union[RiskRecord, Dict[str, Any]]],
+    pad_token_id: int = 2,
+):
+    collator = DataCollatorForRiskTraining(pad_token_id=pad_token_id)
+    res = collator(records)
+    return res["input_ids"], res["prompt_end_indices"], res["risk_labels"].float(), res["attention_mask"]
+
+
+def pad_and_collate_gen_records(
+    records: Sequence[Union[SafeGenerationRecord, Dict[str, Any]]],
+    pad_token_id: int = 2,
+):
+    collator = DataCollatorForSafeGenerationTraining(pad_token_id=pad_token_id)
+    res = collator(records)
+    return res["input_ids"], res["prompt_end_indices"], res["risk_labels"].float(), res["input_ids"], res["attention_mask"]
+
