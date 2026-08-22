@@ -9,13 +9,9 @@ import time
 from typing import Any, Dict, Optional, Union
 from zoneinfo import ZoneInfo
 
-# Frozen pricing constants dated 2026-08-21 (USD / GPU-hour)
-GPU_PRICES = {
-    "L40S": 1.9512,
-    "H100!": 3.9492,
-    "H100": 3.9492,
-    "H200": 4.5396,
-}
+from ccpt.training.cost import GPU_HOURLY_PRICES
+
+GPU_PRICES = GPU_HOURLY_PRICES
 
 
 class LiveProgressReporter:

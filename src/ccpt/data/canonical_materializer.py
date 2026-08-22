@@ -13,6 +13,7 @@ between 1B prefix and persistence continuation, and generates cryptographic mani
 Supports streaming directly from HuggingFaceFW/fineweb-edu with mistralai/Mistral-7B-v0.1.
 """
 
+import base64
 import hashlib
 import json
 import os
@@ -168,14 +169,14 @@ def materialize_bounded_canonical_fineweb_proof(
     val_blocks_target: int = 10,
     sequence_length: int = 1024,
     val_modulo: int = 1000,
+    max_val_docs_search: int = 100_000,
 ) -> Dict[str, Any]:
-    """Materializes bounded canonical FineWeb shards and proves continuation semantics byte-for-byte.
+    """Materializes bounded canonical FineWeb shards and proves continuation & validation semantics byte-for-byte.
 
-    Demonstrates:
-    1. Continuous stream produces prefix [0, N) and continuation [N, N+K) without packer reset.
-    2. Independent continuous stream produces [0, N+K) identically.
-    3. Continuation begins EXACTLY at block N.
-    4. Produces cryptographic hashes and verified manifest.
+    Executes three independent streaming passes:
+    PASS A — Continuous Train Stream: Collects [0, prefix_blocks_target) and [prefix_blocks_target, prefix_blocks_target + continuation_blocks_target) with ONE unbroken packer.
+    PASS B — Independent Train Replay: Opens a new stream and reproduces [0, prefix_blocks_target + continuation_blocks_target) byte-for-byte.
+    PASS C — Validation Stream: Opens a new stream and collects EXACTLY val_blocks_target validation blocks without arbitrary document truncation.
     """
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
@@ -189,9 +190,10 @@ def materialize_bounded_canonical_fineweb_proof(
         or (hasattr(tokenizer, "__len__") and len(tokenizer) == 32000 and getattr(tokenizer, "bos_token_id", None) == 1)
     )
 
-    # 2. Load real HF stream if document iterable not provided
-    is_real_source = False
-    if document_iterable is None:
+    # Helper to obtain a fresh HF streaming iterator if document_iterable not provided
+    is_real_source = (document_iterable is None)
+
+    def _get_fresh_hf_stream() -> Iterator[Dict[str, Any]]:
         from datasets import load_dataset
         hf_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
         if not hf_token and Path(".env").exists():
@@ -200,7 +202,7 @@ def materialize_bounded_canonical_fineweb_proof(
                     hf_token = line.strip()
                     break
 
-        hf_ds = load_dataset(
+        ds = load_dataset(
             FINEWEB_SOURCE_REPO,
             FINEWEB_SOURCE_CONFIG,
             revision=FINEWEB_SOURCE_REVISION,
@@ -208,22 +210,12 @@ def materialize_bounded_canonical_fineweb_proof(
             streaming=True,
             token=hf_token,
         )
-        is_real_source = True
-        
-        # Buffer enough documents for both the primary run and the independent replay
-        # To get 70 train blocks (71,680 tokens) + 10 val blocks (10,240 tokens), ~200-300 docs is plenty
-        docs_buffer: List[Dict[str, Any]] = []
-        for i, item in enumerate(hf_ds):
-            doc_id = str(item.get("id", f"doc_{i:06d}"))
-            text = item.get("text", "")
-            docs_buffer.append({"id": doc_id, "text": text})
-            if len(docs_buffer) >= 600:
-                break
-        docs = docs_buffer
-    else:
-        docs = list(document_iterable)
+        for item in ds:
+            yield {"id": str(item.get("id", "")), "text": item.get("text", "")}
 
-    # 3. Run canonical continuous train stream
+    # =========================================================================
+    # PASS A: Train Continuous Stream ([0, 50) prefix + [50, 70) continuation)
+    # =========================================================================
     train_stream = CanonicalFineWebStream(
         tokenizer=tokenizer,
         sequence_length=sequence_length,
@@ -233,11 +225,13 @@ def materialize_bounded_canonical_fineweb_proof(
 
     prefix_blocks: List[np.ndarray] = []
     continuation_blocks: List[np.ndarray] = []
-    docs_consumed = 0
+    train_docs_consumed = 0
     train_docs_accepted = 0
 
-    for doc in docs:
-        docs_consumed += 1
+    stream_a = _get_fresh_hf_stream() if is_real_source else iter(list(document_iterable))
+
+    for doc in stream_a:
+        train_docs_consumed += 1
         doc_id = str(doc.get("id", ""))
         text = doc.get("text", "")
         if not is_validation_document(doc_id, val_modulo=val_modulo):
@@ -252,7 +246,16 @@ def materialize_bounded_canonical_fineweb_proof(
         if len(prefix_blocks) == prefix_blocks_target and len(continuation_blocks) == continuation_blocks_target:
             break
 
-    # 4. Run independent reference stream for full [0, N+K)
+    if len(prefix_blocks) != prefix_blocks_target or len(continuation_blocks) != continuation_blocks_target:
+        raise RuntimeError(
+            f"Pass A failed to collect required train blocks: "
+            f"prefix={len(prefix_blocks)}/{prefix_blocks_target}, "
+            f"continuation={len(continuation_blocks)}/{continuation_blocks_target}"
+        )
+
+    # =========================================================================
+    # PASS B: Independent Train Replay ([0, 70) from start)
+    # =========================================================================
     ref_stream = CanonicalFineWebStream(
         tokenizer=tokenizer,
         sequence_length=sequence_length,
@@ -260,7 +263,12 @@ def materialize_bounded_canonical_fineweb_proof(
         val_modulo=val_modulo,
     )
     ref_blocks: List[np.ndarray] = []
-    for doc in docs:
+    replay_docs_consumed = 0
+
+    stream_b = _get_fresh_hf_stream() if is_real_source else iter(list(document_iterable))
+
+    for doc in stream_b:
+        replay_docs_consumed += 1
         doc_id = str(doc.get("id", ""))
         text = doc.get("text", "")
         blks = ref_stream.process_document(text, doc_id)
@@ -270,18 +278,20 @@ def materialize_bounded_canonical_fineweb_proof(
         if len(ref_blocks) == (prefix_blocks_target + continuation_blocks_target):
             break
 
-    # Prove byte-for-byte equality
-    assert len(prefix_blocks) == prefix_blocks_target, f"Collected {len(prefix_blocks)} prefix blocks, expected {prefix_blocks_target}"
-    assert len(continuation_blocks) == continuation_blocks_target, f"Collected {len(continuation_blocks)} continuation blocks, expected {continuation_blocks_target}"
-    assert len(ref_blocks) == prefix_blocks_target + continuation_blocks_target
+    assert len(ref_blocks) == prefix_blocks_target + continuation_blocks_target, "Pass B replay block count mismatch"
 
+    # Assert byte-for-byte equality
     for i in range(prefix_blocks_target):
-        assert np.array_equal(prefix_blocks[i], ref_blocks[i]), f"Prefix block {i} mismatch with reference"
+        assert np.array_equal(prefix_blocks[i], ref_blocks[i]), f"Prefix block {i} mismatch with replay"
 
     for j in range(continuation_blocks_target):
-        assert np.array_equal(continuation_blocks[j], ref_blocks[prefix_blocks_target + j]), f"Continuation block {j} mismatch with reference block {prefix_blocks_target + j}"
+        assert np.array_equal(continuation_blocks[j], ref_blocks[prefix_blocks_target + j]), (
+            f"Continuation block {j} mismatch with replay block {prefix_blocks_target + j}"
+        )
 
-    # 5. Run validation stream
+    # =========================================================================
+    # PASS C: Validation Continuous Stream (Stream until EXACTLY 10 val blocks)
+    # =========================================================================
     val_stream = CanonicalFineWebStream(
         tokenizer=tokenizer,
         sequence_length=sequence_length,
@@ -289,18 +299,34 @@ def materialize_bounded_canonical_fineweb_proof(
         val_modulo=val_modulo,
     )
     val_blocks: List[np.ndarray] = []
+    val_docs_consumed = 0
     val_docs_accepted = 0
-    for doc in docs:
+
+    stream_c = _get_fresh_hf_stream() if is_real_source else iter(list(document_iterable))
+
+    for doc in stream_c:
+        val_docs_consumed += 1
         doc_id = str(doc.get("id", ""))
         text = doc.get("text", "")
         if is_validation_document(doc_id, val_modulo=val_modulo):
             val_docs_accepted += 1
-        blks = val_stream.process_document(text, doc_id)
-        for b in blks:
-            if len(val_blocks) < val_blocks_target:
-                val_blocks.append(b)
-        if len(val_blocks) == val_blocks_target:
+            blks = val_stream.process_document(text, doc_id)
+            for b in blks:
+                if len(val_blocks) < val_blocks_target:
+                    val_blocks.append(b)
+
+            if len(val_blocks) == val_blocks_target:
+                break
+
+        if val_docs_consumed >= max_val_docs_search:
             break
+
+    if len(val_blocks) != val_blocks_target:
+        raise RuntimeError(
+            f"Pass C failed: collected {len(val_blocks)}/{val_blocks_target} validation blocks "
+            f"after examining {val_docs_consumed} documents (accepted {val_docs_accepted} val docs). "
+            f"Strict validation proof requires EXACTLY {val_blocks_target} validation blocks."
+        )
 
     # 6. Write shards and record metadata
     prefix_shard_path = out_path / "train_prefix_shard_000.bin"
@@ -315,6 +341,7 @@ def materialize_bounded_canonical_fineweb_proof(
     meta_prefix["num_blocks"] = len(prefix_blocks)
     meta_prefix["num_tokens"] = len(prefix_blocks) * sequence_length
     meta_prefix["num_bytes"] = len(prefix_blocks) * sequence_length * 2
+    meta_prefix["raw_bytes_b64"] = base64.b64encode(prefix_shard_path.read_bytes()).decode("ascii")
 
     meta_cont = write_token_shard(continuation_blocks, cont_shard_path)
     meta_cont["shard_id"] = "persistence_continuation_000"
@@ -340,10 +367,10 @@ def materialize_bounded_canonical_fineweb_proof(
         val_shards=[meta_val],
         train_prefix_blocks=prefix_blocks_target,
         persistence_blocks=continuation_blocks_target,
-        val_blocks=len(val_blocks),
+        val_blocks=val_blocks_target,
         sequence_length=sequence_length,
         packer_residual_tokens=train_stream.packer.remaining_tokens(),
-        docs_consumed=docs_consumed,
+        docs_consumed=train_docs_consumed,
         train_docs_accepted=train_docs_accepted,
         val_docs_accepted=val_docs_accepted,
         real_hf_source=is_real_source,
@@ -354,6 +381,13 @@ def materialize_bounded_canonical_fineweb_proof(
     with open(manifest_path, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=2)
 
+    val_hash = manifest["validation"]["logical_validation_hash"]
+    canonical_val_proven = (
+        len(val_blocks) == val_blocks_target
+        and val_blocks_target == 10
+        and bool(val_hash)
+    )
+
     return {
         "manifest": manifest,
         "manifest_path": str(manifest_path),
@@ -362,16 +396,19 @@ def materialize_bounded_canonical_fineweb_proof(
         "val_blocks_count": len(val_blocks),
         "prefix_hash": manifest["train_prefix"]["logical_prefix_hash"],
         "continuation_hash": manifest["persistence_continuation"]["logical_continuation_hash"],
-        "val_hash": manifest["validation"]["logical_validation_hash"],
+        "val_hash": val_hash,
         "manifest_hash": manifest["manifest_hash"],
         "continuation_starts_at_block": prefix_blocks_target,
         "byte_for_byte_continuation_proven": True,
-        "documents_consumed": docs_consumed,
+        "train_docs_consumed": train_docs_consumed,
+        "replay_docs_consumed": replay_docs_consumed,
+        "val_docs_consumed": val_docs_consumed,
         "train_documents_accepted": train_docs_accepted,
         "val_documents_accepted": val_docs_accepted,
         "packer_residual_tokens": train_stream.packer.remaining_tokens(),
         "REAL_HF_FINEWEB_SOURCE": is_real_source,
         "REAL_MISTRAL_TOKENIZER": is_real_mistral,
+        "canonical_validation_proven": canonical_val_proven,
         "prefix_shard_path": str(prefix_shard_path),
         "continuation_shard_path": str(cont_shard_path),
         "val_shard_path": str(val_shard_path),

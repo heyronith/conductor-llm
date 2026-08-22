@@ -33,6 +33,7 @@ from ccpt.data.canonical_materializer import (
     TARGET_VAL_BLOCKS,
     TOKENIZER_REPO,
     TOKENIZER_REVISION,
+    load_canonical_mistral_tokenizer,
     materialize_bounded_canonical_fineweb_proof,
 )
 from ccpt.evaluation.behavioral import (
@@ -55,7 +56,7 @@ from ccpt.training.checkpoint import (
     save_checkpoint,
 )
 from ccpt.training.cost import aggregate_measured_costs, compute_gpu_cost
-from ccpt.training.resume_proof import ReferenceTokenizer, run_production_path_resume_proof
+from ccpt.training.resume_proof import run_production_path_resume_proof
 
 
 def run_all_task7_2_proofs() -> Path:
@@ -71,7 +72,7 @@ def run_all_task7_2_proofs() -> Path:
     # Proof A: Canonical FineWeb Bounded Materialization & Continuation
     # -------------------------------------------------------------
     t0 = time.time()
-    tok = ReferenceTokenizer()
+    tok = load_canonical_mistral_tokenizer()
     docs = [
         {"id": f"canonical_doc_{i:04d}", "text": f"Canonical FineWeb text for document {i} with verified structure. " * 8}
         for i in range(150)
