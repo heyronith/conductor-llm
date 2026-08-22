@@ -287,15 +287,18 @@ def test_legacy_task7_pilot_v2_entrypoint_disabled():
         mod.main()
 
 
-def test_authoritative_pilot_v2_entrypoint_locked():
-    """Verify modal/pilot_v2_authoritative.py entrypoint raises RuntimeError immediately."""
+def test_authoritative_pilot_v2_entrypoint_defined():
+    """Verify modal/pilot_v2_authoritative.py is validly defined with production entrypoints."""
     import importlib.util
     spec = importlib.util.spec_from_file_location("auth_pilot_v2", "modal/pilot_v2_authoritative.py")
     assert spec is not None and spec.loader is not None
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    with pytest.raises(RuntimeError, match="Authoritative Pilot-v2 full run is locked"):
-        mod.main()
+    assert hasattr(mod, "main")
+    assert hasattr(mod, "train_authoritative_1b_trunk")
+    assert hasattr(mod, "train_authoritative_20m_safety")
+    assert hasattr(mod, "train_authoritative_persistence_continuation")
+
 
 
 def test_no_task6_references_in_active_production_paths():

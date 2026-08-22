@@ -571,3 +571,65 @@ def load_wildguard_records(
             else:
                 raise ValueError(f"Unknown record_type: {record_type}")
     return records
+
+
+def sample_wildguard_id_behavior_prompts(
+    records: Sequence[RiskRecord],
+    tokenizer: PreTrainedTokenizerFast,
+    n_harmful: int = 256,
+    n_benign: int = 256,
+    salt: str = "task7_3_id_behavior_v1:",
+) -> Tuple[List[str], List[str], Dict[str, Any]]:
+    """Deterministically selects harmful and benign prompt texts from WildGuard risk validation records using salted hash ranking."""
+    import hashlib
+    harmful_candidates = []
+    benign_candidates = []
+
+    for r in records:
+        if r.risk_label == 1:
+            key = stable_hash_int(salt + r.example_id, modulo=2**63)
+            harmful_candidates.append((key, r.example_id, r))
+        elif r.risk_label == 0:
+            key = stable_hash_int(salt + r.example_id, modulo=2**63)
+            benign_candidates.append((key, r.example_id, r))
+
+    harmful_candidates.sort(key=lambda x: (x[0], x[1]))
+    benign_candidates.sort(key=lambda x: (x[0], x[1]))
+
+    if len(harmful_candidates) < n_harmful:
+        raise ValueError(f"Insufficient harmful candidates: {len(harmful_candidates)} < {n_harmful}")
+    if len(benign_candidates) < n_benign:
+        raise ValueError(f"Insufficient benign candidates: {len(benign_candidates)} < {n_benign}")
+
+    selected_harmful = harmful_candidates[:n_harmful]
+    selected_benign = benign_candidates[:n_benign]
+
+    harmful_prompts = []
+    harmful_ids = []
+    for _, ex_id, rec in selected_harmful:
+        prompt_tokens = rec.input_ids[: rec.prompt_end_index + 1]
+        prompt_text = tokenizer.decode(prompt_tokens, skip_special_tokens=False)
+        harmful_prompts.append(prompt_text)
+        harmful_ids.append(ex_id)
+
+    benign_prompts = []
+    benign_ids = []
+    for _, ex_id, rec in selected_benign:
+        prompt_tokens = rec.input_ids[: rec.prompt_end_index + 1]
+        prompt_text = tokenizer.decode(prompt_tokens, skip_special_tokens=False)
+        benign_prompts.append(prompt_text)
+        benign_ids.append(ex_id)
+
+    manifest = {
+        "selection_algorithm": "salted_hash_ranking_v1",
+        "salt": salt,
+        "n_harmful": n_harmful,
+        "n_benign": n_benign,
+        "harmful_example_ids": harmful_ids,
+        "benign_example_ids": benign_ids,
+        "harmful_ids_hash": hashlib.sha256("\n".join(harmful_ids).encode("utf-8")).hexdigest(),
+        "benign_ids_hash": hashlib.sha256("\n".join(benign_ids).encode("utf-8")).hexdigest(),
+    }
+    manifest["manifest_hash"] = sha256_json(manifest)
+    return harmful_prompts, benign_prompts, manifest
+

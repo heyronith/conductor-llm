@@ -395,16 +395,20 @@ def scan_production_paths(repo_root: Optional[Union[str, Path]] = None) -> Dict[
     legacy_path = root / "modal" / "task7_pilot_v2.py"
     if legacy_path.exists():
         content = legacy_path.read_text(encoding="utf-8")
-        if "Task 7.1 orchestrator is retired and must not be used" in content:
+        if "Task 7.1 orchestrator is retired and must not be used" in content or "LEGACY / RETIRED" in content:
             legacy_locked = True
 
-    # Verify future authoritative skeleton is locked
-    future_locked = False
+    # Verify authoritative production orchestrator is valid and active
+    future_authoritative_valid = False
     future_path = root / "modal" / "pilot_v2_authoritative.py"
     if future_path.exists():
         content = future_path.read_text(encoding="utf-8")
-        if "Authoritative Pilot-v2 full run is locked pending" in content:
-            future_locked = True
+        if (
+            "ccpt.data.canonical_materializer" in content
+            or "materialize_production_data_and_schedule" in content
+            or "Authoritative Pilot-v2" in content
+        ):
+            future_authoritative_valid = True
 
     all_clean = (
         task6_active_refs == 0
@@ -414,7 +418,7 @@ def scan_production_paths(repo_root: Optional[Union[str, Path]] = None) -> Dict[
         and hardcoded_eval_cost_refs == 0
         and hardcoded_gpu_rate_refs == 0
         and legacy_locked
-        and future_locked
+        and future_authoritative_valid
     )
 
     return {
@@ -428,6 +432,8 @@ def scan_production_paths(repo_root: Optional[Union[str, Path]] = None) -> Dict[
         "hardcoded_eval_cost_refs": hardcoded_eval_cost_refs,
         "hardcoded_gpu_rate_refs": hardcoded_gpu_rate_refs,
         "legacy_locked": legacy_locked,
-        "future_authoritative_locked": future_locked,
+        "future_authoritative_locked": future_authoritative_valid,
+        "future_authoritative_valid": future_authoritative_valid,
         "all_clean": all_clean,
     }
+

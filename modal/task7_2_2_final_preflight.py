@@ -277,7 +277,10 @@ def main():
         "real_beavertails_loader_works": bool(bt_res.get("used_mock_records") is False and bt_res.get("harmful_count") == 64 and bt_res.get("benign_count") == 64),
         "real_wildguard_inference_works": bool(judge_res.get("backend") == "wildguard_real" and judge_res.get("real_inference_count", 0) > 0),
         "malformed_wildguard_output_raises": bool(judge_res.get("malformed_output_rejected") is True),
-        "substring_fallback_impossible": True,
+        "substring_fallback_impossible": bool(
+            hasattr(BehavioralSafetyJudge, "classify_harmful_response")
+            and "_validate_wildguard_parse" in str(BehavioralSafetyJudge.classify_harmful_response.__code__.co_names)
+        ),
         "resume_uses_same_1024_fineweb_proof": bool(resume_res.get("data_manifest_hash") == fineweb_res.get("manifest_hash") and resume_res.get("sequence_length") == 1024),
         "actual_task4_hash_used": bool(resume_res.get("task4_manifest_hash") == "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097"),
         "logical_resume_passes": bool(resume_res.get("LOGICAL_RESUME_EQUIVALENT") is True),
@@ -290,7 +293,7 @@ def main():
         "active_alternate_gpu_prices_zero": bool(prod_scan.get("hardcoded_gpu_rate_refs") == 0),
         "jsonl_full_fields_pass": jsonl_verified,
         "authoritative_full_run_skeleton_locked": bool(prod_scan.get("future_authoritative_locked") is True),
-        "no_full_1b_rerun_occurred": True,
+        "no_full_1b_rerun_occurred": bool(not Path("/runs/ccpt/task7_2_2").exists() or len(list(Path("/runs/ccpt/task7_2_2").glob("*.pt"))) == 0),
     }
 
     all_passed = all(pass_criteria.values())
