@@ -1,7 +1,7 @@
-"""Modal Task 7.1: Authoritative Pilot-v2 Corrective Execution.
+"""Modal Task 7.1: LEGACY / RETIRED / INVALID FOR AUTHORITATIVE RUNS.
 
-Fresh Canonical 1B Pretraining (A/B/C/D), Exact Parameter Matching, Checkpoint Format V2,
-Real Behavioral / Pinned OOD Evaluation, and 1,000-Step Pure LM Persistence Experiment.
+THIS SCRIPT IS PRESERVED FOR HISTORICAL PROVENANCE ONLY.
+DO NOT EXECUTE. USE THE AUDITED POST-TASK-7.2 PRODUCTION PIPELINE.
 """
 
 from datetime import datetime, timezone
@@ -1160,15 +1160,10 @@ def run_task7_1_persistence_experiment() -> Dict[str, Any]:
 @app.local_entrypoint()
 def main():
     """Executes Task 7.1 Pilot-v2 orchestration synchronously."""
-    from ccpt.training.checkpoint import CHECKPOINT_FORMAT_VERSION_V2
-
-    print("================================================================================", flush=True)
-    print("CCPT Task 7.1: Pilot-v2 Authoritative Corrective Execution")
-    print("================================================================================", flush=True)
-
-    # 1. CPU Preflight & Full Test Suite
-    print("\n--- Step 0: Remote CPU Preflight & Full Test Suite ---", flush=True)
-    preflight_res = run_task7_preflight_and_tests.remote()
+    raise RuntimeError(
+        "Task 7.1 orchestrator is retired and must not be used. "
+        "Use the audited post-Task-7.2 production pipeline."
+    )
 
     # 2. Canonical Data Materialization & Schedule Lock
     print("\n--- Step 1: Canonical Data Materialization & Schedule Lock ---", flush=True)

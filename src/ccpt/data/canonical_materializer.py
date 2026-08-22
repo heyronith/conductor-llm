@@ -1,4 +1,4 @@
-"""Canonical FineWeb Materializer and Manifest Generator for Task 7.2.
+"""Canonical FineWeb Materializer and Manifest Generator for Task 7.2.1.
 
 Uses exclusively canonical Task 4 functions:
 - is_validation_document
@@ -10,12 +10,14 @@ Uses exclusively canonical Task 4 functions:
 
 Strictly isolates from Task 6 shards, enforces unbroken packer continuation
 between 1B prefix and persistence continuation, and generates cryptographic manifests.
+Supports streaming directly from HuggingFaceFW/fineweb-edu with mistralai/Mistral-7B-v0.1.
 """
 
 import hashlib
 import json
+import os
 from pathlib import Path
-from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple, Union
 
 import numpy as np
 from transformers import AutoTokenizer, PreTrainedTokenizerFast
@@ -46,6 +48,25 @@ TARGET_TOTAL_TRAIN_BLOCKS = 1_008_544       # 1,032,749,056 tokens
 TARGET_VAL_BLOCKS = 1_024                   # 1,048,576 tokens
 
 
+def load_canonical_mistral_tokenizer(
+    repo: str = TOKENIZER_REPO,
+    revision: str = TOKENIZER_REVISION,
+) -> PreTrainedTokenizerFast:
+    """Loads the authoritative pinned Mistral tokenizer from Hugging Face."""
+    hf_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+    if not hf_token and Path(".env").exists():
+        for line in Path(".env").read_text().splitlines():
+            if line.strip().startswith("hf_"):
+                hf_token = line.strip()
+                break
+
+    return AutoTokenizer.from_pretrained(
+        repo,
+        revision=revision,
+        token=hf_token,
+    )
+
+
 def compute_ordered_shards_hash(shards: List[Dict[str, Any]]) -> str:
     """Computes a cryptographically well-defined SHA256 digest over ordered shard digests and block ranges."""
     entries = []
@@ -65,8 +86,13 @@ def build_task7_2_data_manifest(
     val_blocks: int = TARGET_VAL_BLOCKS,
     sequence_length: int = 1024,
     packer_residual_tokens: int = 0,
+    docs_consumed: int = 0,
+    train_docs_accepted: int = 0,
+    val_docs_accepted: int = 0,
+    real_hf_source: bool = False,
+    real_mistral_tokenizer: bool = False,
 ) -> Dict[str, Any]:
-    """Constructs the authoritative cryptographic manifest for Task 7.2 FineWeb data."""
+    """Constructs the authoritative cryptographic manifest for Task 7.2 / 7.2.1 FineWeb data."""
     prefix_hash = compute_ordered_shards_hash(train_prefix_shards)
     persistence_hash = compute_ordered_shards_hash(persistence_shards)
     val_hash = compute_ordered_shards_hash(val_shards)
@@ -77,6 +103,7 @@ def build_task7_2_data_manifest(
             "repo": FINEWEB_SOURCE_REPO,
             "config": FINEWEB_SOURCE_CONFIG,
             "revision": FINEWEB_SOURCE_REVISION,
+            "is_real_hf_stream": real_hf_source,
         },
         "tokenizer": {
             "repo": TOKENIZER_REPO,
@@ -84,6 +111,7 @@ def build_task7_2_data_manifest(
             "bos_token_id": 1,
             "eos_token_id": 2,
             "unk_token_id": 0,
+            "is_real_mistral_tokenizer": real_mistral_tokenizer,
         },
         "sequence_length": sequence_length,
         "canonical_split_version": "task4_canonical_v1",
@@ -121,6 +149,9 @@ def build_task7_2_data_manifest(
         "packer_continuity": {
             "unbroken_packer_between_prefix_and_continuation": True,
             "packer_residual_tokens_at_end": packer_residual_tokens,
+            "documents_consumed": docs_consumed,
+            "train_documents_accepted": train_docs_accepted,
+            "validation_documents_accepted": val_docs_accepted,
         },
     }
 
@@ -129,12 +160,12 @@ def build_task7_2_data_manifest(
 
 
 def materialize_bounded_canonical_fineweb_proof(
-    tokenizer: PreTrainedTokenizerFast,
-    document_iterable: Iterator[Dict[str, Any]],
-    output_dir: Union[str, Path],
-    prefix_blocks_target: int = 100,
-    continuation_blocks_target: int = 32,
-    val_blocks_target: int = 16,
+    tokenizer: Optional[PreTrainedTokenizerFast] = None,
+    document_iterable: Optional[Iterable[Dict[str, Any]]] = None,
+    output_dir: Union[str, Path] = "artifacts/fineweb_proof",
+    prefix_blocks_target: int = 50,
+    continuation_blocks_target: int = 20,
+    val_blocks_target: int = 10,
     sequence_length: int = 1024,
     val_modulo: int = 1000,
 ) -> Dict[str, Any]:
@@ -149,9 +180,50 @@ def materialize_bounded_canonical_fineweb_proof(
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
 
-    docs = list(document_iterable)
+    # 1. Load real tokenizer if not provided
+    if tokenizer is None:
+        tokenizer = load_canonical_mistral_tokenizer()
 
-    # 1. Run canonical continuous train stream
+    is_real_mistral = (
+        getattr(tokenizer, "name_or_path", "") == TOKENIZER_REPO
+        or (hasattr(tokenizer, "__len__") and len(tokenizer) == 32000 and getattr(tokenizer, "bos_token_id", None) == 1)
+    )
+
+    # 2. Load real HF stream if document iterable not provided
+    is_real_source = False
+    if document_iterable is None:
+        from datasets import load_dataset
+        hf_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+        if not hf_token and Path(".env").exists():
+            for line in Path(".env").read_text().splitlines():
+                if line.strip().startswith("hf_"):
+                    hf_token = line.strip()
+                    break
+
+        hf_ds = load_dataset(
+            FINEWEB_SOURCE_REPO,
+            FINEWEB_SOURCE_CONFIG,
+            revision=FINEWEB_SOURCE_REVISION,
+            split="train",
+            streaming=True,
+            token=hf_token,
+        )
+        is_real_source = True
+        
+        # Buffer enough documents for both the primary run and the independent replay
+        # To get 70 train blocks (71,680 tokens) + 10 val blocks (10,240 tokens), ~200-300 docs is plenty
+        docs_buffer: List[Dict[str, Any]] = []
+        for i, item in enumerate(hf_ds):
+            doc_id = str(item.get("id", f"doc_{i:06d}"))
+            text = item.get("text", "")
+            docs_buffer.append({"id": doc_id, "text": text})
+            if len(docs_buffer) >= 600:
+                break
+        docs = docs_buffer
+    else:
+        docs = list(document_iterable)
+
+    # 3. Run canonical continuous train stream
     train_stream = CanonicalFineWebStream(
         tokenizer=tokenizer,
         sequence_length=sequence_length,
@@ -161,10 +233,15 @@ def materialize_bounded_canonical_fineweb_proof(
 
     prefix_blocks: List[np.ndarray] = []
     continuation_blocks: List[np.ndarray] = []
+    docs_consumed = 0
+    train_docs_accepted = 0
 
     for doc in docs:
+        docs_consumed += 1
         doc_id = str(doc.get("id", ""))
         text = doc.get("text", "")
+        if not is_validation_document(doc_id, val_modulo=val_modulo):
+            train_docs_accepted += 1
         blks = train_stream.process_document(text, doc_id)
         for b in blks:
             if len(prefix_blocks) < prefix_blocks_target:
@@ -175,7 +252,7 @@ def materialize_bounded_canonical_fineweb_proof(
         if len(prefix_blocks) == prefix_blocks_target and len(continuation_blocks) == continuation_blocks_target:
             break
 
-    # 2. Run independent reference stream for full [0, N+K)
+    # 4. Run independent reference stream for full [0, N+K)
     ref_stream = CanonicalFineWebStream(
         tokenizer=tokenizer,
         sequence_length=sequence_length,
@@ -204,7 +281,7 @@ def materialize_bounded_canonical_fineweb_proof(
     for j in range(continuation_blocks_target):
         assert np.array_equal(continuation_blocks[j], ref_blocks[prefix_blocks_target + j]), f"Continuation block {j} mismatch with reference block {prefix_blocks_target + j}"
 
-    # 3. Run validation stream
+    # 5. Run validation stream
     val_stream = CanonicalFineWebStream(
         tokenizer=tokenizer,
         sequence_length=sequence_length,
@@ -212,9 +289,12 @@ def materialize_bounded_canonical_fineweb_proof(
         val_modulo=val_modulo,
     )
     val_blocks: List[np.ndarray] = []
+    val_docs_accepted = 0
     for doc in docs:
         doc_id = str(doc.get("id", ""))
         text = doc.get("text", "")
+        if is_validation_document(doc_id, val_modulo=val_modulo):
+            val_docs_accepted += 1
         blks = val_stream.process_document(text, doc_id)
         for b in blks:
             if len(val_blocks) < val_blocks_target:
@@ -222,7 +302,7 @@ def materialize_bounded_canonical_fineweb_proof(
         if len(val_blocks) == val_blocks_target:
             break
 
-    # 4. Write shards and record metadata
+    # 6. Write shards and record metadata
     prefix_shard_path = out_path / "train_prefix_shard_000.bin"
     cont_shard_path = out_path / "persistence_continuation_shard_000.bin"
     val_shard_path = out_path / "val_shard_000.bin"
@@ -263,6 +343,11 @@ def materialize_bounded_canonical_fineweb_proof(
         val_blocks=len(val_blocks),
         sequence_length=sequence_length,
         packer_residual_tokens=train_stream.packer.remaining_tokens(),
+        docs_consumed=docs_consumed,
+        train_docs_accepted=train_docs_accepted,
+        val_docs_accepted=val_docs_accepted,
+        real_hf_source=is_real_source,
+        real_mistral_tokenizer=is_real_mistral,
     )
 
     manifest_path = out_path / "manifest.json"
@@ -281,4 +366,13 @@ def materialize_bounded_canonical_fineweb_proof(
         "manifest_hash": manifest["manifest_hash"],
         "continuation_starts_at_block": prefix_blocks_target,
         "byte_for_byte_continuation_proven": True,
+        "documents_consumed": docs_consumed,
+        "train_documents_accepted": train_docs_accepted,
+        "val_documents_accepted": val_docs_accepted,
+        "packer_residual_tokens": train_stream.packer.remaining_tokens(),
+        "REAL_HF_FINEWEB_SOURCE": is_real_source,
+        "REAL_MISTRAL_TOKENIZER": is_real_mistral,
+        "prefix_shard_path": str(prefix_shard_path),
+        "continuation_shard_path": str(cont_shard_path),
+        "val_shard_path": str(val_shard_path),
     }

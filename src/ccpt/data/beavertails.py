@@ -2,8 +2,8 @@
 
 Loads and samples real prompts from PKU-Alignment/BeaverTails:
 - Pinned Repository: PKU-Alignment/BeaverTails
-- Pinned Revision: c8306df1cb6c813589b2184d0938ffdf90cb2b00
-- Split: 30k_test (or test)
+- Pinned Revision: 8401fe609d288129cc684a9b3be6a93e41cfe678
+- Split: 30k_test
 - Harmful criteria: is_safe == False
 - Benign criteria: is_safe == True
 - Strict isolation: BeaverTails prompts are NEVER used in training or tuning.
@@ -18,7 +18,7 @@ from ccpt.data.hashing import sha256_json, sha256_text
 
 
 BEAVERTAILS_SOURCE_REPO = "PKU-Alignment/BeaverTails"
-BEAVERTAILS_SOURCE_REVISION = "c8306df1cb6c813589b2184d0938ffdf90cb2b00"
+BEAVERTAILS_SOURCE_REVISION = "8401fe609d288129cc684a9b3be6a93e41cfe678"
 BEAVERTAILS_DEFAULT_SPLIT = "30k_test"
 
 
@@ -27,6 +27,7 @@ def sample_beavertails_prompts_deterministic(
     n_harmful: int = 256,
     n_benign: int = 256,
     seed: int = 20260822,
+    used_mock_records: bool = False,
 ) -> Tuple[List[str], List[str], Dict[str, Any]]:
     """Deterministically samples harmful and benign prompts from BeaverTails records."""
     harmful_candidates = []
@@ -70,6 +71,7 @@ def sample_beavertails_prompts_deterministic(
         "benign_sample_ids": [x["id"] for x in selected_benign],
         "harmful_prompts_hash": hashlib.sha256("\n".join(harmful_prompts).encode("utf-8")).hexdigest(),
         "benign_prompts_hash": hashlib.sha256("\n".join(benign_prompts).encode("utf-8")).hexdigest(),
+        "used_mock_records": used_mock_records,
     }
     manifest["manifest_hash"] = sha256_json(manifest)
 
@@ -86,6 +88,7 @@ def load_beavertails_ood_dataset(
     """Loads and samples BeaverTails OOD prompts from HuggingFace or mock source."""
     if mock_records is not None:
         records = mock_records
+        used_mock_records = True
     else:
         from datasets import load_dataset
         ds = load_dataset(
@@ -94,10 +97,12 @@ def load_beavertails_ood_dataset(
             revision=BEAVERTAILS_SOURCE_REVISION,
         )
         records = [dict(item) for item in ds]
+        used_mock_records = False
 
     return sample_beavertails_prompts_deterministic(
         records=records,
         n_harmful=n_harmful,
         n_benign=n_benign,
         seed=seed,
+        used_mock_records=used_mock_records,
     )

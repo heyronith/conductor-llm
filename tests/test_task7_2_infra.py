@@ -18,6 +18,7 @@ import json
 import os
 from pathlib import Path
 import tempfile
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 import pytest
 import torch
 import torch.nn as nn
@@ -92,8 +93,18 @@ from ccpt.training.checkpoint import (
 )
 from ccpt.training.cost import aggregate_measured_costs, compute_gpu_cost
 from ccpt.training.progress import LiveProgressReporter
-from ccpt.training.resume_proof import ReferenceTokenizer, run_production_path_resume_proof
+from ccpt.training.resume_proof import run_production_path_resume_proof
 from ccpt.training.scheduler import SafetyTokenCosineScheduler, TokenCosineScheduler
+
+
+class ReferenceTokenizer:
+    """Deterministic reference tokenizer for unit tests."""
+    bos_token_id = 1
+    eos_token_id = 2
+    unk_token_id = 0
+
+    def encode(self, text: str, add_special_tokens: bool = False) -> List[int]:
+        return [((ord(c) * 17 + 31) % 990) + 10 for c in text]
 
 
 # ==============================================================================
@@ -326,12 +337,14 @@ def test_checkpoint_v2_production_phase_requirements(tmp_path):
 
 def test_production_path_resume_proof_execution(tmp_path):
     """Verify real production-path resume proof achieves exact logical and bitwise equivalence."""
+    docs = [{"id": f"doc_{i}", "text": f"Production resume document text {i} with sufficient length for tokenization. " * 15} for i in range(50)]
     res = run_production_path_resume_proof(
         output_dir=tmp_path / "resume_proof",
         total_steps=8,
         interrupt_step=4,
         batch_size=4,
         seq_len=32,
+        document_iterable=docs,
     )
     assert res["LOGICAL_RESUME_EQUIVALENT"] is True
     assert res["BITWISE_RESUME_EQUIVALENT"] is True

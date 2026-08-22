@@ -1,7 +1,8 @@
-"""Real Production-Path Resume Proof for CCPT / Task 7.2.
+"""Real Production-Path Resume Proof for CCPT / Task 7.2.1.
 
 Demonstrates exact continuation and state restoration using:
-- Actual canonical Task 7.2 FineWeb materializer output
+- Actual canonical FineWeb stream (HuggingFaceFW/fineweb-edu@87f09149...)
+- Real Mistral tokenizer (mistralai/Mistral-7B-v0.1@27d67f1b...)
 - Production model architecture
 - AdamW optimizer
 - TokenCosineScheduler with full state serialization
@@ -11,7 +12,7 @@ Demonstrates exact continuation and state restoration using:
 
 import hashlib
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterable, List, Optional, Tuple, Union
 
 import numpy as np
 import torch
@@ -22,11 +23,13 @@ from ccpt.config import get_smoke_baseline_config
 from ccpt.data.canonical_materializer import (
     FINEWEB_SOURCE_REPO,
     FINEWEB_SOURCE_REVISION,
+    TOKENIZER_REPO,
+    TOKENIZER_REVISION,
     build_task7_2_data_manifest,
+    load_canonical_mistral_tokenizer,
     materialize_bounded_canonical_fineweb_proof,
 )
 from ccpt.data.hashing import sha256_bytes, sha256_file, sha256_json
-from ccpt.data.production_stream import CanonicalFineWebStream
 from ccpt.modeling.baseline import ParameterMatchedBaselineModel
 from ccpt.training.checkpoint import (
     CHECKPOINT_FORMAT_VERSION_V2,
@@ -36,24 +39,15 @@ from ccpt.training.checkpoint import (
 from ccpt.training.scheduler import TokenCosineScheduler
 
 
-class ReferenceTokenizer:
-    """Deterministic reference tokenizer for reproducible canonical data stream generation."""
-    bos_token_id = 1
-    eos_token_id = 2
-    unk_token_id = 0
-
-    def encode(self, text: str, add_special_tokens: bool = False) -> List[int]:
-        # Maps characters to distinct token IDs within vocab range [10, 1000]
-        return [((ord(c) * 17 + 31) % 990) + 10 for c in text]
-
-
 def run_production_path_resume_proof(
-    output_dir: Union[str, Path],
+    output_dir: Union[str, Path] = "artifacts/resume_proof",
     total_steps: int = 8,
     interrupt_step: int = 4,
     batch_size: int = 4,
     seq_len: int = 64,
     device: Optional[torch.device] = None,
+    materialized_manifest: Optional[Dict[str, Any]] = None,
+    document_iterable: Optional[Iterable[Dict[str, Any]]] = None,
 ) -> Dict[str, Any]:
     """Executes a real production-path resume proof comparing uninterrupted vs interrupted training."""
     if device is None:
@@ -62,24 +56,25 @@ def run_production_path_resume_proof(
     out_path = Path(output_dir)
     out_path.mkdir(parents=True, exist_ok=True)
 
-    # 1. Generate real canonical FineWeb data blocks
-    tok = ReferenceTokenizer()
-    docs = [
-        {"id": f"fineweb_doc_{i:04d}", "text": f"Production document {i} containing canonical language data for Task 7.2 resume verification. " * 8}
-        for i in range(120)
-    ]
-    data_dir = out_path / "canonical_data"
-    mat_res = materialize_bounded_canonical_fineweb_proof(
-        tokenizer=tok,
-        document_iterable=docs,
-        output_dir=data_dir,
-        prefix_blocks_target=total_steps * batch_size,
-        continuation_blocks_target=16,
-        val_blocks_target=8,
-        sequence_length=seq_len,
-        val_modulo=10,
-    )
-    manifest = mat_res["manifest"]
+    # 1. Load or materialize canonical FineWeb data blocks
+    tok = load_canonical_mistral_tokenizer()
+
+    if materialized_manifest is None:
+        data_dir = out_path / "canonical_data"
+        mat_res = materialize_bounded_canonical_fineweb_proof(
+            tokenizer=tok,
+            document_iterable=document_iterable,
+            output_dir=data_dir,
+            prefix_blocks_target=total_steps * batch_size,
+            continuation_blocks_target=16,
+            val_blocks_target=8,
+            sequence_length=seq_len,
+            val_modulo=10,
+        )
+        manifest = mat_res["manifest"]
+    else:
+        manifest = materialized_manifest
+
     data_manifest_hash = manifest["manifest_hash"]
     task4_manifest_hash = "task4_canonical_lineage_v1_proof_hash"
 
@@ -88,10 +83,10 @@ def run_production_path_resume_proof(
     raw_token_data = np.fromfile(prefix_shard_path, dtype=np.uint16)
     all_blocks = raw_token_data.reshape(-1, seq_len).astype(np.int64)
     total_blocks_available = all_blocks.shape[0]
-    assert total_blocks_available >= total_steps * batch_size
+    assert total_blocks_available >= total_steps * batch_size, f"Available blocks {total_blocks_available} < required {total_steps * batch_size}"
 
     cfg = get_smoke_baseline_config()
-    cfg.vocab_size = 1024
+    cfg.vocab_size = 32000
     cfg.max_seq_len = seq_len
 
     # ==========================================
@@ -324,6 +319,7 @@ def run_production_path_resume_proof(
         "checkpoint_step": interrupt_step,
         "total_steps": total_steps,
         "data_source": f"{FINEWEB_SOURCE_REPO}@{FINEWEB_SOURCE_REVISION}",
+        "tokenizer_source": f"{TOKENIZER_REPO}@{TOKENIZER_REVISION}",
         "data_manifest_hash": data_manifest_hash,
         "before_step_proof": before_step_match,
         "uninterrupted_step_records": uninterrupted_step_records,
@@ -332,6 +328,8 @@ def run_production_path_resume_proof(
         "final_tokens_resumed": sched_reconstructed.tokens_seen,
         "final_lr_uninterrupted": sched_uninterrupted.get_lr(),
         "final_lr_resumed": sched_reconstructed.get_lr(),
+        "next_batch_uninterrupted_hash": uninterrupted_step_records[interrupt_step]["batch_sha"],
+        "next_batch_resumed_hash": next_batch_sha,
         "max_model_param_diff": max_model_param_diff,
         "LOGICAL_RESUME_EQUIVALENT": logical_equivalent,
         "BITWISE_RESUME_EQUIVALENT": bitwise_equivalent,

@@ -57,6 +57,88 @@ PRODUCTION_SAFETY_PHASES = {
 }
 
 
+def _canonicalize_value(val: Any) -> Any:
+    """Canonicalizes tuples to lists and floats to standard representations for exact matching."""
+    if isinstance(val, (tuple, list)):
+        return [_canonicalize_value(v) for v in val]
+    if isinstance(val, float):
+        return round(val, 8)
+    return val
+
+
+def validate_model_config_exact_match(
+    expected_config: Union[BaselineConfig, DualStreamConfig, AdapterConfig, Dict[str, Any]],
+    saved_config: Dict[str, Any],
+) -> None:
+    """Performs deep, rigorous scientific validation of all architecture fields."""
+    expected_dict = expected_config if isinstance(expected_config, dict) else expected_config.__dict__
+
+    # Determine required fields based on architecture
+    if "n_layers_C" in expected_dict or "n_layers_N" in expected_dict:
+        # DualStreamConfig
+        critical_fields = [
+            "vocab_size",
+            "max_seq_len",
+            "n_layers_C",
+            "d_C",
+            "n_heads_C",
+            "d_ff_C",
+            "n_layers_N",
+            "d_N",
+            "n_heads_N",
+            "d_ff_N",
+            "controlled_layers",
+            "alpha",
+            "beta",
+            "rms_norm_eps",
+            "rope_theta",
+            "init_std",
+            "dropout",
+        ]
+    elif "d_mid" in expected_dict:
+        # AdapterConfig
+        critical_fields = [
+            "vocab_size",
+            "max_seq_len",
+            "n_layers",
+            "d_model",
+            "n_heads",
+            "d_ff",
+            "d_mid",
+            "rms_norm_eps",
+            "rope_theta",
+            "init_std",
+            "dropout",
+        ]
+    else:
+        # BaselineConfig
+        critical_fields = [
+            "vocab_size",
+            "max_seq_len",
+            "n_layers",
+            "d_model",
+            "n_heads",
+            "d_ff",
+            "rms_norm_eps",
+            "rope_theta",
+            "init_std",
+            "dropout",
+        ]
+
+    for key in critical_fields:
+        if key in expected_dict:
+            if key not in saved_config:
+                raise ValueError(
+                    f"Checkpoint model_config missing required scientific field '{key}'! Expected: {expected_dict[key]}"
+                )
+            exp_val = _canonicalize_value(expected_dict[key])
+            saved_val = _canonicalize_value(saved_config[key])
+            if exp_val != saved_val:
+                raise ValueError(
+                    f"Checkpoint model_config mismatch on '{key}'! Saved: {saved_val}, Expected: {exp_val}"
+                )
+
+
 def validate_checkpoint_lineage(
     checkpoint_paths: Sequence[Union[str, Path]],
     expected_task4_hash: Optional[str] = None,
@@ -154,10 +236,7 @@ def save_checkpoint(
     stream_identity: str = "fineweb-edu-100BT",
     scheduler: Optional[Any] = None,
 ) -> Path:
-    """Saves model state, optimizer state, scheduler, RNG states, and locked hashes atomically.
-
-    Supports both V1 and full-lineage V2 formats.
-    """
+    """Saves model state, optimizer state, scheduler, RNG states, and locked hashes atomically."""
     path = Path(checkpoint_path)
     path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -222,7 +301,7 @@ def load_checkpoint(
 ) -> Dict[str, Any]:
     """Loads a checkpoint and strictly validates locked data hashes and format integrity.
 
-    Raises ValueError loudly on any hash mismatch, missing required V2 field, or model type mismatch.
+    Raises ValueError loudly on any hash mismatch, missing required V2 field, or model config mismatch.
     """
     path = Path(checkpoint_path)
     if not path.exists():
@@ -261,6 +340,12 @@ def load_checkpoint(
                 raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-null 'optimizer_state_dict'")
             if state.get("scheduler_state") is None:
                 raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-null 'scheduler_state'")
+            if not state.get("data_manifest_hash"):
+                raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-empty 'data_manifest_hash'")
+            if not state.get("task4_manifest_hash"):
+                raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-empty 'task4_manifest_hash'")
+            if not state.get("stream_identity"):
+                raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-empty 'stream_identity'")
             if not state.get("safety_schedule_hash"):
                 raise ValueError(f"Production Safety checkpoint ({ckpt_phase}) requires non-empty 'safety_schedule_hash'")
             if not state.get("model_config"):
@@ -316,14 +401,8 @@ def load_checkpoint(
             )
 
     if expected_model_config is not None:
-        expected_dict = expected_model_config if isinstance(expected_model_config, dict) else expected_model_config.__dict__
         saved_dict = state.get("model_config", {})
-        for key in ["d_model", "n_layers", "n_heads", "vocab_size", "max_seq_len"]:
-            if key in expected_dict and key in saved_dict:
-                if expected_dict[key] != saved_dict[key]:
-                    raise ValueError(
-                        f"Checkpoint model_config mismatch on '{key}'! Saved: {saved_dict[key]}, Expected: {expected_dict[key]}"
-                    )
+        validate_model_config_exact_match(expected_model_config, saved_dict)
 
     return state
 

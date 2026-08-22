@@ -31,13 +31,18 @@ class LiveProgressReporter:
         phase: str = "LM",
         gpu_type: str = "H100!",
         jsonl_path: Optional[Union[str, Path]] = None,
+        require_jsonl: bool = False,
     ):
+        if require_jsonl and not jsonl_path:
+            raise ValueError("require_jsonl=True but jsonl_path is None or empty. Production reporting requires explicit JSONL persistence.")
+
         self.task_name = task_name
         self.total_steps = total_steps
         self.total_tokens = total_tokens
         self.model_name = model_name
         self.phase = phase
         self.gpu_type = gpu_type
+        self.require_jsonl = require_jsonl
         self.gpu_price_per_sec = GPU_PRICES.get(gpu_type, 3.9492) / 3600.0
 
         self.jsonl_path = Path(jsonl_path) if jsonl_path else None
