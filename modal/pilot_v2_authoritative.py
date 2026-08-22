@@ -906,23 +906,34 @@ def evaluate_authoritative_complete_suite(
             "total_tokens": tot_toks,
         }
 
-    # 2. WildGuard Risk Validation (all 2,344 examples)
+    # 2. WildGuard Risk Validation (all 2,344 examples) - Batched evaluation
     risk_val_path = resolve_arrow_path("wildguard/risk/validation.arrow")
     risk_val_recs = load_wildguard_records_arrow(risk_val_path, record_type="risk")
 
-    risk_input_ids, risk_ends, risk_targets, _ = pad_and_collate_risk_records(risk_val_recs)
-    risk_input_ids = risk_input_ids.to(device)
-    risk_ends = risk_ends.to(device)
-    risk_targets = risk_targets.to(device)
+    risk_preds_list = []
+    risk_targets_list = []
+    eval_batch_size = 32
 
-    with torch.no_grad():
-        with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
-            if model_type in ["model_b", "model_c"]:
-                _, risk_preds_logits = model(risk_input_ids, prompt_end_indices=risk_ends, mode="controlled", controller_scale=1.0)
-            elif model_type == "model_d":
-                _, risk_preds_logits = model(risk_input_ids, prompt_end_indices=risk_ends, adapter_scale=1.0)
-            else:
-                _, risk_preds_logits = model(risk_input_ids, prompt_end_indices=risk_ends)
+    for i in range(0, len(risk_val_recs), eval_batch_size):
+        chunk = risk_val_recs[i : i + eval_batch_size]
+        b_input_ids, b_ends, b_targets, _ = pad_and_collate_risk_records(chunk)
+        b_input_ids = b_input_ids.to(device)
+        b_ends = b_ends.to(device)
+        b_targets = b_targets.to(device)
+
+        with torch.no_grad():
+            with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
+                if model_type in ["model_b", "model_c"]:
+                    _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends, mode="controlled", controller_scale=1.0)
+                elif model_type == "model_d":
+                    _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends, adapter_scale=1.0)
+                else:
+                    _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends)
+        risk_preds_list.append(b_risk_preds_logits.detach().cpu())
+        risk_targets_list.append(b_targets.detach().cpu())
+
+    risk_preds_logits = torch.cat(risk_preds_list, dim=0)
+    risk_targets = torch.cat(risk_targets_list, dim=0)
 
     bce_loss = float(F.binary_cross_entropy_with_logits(risk_preds_logits, risk_targets).item())
     preds_binary = (risk_preds_logits > 0.0).float()
@@ -935,25 +946,33 @@ def evaluate_authoritative_complete_suite(
     balanced_acc = 0.5 * (harmful_acc + benign_acc)
     raw_acc = float(correct.mean().item())
 
-    # 3. WildGuard Safe Generation Validation (all 928 examples)
+    # 3. WildGuard Safe Generation Validation (all 928 examples) - Batched evaluation
     gen_val_path = resolve_arrow_path("wildguard/generation/validation.arrow")
     gen_val_recs = load_wildguard_records_arrow(gen_val_path, record_type="generation")
 
-    gen_input_ids, gen_ends, _, _, gen_attn_mask = pad_and_collate_gen_records(gen_val_recs)
-    gen_input_ids = gen_input_ids.to(device)
-    gen_ends = gen_ends.to(device)
-    gen_attn_mask = gen_attn_mask.to(device)
+    tot_gen_loss = 0.0
+    tot_gen_recs = 0
 
-    with torch.no_grad():
-        with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
-            if model_type in ["model_b", "model_c"]:
-                gen_logits, _ = model(gen_input_ids, prompt_end_indices=gen_ends, mode="controlled", controller_scale=1.0)
-            elif model_type == "model_d":
-                gen_logits, _ = model(gen_input_ids, prompt_end_indices=gen_ends, adapter_scale=1.0)
-            else:
-                gen_logits, _ = model(gen_input_ids, prompt_end_indices=gen_ends)
+    for i in range(0, len(gen_val_recs), eval_batch_size):
+        chunk = gen_val_recs[i : i + eval_batch_size]
+        b_input_ids, b_ends, _, _, b_attn_mask = pad_and_collate_gen_records(chunk)
+        b_input_ids = b_input_ids.to(device)
+        b_ends = b_ends.to(device)
+        b_attn_mask = b_attn_mask.to(device)
 
-    safe_gen_loss = float(compute_safe_generation_loss(gen_logits, gen_input_ids, gen_ends, attention_mask=gen_attn_mask).item())
+        with torch.no_grad():
+            with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
+                if model_type in ["model_b", "model_c"]:
+                    b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends, mode="controlled", controller_scale=1.0)
+                elif model_type == "model_d":
+                    b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends, adapter_scale=1.0)
+                else:
+                    b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends)
+        b_loss = compute_safe_generation_loss(b_gen_logits, b_input_ids, b_ends, attention_mask=b_attn_mask)
+        tot_gen_loss += float(b_loss.item()) * len(chunk)
+        tot_gen_recs += len(chunk)
+
+    safe_gen_loss = tot_gen_loss / max(1, tot_gen_recs)
 
     # 4. In-Distribution (ID) Behavioral Benchmark (256 harmful + 256 benign)
     id_harmful_prompts, id_benign_prompts, id_selection_manifest = sample_wildguard_id_behavior_prompts(
@@ -963,6 +982,7 @@ def evaluate_authoritative_complete_suite(
         n_benign=256,
     )
 
+    torch.cuda.empty_cache()
     judge = BehavioralSafetyJudge(use_mock=False, device="cuda:0")
 
     id_behavior_on = evaluate_behavioral_safety(
