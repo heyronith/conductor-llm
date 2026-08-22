@@ -49,7 +49,7 @@ task4_data_volume = modal.Volume.from_name("ccpt-data", create_if_missing=True)
 runs_volume = modal.Volume.from_name("ccpt-authoritative-runs", create_if_missing=True)
 
 # HuggingFace Secret for authenticated streaming and WildGuard judge access
-hf_secrets = [modal.Secret.from_name("huggingface", create_if_missing=False)]
+hf_secrets = [modal.Secret.from_name("huggingface")]
 
 TASK7_3_RUN_ID = "pilot_v2_authoritative_run_20260822"
 PRIMARY_SEED = 20260821
