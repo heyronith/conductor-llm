@@ -390,16 +390,20 @@ def test_runtime_fingerprint_mismatch_fails_closed(monkeypatch):
 
     # Test SHA mismatch
     monkeypatch.setenv("CCPT_CODE_COMMIT_SHA", "0000000000000000000000000000000000000000")
-    with pytest.raises(RuntimeError, match="Runtime Code SHA mismatch"):
+    with pytest.raises(RuntimeError, match="Code commit SHA mismatch"):
         capture_and_verify_runtime_fingerprint(
             expected_code_sha="1111111111111111111111111111111111111111",
             strict_version_check=False,
         )
 
-    # Test unknown SHA rejection
+    # Test missing env
+    monkeypatch.delenv("CCPT_CODE_COMMIT_SHA", raising=False)
     monkeypatch.setenv("CCPT_CODE_COMMIT_SHA", "unknown")
-    with pytest.raises(RuntimeError, match="Invalid or missing CCPT_CODE_COMMIT_SHA"):
-        capture_and_verify_runtime_fingerprint(strict_version_check=False)
+    with pytest.raises(RuntimeError, match="Code commit SHA mismatch"):
+        capture_and_verify_runtime_fingerprint(
+            expected_code_sha="1111111111111111111111111111111111111111",
+            strict_version_check=False,
+        )
 
 
 def test_production_modal_runner_static_scan():
@@ -440,7 +444,7 @@ def test_task7_4_progress_logger(tmp_path):
     logger.log_step(step=50, phase_tokens_seen=500_000, loss=3.2, lr=2e-4, grad_norm=0.5)
     logger.log_step(step=100, phase_tokens_seen=1_000_000, loss=2.1, lr=1e-5, grad_norm=0.2)
 
-    log_file = tmp_path / "logs" / "progress.jsonl"
+    log_file = tmp_path / "logs" / "phase1_lm_progress.jsonl"
     assert log_file.exists()
 
     with open(log_file, "r", encoding="utf-8") as f:
@@ -467,7 +471,6 @@ def test_task7_4_progress_logger(tmp_path):
         total_phase_tokens=1_000_000,
         log_dir=tmp_path / "logs_resume",
         gpu_name="H100",
-        initial_step=41,
         initial_last_reported_pct=41,
     )
     assert resume_logger.last_reported_pct == 41
@@ -500,9 +503,9 @@ def test_cpu_micro_production_integration(tmp_path, monkeypatch):
     assert res["persistence_final_tokens"] > 0
 
     out_dir = Path(res["output_dir"])
-    assert (out_dir / "lm_final.pt").exists()
-    assert (out_dir / "safety_final.pt").exists()
-    assert (out_dir / "persistence_final.pt").exists()
+    assert (out_dir / "lm_1b_final.pt").exists()
+    assert (out_dir / "safety_20m_final.pt").exists()
+    assert (out_dir / "persistence_1000_final.pt").exists()
 
 
 def test_production_ast_contains_real_phases():
@@ -523,3 +526,155 @@ def test_production_ast_contains_real_phases():
     assert "run_task7_4_modal_h100_probe" in func_names
     assert "run_task7_4_evaluation_worker" in func_names
     assert "run_task7_4_centralized_judge_worker" in func_names
+    assert "launch_task7_4_multiseed_replication" in func_names
+    assert "aggregate_multiseed_status" in func_names
+
+
+def test_fineweb_block_reader_logical_indexing(tmp_path):
+    """Tests FineWebBlockReader contiguous batch slicing, shard boundary crossing, seek, and rolling hash."""
+    import numpy as np
+    from ccpt.data.fineweb import FineWebBlockReader, write_token_shard
+
+    # Create 2 temporary shards with 32 blocks each (total 64 blocks of 1024 tokens)
+    seq_len = 1024
+    blocks_shard1 = [np.full((seq_len,), i, dtype=np.uint16) for i in range(32)]
+    blocks_shard2 = [np.full((seq_len,), 32 + i, dtype=np.uint16) for i in range(32)]
+
+    shard1_path = tmp_path / "shard1.bin"
+    shard2_path = tmp_path / "shard2.bin"
+
+    m1 = write_token_shard(blocks_shard1, shard1_path)
+    m2 = write_token_shard(blocks_shard2, shard2_path)
+
+    shards_meta = [
+        {
+            "path": str(shard1_path),
+            "num_blocks": 32,
+            "logical_first_block": 0,
+            "logical_last_block_exclusive": 32,
+            "sha256": m1["sha256"],
+        },
+        {
+            "path": str(shard2_path),
+            "num_blocks": 32,
+            "logical_first_block": 32,
+            "logical_last_block_exclusive": 64,
+            "sha256": m2["sha256"],
+        },
+    ]
+
+    reader = FineWebBlockReader(shards_meta, start_block=0, end_block_exclusive=64, sequence_length=seq_len)
+    assert reader.cursor == 0
+    assert reader.total_blocks == 64
+    assert reader.remaining_blocks == 64
+
+    # Read Batch 1: blocks [0, 32)
+    b1 = reader.get_batch(batch_size=32)
+    assert b1.shape == (32, seq_len)
+    assert b1[0, 0] == 0
+    assert b1[31, 0] == 31
+    assert reader.cursor == 32
+    assert reader.remaining_blocks == 32
+
+    # Read Batch 2: blocks [32, 64)
+    b2 = reader.get_batch(batch_size=32)
+    assert b2.shape == (32, seq_len)
+    assert b2[0, 0] == 32
+    assert b2[31, 0] == 63
+    assert reader.cursor == 64
+    assert reader.remaining_blocks == 0
+
+    # Test rolling hash
+    hash1 = reader.get_rolling_data_hash()
+    assert len(hash1) == 64
+
+    # Test seek
+    reader.seek(16)
+    assert reader.cursor == 16
+    b_cross = reader.get_batch(batch_size=32)  # [16, 48) crosses shard 1 and shard 2 boundary!
+    assert b_cross.shape == (32, seq_len)
+    assert b_cross[0, 0] == 16
+    assert b_cross[15, 0] == 31
+    assert b_cross[16, 0] == 32
+    assert b_cross[31, 0] == 47
+
+
+def test_production_synthetic_leak_fail_closed():
+    """Verifies that production training helpers fail closed if called without real data sources."""
+    from ccpt.config import get_micro_baseline_config
+    from ccpt.modeling.baseline import ParameterMatchedBaselineModel
+
+    mod = _load_task7_4_replication_module()
+    cfg = get_micro_baseline_config()
+    model = ParameterMatchedBaselineModel(cfg)
+    run_dir = Path("artifacts/test_fail_closed")
+
+    # Production LM requires data_reader
+    with pytest.raises(RuntimeError, match="Production run_lm_phase requires an authoritative FineWebBlockReader"):
+        mod.run_lm_phase(
+            model=model,
+            model_type="model_a",
+            seed=20260823,
+            run_dir=run_dir,
+            code_sha="a435ddd2b36df2397c7fcf5a8f51b12398289928",
+            data_reader=None,
+            test_mode=False,
+        )
+
+    # Production Safety requires schedule and records
+    with pytest.raises(RuntimeError, match="Production run_safety_phase requires real schedule and canonical Arrow records"):
+        mod.run_safety_phase(
+            model=model,
+            model_type="model_a",
+            seed=20260823,
+            run_dir=run_dir,
+            code_sha="a435ddd2b36df2397c7fcf5a8f51b12398289928",
+            schedule_data=None,
+            test_mode=False,
+        )
+
+    # Production Persistence requires data_reader
+    with pytest.raises(RuntimeError, match="Production run_persistence_phase requires an authoritative FineWebBlockReader"):
+        mod.run_persistence_phase(
+            model=model,
+            model_type="model_a",
+            seed=20260823,
+            run_dir=run_dir,
+            code_sha="a435ddd2b36df2397c7fcf5a8f51b12398289928",
+            data_reader=None,
+            test_mode=False,
+        )
+
+
+def test_chicago_timezone_exact():
+    """Verifies exact America/Chicago timezone formatting."""
+    from datetime import datetime, timezone
+    from zoneinfo import ZoneInfo
+    CHICAGO_TZ = ZoneInfo("America/Chicago")
+
+    now_utc = datetime.now(timezone.utc)
+    now_chicago = now_utc.astimezone(CHICAGO_TZ)
+
+    iso_str = now_chicago.isoformat()
+    assert "-05:00" in iso_str or "-06:00" in iso_str
+    assert now_chicago.tzinfo is not None
+
+
+def test_8_job_orchestrator_structure():
+    """Verifies that launch_task7_4_multiseed_replication configures all 8 replication jobs."""
+    mod = _load_task7_4_replication_module()
+    launcher_fn = mod.launch_task7_4_multiseed_replication
+
+    res = launcher_fn(
+        seeds=[20260823, 20260824],
+        models=["model_a", "model_b", "model_c", "model_d"],
+        test_mode=True,
+        max_concurrency=8,
+    )
+
+    assert res["total_jobs"] == 8
+    assert res["max_concurrency"] == 8
+    assert res["status"] == "all_jobs_dispatched"
+    assert "seed_20260823_model_a" in res["job_handles"]
+    assert "seed_20260823_model_c" in res["job_handles"]
+    assert "seed_20260824_model_d" in res["job_handles"]

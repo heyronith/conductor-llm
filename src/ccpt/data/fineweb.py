@@ -1,5 +1,6 @@
 """FineWeb-Edu causal language modeling data pipeline and shard serializer."""
 
+import hashlib
 import json
 from pathlib import Path
 from typing import Any, Callable, Dict, Generator, Iterator, List, Optional, Tuple, Union
@@ -217,4 +218,134 @@ def process_lm_document_stream(
         "train_manifests": train_manifests,
         "val_manifests": val_manifests,
     }
+
+
+class FineWebBlockReader:
+    """Authoritative logical block reader over FineWeb binary shards defined by a manifest.
+
+    Consumes logical blocks strictly by global index [start_block, end_block_exclusive)
+    without shuffling, duplication, or skipping. Memory-maps shards for zero-copy access.
+    """
+
+    def __init__(
+        self,
+        shards_meta: List[Dict[str, Any]],
+        start_block: int = 0,
+        end_block_exclusive: Optional[int] = None,
+        sequence_length: int = 1024,
+        base_dir: Optional[Union[str, Path]] = None,
+    ) -> None:
+        self.sequence_length = sequence_length
+        self.base_dir = Path(base_dir) if base_dir is not None else None
+        self.shards_meta = shards_meta
+        self.start_block = start_block
+        
+        # Build index of shards
+        self.indexed_shards: List[Dict[str, Any]] = []
+        cumulative_blocks = 0
+
+        for s in shards_meta:
+            s_path = Path(s["path"])
+            if not s_path.is_absolute() and self.base_dir is not None:
+                s_path = self.base_dir / s_path
+            
+            num_blocks = s.get("num_blocks") or s.get("block_count")
+            first_blk = s.get("logical_first_block", cumulative_blocks)
+            last_blk = s.get("logical_last_block_exclusive", first_blk + num_blocks)
+            
+            self.indexed_shards.append({
+                "path": s_path,
+                "first_block": first_blk,
+                "last_block": last_blk,
+                "num_blocks": num_blocks,
+                "sha256": s.get("sha256", ""),
+                "_mmap": None,
+            })
+            cumulative_blocks = last_blk
+
+        max_available_blocks = cumulative_blocks
+        self.end_block_exclusive = end_block_exclusive if end_block_exclusive is not None else max_available_blocks
+        
+        if self.start_block < 0 or self.start_block > self.end_block_exclusive:
+            raise ValueError(f"Invalid start_block {self.start_block} for range [0, {self.end_block_exclusive}]")
+        if self.end_block_exclusive > max_available_blocks:
+            raise ValueError(f"end_block_exclusive {self.end_block_exclusive} exceeds available blocks {max_available_blocks}")
+
+        self.current_cursor = self.start_block
+        self._rolling_hasher = hashlib.sha256()
+
+    def _get_shard_mmap(self, shard_idx: int) -> np.ndarray:
+        s = self.indexed_shards[shard_idx]
+        if s["_mmap"] is None:
+            path = s["path"]
+            if not path.exists():
+                raise FileNotFoundError(f"Shard file not found at {path}")
+            raw = np.memmap(str(path), dtype=np.uint16, mode="r")
+            reshaped = raw.reshape(-1, self.sequence_length)
+            if reshaped.shape[0] != s["num_blocks"]:
+                raise ValueError(f"Shard {path} expected {s['num_blocks']} blocks, found {reshaped.shape[0]}")
+            s["_mmap"] = reshaped
+        return s["_mmap"]
+
+    def get_batch(self, batch_size: int = 32) -> np.ndarray:
+        """Returns the next batch of blocks as uint16 numpy array [batch_size, sequence_length]."""
+        if self.current_cursor + batch_size > self.end_block_exclusive:
+            raise IndexError(
+                f"Cannot read batch of size {batch_size} from cursor {self.current_cursor} "
+                f"(exceeds end_block_exclusive {self.end_block_exclusive})"
+            )
+
+        target_start = self.current_cursor
+        target_end = target_start + batch_size
+        chunks: List[np.ndarray] = []
+
+        for idx, s in enumerate(self.indexed_shards):
+            if s["last_block"] <= target_start:
+                continue
+            if s["first_block"] >= target_end:
+                break
+
+            overlap_start = max(target_start, s["first_block"])
+            overlap_end = min(target_end, s["last_block"])
+
+            mmap_arr = self._get_shard_mmap(idx)
+            local_start = overlap_start - s["first_block"]
+            local_end = overlap_end - s["first_block"]
+            
+            chunk = np.array(mmap_arr[local_start:local_end], copy=True)
+            chunks.append(chunk)
+
+        if not chunks:
+            raise RuntimeError(f"No shards found containing blocks [{target_start}, {target_end})")
+
+        batch = np.concatenate(chunks, axis=0) if len(chunks) > 1 else chunks[0]
+        if batch.shape[0] != batch_size:
+            raise ValueError(f"Expected batch of {batch_size} blocks, got {batch.shape[0]}")
+
+        self._rolling_hasher.update(batch.tobytes())
+        self.current_cursor = target_end
+        return batch
+
+    def seek(self, block_index: int) -> None:
+        """Sets the logical cursor to the given global block index."""
+        if block_index < self.start_block or block_index > self.end_block_exclusive:
+            raise ValueError(f"Cannot seek to {block_index} outside range [{self.start_block}, {self.end_block_exclusive}]")
+        self.current_cursor = block_index
+
+    @property
+    def cursor(self) -> int:
+        return self.current_cursor
+
+    @property
+    def remaining_blocks(self) -> int:
+        return max(0, self.end_block_exclusive - self.current_cursor)
+
+    @property
+    def total_blocks(self) -> int:
+        return self.end_block_exclusive - self.start_block
+
+    def get_rolling_data_hash(self) -> str:
+        """Returns the hex digest of the rolling SHA256 data consumption hash."""
+        return self._rolling_hasher.hexdigest()
+
 

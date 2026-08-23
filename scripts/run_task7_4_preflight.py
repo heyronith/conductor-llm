@@ -396,11 +396,12 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
     )
     mod.get_task7_4_output_dir = orig_get_dir
 
+    res_out_dir = Path(micro_res.get("output_dir", ""))
     micro_passed = (
         micro_res.get("status") == "completed" and
-        (tmp_micro_dir / "seed_20260823" / "model_c" / "lm_final.pt").exists() and
-        (tmp_micro_dir / "seed_20260823" / "model_c" / "safety_final.pt").exists() and
-        (tmp_micro_dir / "seed_20260823" / "model_c" / "persistence_final.pt").exists()
+        (res_out_dir / "lm_1b_final.pt").exists() and
+        (res_out_dir / "safety_20m_final.pt").exists() and
+        (res_out_dir / "persistence_1000_final.pt").exists()
     )
     checks_passed["cpu_micro_production_integration"] = micro_passed
     details["micro_integration"] = micro_res
@@ -463,7 +464,7 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
 
     details["cost_projection"] = {
         "telemetry_source": "Reconstructed from Seed 1 empirical wall-clock telemetry in artifacts/task7_3_summary.json",
-        "projection_confidence": "HIGH",
+        "projection_confidence": "MEDIUM",
         "h100_training_seconds": h100_sec,
         "h100_training_projected_usd": round(h100_cost, 2),
         "l40s_eval_seconds": l40s_eval_sec,
@@ -480,7 +481,7 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
     all_required_passed = all(checks_passed.values())
 
     preflight_record = {
-        "task": "task7.4.2_seeds23_preflight",
+        "task": "task7.4.3_seeds23_preflight",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "execution_code_commit_sha": code_sha,
         "authorized_for_seeds_2_and_3_execution": all_required_passed,
