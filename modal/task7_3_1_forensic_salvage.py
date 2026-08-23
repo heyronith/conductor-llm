@@ -261,32 +261,28 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
     print(f"Full Schedule Audit Hash: {full_schedule_audit_hash}")
 
     # Load canonical Task 4 Arrow records
-    def resolve_arrow_file(rel_path_suffix: str, filename: str) -> Path:
-        candidates = [
-            Path("/data_task4") / rel_path_suffix,
-            Path("/data_task4") / filename,
-            Path("/data_task4") / "prepared_wildguard_data_2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097" / filename,
-            Path("/data") / rel_path_suffix,
-            Path("/data") / filename,
-            Path("/data/ccpt") / rel_path_suffix,
-        ]
-        for c in candidates:
-            if c.exists():
-                return c
-        for base in [Path("/data_task4"), Path("/data")]:
-            if base.exists():
-                matches = list(base.glob(f"**/{filename}"))
-                if matches:
-                    return matches[0]
-                matches_suffix = list(base.glob(f"**/{rel_path_suffix}"))
-                if matches_suffix:
-                    return matches_suffix[0]
-        raise FileNotFoundError(f"Could not locate {filename} / {rel_path_suffix} across volumes")
+    def resolve_arrow_path(rel_path: str) -> Path:
+        base_dirs = [Path("/data_task4"), Path("/data/ccpt"), Path("/data"), Path("data"), Path(".")]
+        for base in base_dirs:
+            if not base.exists():
+                continue
+            direct = base / rel_path
+            if direct.exists():
+                return direct
+            matches = list(base.glob(f"**/{rel_path}"))
+            if matches:
+                return matches[0]
+            parts = Path(rel_path).parts
+            if len(parts) >= 2:
+                wildcard_matches = list(base.glob(f"{parts[0]}/**/{'/'.join(parts[1:])}"))
+                if wildcard_matches:
+                    return wildcard_matches[0]
+        raise FileNotFoundError(f"Could not locate prepared data for {rel_path} across {base_dirs}")
 
-    risk_train_path = resolve_arrow_file("wildguard/risk/train.arrow", "risk_train.arrow")
-    risk_val_path = resolve_arrow_file("wildguard/risk/validation.arrow", "risk_validation.arrow")
-    gen_train_path = resolve_arrow_file("wildguard/generation/train.arrow", "generation_train.arrow")
-    gen_val_path = resolve_arrow_file("wildguard/generation/validation.arrow", "generation_validation.arrow")
+    risk_train_path = resolve_arrow_path("wildguard/risk/train.arrow")
+    risk_val_path = resolve_arrow_path("wildguard/risk/validation.arrow")
+    gen_train_path = resolve_arrow_path("wildguard/generation/train.arrow")
+    gen_val_path = resolve_arrow_path("wildguard/generation/validation.arrow")
 
     print(f"Loading canonical Task 4 data from:\n  {risk_train_path}\n  {risk_val_path}\n  {gen_train_path}\n  {gen_val_path}")
     risk_train = load_wildguard_records(risk_train_path, record_type="risk")
