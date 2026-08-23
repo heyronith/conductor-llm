@@ -89,8 +89,6 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
     )
     from ccpt.data.beavertails import load_beavertails_ood_dataset
     from ccpt.data.collators import (
-        RiskClassificationBatchCollator,
-        SafeGenerationBatchCollator,
         pad_and_collate_risk,
         pad_and_collate_generation,
     )
