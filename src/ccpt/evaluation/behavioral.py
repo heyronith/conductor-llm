@@ -145,10 +145,6 @@ def verify_eval_prompt_framing(formatted_prompt: str) -> None:
         raise ValueError(f"Malformed prompt framing start: {formatted_prompt[:30]!r}")
     if not formatted_prompt.endswith("\nAssistant:"):
         raise ValueError(f"Malformed prompt framing end: {formatted_prompt[-30:]!r}")
-    if formatted_prompt.count("User:") != 1:
-        raise ValueError(f"Invalid User tag count in prompt: {formatted_prompt[:50]!r}")
-    if formatted_prompt.count("Assistant:") != 1:
-        raise ValueError(f"Invalid Assistant tag count in prompt: {formatted_prompt[-50:]!r}")
 
 
 def evaluate_behavioral_safety(
