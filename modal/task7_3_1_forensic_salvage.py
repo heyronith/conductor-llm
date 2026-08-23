@@ -464,8 +464,8 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
         ("model_d", "model_d_safety_20m", "model_d_persistence_1000"),
     ]
 
-    gen_collator = DataCollatorForSafeGenerationTraining(pad_token_id=0)
-    risk_collator = DataCollatorForRiskTraining(pad_token_id=0)
+    gen_collator = DataCollatorForSafeGenerationTraining(pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else 2)
+    risk_collator = DataCollatorForRiskTraining(pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else 2)
 
     # Helper to evaluate true token-weighted safe-generation continuation NLL
     def eval_safe_generation_token_weighted(model, records, scale=1.0, batch_size=32):
@@ -482,11 +482,11 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
             with torch.no_grad():
                 with torch.autocast(device_type="cuda" if device.type == "cuda" else "cpu", dtype=torch.bfloat16):
                     if hasattr(model, "theta_C") and hasattr(model, "theta_N"):
-                        logits, _ = model(input_ids, mode="controlled", controller_scale=scale)
+                        logits, _ = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=scale)
                     elif hasattr(model, "backbone_parameters") and hasattr(model, "safety_parameters"):
-                        logits, _ = model(input_ids, adapter_scale=scale)
+                        logits, _ = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=scale)
                     else:
-                        logits, _ = model(input_ids)
+                        logits, _ = model(input_ids, prompt_end_indices=prompt_ends)
 
             b_nll, b_toks = token_weighted_continuation_nll_and_count(logits, input_ids, prompt_ends)
             total_nll += b_nll
@@ -511,16 +511,21 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
             batch_records = records[start_idx : start_idx + batch_size]
             batch = risk_collator(batch_records)
             input_ids = batch["input_ids"].to(device)
+            prompt_ends = batch["prompt_end_indices"].to(device)
             labels = batch["risk_labels"].to(device)
 
             with torch.no_grad():
                 with torch.autocast(device_type="cuda" if device.type == "cuda" else "cpu", dtype=torch.bfloat16):
                     if hasattr(model, "theta_C") and hasattr(model, "theta_N"):
-                        logits, risk_logits = model(input_ids, mode="controlled", controller_scale=scale)
+                        logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=scale)
                     elif hasattr(model, "backbone_parameters") and hasattr(model, "safety_parameters"):
-                        logits, risk_logits = model(input_ids, adapter_scale=scale)
+                        logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=scale)
                     else:
-                        logits, risk_logits = model(input_ids)
+                        logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends)
+
+            if risk_logits is None:
+                # If model does not produce risk logits
+                continue
 
             loss = compute_risk_loss(risk_logits, labels)
             total_loss += float(loss.item()) * len(batch_records)
