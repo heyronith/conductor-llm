@@ -1,7 +1,7 @@
 {
-  "task": "task7.4.2_seeds23_preflight",
-  "timestamp_utc": "2026-08-23T21:51:32.642817+00:00",
-  "execution_code_commit_sha": "a435ddd2b36df2397c7fcf5a8f51b12398289928",
+  "task": "task7.4.3_seeds23_preflight",
+  "timestamp_utc": "2026-08-23T22:28:27.145974+00:00",
+  "execution_code_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
   "authorized_for_seeds_2_and_3_execution": true,
   "seeds_2_and_3_started": false,
   "full_10b_run_executed": false,
@@ -72,7 +72,7 @@
       "replication_limitation_note": "Seed 1 historical container exact environment is uncertain; Seeds 2 and 3 are frozen to TASK7_4_FROZEN_REPLICATION_ENVIRONMENT."
     },
     "git_lineage": {
-      "code_commit_sha": "a435ddd2b36df2397c7fcf5a8f51b12398289928",
+      "code_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
       "is_known_sha": true
     },
     "wildguard_artifacts": {
@@ -165,16 +165,19 @@
       "status": "completed",
       "seed": 20260823,
       "model_type": "model_c",
-      "output_dir": "artifacts/micro_integration_test/seed_20260823/model_c",
+      "output_dir": "artifacts/test_runs/seed_20260823/model_c",
+      "initial_state_hash": "f884f5b42e6ae71a806bbd7c5ac2970f60bf4c7e722c952a482d355aee5fc4e0",
       "lm_final_tokens": 65536,
-      "safety_final_tokens": 3072,
+      "lm_data_hash": "test_synthetic",
+      "safety_final_tokens": 8192,
       "persistence_final_tokens": 1000046592,
+      "persistence_data_hash": "test_synthetic",
       "fingerprint": {
         "environment_name": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
         "python_version": "3.11.15 (main, May 10 2026, 19:23:07) [Clang 22.1.3 ]",
         "platform": "macOS-26.5.2-arm64-arm-64bit",
         "cuda_available": false,
-        "cuda_version": null,
+        "cuda_version": "none",
         "device_name": "CPU",
         "installed_versions": {
           "torch": "2.13.0",
@@ -189,14 +192,14 @@
           "numpy": "2.1.3",
           "pytest": "9.1.1"
         },
-        "git_commit_sha": "a435ddd2b36df2397c7fcf5a8f51b12398289928",
-        "fingerprint_hash": "218b9e4ccc30e8285d5993b02488867288e3b2e391be7d5b891c61941c3ef815"
+        "git_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
+        "fingerprint_hash": "534c3937d3a0e7ca3ff0b68e80665e976947a9333c6bd5c57e7ace818ff73183"
       }
     },
     "modal_probes": {
       "l40s_probe": {
         "probe_type": "L40S_modal_probe",
-        "timestamp_utc": "2026-08-23T21:51:09.335920+00:00",
+        "timestamp_utc": "2026-08-23T22:28:20.032969+00:00",
         "runtime_fingerprint": {
           "environment_name": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
           "python_version": "3.11.12 (main, May 21 2025, 23:34:13) [GCC 12.2.0]",
@@ -217,8 +220,8 @@
             "numpy": "2.1.3",
             "pytest": "8.3.3"
           },
-          "git_commit_sha": "a435ddd2b36df2397c7fcf5a8f51b12398289928",
-          "fingerprint_hash": "c6ff9014821d2dffbf4494e2d19d1489b03dd0f3775122e3ce93b4b37f0242bb"
+          "git_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
+          "fingerprint_hash": "e60755c969840f1b9719f450a6f9a89803769091a0a2fa48dd4c8599c9693911"
         },
         "fineweb_verification": {
           "manifest_path": "/data/fineweb_authoritative/manifest.json",
@@ -274,7 +277,7 @@
       },
       "h100_probe": {
         "probe_type": "H100_modal_probe",
-        "timestamp_utc": "2026-08-23T21:51:32.575667+00:00",
+        "timestamp_utc": "2026-08-23T22:28:27.009260+00:00",
         "runtime_fingerprint": {
           "environment_name": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
           "python_version": "3.11.12 (main, May 21 2025, 23:34:13) [GCC 12.2.0]",
@@ -295,17 +298,17 @@
             "numpy": "2.1.3",
             "pytest": "8.3.3"
           },
-          "git_commit_sha": "a435ddd2b36df2397c7fcf5a8f51b12398289928",
-          "fingerprint_hash": "0fa95a4f3712c3f64aa9fb28d7e865b17ef965263c3ded4fc63008a09b7d6e3e"
+          "git_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
+          "fingerprint_hash": "3fa48db4ff185b7dbbed84a9c394df1ab981bb0733a4b08704f368dd13d11491"
         },
-        "test_math_result": 1856.0,
+        "test_math_result": 1544.0,
         "probe_passed": true
       },
       "probes_executed": true
     },
     "cost_projection": {
       "telemetry_source": "Reconstructed from Seed 1 empirical wall-clock telemetry in artifacts/task7_3_summary.json",
-      "projection_confidence": "HIGH",
+      "projection_confidence": "MEDIUM",
       "h100_training_seconds": 17360.0,
       "h100_training_projected_usd": 19.04,
       "l40s_eval_seconds": 7200.0,
