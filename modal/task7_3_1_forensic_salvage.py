@@ -37,7 +37,7 @@ image = (
         "pyarrow==18.1.0",
         "accelerate==1.2.1",
     )
-    .add_local_python_source("src")
+    .add_local_python_source("ccpt")
 )
 
 TASK7_3_RUN_DIR = "/runs/ccpt/task7_3/pilot_v2_authoritative_run_20260822"
