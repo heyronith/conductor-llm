@@ -89,8 +89,8 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
     )
     from ccpt.data.beavertails import load_beavertails_ood_dataset
     from ccpt.data.collators import (
-        pad_and_collate_risk,
-        pad_and_collate_generation,
+        DataCollatorForRiskTraining,
+        DataCollatorForSafeGenerationTraining,
     )
     from ccpt.training.losses import (
         compute_causal_lm_loss,
@@ -433,6 +433,9 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
         ("model_d", "model_d_safety_20m", "model_d_persistence_1000"),
     ]
 
+    gen_collator = DataCollatorForSafeGenerationTraining(pad_token_id=0)
+    risk_collator = DataCollatorForRiskTraining(pad_token_id=0)
+
     # Helper to evaluate true token-weighted safe-generation continuation NLL
     def eval_safe_generation_token_weighted(model, records, scale=1.0, batch_size=32):
         total_nll = 0.0
@@ -441,7 +444,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
 
         for start_idx in range(0, len(records), batch_size):
             batch_records = records[start_idx : start_idx + batch_size]
-            batch = pad_and_collate_generation(batch_records, pad_token_id=0)
+            batch = gen_collator(batch_records)
             input_ids = batch["input_ids"].to(device)
             prompt_ends = batch["prompt_end_indices"].to(device)
 
@@ -475,7 +478,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
 
         for start_idx in range(0, len(records), batch_size):
             batch_records = records[start_idx : start_idx + batch_size]
-            batch = pad_and_collate_risk(batch_records, pad_token_id=0)
+            batch = risk_collator(batch_records)
             input_ids = batch["input_ids"].to(device)
             labels = batch["risk_labels"].to(device)
 
