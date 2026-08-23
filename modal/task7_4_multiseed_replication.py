@@ -362,6 +362,9 @@ def get_task7_4_output_dir(seed: int, model_type: str) -> Path:
     return base
 
 
+from ccpt.data.hashing import sha256_json
+
+
 def verify_authoritative_fineweb_mount() -> Dict[str, Any]:
     """Verifies that the frozen FineWeb dataset exists on /data using canonical manifest semantics."""
     manifest_p = Path("/data/fineweb_authoritative/manifest.json")
@@ -376,9 +379,9 @@ def verify_authoritative_fineweb_mount() -> Dict[str, Any]:
             f"FineWeb manifest hash mismatch: expected {CANONICAL_FINEWEB_MANIFEST_HASH}, got {manifest.get('manifest_hash')}"
         )
 
-    # Recompute hash over non-hash fields
+    # Recompute hash over non-hash fields using canonical sha256_json
     hashable_manifest = {k: v for k, v in manifest.items() if k != "manifest_hash"}
-    recomputed_hash = hashlib.sha256(json.dumps(hashable_manifest, sort_keys=True).encode("utf-8")).hexdigest()
+    recomputed_hash = sha256_json(hashable_manifest)
     if recomputed_hash != CANONICAL_FINEWEB_MANIFEST_HASH:
         raise ValueError(
             f"FineWeb recomputed manifest hash mismatch: expected {CANONICAL_FINEWEB_MANIFEST_HASH}, got {recomputed_hash}"
