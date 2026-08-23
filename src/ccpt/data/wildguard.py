@@ -642,14 +642,21 @@ CANONICAL_WILDGUARD_COUNTS = {
     "gen_train": 18015,
     "gen_val": 928,
 }
+CANONICAL_ARROW_SHA256 = {
+    "risk_train": "522ff92e4f02cbaa3ba88838516ce94dfed2434211db669e632efb1be4f3866a",
+    "risk_val": "abf37b75cace89a4e7afb4abf0b3f1419656d70e16bbe64346f7dd42c04d424b",
+    "gen_train": "85fe0fe389080f790959c3ead43534d436c2336f446ec0c9f4bca0b7da918921",
+    "gen_val": "dabc43c7cb0a4af6a56fc183c529b0d04df438b4a7396f438175ad3f0737471d",
+}
 
 
 def resolve_canonical_wildguard_artifacts(
     candidate_roots: Optional[Sequence[Union[str, Path]]] = None,
+    require_arrow_only: bool = False,
 ) -> Dict[str, Dict[str, Any]]:
-    """Authoritatively resolves exact canonical Task 4 WildGuard Arrow artifacts.
+    """Authoritatively resolves exact canonical Task 4 WildGuard artifacts.
 
-    Fails closed on missing files, count mismatches, or path ambiguity.
+    Fails closed on missing files, count mismatches, SHA256 mismatches, or path ambiguity.
     """
     import hashlib
 
@@ -673,12 +680,16 @@ def resolve_canonical_wildguard_artifacts(
     for root in candidate_roots:
         p_root = Path(root)
         if p_root.exists():
-            # Check if all four files exist (either arrow or jsonl)
             all_present = True
             for split_key, (arrow_rel, jsonl_rel) in target_relative_files.items():
-                if not (p_root / arrow_rel).exists() and not (p_root / jsonl_rel).exists():
-                    all_present = False
-                    break
+                if require_arrow_only:
+                    if not (p_root / arrow_rel).exists():
+                        all_present = False
+                        break
+                else:
+                    if not (p_root / arrow_rel).exists() and not (p_root / jsonl_rel).exists():
+                        all_present = False
+                        break
             if all_present:
                 resolved_root = p_root
                 break
@@ -692,10 +703,24 @@ def resolve_canonical_wildguard_artifacts(
     for split_key, (arrow_rel, jsonl_rel) in target_relative_files.items():
         arrow_p = resolved_root / arrow_rel
         jsonl_p = resolved_root / jsonl_rel
-        chosen_p = arrow_p if arrow_p.exists() else jsonl_p
+
+        if require_arrow_only:
+            if not arrow_p.exists():
+                raise FileNotFoundError(f"Production Task 7.4 requires Arrow file at {arrow_p}")
+            chosen_p = arrow_p
+        else:
+            chosen_p = arrow_p if arrow_p.exists() else jsonl_p
 
         with open(chosen_p, "rb") as f:
             file_sha = hashlib.sha256(f.read()).hexdigest()
+
+        if chosen_p.suffix == ".arrow":
+            expected_arrow_sha = CANONICAL_ARROW_SHA256[split_key]
+            if file_sha != expected_arrow_sha:
+                raise ValueError(
+                    f"Canonical Arrow SHA256 mismatch for {split_key} at {chosen_p}: "
+                    f"expected {expected_arrow_sha}, got {file_sha}"
+                )
 
         rec_type = "generation" if "gen" in split_key else "risk"
         recs = load_wildguard_records(chosen_p, record_type=rec_type)

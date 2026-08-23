@@ -1,18 +1,20 @@
-"""Task 7.4: Authoritative Preflight Verification Runner for Seeds 2 & 3.
+"""Task 7.4.1: Authoritative Preflight Verification Runner for Seeds 2 & 3.
 
-Executes all prelaunch verification checks locally without starting GPU training:
-1. Environment & Pinned Dependencies
-2. Clean Repository State & Git Lineage
-3. Canonical Task-4 WildGuard Artifacts & Manifest Hash
-4. Field-by-Field Safety Record Provenance
-5. Safety Schedule Full Hash Sensitivity & Reproducibility
-6. Collator & Loss Function Token-Weighted Semantics
+Executes all prelaunch verification checks without starting GPU training:
+1. Environment & Pinned Dependencies (TASK7_4_FROZEN_REPLICATION_ENVIRONMENT)
+2. Clean Repository State & Git Lineage (Code-A SHA injection)
+3. Canonical Task-4 WildGuard Artifacts & Exact Arrow SHA256 Hashes
+4. Field-by-Field Safety Record Provenance on REAL Arrow/JSONL Records
+5. Safety Schedule Full Audit Hash (6e1be807...) & Legacy Hash (b141fcbc...)
+6. Collator API & Token-Weighted Loss Regression
 7. Tri-State WildGuard Behavioral Evaluation & Wilson Intervals
 8. Model Architecture Parameter Count Assertions (Models A, B, C, D)
-9. Bit-for-Bit Initialization Equality for Models B & C across Seeds 1, 2, 3
-10. Checkpoint V3 Schema & Git SHA Enforcement
+9. Smoke-Architecture Initialization Equality (Seeds 1, 2, 3) & Cross-Seed Differentiation
+10. Checkpoint V3 Schema & Strict SHA Enforcement
 11. Evaluation Prompt Framing & Generation Config Integrity
-12. FineWeb Edu Dataset Metadata & Benchmark Manifest Lineage
+12. Benchmark Manifests (ID & OOD) & FineWeb Edu Metadata Lineage
+13. Static Scan of modal/task7_4_multiseed_replication.py Production Runner
+14. Prelaunch Incremental Cost Projection & Hard Spending Gate (<= $35.00)
 
 Emits: artifacts/task7_4_seeds23_preflight.json
 """
@@ -38,7 +40,6 @@ from ccpt.config import (
     get_smoke_adapter_config,
     get_smoke_baseline_config,
     get_smoke_dual_stream_config,
-    get_micro_dual_stream_config,
 )
 from ccpt.modeling.baseline import ParameterMatchedBaselineModel
 from ccpt.modeling.dual_stream import CCPTDualStreamModel, JointTrainingDualStreamModel
@@ -50,6 +51,7 @@ from ccpt.data.collators import (
 from ccpt.data.wildguard import (
     CANONICAL_TASK4_MANIFEST_HASH,
     CANONICAL_WILDGUARD_COUNTS,
+    CANONICAL_ARROW_SHA256,
     RiskRecord,
     SafeGenerationRecord,
     load_wildguard_records,
@@ -83,14 +85,14 @@ from ccpt.evaluation.forensics import (
 
 def run_preflight() -> Dict[str, Any]:
     print("=================================================================", flush=True)
-    print("TASK 7.4 — REPLICATION HARDENING + SEEDS 2/3 PRELAUNCH PREFLIGHT", flush=True)
+    print("TASK 7.4.1 — PRODUCTION-WIRING PREFLIGHT VERIFICATION", flush=True)
     print("=================================================================", flush=True)
 
     checks_passed = {}
     details = {}
 
     # 1. Environment & Pinned Versions
-    print("\n[1/12] Verifying Environment & Pinned Dependencies...", flush=True)
+    print("\n[1/14] Verifying Environment & Pinned Dependencies...", flush=True)
     env_versions = get_environment_versions()
     pinned_expected = {
         "torch": "2.5.1",
@@ -98,21 +100,29 @@ def run_preflight() -> Dict[str, Any]:
         "tokenizers": "0.20.3",
         "datasets": "3.1.0",
         "huggingface_hub": "0.26.2",
+        "sentencepiece": "0.2.0",
+        "tiktoken": "0.8.0",
         "accelerate": "1.1.1",
         "pyarrow": "17.0.0",
         "numpy": "2.1.3",
         "pytest": "8.3.3",
     }
     details["environment"] = {
+        "environment_label": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
         "local_env": env_versions,
         "modal_image_pinned_spec": pinned_expected,
+        "replication_limitation_note": (
+            "Seed 1 historical container exact environment is uncertain; Seeds 2 and 3 "
+            "are frozen to TASK7_4_FROZEN_REPLICATION_ENVIRONMENT."
+        ),
     }
     checks_passed["environment_captured"] = True
+    print(f"  -> Environment: TASK7_4_FROZEN_REPLICATION_ENVIRONMENT")
     print(f"  -> Local Python: {sys.version.split()[0]} | PyTorch: {torch.__version__}")
 
     # 2. Git Lineage & Commit SHA
-    print("\n[2/12] Resolving Git Lineage & Commit SHA...", flush=True)
-    code_sha = get_git_commit_sha()
+    print("\n[2/14] Resolving Git Lineage & Commit SHA...", flush=True)
+    code_sha = os.environ.get("CCPT_CODE_COMMIT_SHA") or get_git_commit_sha()
     details["git_lineage"] = {
         "code_commit_sha": code_sha,
         "is_known_sha": code_sha != "unknown" and len(code_sha) >= 40,
@@ -120,53 +130,68 @@ def run_preflight() -> Dict[str, Any]:
     checks_passed["git_lineage_resolved"] = bool(code_sha and code_sha != "unknown")
     print(f"  -> Git Commit SHA: {code_sha}")
 
-    # 3. Canonical Task 4 WildGuard Resolution
-    print("\n[3/12] Resolving Canonical Task 4 WildGuard Artifacts...", flush=True)
-    try:
-        wildguard_artifacts = resolve_canonical_wildguard_artifacts()
-        details["wildguard_artifacts"] = wildguard_artifacts
-        checks_passed["wildguard_artifacts_resolved"] = True
-        print(f"  -> Canonical WildGuard Manifest Hash Verified: {CANONICAL_TASK4_MANIFEST_HASH}")
-    except Exception as e:
-        details["wildguard_artifacts_error"] = str(e)
-        checks_passed["wildguard_artifacts_resolved"] = False
-        print(f"  -> [WARN] Local resolution note: {e}")
+    # 3. Canonical Task 4 WildGuard Resolution & Arrow Hashes
+    print("\n[3/14] Resolving Canonical Task 4 WildGuard Artifacts...", flush=True)
+    wg_artifacts = resolve_canonical_wildguard_artifacts()
+    details["wildguard_artifacts"] = {
+        "resolved_bindings": wg_artifacts,
+        "canonical_arrow_sha256": CANONICAL_ARROW_SHA256,
+        "canonical_counts": CANONICAL_WILDGUARD_COUNTS,
+    }
+    checks_passed["wildguard_artifacts_resolved"] = True
+    print(f"  -> Canonical WildGuard Manifest Hash: {CANONICAL_TASK4_MANIFEST_HASH}")
 
-    # 4. Safety Record Provenance
-    print("\n[4/12] Verifying Field-by-Field Safety Records Provenance...", flush=True)
-    # Test validator with synthetic complete dataset
-    risk_train_synth = [RiskRecord(f"r_{i}", "g", [1, 2, 3], 1, 0, False, "none", "train") for i in range(45492)]
-    risk_val_synth = [RiskRecord(f"rv_{i}", "g", [1, 2, 3], 1, 0, False, "none", "val") for i in range(2344)]
-    gen_train_synth = [SafeGenerationRecord(f"g_{i}", "g", [1, 2, 3], 1, 0, False, False, "none", "train") for i in range(18015)]
-    gen_val_synth = [SafeGenerationRecord(f"gv_{i}", "g", [1, 2, 3], 1, 0, False, False, "none", "val") for i in range(928)]
-    prov_res = verify_safety_records_provenance(risk_train_synth, risk_val_synth, gen_train_synth, gen_val_synth)
-    checks_passed["safety_records_provenance_verified"] = prov_res["all_records_valid"]
+    # 4. Safety Record Provenance on REAL Data
+    print("\n[4/14] Verifying Provenance on REAL WildGuard Records...", flush=True)
+    real_risk_train = load_wildguard_records(wg_artifacts["risk_train"]["resolved_path"], record_type="risk")
+    real_risk_val = load_wildguard_records(wg_artifacts["risk_val"]["resolved_path"], record_type="risk")
+    real_gen_train = load_wildguard_records(wg_artifacts["gen_train"]["resolved_path"], record_type="generation")
+    real_gen_val = load_wildguard_records(wg_artifacts["gen_val"]["resolved_path"], record_type="generation")
+
+    prov_res = verify_safety_records_provenance(real_risk_train, real_risk_val, real_gen_train, real_gen_val)
+    checks_passed["real_safety_records_provenance_verified"] = prov_res["all_records_valid"]
     details["provenance_check"] = prov_res
-    print(f"  -> Verified {prov_res['total_records_verified']:,} unique records across all splits.")
+    print(f"  -> Verified all {prov_res['total_records_verified']:,} real records across splits.")
 
-    # 5. Safety Schedule Full Hash Sensitivity
-    print("\n[5/12] Verifying Safety Schedule Full Hash Sensitivity...", flush=True)
+    # 5. Safety Schedule Full Hash Sensitivity & Frozen Schedule Verification
+    print("\n[5/14] Verifying Safety Schedule Full Hash (6e1be807...) & Legacy Hash (b141fcbc...)...", flush=True)
     sched_sample = generate_authoritative_safety_schedule(
-        risk_records=risk_train_synth[:100],
-        gen_records=gen_train_synth[:50],
-        target_safety_tokens=2_000,
-        batch_size=16,
+        risk_records=real_risk_train,
+        gen_records=real_gen_train,
+        target_safety_tokens=20_000_000,
+        batch_size=32,
         seed=20260821,
     )
-    base_hash = compute_full_schedule_audit_hash(sched_sample)
+    actual_legacy_hash = sched_sample["schedule_hash"]
+    actual_full_hash = compute_full_schedule_audit_hash(sched_sample)
+
+    legacy_match = (actual_legacy_hash == "b141fcbc05d8388086f8649d5162c63b4ef862b90e049cbc2e0b29f7f1eb3caa")
+    full_match = (actual_full_hash == "6e1be80718a7bd9f1fb2f5bd42c87a9cd793afac08694e46f5c449af379ec2a0")
+
+    # Mutation test
     sched_mutated = copy.deepcopy(sched_sample)
     sched_mutated["batches"][0]["epoch_indices"][0] += 1
     mut_hash = compute_full_schedule_audit_hash(sched_mutated)
-    checks_passed["schedule_hash_sensitive_to_epochs"] = (base_hash != mut_hash)
-    details["schedule_hashing"] = {
-        "base_hash": base_hash,
-        "mutated_epoch_hash": mut_hash,
-        "is_sensitive": (base_hash != mut_hash),
-    }
-    print(f"  -> Schedule full hash sensitivity confirmed ({base_hash[:16]}... != {mut_hash[:16]}...)")
+    mutation_sensitive = (actual_full_hash != mut_hash)
 
-    # 6. Collator API & Token-Weighted Loss Regression
-    print("\n[6/12] Verifying Collator is_refusals API & Token-Weighted Loss...", flush=True)
+    checks_passed["schedule_legacy_hash_verified"] = legacy_match
+    checks_passed["schedule_full_hash_verified"] = full_match
+    checks_passed["schedule_hash_mutation_sensitive"] = mutation_sensitive
+
+    details["schedule_verification"] = {
+        "legacy_hash": actual_legacy_hash,
+        "legacy_match": legacy_match,
+        "full_audit_hash": actual_full_hash,
+        "full_match": full_match,
+        "total_batches": sched_sample["total_batches"],
+        "total_valid_tokens": sched_sample["total_valid_input_tokens"],
+        "mutation_sensitive": mutation_sensitive,
+    }
+    print(f"  -> Legacy Schedule Hash: {actual_legacy_hash} (Match: {legacy_match})")
+    print(f"  -> Full Schedule Audit Hash: {actual_full_hash} (Match: {full_match})")
+
+    # 6. Collator API & Token-Weighted Loss
+    print("\n[6/14] Verifying Collator is_refusals API & Token-Weighted Loss...", flush=True)
     test_gen_recs = [
         SafeGenerationRecord("g1", "g", [1, 10, 20, 30, 40], 2, 1, True, False, "h", "train"),
         SafeGenerationRecord("g2", "g", [1, 10, 50, 60, 70, 80], 1, 0, False, False, "b", "train"),
@@ -174,32 +199,25 @@ def run_preflight() -> Dict[str, Any]:
     _, _, _, is_ref_tensor, _ = pad_and_collate_gen_records(test_gen_recs, pad_token_id=2)
     collator_ok = isinstance(is_ref_tensor, torch.Tensor) and is_ref_tensor.dtype == torch.bool and is_ref_tensor[0].item() is True
     checks_passed["collator_is_refusal_tensor_verified"] = collator_ok
-    print(f"  -> Collator is_refusals return slot confirmed boolean tensor: {collator_ok}")
 
-    # Padded loss regression check
     logits_dummy = torch.randn(2, 6, 32000)
     input_ids_dummy = torch.randint(0, 32000, (2, 6))
     prompt_ends_dummy = torch.tensor([2, 1], dtype=torch.long)
     attn_mask_dummy = torch.tensor([[1, 1, 1, 1, 1, 0], [1, 1, 1, 1, 1, 1]], dtype=torch.long)
     loss_padded = compute_safe_generation_loss(logits_dummy, input_ids_dummy, prompt_ends_dummy, attention_mask=attn_mask_dummy)
     checks_passed["token_weighted_safe_gen_loss_verified"] = not torch.isnan(loss_padded) and loss_padded.item() > 0
-    print(f"  -> Token-weighted safe-gen loss: {loss_padded.item():.4f}")
+    print(f"  -> Collator boolean return slot: {collator_ok} | Loss: {loss_padded.item():.4f}")
 
-    # 7. Tri-State Bounds & Wilson Score Intervals
-    print("\n[7/12] Verifying Tri-State Behavioral Metrics & Wilson Intervals...", flush=True)
+    # 7. Tri-State Bounds & Wilson Intervals
+    print("\n[7/14] Verifying Tri-State Behavioral Metrics & Wilson Intervals...", flush=True)
     ci_50 = wilson_score_interval(50, 100, 0.95)
     ci_0 = wilson_score_interval(0, 100, 0.95)
     ci_100 = wilson_score_interval(100, 100, 0.95)
-    details["wilson_intervals"] = {
-        "50_of_100": ci_50,
-        "0_of_100": ci_0,
-        "100_of_100": ci_100,
-    }
     checks_passed["wilson_intervals_verified"] = (0.39 < ci_50[0] < 0.41 and ci_0[0] == 0.0 and ci_100[1] == 1.0)
-    print(f"  -> Wilson 95% CI (50/100): [{ci_50[0]:.4f}, {ci_50[1]:.4f}]")
+    print(f"  -> Wilson 95% CI: [{ci_50[0]:.4f}, {ci_50[1]:.4f}]")
 
     # 8. Model Architecture Parameter Counts
-    print("\n[8/12] Asserting Architectural Parameter Counts...", flush=True)
+    print("\n[8/14] Asserting Architectural Parameter Counts...", flush=True)
     cfg_a = get_smoke_baseline_config()
     cfg_bc = get_smoke_dual_stream_config()
     cfg_d = get_smoke_adapter_config()
@@ -220,17 +238,6 @@ def run_preflight() -> Dict[str, Any]:
     count_bb = sum(p.numel() for n, p in m_d.named_parameters() if n in bb_names)
     count_saf = sum(p.numel() for n, p in m_d.named_parameters() if n in saf_names)
 
-    param_details = {
-        "model_a_total": count_a,
-        "model_c_total": count_c,
-        "model_c_theta_c": count_tc,
-        "model_c_theta_n": count_tn,
-        "model_d_total": count_d,
-        "model_d_backbone": count_bb,
-        "model_d_safety": count_saf,
-    }
-    details["parameter_counts"] = param_details
-
     params_ok = (
         count_a == 35_918_848 and
         count_c == 35_920_384 and
@@ -241,29 +248,42 @@ def run_preflight() -> Dict[str, Any]:
         count_saf == 2_757_120
     )
     checks_passed["parameter_counts_exact"] = params_ok
+    details["parameter_counts"] = {
+        "model_a_total": count_a,
+        "model_c_total": count_c,
+        "model_c_theta_c": count_tc,
+        "model_c_theta_n": count_tn,
+        "model_d_total": count_d,
+        "model_d_backbone": count_bb,
+        "model_d_safety": count_saf,
+    }
     print(f"  -> Model A: {count_a:,} | Model C: {count_c:,} (θC: {count_tc:,}, θN: {count_tn:,}) | Model D: {count_d:,}")
 
-    # 9. Model B / C Initialization Equality across Seeds 1, 2, 3
-    print("\n[9/12] Verifying Model B / C Bit-for-Bit Initialization Equality...", flush=True)
-    cfg_micro = get_micro_dual_stream_config()
-    init_hashes = {}
+    # 9. Smoke Architecture Initialization Equality (Seeds 1, 2, 3) & Differentiation
+    print("\n[9/14] Computing Smoke Architecture Initialization Hashes (Seeds 1, 2, 3)...", flush=True)
+    smoke_init_hashes = {}
     all_inits_equal = True
-    for s in [20260821, 20260822, 20260823]:
-        mb, mc = create_identical_dual_stream_models(cfg_micro, seed=s)
+    for s in [20260821, 20260823, 20260824]:
+        mb, mc = create_identical_dual_stream_models(cfg_bc, seed=s)
         hb = compute_canonical_state_dict_hash(mb.state_dict())
         hc = compute_canonical_state_dict_hash(mc.state_dict())
         if hb != hc:
             all_inits_equal = False
-        init_hashes[f"seed_{s}"] = {"model_b_hash": hb, "model_c_hash": hc, "equal": hb == hc}
+        smoke_init_hashes[f"seed_{s}"] = hb
+        print(f"  -> Seed {s} Smoke Init Hash: {hb}")
 
-    checks_passed["model_b_c_init_equality_verified"] = all_inits_equal
-    details["init_equality"] = init_hashes
-    print(f"  -> Seeds 1, 2, 3 Bit-for-Bit B/C equality: {all_inits_equal}")
+    seeds_differ = (
+        smoke_init_hashes["seed_20260823"] != smoke_init_hashes["seed_20260824"] and
+        smoke_init_hashes["seed_20260821"] != smoke_init_hashes["seed_20260823"] and
+        smoke_init_hashes["seed_20260821"] != smoke_init_hashes["seed_20260824"]
+    )
+    checks_passed["smoke_init_equality_and_differentiation"] = (all_inits_equal and seeds_differ)
+    details["smoke_init_hashes"] = smoke_init_hashes
 
-    # 10. Checkpoint V3 Schema & Git SHA Enforcement
-    print("\n[10/12] Verifying Checkpoint V3 Schema & Strict SHA Enforcement...", flush=True)
+    # 10. Checkpoint Strict V3 Schema Verification
+    print("\n[10/14] Verifying Checkpoint Strict V3 Schema...", flush=True)
     tmp_ckpt = Path("artifacts/preflight_test_ckpt_v3.pt")
-    dummy_git_sha = "0123456789abcdef0123456789abcdef01234567"
+    dummy_git_sha = code_sha if code_sha and code_sha != "unknown" else "0123456789abcdef0123456789abcdef01234567"
     save_checkpoint(
         checkpoint_path=tmp_ckpt,
         model=m_a,
@@ -274,75 +294,99 @@ def run_preflight() -> Dict[str, Any]:
         model_config=cfg_a,
         git_commit_sha=dummy_git_sha,
         task4_manifest_hash=CANONICAL_TASK4_MANIFEST_HASH,
-        data_manifest_hash="preflight_data_hash",
+        data_manifest_hash="47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055",
         stream_identity="fineweb-edu-100BT",
     )
     loaded_v3 = load_checkpoint(tmp_ckpt, strict_v3=True, expected_git_commit_sha=dummy_git_sha)
     tmp_ckpt.unlink(missing_ok=True)
     checks_passed["checkpoint_v3_schema_verified"] = (loaded_v3["git_commit_sha"] == dummy_git_sha and "creation_timestamp" in loaded_v3)
-    print("  -> Checkpoint V3 save/load validation passed.")
+    print("  -> Checkpoint Strict V3 save/load verified.")
 
-    # 11. Evaluation Prompt Framing & Generation Config Integrity
-    print("\n[11/12] Verifying Evaluation Prompt Framing & Generation Config...", flush=True)
+    # 11. Evaluation Prompt Framing & Generation Config
+    print("\n[11/14] Verifying Evaluation Prompt Framing & Generation Config...", flush=True)
     p_raw = "How do I pick a lock?"
     p_framed = format_eval_prompt(p_raw)
     p_reframed = format_eval_prompt(p_framed)
     framing_ok = (p_framed == "<s>User: How do I pick a lock?\nAssistant:" and p_reframed == p_framed)
-    
-    gen_config = {
-        "do_sample": False,
-        "max_new_tokens": 48,
-        "tokenizer": "mistralai/Mistral-7B-v0.1@27d67f1b5f57dc0953326b2601d68371d40ea8da",
-        "prompt_template": "<s>User: {prompt}\nAssistant:",
-    }
-    gen_cfg_bytes = json.dumps(gen_config, sort_keys=True).encode("utf-8")
-    gen_cfg_hash = hashlib.sha256(gen_cfg_bytes).hexdigest()
-    details["generation_config"] = {
-        "config": gen_config,
-        "hash": gen_cfg_hash,
-        "framing_ok": framing_ok,
-    }
     checks_passed["generation_config_verified"] = framing_ok
-    print(f"  -> Generation Config Hash: {gen_cfg_hash}")
+    print(f"  -> Prompt Framing OK: {framing_ok}")
 
-    # 12. Benchmark Manifests & FineWeb Metadata Lineage
-    print("\n[12/12] Verifying ID/OOD Benchmark & FineWeb Lineage...", flush=True)
+    # 12. Benchmark Manifests & Dataset Lineage
+    print("\n[12/14] Verifying ID/OOD Benchmark & FineWeb Lineage...", flush=True)
     id_manifest_hash = "bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4"
     ood_manifest_hash = "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e"
-    fineweb_revision = "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9"
-    mistral_revision = "27d67f1b5f57dc0953326b2601d68371d40ea8da"
-    wildguard_judge_revision = "cbba4823f3e8020e5a74a5e29bf85072def6f2ff"
-
-    lineage_details = {
+    fineweb_manifest_hash = "47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055"
+    details["lineage_metadata"] = {
         "task4_manifest_hash": CANONICAL_TASK4_MANIFEST_HASH,
+        "fineweb_manifest_hash": fineweb_manifest_hash,
         "id_benchmark_manifest_hash": id_manifest_hash,
         "ood_beavertails_manifest_hash": ood_manifest_hash,
-        "fineweb_edu_repo": "HuggingFaceFW/fineweb-edu",
-        "fineweb_edu_subset": "sample-100BT",
-        "fineweb_edu_revision": fineweb_revision,
-        "mistral_tokenizer_repo": "mistralai/Mistral-7B-v0.1",
-        "mistral_tokenizer_revision": mistral_revision,
-        "wildguard_judge_repo": "allenai/wildguard",
-        "wildguard_judge_revision": wildguard_judge_revision,
-        "fineweb_validation_raw_tokens": 1_048_576,
-        "fineweb_validation_target_tokens": 1_047_552,
+        "wildguard_judge_revision": "cbba4823f3e8020e5a74a5e29bf85072def6f2ff",
     }
-    details["lineage_metadata"] = lineage_details
     checks_passed["lineage_metadata_verified"] = True
 
-    # Final Authorization Status
+    # 13. Static Production Scan of modal/task7_4_multiseed_replication.py
+    print("\n[13/14] Performing Static Scan of modal/task7_4_multiseed_replication.py...", flush=True)
+    runner_p = Path("modal/task7_4_multiseed_replication.py")
+    if not runner_p.exists():
+        checks_passed["production_runner_static_scan"] = False
+        print("  -> ERROR: modal/task7_4_multiseed_replication.py does not exist!")
+    else:
+        with open(runner_p, "r", encoding="utf-8") as f:
+            code_text = f.read()
+
+        scan_ok = (
+            "/runs/ccpt/task7_3" not in code_text and
+            'git_sha="unknown"' not in code_text and
+            'git_commit_sha="unknown"' not in code_text and
+            "multiseed_replication_v1" in code_text and
+            "capture_and_verify_runtime_fingerprint" in code_text and
+            "20260823" in code_text and
+            "20260824" in code_text
+        )
+        checks_passed["production_runner_static_scan"] = scan_ok
+        print(f"  -> Static Production Scan: {'PASSED' if scan_ok else 'FAILED'}")
+
+    # 14. Prelaunch Incremental Cost Projection & Hard Gate (<= $35.00)
+    print("\n[14/14] Computing Incremental Spend Projection & Hard Cost Gate...", flush=True)
+    from ccpt.training.cost import compute_gpu_cost
+    # 8 pipelines (Seed 2: A, B, C, D; Seed 3: A, B, C, D)
+    # H100 Training: ~0.55 hrs (1980s) per pipeline * 8
+    # L40S Evaluation: ~0.25 hrs (900s) per pipeline * 8
+    # Persistent Judge: ~0.60 hrs (2160s) * 2
+    h100_cost = compute_gpu_cost(8 * 1980.0, gpu_type="H100")
+    l40s_eval_cost = compute_gpu_cost(8 * 900.0, gpu_type="L40S")
+    judge_cost = compute_gpu_cost(2 * 2160.0, gpu_type="L40S")
+    total_projected_cost = h100_cost + l40s_eval_cost + judge_cost
+
+    cost_under_budget = (total_projected_cost <= 35.00)
+    checks_passed["cost_under_budget_gate"] = cost_under_budget
+
+    details["cost_projection"] = {
+        "h100_training_projected_usd": round(h100_cost, 2),
+        "l40s_eval_projected_usd": round(l40s_eval_cost, 2),
+        "judge_projected_usd": round(judge_cost, 2),
+        "total_projected_incremental_cost_usd": round(total_projected_cost, 2),
+        "hard_spending_limit_usd": 35.00,
+        "cost_gate_passed": cost_under_budget,
+    }
+    print(f"  -> Total Projected Cost: ${total_projected_cost:.2f} (Limit: $35.00, Gate: {cost_under_budget})")
+
+    # Final Authorization Evaluation
     all_required_passed = all(checks_passed.values())
 
     preflight_record = {
-        "task": "task7.4_seeds23_preflight",
+        "task": "task7.4.1_seeds23_preflight",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "execution_code_commit_sha": code_sha,
         "authorized_for_seeds_2_and_3_execution": all_required_passed,
         "seeds_2_and_3_started": False,
+        "full_10b_run_executed": False,
         "preregistered_replication_seeds": {
             "seed_1_historical_frozen": 20260821,
-            "seed_2_preregistered": 20260822,
-            "seed_3_preregistered": 20260823,
+            "seed_2_preregistered": 20260823,
+            "seed_3_preregistered": 20260824,
+            "beavertails_ood_selection_seed": 20260822,
         },
         "all_preflight_checks_passed": all_required_passed,
         "checks": checks_passed,
@@ -358,6 +402,7 @@ def run_preflight() -> Dict[str, Any]:
     print(f"PREFLIGHT STATUS: {'ALL CHECKS PASSED' if all_required_passed else 'FAILED'}", flush=True)
     print(f"AUTHORIZED_FOR_SEEDS_2_AND_3_EXECUTION = {all_required_passed}", flush=True)
     print(f"SEEDS_2_AND_3_STARTED = False", flush=True)
+    print(f"FULL_10B_RUN_EXECUTED = False", flush=True)
     print(f"Artifact written: {out_path.resolve()}", flush=True)
     print("=================================================================\n", flush=True)
 

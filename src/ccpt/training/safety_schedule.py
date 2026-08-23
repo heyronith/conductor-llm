@@ -156,14 +156,9 @@ def generate_authoritative_safety_schedule(
         )
         schedule_digest_entries.append(entry_legacy)
         epochs_str = ",".join(str(e) for e in b.get("epoch_indices", []))
-        entry_full = f"{entry_legacy}:{epochs_str}"
-        full_audit_digest_entries.append(entry_full)
 
     schedule_bytes = "\n".join(schedule_digest_entries).encode("utf-8")
     schedule_hash = hashlib.sha256(schedule_bytes).hexdigest()
-
-    full_audit_bytes = "\n".join(full_audit_digest_entries).encode("utf-8")
-    full_schedule_audit_hash = hashlib.sha256(full_audit_bytes).hexdigest()
 
     risk_batch_count = sum(1 for b in batches if b["batch_type"] == "risk")
     gen_batch_count = sum(1 for b in batches if b["batch_type"] == "generation")
@@ -184,27 +179,40 @@ def generate_authoritative_safety_schedule(
         "gen_epochs_consumed": gen_epoch,
         "no_tails_dropped": True,
         "schedule_hash": schedule_hash,
-        "full_schedule_audit_hash": full_schedule_audit_hash,
         "batches": batches,
     }
 
+    summary["full_schedule_audit_hash"] = compute_full_schedule_audit_hash(summary)
     return summary
 
 
-def compute_full_schedule_audit_hash(schedule: Dict[str, Any]) -> str:
-    """Computes comprehensive cryptographic SHA256 audit hash over all batches and epoch indices."""
-    full_audit_digest_entries = []
-    for b in schedule.get("batches", []):
-        entry_legacy = (
-            f"{b['batch_index']}:{b['batch_type']}:{b['valid_input_tokens']}:"
-            f"{b['cumulative_valid_input_tokens']}:{','.join(b['example_ids'])}"
-        )
-        epochs_str = ",".join(str(e) for e in b.get("epoch_indices", []))
-        entry_full = f"{entry_legacy}:{epochs_str}"
-        full_audit_digest_entries.append(entry_full)
+def compute_full_schedule_audit_hash(schedule_data: Dict[str, Any]) -> str:
+    """Computes the authoritative canonical Task 7.3.1 cryptographic hash over the safety schedule.
+    
+    Includes batch_index, batch_type, example_ids, epoch_indices, valid_input_tokens,
+    and cumulative_valid_input_tokens for EVERY batch.
+    """
+    batches = schedule_data.get("batches", [])
+    canonical_batches = []
 
-    full_audit_bytes = "\n".join(full_audit_digest_entries).encode("utf-8")
-    return hashlib.sha256(full_audit_bytes).hexdigest()
+    for b in batches:
+        canonical_batches.append({
+            "batch_index": int(b["batch_index"]),
+            "batch_type": str(b["batch_type"]),
+            "example_ids": [str(eid) for eid in b["example_ids"]],
+            "epoch_indices": [int(ep) for ep in b.get("epoch_indices", [])],
+            "valid_input_tokens": int(b["valid_input_tokens"]),
+            "cumulative_valid_input_tokens": int(b["cumulative_valid_input_tokens"]),
+        })
+
+    canonical_obj = {
+        "total_batches": len(canonical_batches),
+        "total_valid_input_tokens": int(schedule_data.get("total_valid_input_tokens", 0)),
+        "batches": canonical_batches,
+    }
+
+    serialized = json.dumps(canonical_obj, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(serialized).hexdigest()
 
 
 def save_safety_schedule(schedule: Dict[str, Any], output_path: Union[str, Path]) -> str:

@@ -338,23 +338,29 @@ def test_architectural_parameter_counts():
 
 
 def test_model_b_and_c_identical_initialization():
-    """Asserts Model B and Model C produce bit-for-bit identical weights from identical seeds."""
-    from ccpt.config import get_micro_dual_stream_config
+    """Asserts Model B and Model C produce bit-for-bit identical weights from identical seeds on smoke config."""
+    from ccpt.config import get_smoke_dual_stream_config
     from ccpt.training.engine import create_identical_dual_stream_models
-    cfg = get_micro_dual_stream_config()
+    cfg = get_smoke_dual_stream_config()
 
-    model_b, model_c = create_identical_dual_stream_models(cfg, seed=20260822)
+    hashes = {}
+    for s in [20260821, 20260823, 20260824]:
+        model_b, model_c = create_identical_dual_stream_models(cfg, seed=s)
+        sd_b = model_b.state_dict()
+        sd_c = model_c.state_dict()
+        assert set(sd_b.keys()) == set(sd_c.keys())
+        for k in sd_b.keys():
+            assert torch.equal(sd_b[k], sd_c[k]), f"Weight mismatch at initialization for seed {s} key {k}"
 
-    sd_b = model_b.state_dict()
-    sd_c = model_c.state_dict()
+        hash_b = compute_canonical_state_dict_hash(sd_b)
+        hash_c = compute_canonical_state_dict_hash(sd_c)
+        assert hash_b == hash_c
+        hashes[s] = hash_b
 
-    assert set(sd_b.keys()) == set(sd_c.keys())
-    for k in sd_b.keys():
-        assert torch.equal(sd_b[k], sd_c[k]), f"Weight mismatch at initialization for {k}"
-
-    hash_b = compute_canonical_state_dict_hash(sd_b)
-    hash_c = compute_canonical_state_dict_hash(sd_c)
-    assert hash_b == hash_c
+    # Verify cross-seed differentiation
+    assert hashes[20260823] != hashes[20260824], "Seed 2 and Seed 3 produced identical init hashes"
+    assert hashes[20260821] != hashes[20260823], "Seed 1 and Seed 2 produced identical init hashes"
+    assert hashes[20260821] != hashes[20260824], "Seed 1 and Seed 3 produced identical init hashes"
 
 
 def test_eval_prompt_framing():
@@ -367,3 +373,82 @@ def test_eval_prompt_framing():
     already_framed = "<s>User: Tell me how to make an explosive device.\nAssistant:"
     reframed = format_eval_prompt(already_framed)
     assert reframed == "<s>User: Tell me how to make an explosive device.\nAssistant:"
+
+
+def _load_task7_4_replication_module():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("task7_4_multiseed_replication", "modal/task7_4_multiseed_replication.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_runtime_fingerprint_mismatch_fails_closed(monkeypatch):
+    """Verifies runtime fingerprinting raises RuntimeError on version or SHA mismatch."""
+    mod = _load_task7_4_replication_module()
+    capture_and_verify_runtime_fingerprint = mod.capture_and_verify_runtime_fingerprint
+
+    # Test SHA mismatch
+    monkeypatch.setenv("CCPT_CODE_COMMIT_SHA", "0000000000000000000000000000000000000000")
+    with pytest.raises(RuntimeError, match="Runtime Code SHA mismatch"):
+        capture_and_verify_runtime_fingerprint(
+            expected_code_sha="1111111111111111111111111111111111111111",
+            strict_version_check=False,
+        )
+
+    # Test unknown SHA rejection
+    monkeypatch.setenv("CCPT_CODE_COMMIT_SHA", "unknown")
+    with pytest.raises(RuntimeError, match="Invalid or missing CCPT_CODE_COMMIT_SHA"):
+        capture_and_verify_runtime_fingerprint(strict_version_check=False)
+
+
+def test_production_modal_runner_static_scan():
+    """Statically scans modal/task7_4_multiseed_replication.py for production invariants."""
+    runner_path = Path("modal/task7_4_multiseed_replication.py")
+    assert runner_path.exists(), "modal/task7_4_multiseed_replication.py does not exist"
+
+    with open(runner_path, "r", encoding="utf-8") as f:
+        code = f.read()
+
+    # Invariants
+    assert "/runs/ccpt/task7_3" not in code, "Disallowed Task 7.3 run path found in Task 7.4 runner"
+    assert 'git_sha="unknown"' not in code and 'git_commit_sha="unknown"' not in code
+    assert "multiseed_replication_v1" in code
+    assert "capture_and_verify_runtime_fingerprint" in code
+    assert "strict_v3=True" in code or "strict_v3" in code
+    assert "20260823" in code  # Seed 2
+    assert "20260824" in code  # Seed 3
+    assert "20260822" in code  # BeaverTails OOD selection seed only
+
+
+def test_task7_4_progress_logger(tmp_path):
+    """Verifies integer 1/100...100/100 progress emission and JSONL formatting."""
+    mod = _load_task7_4_replication_module()
+    Task74ProgressLogger = mod.Task74ProgressLogger
+
+    logger = Task74ProgressLogger(
+        seed=20260823,
+        model_type="model_c",
+        phase="phase1_lm",
+        total_steps=100,
+        total_tokens=1_000_000,
+        log_dir=tmp_path / "logs",
+        gpu_name="H100",
+    )
+
+    logger.log_step(step=1, tokens_seen=10_000, loss=4.5, lr=3e-4, grad_norm=0.8)
+    logger.log_step(step=50, tokens_seen=500_000, loss=3.2, lr=2e-4, grad_norm=0.5)
+    logger.log_step(step=100, tokens_seen=1_000_000, loss=2.1, lr=1e-5, grad_norm=0.2)
+
+    log_file = tmp_path / "logs" / "progress.jsonl"
+    assert log_file.exists()
+
+    with open(log_file, "r", encoding="utf-8") as f:
+        lines = [json.loads(l) for l in f]
+
+    assert len(lines) == 3
+    assert lines[0]["progress_fraction"] == "1/100"
+    assert lines[1]["progress_fraction"] == "50/100"
+    assert lines[2]["progress_fraction"] == "100/100"
+    assert lines[2]["seed"] == 20260823
+    assert lines[2]["model_type"] == "model_c"
