@@ -304,7 +304,8 @@ def run_task7_3_1a_salvage_pipeline() -> Dict[str, Any]:
             raise FileNotFoundError(f"Canonical Task 4 file missing at {c_path}")
         with open(c_path, "rb") as f:
             f_sha = hashlib.sha256(f.read()).hexdigest()
-        records = load_wildguard_records(c_path)
+        record_type = "generation" if "gen" in split_key else "risk"
+        records = load_wildguard_records(c_path, record_type=record_type)
         rec_count = len(records)
         if rec_count != canonical_expected_counts[split_key]:
             raise ValueError(f"Record count mismatch for {split_key} at {c_path}: expected {canonical_expected_counts[split_key]}, got {rec_count}")
@@ -320,10 +321,10 @@ def run_task7_3_1a_salvage_pipeline() -> Dict[str, Any]:
 
     # Load canonical records into exact lookup maps
     print("Loading full canonical records into memory for field-level comparison...")
-    canonical_risk_train = load_wildguard_records(canonical_files["risk_train"])
-    canonical_risk_val = load_wildguard_records(canonical_files["risk_val"])
-    canonical_gen_train = load_wildguard_records(canonical_files["gen_train"])
-    canonical_gen_val = load_wildguard_records(canonical_files["gen_val"])
+    canonical_risk_train = load_wildguard_records(canonical_files["risk_train"], record_type="risk")
+    canonical_risk_val = load_wildguard_records(canonical_files["risk_val"], record_type="risk")
+    canonical_gen_train = load_wildguard_records(canonical_files["gen_train"], record_type="generation")
+    canonical_gen_val = load_wildguard_records(canonical_files["gen_val"], record_type="generation")
 
     risk_lookup: Dict[str, Any] = {r["example_id"]: r for r in canonical_risk_train + canonical_risk_val}
     gen_lookup: Dict[str, Any] = {r["example_id"]: r for r in canonical_gen_train + canonical_gen_val}

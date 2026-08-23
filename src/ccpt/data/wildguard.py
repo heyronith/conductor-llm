@@ -551,10 +551,11 @@ def save_wildguard_records(
 
 
 def load_wildguard_records(
-    input_path: Path,
+    input_path: Union[Path, str],
     record_type: str = "risk",
 ) -> List[Union[RiskRecord, SafeGenerationRecord]]:
     """Load prepared records from disk (Arrow IPC if .arrow, JSONL if .jsonl)."""
+    input_path = Path(input_path)
     if input_path.suffix == ".arrow":
         return load_wildguard_records_arrow(input_path, record_type=record_type)
 
