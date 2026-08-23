@@ -60,7 +60,8 @@ def extract_named_sub_state_dict(state_dict: Dict[str, torch.Tensor], target_nam
 def compute_canonical_state_dict_hash(state_dict: Dict[str, torch.Tensor]) -> str:
     """Computes a deterministic cryptographic hash over sorted named state_dict tensors.
     
-    Includes key name, dtype string, shape tuple, and contiguous raw tensor bytes.
+    Includes key name, dtype string, shape tuple, and contiguous raw tensor storage bytes.
+    Supports all PyTorch dtypes including bfloat16, float16, float32, and int64.
     """
     hasher = hashlib.sha256()
     for name in sorted(state_dict.keys()):
@@ -68,7 +69,7 @@ def compute_canonical_state_dict_hash(state_dict: Dict[str, torch.Tensor]) -> st
         hasher.update(name.encode("utf-8"))
         hasher.update(str(tensor.dtype).encode("utf-8"))
         hasher.update(str(tuple(tensor.shape)).encode("utf-8"))
-        hasher.update(tensor.numpy().tobytes())
+        hasher.update(bytes(tensor.untyped_storage()))
     return hasher.hexdigest()
 
 

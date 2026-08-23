@@ -74,6 +74,7 @@ class DataCollatorForSafeGenerationTraining:
         all_ids: List[List[int]] = []
         prompt_ends: List[int] = []
         labels: List[int] = []
+        is_refusals: List[bool] = []
         ex_ids: List[str] = []
 
         for rec in records:
@@ -81,12 +82,20 @@ class DataCollatorForSafeGenerationTraining:
                 all_ids.append(rec.input_ids)
                 prompt_ends.append(rec.prompt_end_index)
                 labels.append(rec.risk_label)
+                is_refusals.append(bool(rec.is_refusal))
                 ex_ids.append(rec.example_id)
-            else:
+            elif isinstance(rec, dict):
                 all_ids.append(rec["input_ids"])
                 prompt_ends.append(rec["prompt_end_index"])
                 labels.append(rec["risk_label"])
+                is_refusals.append(bool(rec.get("is_refusal", False)))
                 ex_ids.append(rec["example_id"])
+            else:
+                all_ids.append(getattr(rec, "input_ids"))
+                prompt_ends.append(getattr(rec, "prompt_end_index"))
+                labels.append(getattr(rec, "risk_label"))
+                is_refusals.append(bool(getattr(rec, "is_refusal", False)))
+                ex_ids.append(getattr(rec, "example_id"))
 
         max_len = max(len(ids) for ids in all_ids)
         input_ids = torch.full((batch_size, max_len), self.pad_token_id, dtype=torch.long)
@@ -102,6 +111,7 @@ class DataCollatorForSafeGenerationTraining:
             "attention_mask": attention_mask,
             "prompt_end_indices": torch.tensor(prompt_ends, dtype=torch.long),
             "risk_labels": torch.tensor(labels, dtype=torch.long),
+            "is_refusals": torch.tensor(is_refusals, dtype=torch.bool),
             "example_ids": ex_ids,
         }
 
@@ -119,7 +129,15 @@ def pad_and_collate_gen_records(
     records: Sequence[Union[SafeGenerationRecord, Dict[str, Any]]],
     pad_token_id: int = 2,
 ):
+    """Pads and collates safe-generation records.
+
+    Note: In historical Seed 1 code, the 4th return element erroneously returned
+    `res["input_ids"]` instead of `res["is_refusals"]`. This did not affect Seed 1
+    training gradients or losses because `compute_safe_generation_loss` consumes only
+    `logits`, `input_ids`, `prompt_end_indices`, and `attention_mask`. In Task 7.4,
+    this API is hardened to return the true `is_refusals` boolean tensor.
+    """
     collator = DataCollatorForSafeGenerationTraining(pad_token_id=pad_token_id)
     res = collator(records)
-    return res["input_ids"], res["prompt_end_indices"], res["risk_labels"].float(), res["input_ids"], res["attention_mask"]
+    return res["input_ids"], res["prompt_end_indices"], res["risk_labels"].float(), res["is_refusals"], res["attention_mask"]
 

@@ -148,22 +148,29 @@ def generate_authoritative_safety_schedule(
 
     # Compute full schedule SHA256 digest
     schedule_digest_entries = []
+    full_audit_digest_entries = []
     for b in batches:
-        entry = (
+        entry_legacy = (
             f"{b['batch_index']}:{b['batch_type']}:{b['valid_input_tokens']}:"
             f"{b['cumulative_valid_input_tokens']}:{','.join(b['example_ids'])}"
         )
-        schedule_digest_entries.append(entry)
+        schedule_digest_entries.append(entry_legacy)
+        epochs_str = ",".join(str(e) for e in b.get("epoch_indices", []))
+        entry_full = f"{entry_legacy}:{epochs_str}"
+        full_audit_digest_entries.append(entry_full)
 
     schedule_bytes = "\n".join(schedule_digest_entries).encode("utf-8")
     schedule_hash = hashlib.sha256(schedule_bytes).hexdigest()
+
+    full_audit_bytes = "\n".join(full_audit_digest_entries).encode("utf-8")
+    full_schedule_audit_hash = hashlib.sha256(full_audit_bytes).hexdigest()
 
     risk_batch_count = sum(1 for b in batches if b["batch_type"] == "risk")
     gen_batch_count = sum(1 for b in batches if b["batch_type"] == "generation")
     total_valid_tokens = cumulative_tokens
 
     summary: Dict[str, Any] = {
-        "schedule_version": "task7_3_safety_schedule_v1",
+        "schedule_version": "task7_4_safety_schedule_v2",
         "seed": seed,
         "batch_size": batch_size,
         "target_safety_tokens": target_safety_tokens,
@@ -177,10 +184,27 @@ def generate_authoritative_safety_schedule(
         "gen_epochs_consumed": gen_epoch,
         "no_tails_dropped": True,
         "schedule_hash": schedule_hash,
+        "full_schedule_audit_hash": full_schedule_audit_hash,
         "batches": batches,
     }
 
     return summary
+
+
+def compute_full_schedule_audit_hash(schedule: Dict[str, Any]) -> str:
+    """Computes comprehensive cryptographic SHA256 audit hash over all batches and epoch indices."""
+    full_audit_digest_entries = []
+    for b in schedule.get("batches", []):
+        entry_legacy = (
+            f"{b['batch_index']}:{b['batch_type']}:{b['valid_input_tokens']}:"
+            f"{b['cumulative_valid_input_tokens']}:{','.join(b['example_ids'])}"
+        )
+        epochs_str = ",".join(str(e) for e in b.get("epoch_indices", []))
+        entry_full = f"{entry_legacy}:{epochs_str}"
+        full_audit_digest_entries.append(entry_full)
+
+    full_audit_bytes = "\n".join(full_audit_digest_entries).encode("utf-8")
+    return hashlib.sha256(full_audit_bytes).hexdigest()
 
 
 def save_safety_schedule(schedule: Dict[str, Any], output_path: Union[str, Path]) -> str:

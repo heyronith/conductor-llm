@@ -27,17 +27,17 @@ app = modal.App("ccpt-pilot-v2-authoritative")
 authoritative_image = (
     modal.Image.debian_slim(python_version="3.11")
     .pip_install(
-        "torch>=2.1.0",
-        "transformers>=4.40.0",
-        "tokenizers>=0.19.0",
-        "datasets>=2.19.0",
-        "huggingface_hub>=0.23.0",
-        "sentencepiece>=0.2.0",
-        "tiktoken>=0.7.0",
-        "accelerate>=0.29.0",
-        "pyarrow>=15.0.0",
-        "numpy>=1.24.0",
-        "pytest>=8.0.0",
+        "torch==2.5.1",
+        "transformers==4.46.3",
+        "tokenizers==0.20.3",
+        "datasets==3.1.0",
+        "huggingface_hub==0.26.2",
+        "sentencepiece==0.2.0",
+        "tiktoken==0.8.0",
+        "accelerate==1.1.1",
+        "pyarrow==17.0.0",
+        "numpy==2.1.3",
+        "pytest==8.3.3",
     )
     .add_local_python_source("ccpt")
     .add_local_dir("tests", remote_path="/root/tests")
@@ -53,27 +53,85 @@ hf_secrets = [modal.Secret.from_name("huggingface")]
 
 TASK7_3_RUN_ID = "pilot_v2_authoritative_run_20260822"
 PRIMARY_SEED = 20260821
+SEED_2 = 20260822
+SEED_3 = 20260823
 EXPECTED_TASK4_HASH = "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097"
 
 
+def capture_and_verify_runtime_fingerprint(expected_code_sha: Optional[str] = None) -> Dict[str, Any]:
+    """Captures and verifies container runtime environment fingerprint.
+
+    Fails closed on missing packages, unsupported versions, or git commit SHA mismatch.
+    """
+    import importlib.metadata
+    import platform
+    import sys
+
+    expected_versions = {
+        "torch": "2.5.1",
+        "transformers": "4.46.3",
+        "tokenizers": "0.20.3",
+        "datasets": "3.1.0",
+        "huggingface_hub": "0.26.2",
+        "accelerate": "1.1.1",
+        "pyarrow": "17.0.0",
+        "numpy": "2.1.3",
+    }
+
+    installed_versions = {}
+    for pkg, exp_ver in expected_versions.items():
+        try:
+            act_ver = importlib.metadata.version(pkg)
+            installed_versions[pkg] = act_ver
+        except Exception as e:
+            raise RuntimeError(f"Required package {pkg} is not installed: {e}")
+
+    # Verify CUDA availability if GPU present
+    cuda_avail = torch.cuda.is_available()
+    device_name = torch.cuda.get_device_name(0) if cuda_avail else "CPU"
+
+    code_sha = os.environ.get("CCPT_CODE_COMMIT_SHA") or os.environ.get("TASK7_4_CODE_SHA")
+    if not code_sha:
+        try:
+            import subprocess
+            res = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True, timeout=5)
+            if res.returncode == 0 and res.stdout.strip():
+                code_sha = res.stdout.strip()
+        except Exception:
+            pass
+
+    if expected_code_sha is not None and code_sha != expected_code_sha:
+        raise RuntimeError(f"Runtime git commit SHA mismatch: expected {expected_code_sha}, got {code_sha}")
+
+    fingerprint = {
+        "python_version": sys.version,
+        "platform": platform.platform(),
+        "cuda_available": cuda_avail,
+        "cuda_version": str(torch.version.cuda) if cuda_avail else None,
+        "device_name": device_name,
+        "installed_versions": installed_versions,
+        "git_commit_sha": code_sha or "unresolved",
+    }
+
+    fp_bytes = json.dumps(fingerprint, sort_keys=True).encode("utf-8")
+    fingerprint["fingerprint_hash"] = hashlib.sha256(fp_bytes).hexdigest()
+    return fingerprint
+
+
 def resolve_arrow_path(rel_path: str) -> Path:
-    """Finds prepared Arrow files across task4 volume mount locations, revision subdirs, or local paths."""
-    base_dirs = [Path("/data_task4"), Path("/data/ccpt"), Path("/data"), Path("data"), Path(".")]
-    for base in base_dirs:
-        if not base.exists():
-            continue
-        direct = base / rel_path
-        if direct.exists():
-            return direct
-        matches = list(base.glob(f"**/{rel_path}"))
-        if matches:
-            return matches[0]
-        parts = Path(rel_path).parts
-        if len(parts) >= 2:
-            wildcard_matches = list(base.glob(f"{parts[0]}/**/{'/'.join(parts[1:])}"))
-            if wildcard_matches:
-                return wildcard_matches[0]
-    raise FileNotFoundError(f"Could not locate prepared data for {rel_path} across {base_dirs}")
+    """Finds prepared Arrow files strictly via canonical Task 4 resolution."""
+    from ccpt.data.wildguard import resolve_canonical_wildguard_artifacts
+    artifacts = resolve_canonical_wildguard_artifacts()
+    # Map relative path queries to canonical keys
+    if "risk" in rel_path and "train" in rel_path:
+        return Path(artifacts["risk_train"]["resolved_path"])
+    elif "risk" in rel_path and ("val" in rel_path or "validation" in rel_path):
+        return Path(artifacts["risk_val"]["resolved_path"])
+    elif "gen" in rel_path and "train" in rel_path:
+        return Path(artifacts["gen_train"]["resolved_path"])
+    elif "gen" in rel_path and ("val" in rel_path or "validation" in rel_path):
+        return Path(artifacts["gen_val"]["resolved_path"])
+    raise FileNotFoundError(f"Cannot resolve canonical arrow path for {rel_path}")
 
 
 

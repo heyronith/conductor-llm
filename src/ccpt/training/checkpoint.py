@@ -20,7 +20,8 @@ from ccpt.config import AdapterConfig, BaselineConfig, DualStreamConfig
 
 CHECKPOINT_FORMAT_VERSION_V1 = "ccpt-checkpoint-v1"
 CHECKPOINT_FORMAT_VERSION_V2 = "ccpt-checkpoint-v2"
-CHECKPOINT_FORMAT_VERSION = CHECKPOINT_FORMAT_VERSION_V2
+CHECKPOINT_FORMAT_VERSION_V3 = "ccpt-checkpoint-v3"
+CHECKPOINT_FORMAT_VERSION = CHECKPOINT_FORMAT_VERSION_V3
 
 MANDATORY_V2_BASE_FIELDS = [
     "format_version",
@@ -41,6 +42,10 @@ MANDATORY_V2_BASE_FIELDS = [
     "cuda_rng_state",
     "git_commit_sha",
     "env_versions",
+]
+
+MANDATORY_V3_BASE_FIELDS = MANDATORY_V2_BASE_FIELDS + [
+    "creation_timestamp",
 ]
 
 PRODUCTION_LM_PHASES = {
@@ -183,26 +188,45 @@ def validate_checkpoint_lineage(
     }
 
 
-def get_git_commit_sha() -> str:
-    """Attempts to retrieve the current git commit SHA, falling back to 'unknown'."""
-    try:
-        res = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            capture_output=True,
-            text=True,
-            timeout=5,
-        )
-        if res.returncode == 0:
-            return res.stdout.strip()
-    except Exception:
-        pass
-    return "unknown"
+def get_git_commit_sha(required: bool = False, expected_sha: Optional[str] = None) -> str:
+    """Retrieves current git commit SHA from environment or git command.
+
+    If required=True, raises RuntimeError if SHA cannot be resolved or is 'unknown'.
+    If expected_sha is provided, raises RuntimeError if resolved SHA does not match.
+    """
+    sha = os.environ.get("CCPT_CODE_COMMIT_SHA") or os.environ.get("TASK7_4_CODE_SHA")
+    if not sha:
+        try:
+            res = subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                capture_output=True,
+                text=True,
+                timeout=5,
+            )
+            if res.returncode == 0 and res.stdout.strip():
+                sha = res.stdout.strip()
+        except Exception:
+            pass
+
+    if not sha:
+        sha = "unknown"
+
+    if required and (sha == "unknown" or not sha):
+        raise RuntimeError("Exact git commit SHA is mandatory for scientific execution; 'unknown' is disallowed.")
+
+    if expected_sha is not None and sha != expected_sha:
+        raise RuntimeError(f"Git commit SHA mismatch! Expected {expected_sha}, got {sha}")
+
+    return sha
 
 
 def get_environment_versions() -> Dict[str, str]:
     """Captures Python, PyTorch, platform, and core package versions."""
     deps = {}
-    for pkg in ["torch", "transformers", "tokenizers", "datasets", "pyarrow", "numpy", "modal"]:
+    for pkg in [
+        "torch", "transformers", "tokenizers", "datasets", "huggingface_hub",
+        "accelerate", "pyarrow", "numpy", "sentencepiece", "tiktoken", "modal", "pytest"
+    ]:
         try:
             deps[pkg] = importlib.metadata.version(pkg)
         except Exception:
@@ -212,6 +236,8 @@ def get_environment_versions() -> Dict[str, str]:
         "python_version": sys.version,
         "platform": platform.platform(),
         "pytorch_version": torch.__version__,
+        "cuda_available": str(torch.cuda.is_available()),
+        "cuda_version": str(torch.version.cuda) if torch.cuda.is_available() else "none",
         **deps,
     }
 
@@ -228,15 +254,24 @@ def save_checkpoint(
     task5_subset_hash: str = "",
     training_seed: int = 20260821,
     metrics_so_far: Optional[Dict[str, Any]] = None,
-    format_version: str = CHECKPOINT_FORMAT_VERSION_V2,
+    format_version: str = CHECKPOINT_FORMAT_VERSION_V3,
     tokens_seen: int = 0,
     data_cursor: int = 0,
     data_manifest_hash: str = "",
     safety_schedule_hash: str = "",
+    safety_schedule_full_hash: str = "",
+    canonical_wildguard_hashes: Optional[Dict[str, str]] = None,
+    fineweb_manifest_hash: str = "",
+    parent_checkpoint_sha256: Optional[str] = None,
     stream_identity: str = "fineweb-edu-100BT",
     scheduler: Optional[Any] = None,
+    git_commit_sha: Optional[str] = None,
+    require_exact_git_sha: bool = False,
+    expected_git_sha: Optional[str] = None,
 ) -> Path:
     """Saves model state, optimizer state, scheduler, RNG states, and locked hashes atomically."""
+    from datetime import datetime, timezone
+
     path = Path(checkpoint_path)
     path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -255,6 +290,17 @@ def save_checkpoint(
                 "tokens_seen": getattr(scheduler, "tokens_seen", tokens_seen),
             }
 
+    if git_commit_sha is not None:
+        if require_exact_git_sha and (git_commit_sha == "unknown" or not git_commit_sha):
+            raise RuntimeError("Exact git commit SHA is mandatory for scientific execution; 'unknown' is disallowed.")
+        if expected_git_sha is not None and git_commit_sha != expected_git_sha:
+            raise RuntimeError(f"Git commit SHA mismatch! Expected {expected_git_sha}, got {git_commit_sha}")
+        resolved_git_sha = git_commit_sha
+    else:
+        resolved_git_sha = get_git_commit_sha(
+            required=require_exact_git_sha, expected_sha=expected_git_sha
+        )
+
     state = {
         "format_version": format_version,
         "phase": phase,
@@ -271,12 +317,17 @@ def save_checkpoint(
         "data_cursor": data_cursor,
         "stream_identity": stream_identity,
         "data_manifest_hash": data_manifest_hash,
+        "fineweb_manifest_hash": fineweb_manifest_hash,
         "safety_schedule_hash": safety_schedule_hash,
+        "safety_schedule_full_hash": safety_schedule_full_hash,
+        "canonical_wildguard_hashes": canonical_wildguard_hashes or {},
+        "parent_checkpoint_sha256": parent_checkpoint_sha256,
         "torch_rng_state": torch.get_rng_state(),
         "cuda_rng_state": torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None,
-        "git_commit_sha": get_git_commit_sha(),
+        "git_commit_sha": resolved_git_sha,
         "env_versions": get_environment_versions(),
         "metrics_so_far": metrics_so_far or {},
+        "creation_timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
     tmp_path = path.with_suffix(".tmp")
@@ -292,16 +343,19 @@ def load_checkpoint(
     expected_task5_subset_hash: Optional[str] = None,
     expected_data_manifest_hash: Optional[str] = None,
     expected_safety_schedule_hash: Optional[str] = None,
+    expected_safety_schedule_full_hash: Optional[str] = None,
+    expected_git_commit_sha: Optional[str] = None,
     expected_model_type: Optional[str] = None,
     expected_model_config: Optional[Union[BaselineConfig, DualStreamConfig, AdapterConfig, Dict[str, Any]]] = None,
     expected_stream_identity: Optional[str] = None,
     expected_phase: Optional[str] = None,
     strict_v2: bool = False,
+    strict_v3: bool = False,
     map_location: Optional[Union[str, torch.device]] = "cpu",
 ) -> Dict[str, Any]:
     """Loads a checkpoint and strictly validates locked data hashes and format integrity.
 
-    Raises ValueError loudly on any hash mismatch, missing required V2 field, or model config mismatch.
+    Raises ValueError loudly on any hash mismatch, missing required V2/V3 field, or model config mismatch.
     """
     path = Path(checkpoint_path)
     if not path.exists():
@@ -310,13 +364,16 @@ def load_checkpoint(
     state = torch.load(path, map_location=map_location, weights_only=False)
 
     fmt = state.get("format_version", CHECKPOINT_FORMAT_VERSION_V1)
-    if strict_v2 and fmt != CHECKPOINT_FORMAT_VERSION_V2:
+    if strict_v3 and fmt != CHECKPOINT_FORMAT_VERSION_V3:
+        raise ValueError(f"Strict V3 loading requested, but checkpoint has format '{fmt}'")
+    if strict_v2 and fmt not in (CHECKPOINT_FORMAT_VERSION_V2, CHECKPOINT_FORMAT_VERSION_V3):
         raise ValueError(f"Strict V2 loading requested, but checkpoint has format '{fmt}'")
 
-    if strict_v2:
-        for field in MANDATORY_V2_BASE_FIELDS:
+    if strict_v2 or strict_v3:
+        req_fields = MANDATORY_V3_BASE_FIELDS if strict_v3 else MANDATORY_V2_BASE_FIELDS
+        for field in req_fields:
             if field not in state:
-                raise ValueError(f"Checkpoint V2 missing mandatory base field: '{field}'")
+                raise ValueError(f"Checkpoint missing mandatory base field: '{field}'")
 
         ckpt_phase = state.get("phase", "")
         # Production LM Checkpoint rules
@@ -377,6 +434,20 @@ def load_checkpoint(
         if saved_hash != expected_safety_schedule_hash:
             raise ValueError(
                 f"Checkpoint safety schedule hash mismatch! Saved: {saved_hash}, Expected: {expected_safety_schedule_hash}"
+            )
+
+    if expected_safety_schedule_full_hash is not None:
+        saved_hash = state.get("safety_schedule_full_hash")
+        if saved_hash != expected_safety_schedule_full_hash:
+            raise ValueError(
+                f"Checkpoint safety schedule full audit hash mismatch! Saved: {saved_hash}, Expected: {expected_safety_schedule_full_hash}"
+            )
+
+    if expected_git_commit_sha is not None:
+        saved_sha = state.get("git_commit_sha")
+        if saved_sha != expected_git_commit_sha:
+            raise ValueError(
+                f"Checkpoint git commit SHA mismatch! Saved: {saved_sha}, Expected: {expected_git_commit_sha}"
             )
 
     if expected_model_type is not None:
