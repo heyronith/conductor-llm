@@ -1,0 +1,19 @@
+{
+  "audit_version": "task7_3_1_schedule_audit_v1",
+  "legacy_schedule_hash": "b141fcbc05d8388086f8649d5162c63b4ef862b90e049cbc2e0b29f7f1eb3caa",
+  "legacy_hash_verified": true,
+  "task7_3_1_full_schedule_audit_hash": "6e1be80718a7bd9f1fb2f5bd42c87a9cd793afac08694e46f5c449af379ec2a0",
+  "total_batches": 2344,
+  "risk_batches": 1172,
+  "generation_batches": 1172,
+  "total_valid_input_tokens": 20010611,
+  "cumulative_tokens_verified": 20010611,
+  "alternation_valid": true,
+  "schedule_data_content_exact": true,
+  "canonical_task4_records_loaded": {
+    "risk_train": 45492,
+    "risk_val": 2344,
+    "gen_train": 18015,
+    "gen_val": 928
+  }
+}

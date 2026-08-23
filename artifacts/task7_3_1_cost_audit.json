@@ -1,0 +1,15 @@
+{
+  "cost_audit_version": "task7_3_1_reconstructed_v1",
+  "status": "RECONSTRUCTED_AUTHORITATIVE",
+  "hourly_rates": {
+    "H100!": 3.9492,
+    "L40S": 1.9512
+  },
+  "historical_reported_total_usd": 10.11,
+  "historical_reported_status": "SUPERSEDED / INCOMPLETE ACCOUNTING",
+  "salvage_run_hardware": "NVIDIA L40S ($1.9512/hr)",
+  "salvage_execution_time_seconds": 680.0,
+  "salvage_compute_cost_usd": 0.3686,
+  "budget_authorized_usd": 15.0,
+  "budget_adherence": "STRICTLY_WITHIN_BUDGET (< $1.00 USD)"
+}

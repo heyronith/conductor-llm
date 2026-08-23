@@ -1,0 +1,27 @@
+{
+  "audit_version": "task7_3_1_tensor_forensics_v1",
+  "seed": 20260821,
+  "b_c_init_identical": true,
+  "b_init_sha": "665dd8757068682897d5764b2bb524224110e240e92af7bb439b7829f20d9ee4",
+  "c_init_sha": "665dd8757068682897d5764b2bb524224110e240e92af7bb439b7829f20d9ee4",
+  "invariants": {
+    "model_d_safety_freeze_during_1b_lm": {
+      "verified": true,
+      "changed_tensors": 0,
+      "max_abs_diff": 0.0
+    },
+    "model_d_safety_freeze_during_persistence": {
+      "verified": true,
+      "changed_tensors": 0,
+      "max_abs_diff": 0.0
+    },
+    "model_c_theta_n_during_1b_lm": {
+      "exact_normative_stream_freeze": true,
+      "note": "SwiGLU gate_proj belongs to theta_C and updated during LM pretraining as expected"
+    },
+    "model_c_theta_c_during_safety": {
+      "exact_capability_stream_freeze": true,
+      "note": "Observation projections obs_projections/p_in map C->N and are trained with theta_N"
+    }
+  }
+}
