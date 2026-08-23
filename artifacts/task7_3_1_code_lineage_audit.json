@@ -1,0 +1,114 @@
+{
+  "audit_version": "task7_3_1_v1",
+  "original_frozen_code_commit_sha": "223662e8c7299495889375506940b83d90e5f25f",
+  "evidence_commit_sha": "c6051afd8b42baa18c3f416ea36f79a2552dd4d0",
+  "post_freeze_commits": [
+    {
+      "commit_sha": "2ef0d9f75c80c01f78026b350b7ec5c884dfd434",
+      "timestamp": "2026-08-22T16:15:34-05:00",
+      "message": "Task 7.3: attach ccpt-data task4 volume and HF secrets to authoritative pipeline",
+      "files_changed": ["modal/pilot_v2_authoritative.py"],
+      "classification": "RUNTIME_DEPLOYMENT_ONLY",
+      "affected_phases": ["Phase 1 (Data & Schedule)", "Phase 4 (Safety)", "Phase 5 (Eval)"],
+      "scientific_effect": "Attached Modal NetworkFileSystem volumes for task4 data and HuggingFace authentication. No effect on model forward passes, losses, or optimizers.",
+      "requires_rerun": false
+    },
+    {
+      "commit_sha": "ce34ceba6c4ec937e7228ce9e39b68c457832c8e",
+      "timestamp": "2026-08-22T16:15:41-05:00",
+      "message": "Task 7.3: fix Secret.from_name syntax",
+      "files_changed": ["modal/pilot_v2_authoritative.py"],
+      "classification": "RUNTIME_DEPLOYMENT_ONLY",
+      "affected_phases": ["Deployment"],
+      "scientific_effect": "Syntax fix on Modal Secret helper. Zero mathematical impact.",
+      "requires_rerun": false
+    },
+    {
+      "commit_sha": "3bef5e2c45eed5d5c5ee6425ac2b2b5bfdf4d40c",
+      "timestamp": "2026-08-22T16:16:12-05:00",
+      "message": "Task 7.3: resolve prepared WildGuard data across dataset hash directories",
+      "files_changed": ["modal/pilot_v2_authoritative.py"],
+      "classification": "DATA_RESOLUTION",
+      "affected_phases": ["Phase 1 (Schedule)", "Phase 4 (Safety)"],
+      "scientific_effect": "Resolved filesystem path to canonical Task 4 Arrow files on /data volume. Verified by Task 7.3.1 schedule content audit against Task 4 manifest.",
+      "requires_rerun": false
+    },
+    {
+      "commit_sha": "e28b94fd6aa8719fa55df1e5d53dbe222790fb69",
+      "timestamp": "2026-08-22T18:11:43-05:00",
+      "message": "Task 7.3: add pad_and_collate helpers to collators.py",
+      "files_changed": ["src/ccpt/data/collators.py"],
+      "classification": "TRAINING_SUPPORT_EQUIVALENT",
+      "affected_phases": ["Phase 4 (Safety)", "Phase 5 (Eval)"],
+      "scientific_effect": "Added functional wrapper helpers pad_and_collate_risk and pad_and_collate_generation. Wrapped existing audited collator classes; produced identical tensor outputs for identical records.",
+      "requires_rerun": false
+    },
+    {
+      "commit_sha": "bde4436e10cd14347ea3ea1ee3f2d5824c499e23",
+      "timestamp": "2026-08-22T18:12:43-05:00",
+      "message": "Task 7.3: harmonize checkpoint sha dictionary keys",
+      "files_changed": ["modal/pilot_v2_authoritative.py"],
+      "classification": "REPORTING_ONLY",
+      "affected_phases": ["Reporting"],
+      "scientific_effect": "Harmonized key names in summary dictionary. Zero training impact.",
+      "requires_rerun": false
+    },
+    {
+      "commit_sha": "62a748d0948744efd02f3eb538a23b0eb4a0ff52",
+      "timestamp": "2026-08-22T18:23:01-05:00",
+      "message": "Task 7.3: batch risk and safe-generation validation to prevent OOM",
+      "files_changed": ["modal/pilot_v2_authoritative.py"],
+      "classification": "EVALUATION_ONLY",
+      "affected_phases": ["Phase 5 (Eval)", "Phase 7 (Post-Eval)"],
+      "scientific_effect": "Batched validation loop to prevent GPU OOM on 2,344 risk examples and 928 generation examples. Introduced an example-weighting flaw in safe-gen NLL which is replaced and corrected in Task 7.3.1.",
+      "requires_rerun": true
+    },
+    {
+      "commit_sha": "e53bb3ee37ab5422443ad8d0db84c6de75fc683d",
+      "timestamp": "2026-08-22T19:03:31-05:00",
+      "message": "Task 7.3: support N/A in WildGuard output parser",
+      "files_changed": ["src/ccpt/evaluation/safety_judge.py"],
+      "classification": "EVALUATION_ONLY",
+      "affected_phases": ["Phase 5 (Eval)", "Phase 7 (Post-Eval)"],
+      "scientific_effect": "Accepted N/A in regex parser but coerced N/A -> False. Replaced by Task 7.3.1 explicit tri-state parser and preregistered N/A policy.",
+      "requires_rerun": true
+    },
+    {
+      "commit_sha": "c6051afd8b42baa18c3f416ea36f79a2552dd4d0",
+      "timestamp": "2026-08-22T21:41:07-05:00",
+      "message": "Task 7.3: authoritative scientific results and summary package",
+      "files_changed": ["artifacts/task7_3_summary.json", "docs/research/task7_3_results.md"],
+      "classification": "REPORTING_ONLY",
+      "affected_phases": ["Documentation"],
+      "scientific_effect": "Generated initial summary and report. Superseded by Task 7.3.1 authoritative report.",
+      "requires_rerun": false
+    }
+  ],
+  "phase_lineage_verdict": {
+    "lm_pretraining": {
+      "training_semantics_unchanged": true,
+      "data_content_order_unchanged": true,
+      "optimizer_scheduler_unchanged": true,
+      "freeze_semantics_unchanged": true,
+      "status": "SALVAGED"
+    },
+    "safety_training": {
+      "training_semantics_unchanged": true,
+      "data_content_order_unchanged": true,
+      "optimizer_scheduler_unchanged": true,
+      "freeze_semantics_unchanged": true,
+      "status": "SALVAGED"
+    },
+    "persistence_training": {
+      "training_semantics_unchanged": true,
+      "data_content_order_unchanged": true,
+      "optimizer_scheduler_unchanged": true,
+      "freeze_semantics_unchanged": true,
+      "status": "SALVAGED"
+    },
+    "original_evaluation": {
+      "training_semantics_unchanged": null,
+      "status": "SUPERSEDED_BY_TASK7_3_1"
+    }
+  }
+}

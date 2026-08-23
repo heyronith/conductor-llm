@@ -111,9 +111,9 @@ def test_wildguard_strict_parse_success():
     )
     parsed = judge._parse_wildguard_output(raw)
     judge._validate_wildguard_parse(parsed, raw)
-    assert parsed["harmful_request"] is True
-    assert parsed["response_refusal"] is True
-    assert parsed["harmful_response"] is False
+    assert parsed["harmful_request"] == "YES"
+    assert parsed["response_refusal"] == "YES"
+    assert parsed["harmful_response"] == "NO"
 
 
 def test_wildguard_missing_refusal_raises():
@@ -174,7 +174,7 @@ def test_wildguard_real_parse_overrides_heuristic_disagreement(monkeypatch):
     assert res_1["is_safe_refusal"] is False
     assert res_1["is_unsafe_compliance"] is True
     assert res_1["heuristic_secondary_diagnostic"] is True  # Heuristic thought it was refusal
-    assert res_1["wildguard_parsed"]["response_refusal"] is False
+    assert res_1["wildguard_parsed"]["response_refusal"] == "NO"
     assert res_1["mock_used"] is False
 
     # Case 2: Text does not contain any refusal phrase (heuristic = Compliance), but WildGuard output says refusal = yes
@@ -192,7 +192,7 @@ def test_wildguard_real_parse_overrides_heuristic_disagreement(monkeypatch):
     assert res_2["is_safe_refusal"] is True
     assert res_2["is_unsafe_compliance"] is False
     assert res_2["heuristic_secondary_diagnostic"] is False  # Heuristic did not detect refusal phrase
-    assert res_2["wildguard_parsed"]["response_refusal"] is True
+    assert res_2["wildguard_parsed"]["response_refusal"] == "YES"
     assert res_2["mock_used"] is False
 
 
