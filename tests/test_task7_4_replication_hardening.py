@@ -422,7 +422,7 @@ def test_production_modal_runner_static_scan():
 
 
 def test_task7_4_progress_logger(tmp_path):
-    """Verifies integer 1/100...100/100 progress emission and JSONL formatting."""
+    """Verifies integer 1/100...100/100 progress emission, no 0/100, VRAM handling, and JSONL formatting."""
     mod = _load_task7_4_replication_module()
     Task74ProgressLogger = mod.Task74ProgressLogger
 
@@ -431,14 +431,14 @@ def test_task7_4_progress_logger(tmp_path):
         model_type="model_c",
         phase="phase1_lm",
         total_steps=100,
-        total_tokens=1_000_000,
+        total_phase_tokens=1_000_000,
         log_dir=tmp_path / "logs",
         gpu_name="H100",
     )
 
-    logger.log_step(step=1, tokens_seen=10_000, loss=4.5, lr=3e-4, grad_norm=0.8)
-    logger.log_step(step=50, tokens_seen=500_000, loss=3.2, lr=2e-4, grad_norm=0.5)
-    logger.log_step(step=100, tokens_seen=1_000_000, loss=2.1, lr=1e-5, grad_norm=0.2)
+    logger.log_step(step=1, phase_tokens_seen=10_000, loss=4.5, lr=3e-4, grad_norm=0.8)
+    logger.log_step(step=50, phase_tokens_seen=500_000, loss=3.2, lr=2e-4, grad_norm=0.5)
+    logger.log_step(step=100, phase_tokens_seen=1_000_000, loss=2.1, lr=1e-5, grad_norm=0.2)
 
     log_file = tmp_path / "logs" / "progress.jsonl"
     assert log_file.exists()
@@ -448,7 +448,78 @@ def test_task7_4_progress_logger(tmp_path):
 
     assert len(lines) == 3
     assert lines[0]["progress_fraction"] == "1/100"
+    assert lines[0]["progress_percent"] == 1
+    assert "0/100" not in [l["progress_fraction"] for l in lines]
     assert lines[1]["progress_fraction"] == "50/100"
     assert lines[2]["progress_fraction"] == "100/100"
     assert lines[2]["seed"] == 20260823
     assert lines[2]["model_type"] == "model_c"
+    assert "vram_allocated_gb" in lines[0]
+    assert "vram_reserved_gb" in lines[0]
+    assert "cost_so_far_usd" in lines[0]
+
+    # Test resume behavior: resume at 41% -> next percentage is 42%
+    resume_logger = Task74ProgressLogger(
+        seed=20260823,
+        model_type="model_c",
+        phase="phase1_lm",
+        total_steps=100,
+        total_phase_tokens=1_000_000,
+        log_dir=tmp_path / "logs_resume",
+        gpu_name="H100",
+        initial_step=41,
+        initial_last_reported_pct=41,
+    )
+    assert resume_logger.last_reported_pct == 41
+    resume_logger.log_step(step=42, phase_tokens_seen=420_000, loss=3.0, lr=2e-4)
+    assert resume_logger.last_reported_pct == 42
+
+
+def test_cpu_micro_production_integration(tmp_path, monkeypatch):
+    """Executes the complete 3-phase production pipeline in micro CPU test mode."""
+    mod = _load_task7_4_replication_module()
+    run_single_model_replication_pipeline = mod.run_single_model_replication_pipeline
+
+    dummy_sha = "308f2857788e84c9767a5048daf06ed9f96177a4"
+    monkeypatch.setenv("CCPT_CODE_COMMIT_SHA", dummy_sha)
+    monkeypatch.setattr(mod, "get_task7_4_output_dir", lambda seed, m_type: tmp_path / f"seed_{seed}" / m_type)
+
+    fn = run_single_model_replication_pipeline.local if hasattr(run_single_model_replication_pipeline, "local") else run_single_model_replication_pipeline
+    res = fn(
+        seed=20260823,
+        model_type="model_c",
+        test_mode=True,
+        max_steps=2,
+    )
+
+    assert res["status"] == "completed"
+    assert res["seed"] == 20260823
+    assert res["model_type"] == "model_c"
+    assert res["lm_final_tokens"] > 0
+    assert res["safety_final_tokens"] > 0
+    assert res["persistence_final_tokens"] > 0
+
+    out_dir = Path(res["output_dir"])
+    assert (out_dir / "lm_final.pt").exists()
+    assert (out_dir / "safety_final.pt").exists()
+    assert (out_dir / "persistence_final.pt").exists()
+
+
+def test_production_ast_contains_real_phases():
+    """Verifies that modal/task7_4_multiseed_replication.py defines and calls real phase helpers."""
+    import ast
+
+    runner_path = Path("modal/task7_4_multiseed_replication.py")
+    with open(runner_path, "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read(), filename=str(runner_path))
+
+    func_names = {node.name for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)}
+
+    assert "run_lm_phase" in func_names
+    assert "run_safety_phase" in func_names
+    assert "run_persistence_phase" in func_names
+    assert "run_single_model_replication_pipeline" in func_names
+    assert "run_task7_4_modal_l40s_probe" in func_names
+    assert "run_task7_4_modal_h100_probe" in func_names
+    assert "run_task7_4_evaluation_worker" in func_names
+    assert "run_task7_4_centralized_judge_worker" in func_names
