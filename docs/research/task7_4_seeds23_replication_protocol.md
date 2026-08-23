@@ -1,10 +1,10 @@
-# Task 7.4.3: Seeds 2 & 3 Prelaunch Replication Protocol & Pre-Registration Document
+# Task 7.4.4: Seeds 2 & 3 Prelaunch Replication Protocol & Pre-Registration Document
 
 **Repository:** `heyronith/conductor-llm`  
 **Branch:** `task7.4-seeds23-replication-hardening`  
-**Status:** Pre-Registration Frozen — Real Data Execution Pipeline Implemented — Remote Modal Preflight Authorized  
+**Status:** Pre-Registration Frozen — Real-Data Pipeline Verified — Remote Modal H100 Dry Run Passed — Ready for Launch Review  
 **Authoritative Date:** August 23, 2026  
-**Authoritative Code-A SHA:** `2a583727cca1ed241f1c37fbf381b94539989146`
+**Authoritative Code-A SHA:** `7ec0c99f19d6e97f93e49777fc6c03cf544b21e6`
 
 ---
 
@@ -12,13 +12,13 @@
 
 This document serves as the formal pre-registration protocol and execution freeze for the replication of the CCPT intrinsic-alignment pilot study across Seeds 2 and 3.
 
-Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codebase audit freeze (Task 7.3.2), and the Task 7.4.3 real-data execution pipeline freeze and remote Modal preflight authorization, this document establishes the authoritative parameters for Seeds 2 and 3 *before* any GPU compute is spent.
+Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codebase audit freeze (Task 7.3.2), the Task 7.4.3 real-data execution pipeline freeze, and the Task 7.4.4 final launch wiring and remote H100 real-data dry run, this document establishes the authoritative parameters for Seeds 2 and 3 *before* any production GPU budget is spent.
 
 **Critical Policy Invariants:**
-- **NO GPU EXECUTION OF SEEDS 2 OR 3 IS PERFORMED IN THIS TASK.**
+- **NO PRODUCTION GPU EXECUTION OF SEEDS 2 OR 3 HAS BEEN STARTED.**
 - **SEED 1 IS NOT RERUN.**
 - **10B FULL PRETRAINING IS NOT RUN.**
-- All work in Task 7.4.3 is code, configuration, testing, real Modal preflight probing, and preflight authorization only.
+- All work in Task 7.4.4 is final launch wiring, fail-closed SHA verification, whole-phase data hash resume invariance, unit testing, remote Modal L40S/H100 probes, and one tiny real-data H100 dry run.
 - In production mode, NO synthetic or random tensors are generated during scientific training: the pipeline reads authoritative FineWeb binary shards `[0, 976544)`, exact safety schedule and canonical Arrow records, and continuation shards `[976544, 1008544)` with real optimizer checkpoints.
 
 ---
@@ -59,7 +59,7 @@ Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codeba
 | **`tiktoken`** | `0.8.0` | Secondary tokenization |
 | **`pytest`** | `8.3.3` | In-container test suite |
 
-**Runtime Fingerprinting:** Every Modal production function calls `capture_and_verify_runtime_fingerprint(expected_code_sha=TASK7_4_CODE_SHA)` at its FIRST line of execution. Any package version mismatch, GPU mismatch (H100 vs L40S), or Git SHA mismatch raises `RuntimeError` and fails closed.
+**Runtime Fingerprinting:** Every Modal production and probe entrypoint calls `capture_and_verify_runtime_fingerprint(expected_code_sha=expected_code_sha)` at its FIRST line of execution. Any package version mismatch, GPU mismatch (H100 vs L40S), or Git SHA mismatch raises `RuntimeError` and fails closed.
 
 ---
 
@@ -93,23 +93,20 @@ Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codeba
 
 ## 6. Authoritative Remote Modal Preflight Results
 
-- **L40S Remote Probe:** `PASSED` (Device: `NVIDIA L40S`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `2a583727...`, Volumes `/data` and `/data_task4` and Schedule Verified)
-- **H100 Remote Probe:** `PASSED` (Device: `NVIDIA H100 80GB HBM3`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `2a583727...`, Tensor Math: `1544.0`)
-- **Full Unit & Integration Suite:** 215 passed in 33.22s (0 failures, 0 regressions)
+- **L40S Remote Probe:** `PASSED` (Device: `NVIDIA L40S`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `7ec0c99f...`, Volumes `/data` and `/data_task4` and Schedule Verified)
+- **H100 Remote Probe:** `PASSED` (Device: `NVIDIA H100 80GB HBM3`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `7ec0c99f...`, Tensor Math: `3408.0`)
+- **H100 Real-Data Dry Run:** `PASSED` (Device: `NVIDIA H100 80GB HBM3`, Code SHA: `7ec0c99f...`, LM Blocks: 64, Safety Tokens: 17,719, Persistence Blocks: 64, Strict V3 Reloads: `PASSED`, Real Optimizers Persisted: `PASSED`, Freeze Invariants Verified: `PASSED`, Production Seed Dirs Untouched: `PASSED`, Elapsed: 27.8s)
+- **Full Unit & Integration Suite:** 217 passed in 39.74s (0 failures, 0 regressions)
 
 ---
 
 ## 7. Cost Ceiling & Incremental Resource Projections
 
-- **Hard Cost Gate Ceiling:** $\le \$35.00$
-- **Total Projected Incremental Cost:** $\mathbf{\$25.29}$
-- **Projection Confidence:** `MEDIUM` (Conservative estimate based on verified component wall-clock budgets)
-- **Gate Evaluation:** `PASSED` ($\$25.29 \le \$35.00$)
-
 - **H100 Training Compute:** 8 (seed, model) pipelines $\times$ 2,170s = 17,360s $\approx$ **$19.04**
 - **L40S Evaluation Compute:** 8 (seed, model) pipelines $\times$ 900s = 7,200s $\approx$ **$3.90**
 - **Centralized WildGuard Judging:** 2 seeds $\times$ 2,160s = 4,320s $\approx$ **$2.34**
 - **Total Projected Incremental Spend:** **$25.29**
+- **Hard Cost Gate Ceiling:** $\le \$35.00$
 - **Cost Gate Decision:** `PASSED` ($25.29 \le \$35.00$)
 
 ---
@@ -123,3 +120,4 @@ Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codeba
   "full_10b_run_executed": false
 }
 ```
+

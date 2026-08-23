@@ -1,7 +1,7 @@
 {
   "task": "task7.4.3_seeds23_preflight",
-  "timestamp_utc": "2026-08-23T22:28:27.145974+00:00",
-  "execution_code_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
+  "timestamp_utc": "2026-08-23T23:30:56.786090+00:00",
+  "execution_code_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
   "authorized_for_seeds_2_and_3_execution": true,
   "seeds_2_and_3_started": false,
   "full_10b_run_executed": false,
@@ -72,7 +72,7 @@
       "replication_limitation_note": "Seed 1 historical container exact environment is uncertain; Seeds 2 and 3 are frozen to TASK7_4_FROZEN_REPLICATION_ENVIRONMENT."
     },
     "git_lineage": {
-      "code_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
+      "code_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
       "is_known_sha": true
     },
     "wildguard_artifacts": {
@@ -192,14 +192,14 @@
           "numpy": "2.1.3",
           "pytest": "9.1.1"
         },
-        "git_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
-        "fingerprint_hash": "534c3937d3a0e7ca3ff0b68e80665e976947a9333c6bd5c57e7ace818ff73183"
+        "git_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
+        "fingerprint_hash": "72a616e415f35467820596d961bdca0de7f01c0206a5f3088664d018a653de9c"
       }
     },
     "modal_probes": {
       "l40s_probe": {
         "probe_type": "L40S_modal_probe",
-        "timestamp_utc": "2026-08-23T22:28:20.032969+00:00",
+        "timestamp_utc": "2026-08-23T23:30:15.781931+00:00",
         "runtime_fingerprint": {
           "environment_name": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
           "python_version": "3.11.12 (main, May 21 2025, 23:34:13) [GCC 12.2.0]",
@@ -220,8 +220,8 @@
             "numpy": "2.1.3",
             "pytest": "8.3.3"
           },
-          "git_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
-          "fingerprint_hash": "e60755c969840f1b9719f450a6f9a89803769091a0a2fa48dd4c8599c9693911"
+          "git_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
+          "fingerprint_hash": "837d6a96da6c2e6505a6889fd765fe8f9310031f53cb860b5351f96d87801dd5"
         },
         "fineweb_verification": {
           "manifest_path": "/data/fineweb_authoritative/manifest.json",
@@ -277,7 +277,7 @@
       },
       "h100_probe": {
         "probe_type": "H100_modal_probe",
-        "timestamp_utc": "2026-08-23T22:28:27.009260+00:00",
+        "timestamp_utc": "2026-08-23T23:30:22.633862+00:00",
         "runtime_fingerprint": {
           "environment_name": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
           "python_version": "3.11.12 (main, May 21 2025, 23:34:13) [GCC 12.2.0]",
@@ -298,11 +298,51 @@
             "numpy": "2.1.3",
             "pytest": "8.3.3"
           },
-          "git_commit_sha": "2a583727cca1ed241f1c37fbf381b94539989146",
-          "fingerprint_hash": "3fa48db4ff185b7dbbed84a9c394df1ab981bb0733a4b08704f368dd13d11491"
+          "git_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
+          "fingerprint_hash": "e6daf52cae404a5b5f6ac8d1a8d03524c7c7e851456185301782d0da36b43633"
         },
-        "test_math_result": 1544.0,
+        "test_math_result": 3408.0,
         "probe_passed": true
+      },
+      "h100_real_data_dry_run": {
+        "status": "completed",
+        "dry_run": true,
+        "gpu_device": "NVIDIA H100 80GB HBM3",
+        "code_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
+        "elapsed_sec": 27.8,
+        "lm_blocks_read": 64,
+        "lm_data_hash": "ab47475cfba53ef455c5dffb5ad31ed85555c8b31e4b39b204138f40c4c8aa88",
+        "safety_batches_read": 2,
+        "safety_tokens_read": 17719,
+        "persistence_blocks_read": 64,
+        "persistence_data_hash": "e030d1338bd245c0255834fb803b97f98b54933b6402bb5d70857f886f8c7df7",
+        "strict_v3_reloads_passed": true,
+        "real_optimizers_persisted": true,
+        "freeze_invariants_verified": true,
+        "production_dirs_untouched": true,
+        "fingerprint": {
+          "environment_name": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
+          "python_version": "3.11.12 (main, May 21 2025, 23:34:13) [GCC 12.2.0]",
+          "platform": "Linux-4.19.0-gvisor-x86_64-with-glibc2.36",
+          "cuda_available": true,
+          "cuda_version": "12.4",
+          "device_name": "NVIDIA H100 80GB HBM3",
+          "installed_versions": {
+            "torch": "2.5.1",
+            "transformers": "4.46.3",
+            "tokenizers": "0.20.3",
+            "datasets": "3.1.0",
+            "huggingface_hub": "0.26.2",
+            "sentencepiece": "0.2.0",
+            "tiktoken": "0.8.0",
+            "accelerate": "1.1.1",
+            "pyarrow": "17.0.0",
+            "numpy": "2.1.3",
+            "pytest": "8.3.3"
+          },
+          "git_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
+          "fingerprint_hash": "e6daf52cae404a5b5f6ac8d1a8d03524c7c7e851456185301782d0da36b43633"
+        }
       },
       "probes_executed": true
     },
