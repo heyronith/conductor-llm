@@ -34,6 +34,10 @@ image = (
     .pip_install(
         "torch==2.5.1",
         "transformers==4.47.1",
+        "tokenizers>=0.19.0",
+        "sentencepiece>=0.2.0",
+        "protobuf>=3.20.0",
+        "tiktoken>=0.7.0",
         "datasets==3.2.0",
         "pyarrow==18.1.0",
         "accelerate==1.2.1",
