@@ -1,9 +1,10 @@
-# Task 7.4.1: Seeds 2 & 3 Prelaunch Replication Protocol & Pre-Registration Document
+# Task 7.4.2: Seeds 2 & 3 Prelaunch Replication Protocol & Pre-Registration Document
 
 **Repository:** `heyronith/conductor-llm`  
 **Branch:** `task7.4-seeds23-replication-hardening`  
-**Status:** Pre-Registration Frozen — Production Wiring Hardened — Preflight Authorized  
+**Status:** Pre-Registration Frozen — Real Execution Pipeline Implemented — Real Modal Preflight Authorized  
 **Authoritative Date:** August 23, 2026  
+**Authoritative Code-A SHA:** `a435ddd2b36df2397c7fcf5a8f51b12398289928`
 
 ---
 
@@ -11,13 +12,13 @@
 
 This document serves as the formal pre-registration protocol and execution freeze for the replication of the CCPT intrinsic-alignment pilot study across Seeds 2 and 3.
 
-Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codebase audit freeze (Task 7.3.2), and the Task 7.4.1 production wiring audit, this document establishes the authoritative parameters for Seeds 2 and 3 *before* any GPU compute is spent.
+Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codebase audit freeze (Task 7.3.2), and the Task 7.4.2 execution pipeline implementation and remote Modal preflight authorization, this document establishes the authoritative parameters for Seeds 2 and 3 *before* any GPU compute is spent.
 
 **Critical Policy Invariants:**
 - **NO GPU EXECUTION OF SEEDS 2 OR 3 IS PERFORMED IN THIS TASK.**
 - **SEED 1 IS NOT RERUN.**
 - **10B FULL PRETRAINING IS NOT RUN.**
-- All work in Task 7.4.1 is code, configuration, testing, and preflight verification only.
+- All work in Task 7.4.2 is code, configuration, testing, real Modal preflight probing, and preflight authorization only.
 
 ---
 
@@ -80,36 +81,40 @@ Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codeba
 | **WildGuard Risk Val** | `risk/validation.arrow` (2,344 records) | `abf37b75cace89a4e7afb4abf0b3f1419656d70e16bbe64346f7dd42c04d424b` |
 | **WildGuard Gen Train** | `generation/train.arrow` (18,015 records) | `85fe0fe389080f790959c3ead43534d436c2336f446ec0c9f4bca0b7da918921` |
 | **WildGuard Gen Val** | `generation/validation.arrow` (928 records) | `dabc43c7cb0a4af6a56fc183c529b0d04df438b4a7396f438175ad3f0737471d` |
-| **Safety Schedule Legacy** | 2,344 batches, 20,010,611 tokens | `b141fcbc05d8388086f8649d5162c63b4ef862b90e049cbc2e0b29f7f1eb3caa` |
-| **Safety Schedule Full Audit** | Complete batch + epoch index hash | `6e1be80718a7bd9f1fb2f5bd42c87a9cd793afac08694e46f5c449af379ec2a0` |
-| **FineWeb-Edu 100BT** | `/data/fineweb_authoritative/manifest.json` | `47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055` |
-| **ID Benchmark Manifest** | 256 Harmful + 256 Benign Prompts | `bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4` |
-| **OOD BeaverTails Manifest** | `30k_test` split @ `8401fe6...` | `f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e` |
-| **WildGuard Judge** | `allenai/wildguard` @ `cbba482...` | Moderation model revision |
+| **Safety Schedule (Legacy Hash)** | `data/safety_schedule.json` (2,344 batches) | `b141fcbc05d8388086f8649d5162c63b4ef862b90e049cbc2e0b29f7f1eb3caa` |
+| **Safety Schedule (Full Audit)** | `data/safety_schedule.json` (20,010,611 tokens) | `6e1be80718a7bd9f1fb2f5bd42c87a9cd793afac08694e46f5c449af379ec2a0` |
+| **ID Benchmark Manifest** | `data/eval/id_benchmark_manifest.json` (500 items) | `bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4` |
+| **OOD BeaverTails Manifest** | `data/eval/ood_beavertails_manifest.json` (500 items)| `f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e` |
+| **FineWeb-Edu 100BT Manifest** | `data/fineweb_authoritative/manifest.json` | `47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055` |
+| **WildGuard Judge Model** | `allenai/wildguard` | Git Revision `cbba4823f3e8020e5a74a5e29bf85072def6f2ff` |
 
 ---
 
-## 6. Prelaunch Incremental Spend Projection & Budget Gate
+## 6. Authoritative Remote Modal Preflight Results
 
-| Pipeline Stage | Resource & Unit Count | Estimated Time | Projected Spend |
-| :--- | :--- | :--- | :--- |
-| **H100 Training** | 8 pipelines (Seed 2: A, B, C, D; Seed 3: A, B, C, D) | ~0.55 hrs / run | **$18.70** |
-| **L40S Evaluation** | 8 response generation pipelines | ~0.25 hrs / run | **$2.30** |
-| **Persistent Moderation Judge** | 2 persistent judge workers (1 per seed) | ~0.60 hrs / run | **$1.38** |
-| **Total Projected Incremental Spend** | — | — | **$22.38** |
-
-**Hard Cost Gate:** Projected incremental spend ($22.38) is strictly below the $35.00 limit (`cost_gate_passed = true`).
+- **L40S Remote Probe:** `PASSED` (Device: `NVIDIA L40S`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `a435ddd2...`, Mounts & Schedule Verified)
+- **H100 Remote Probe:** `PASSED` (Device: `NVIDIA H100 80GB HBM3`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `a435ddd2...`, Tensor Math: `1856.0`)
+- **Full Unit & Integration Suite:** 211 passed in 35.69s (0 failures, 0 regressions)
 
 ---
 
-## 7. Authorization Gate
+## 7. Cost Projection & Spending Gate Verification
 
-Execution of Seeds 2 and 3 is gated by:
-1. Pushing the new Task 7.4.1 Code-A freeze commit to GitHub and verifying remote synchronization.
-2. Confirming that all 206+ local tests and the Task 7.4.1 preflight runner pass.
-3. Recording the preflight artifact `artifacts/task7_4_seeds23_preflight.json`.
-4. Storing the final Evidence-B commit.
+- **H100 Training Compute:** 8 (seed, model) pipelines $\times$ 2,170s = 17,360s $\approx$ **$19.04**
+- **L40S Evaluation Compute:** 8 (seed, model) pipelines $\times$ 900s = 7,200s $\approx$ **$3.90**
+- **Centralized WildGuard Judging:** 2 seeds $\times$ 2,160s = 4,320s $\approx$ **$2.34**
+- **Total Projected Incremental Spend:** **$25.29**
+- **Hard Gate Ceiling:** **$35.00**
+- **Cost Gate Decision:** `PASSED` ($25.29 \le \$35.00$)
 
-**Current Authorization State:** `AUTHORIZED_FOR_SEEDS_2_AND_3_EXECUTION = true`  
-**Current Execution State:** `SEEDS_2_AND_3_STARTED = false`  
-**Full 10B Training State:** `FULL_10B_RUN_EXECUTED = false`
+---
+
+## 8. Final Authoritative Status
+
+```json
+{
+  "authorized_for_seeds_2_and_3_execution": true,
+  "seeds_2_and_3_started": false,
+  "full_10b_run_executed": false
+}
+```
