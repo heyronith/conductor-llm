@@ -85,7 +85,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
         infer_identity,
         infer_freeze_status,
     )
-    from pathlib import Path
+    from ccpt.data.canonical_materializer import load_canonical_mistral_tokenizer
     from ccpt.data.wildguard import (
         load_wildguard_records,
         sample_wildguard_id_behavior_prompts,
@@ -362,9 +362,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
     # 3. Benchmark Selection Manifest Verification
     # -------------------------------------------------------------
     print("\n--- 3. Benchmark Selection Manifest Verification ---")
-    tokenizer = AutoTokenizer.from_pretrained("gpt2")
-    if tokenizer.pad_token is None:
-        tokenizer.pad_token = tokenizer.eos_token
+    tokenizer = load_canonical_mistral_tokenizer()
 
     id_harmful_prompts, id_benign_prompts, id_manifest = sample_wildguard_id_behavior_prompts(
         records=risk_val,
