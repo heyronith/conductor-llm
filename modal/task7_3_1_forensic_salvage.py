@@ -80,8 +80,9 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
         infer_identity,
         infer_freeze_status,
     )
+    from pathlib import Path
     from ccpt.data.wildguard import (
-        load_prepared_wildguard_data,
+        load_wildguard_records,
         sample_wildguard_id_behavior_prompts,
         RiskRecord,
         SafeGenerationRecord,
@@ -258,10 +259,10 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
         raise FileNotFoundError("Could not find canonical Task 4 Arrow files on /data volume.")
 
     print(f"Loading canonical Task 4 data from: {raw_arrow_dir}")
-    risk_train = load_prepared_wildguard_data(os.path.join(raw_arrow_dir, "risk_train.arrow"), record_type="risk")
-    risk_val = load_prepared_wildguard_data(os.path.join(raw_arrow_dir, "risk_validation.arrow"), record_type="risk")
-    gen_train = load_prepared_wildguard_data(os.path.join(raw_arrow_dir, "generation_train.arrow"), record_type="generation")
-    gen_val = load_prepared_wildguard_data(os.path.join(raw_arrow_dir, "generation_validation.arrow"), record_type="generation")
+    risk_train = load_wildguard_records(Path(raw_arrow_dir) / "risk_train.arrow", record_type="risk")
+    risk_val = load_wildguard_records(Path(raw_arrow_dir) / "risk_validation.arrow", record_type="risk")
+    gen_train = load_wildguard_records(Path(raw_arrow_dir) / "generation_train.arrow", record_type="generation")
+    gen_val = load_wildguard_records(Path(raw_arrow_dir) / "generation_validation.arrow", record_type="generation")
 
     print(f"Loaded Task 4 records: risk_train={len(risk_train)}, risk_val={len(risk_val)}, gen_train={len(gen_train)}, gen_val={len(gen_val)}")
     assert len(risk_train) == 45492, f"Expected 45492 risk_train records, found {len(risk_train)}"
