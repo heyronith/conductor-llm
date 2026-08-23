@@ -18,6 +18,45 @@ from ccpt.training.cost import (
 )
 
 
+def get_named_parameter_partition(model: nn.Module, target_params: List[nn.Parameter]) -> set[str]:
+    """Derives canonical parameter names belonging to target_params based strictly on Python object id."""
+    target_ids = {id(p) for p in target_params}
+    return {name for name, p in model.named_parameters() if id(p) in target_ids}
+
+
+def get_ccpt_named_partitions(model: CCPTDualStreamModel) -> Tuple[set[str], set[str]]:
+    """Partitions CCPTDualStreamModel parameters into (theta_C_names, theta_N_names) by parameter identity.
+    
+    Verifies that the partition is disjoint and completely covers all model named parameters.
+    """
+    theta_c_names = get_named_parameter_partition(model, model.theta_C)
+    theta_n_names = get_named_parameter_partition(model, model.theta_N)
+    all_names = set(dict(model.named_parameters()).keys())
+
+    assert theta_c_names.isdisjoint(theta_n_names), f"Overlapping parameters in CCPT partition: {theta_c_names & theta_n_names}"
+    assert theta_c_names | theta_n_names == all_names, f"Unpartitioned parameters in CCPT: {all_names - (theta_c_names | theta_n_names)}"
+    return theta_c_names, theta_n_names
+
+
+def get_adapter_named_partitions(model: FrozenBackboneAdapterModel) -> Tuple[set[str], set[str]]:
+    """Partitions FrozenBackboneAdapterModel parameters into (backbone_names, safety_names) by parameter identity.
+    
+    Verifies that the partition is disjoint and completely covers all model named parameters.
+    """
+    backbone_names = get_named_parameter_partition(model, model.backbone_parameters)
+    safety_names = get_named_parameter_partition(model, model.safety_parameters)
+    all_names = set(dict(model.named_parameters()).keys())
+
+    assert backbone_names.isdisjoint(safety_names), f"Overlapping parameters in Adapter partition: {backbone_names & safety_names}"
+    assert backbone_names | safety_names == all_names, f"Unpartitioned parameters in Adapter: {all_names - (backbone_names | safety_names)}"
+    return backbone_names, safety_names
+
+
+def extract_named_sub_state_dict(state_dict: Dict[str, torch.Tensor], target_names: set[str]) -> Dict[str, torch.Tensor]:
+    """Extracts a sub-state-dict containing strictly the specified parameter names."""
+    return {k: v for k, v in state_dict.items() if k in target_names}
+
+
 def compute_canonical_state_dict_hash(state_dict: Dict[str, torch.Tensor]) -> str:
     """Computes a deterministic cryptographic hash over sorted named state_dict tensors.
     
