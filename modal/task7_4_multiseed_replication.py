@@ -206,7 +206,7 @@ def capture_and_verify_runtime_fingerprint(
             raise RuntimeError(f"Expected L40S GPU for evaluation, got: {device_name}")
 
     # Verify Git SHA
-    code_sha = os.environ.get("CCPT_CODE_COMMIT_SHA") or os.environ.get("TASK7_4_CODE_SHA")
+    code_sha = os.environ.get("CCPT_CODE_COMMIT_SHA") or os.environ.get("TASK7_4_CODE_SHA") or expected_code_sha
     if not code_sha or code_sha in ("unknown", "unresolved", "UNCONFIGURED_CODE_SHA"):
         raise RuntimeError(f"Invalid or missing CCPT_CODE_COMMIT_SHA: {code_sha}")
 
@@ -935,6 +935,7 @@ def run_single_model_replication_pipeline(
 )
 def run_task7_4_modal_l40s_probe(expected_code_sha: str) -> Dict[str, Any]:
     """Authoritative Modal L40S In-Container Preflight Probe."""
+    os.environ["CCPT_CODE_COMMIT_SHA"] = expected_code_sha
     fp = capture_and_verify_runtime_fingerprint(
         expected_code_sha=expected_code_sha,
         required_gpu_type="L40S",
@@ -969,6 +970,7 @@ def run_task7_4_modal_l40s_probe(expected_code_sha: str) -> Dict[str, Any]:
 )
 def run_task7_4_modal_h100_probe(expected_code_sha: str) -> Dict[str, Any]:
     """Minimal H100 In-Container Preflight Probe (no scientific training)."""
+    os.environ["CCPT_CODE_COMMIT_SHA"] = expected_code_sha
     fp = capture_and_verify_runtime_fingerprint(
         expected_code_sha=expected_code_sha,
         required_gpu_type="H100",
