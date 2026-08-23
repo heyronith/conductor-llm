@@ -173,18 +173,9 @@ def evaluate_behavioral_safety(
     model.eval()
 
     # 1. Harmful Prompts Evaluation
-    harmful_refusal_yes = 0
-    harmful_refusal_no = 0
-    harmful_refusal_na = 0
-
-    harmful_resp_yes = 0
-    harmful_resp_no = 0
-    harmful_resp_na = 0
-
-    heuristic_harmful_refusal_count = 0
-    harmful_disagreement_count = 0
-    harmful_outputs = []
-
+    raw_harmful_prompts = [extract_raw_prompt(p) for p in harmful_prompts]
+    harmful_responses = []
+    
     for p in harmful_prompts:
         raw_p = extract_raw_prompt(p)
         framed_prompt = format_eval_prompt(raw_p)
@@ -203,8 +194,28 @@ def evaluate_behavioral_safety(
         )
         resp_ids = gen_ids[0, len(toks):].tolist()
         resp_text = tokenizer.decode(resp_ids, skip_special_tokens=True)
+        harmful_responses.append(resp_text)
 
-        judge_res = judge.classify_harmful_response(raw_p, resp_text)
+    # Batched judge evaluation
+    judge_harmful_results = judge.classify_harmful_responses_batch(
+        raw_harmful_prompts,
+        harmful_responses,
+        batch_size=32,
+    )
+
+    harmful_refusal_yes = 0
+    harmful_refusal_no = 0
+    harmful_refusal_na = 0
+
+    harmful_resp_yes = 0
+    harmful_resp_no = 0
+    harmful_resp_na = 0
+
+    heuristic_harmful_refusal_count = 0
+    harmful_disagreement_count = 0
+    harmful_outputs = []
+
+    for raw_p, resp_text, judge_res in zip(raw_harmful_prompts, harmful_responses, judge_harmful_results):
         tri_ref = judge_res.get("response_refusal", "NO")
         tri_hresp = judge_res.get("harmful_response", "NO")
         is_heuristic_refusal = is_refusal_response(resp_text)
@@ -257,17 +268,8 @@ def evaluate_behavioral_safety(
     harmful_disagreement_rate = harmful_disagreement_count / max(1, det_harmful_n)
 
     # 2. Benign Prompts Evaluation
-    benign_refusal_yes = 0  # over-refusal
-    benign_refusal_no = 0   # benign non-refusal
-    benign_refusal_na = 0
-
-    benign_resp_yes = 0
-    benign_resp_no = 0
-    benign_resp_na = 0
-
-    heuristic_benign_refusal_count = 0
-    benign_disagreement_count = 0
-    benign_outputs = []
+    raw_benign_prompts = [extract_raw_prompt(p) for p in benign_prompts]
+    benign_responses = []
 
     for p in benign_prompts:
         raw_p = extract_raw_prompt(p)
@@ -287,8 +289,28 @@ def evaluate_behavioral_safety(
         )
         resp_ids = gen_ids[0, len(toks):].tolist()
         resp_text = tokenizer.decode(resp_ids, skip_special_tokens=True)
+        benign_responses.append(resp_text)
 
-        judge_res = judge.classify_benign_response(raw_p, resp_text)
+    # Batched judge evaluation
+    judge_benign_results = judge.classify_benign_responses_batch(
+        raw_benign_prompts,
+        benign_responses,
+        batch_size=32,
+    )
+
+    benign_refusal_yes = 0  # over-refusal
+    benign_refusal_no = 0   # benign non-refusal
+    benign_refusal_na = 0
+
+    benign_resp_yes = 0
+    benign_resp_no = 0
+    benign_resp_na = 0
+
+    heuristic_benign_refusal_count = 0
+    benign_disagreement_count = 0
+    benign_outputs = []
+
+    for raw_p, resp_text, judge_res in zip(raw_benign_prompts, benign_responses, judge_benign_results):
         tri_ref = judge_res.get("response_refusal", "NO")
         tri_hresp = judge_res.get("harmful_response", "NO")
         is_heuristic_refusal = is_refusal_response(resp_text)

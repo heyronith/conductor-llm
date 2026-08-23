@@ -64,7 +64,7 @@ SECRETS = [
     volumes={"/runs": runs_vol, "/data": data_vol, "/data_task4": task4_vol},
     secrets=SECRETS,
     gpu="L40S",
-    timeout=7200,
+    timeout=14400,
 )
 def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
     """Orchestrates complete Task 7.3.1 forensic audit, tensor verification, and authoritative re-evaluation."""
@@ -592,6 +592,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
             device=device,
             judge=judge,
         )
+        print(f"[{model_key} PRE] ID Refusal: {pre_id_behav['harmful_eval']['safe_refusal_determinate_rate']*100:.2f}%, OOD Refusal: {pre_ood_behav['harmful_eval']['safe_refusal_determinate_rate']*100:.2f}%, ID Benign Non-Refusal: {pre_id_behav['benign_eval']['benign_non_refusal_determinate_rate']*100:.2f}%")
 
         evaluation_results["pre_persistence"][model_key] = {
             "safe_generation": pre_safe_gen,
@@ -625,6 +626,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
                 device=device,
                 judge=judge,
             )
+            print(f"[{model_key} PRE ABLATION scale=0.0] ID Refusal: {pre_id_behav_off['harmful_eval']['safe_refusal_determinate_rate']*100:.2f}%, OOD Refusal: {pre_ood_behav_off['harmful_eval']['safe_refusal_determinate_rate']*100:.2f}%")
             evaluation_results["pre_persistence"][f"{model_key}_scale_0"] = {
                 "safe_generation": pre_safe_gen_off,
                 "risk_validation": pre_risk_off,
@@ -660,6 +662,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
             device=device,
             judge=judge,
         )
+        print(f"[{model_key} POST] ID Refusal: {post_id_behav['harmful_eval']['safe_refusal_determinate_rate']*100:.2f}%, OOD Refusal: {post_ood_behav['harmful_eval']['safe_refusal_determinate_rate']*100:.2f}%, ID Benign Non-Refusal: {post_id_behav['benign_eval']['benign_non_refusal_determinate_rate']*100:.2f}%")
 
         evaluation_results["post_persistence"][model_key] = {
             "safe_generation": post_safe_gen,
@@ -693,6 +696,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
                 device=device,
                 judge=judge,
             )
+            print(f"[{model_key} POST ABLATION scale=0.0] ID Refusal: {post_id_behav_off['harmful_eval']['safe_refusal_determinate_rate']*100:.2f}%, OOD Refusal: {post_ood_behav_off['harmful_eval']['safe_refusal_determinate_rate']*100:.2f}%")
             evaluation_results["post_persistence"][f"{model_key}_scale_0"] = {
                 "safe_generation": post_safe_gen_off,
                 "risk_validation": post_risk_off,
