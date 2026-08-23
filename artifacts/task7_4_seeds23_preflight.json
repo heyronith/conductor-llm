@@ -1,32 +1,39 @@
 {
-  "task": "task7.4_seeds23_preflight",
-  "timestamp_utc": "2026-08-23T19:04:27.033913+00:00",
-  "execution_code_commit_sha": "1bbbda8fbac50cd3feea0e821ca9e550db1a80fb",
+  "task": "task7.4.1_seeds23_preflight",
+  "timestamp_utc": "2026-08-23T19:15:57.417264+00:00",
+  "execution_code_commit_sha": "308f2857788e84c9767a5048daf06ed9f96177a4",
   "authorized_for_seeds_2_and_3_execution": true,
   "seeds_2_and_3_started": false,
+  "full_10b_run_executed": false,
   "preregistered_replication_seeds": {
     "seed_1_historical_frozen": 20260821,
-    "seed_2_preregistered": 20260822,
-    "seed_3_preregistered": 20260823
+    "seed_2_preregistered": 20260823,
+    "seed_3_preregistered": 20260824,
+    "beavertails_ood_selection_seed": 20260822
   },
   "all_preflight_checks_passed": true,
   "checks": {
     "environment_captured": true,
     "git_lineage_resolved": true,
     "wildguard_artifacts_resolved": true,
-    "safety_records_provenance_verified": true,
-    "schedule_hash_sensitive_to_epochs": true,
+    "real_safety_records_provenance_verified": true,
+    "schedule_legacy_hash_verified": true,
+    "schedule_full_hash_verified": true,
+    "schedule_hash_mutation_sensitive": true,
     "collator_is_refusal_tensor_verified": true,
     "token_weighted_safe_gen_loss_verified": true,
     "wilson_intervals_verified": true,
     "parameter_counts_exact": true,
-    "model_b_c_init_equality_verified": true,
+    "smoke_init_equality_and_differentiation": true,
     "checkpoint_v3_schema_verified": true,
     "generation_config_verified": true,
-    "lineage_metadata_verified": true
+    "lineage_metadata_verified": true,
+    "production_runner_static_scan": true,
+    "cost_under_budget_gate": true
   },
   "details": {
     "environment": {
+      "environment_label": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
       "local_env": {
         "python_version": "3.13.13 (main, May 10 2026, 19:20:37) [Clang 22.1.3 ]",
         "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
@@ -52,48 +59,65 @@
         "tokenizers": "0.20.3",
         "datasets": "3.1.0",
         "huggingface_hub": "0.26.2",
+        "sentencepiece": "0.2.0",
+        "tiktoken": "0.8.0",
         "accelerate": "1.1.1",
         "pyarrow": "17.0.0",
         "numpy": "2.1.3",
         "pytest": "8.3.3"
-      }
+      },
+      "replication_limitation_note": "Seed 1 historical container exact environment is uncertain; Seeds 2 and 3 are frozen to TASK7_4_FROZEN_REPLICATION_ENVIRONMENT."
     },
     "git_lineage": {
-      "code_commit_sha": "1bbbda8fbac50cd3feea0e821ca9e550db1a80fb",
+      "code_commit_sha": "308f2857788e84c9767a5048daf06ed9f96177a4",
       "is_known_sha": true
     },
     "wildguard_artifacts": {
-      "risk_train": {
-        "resolved_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/data/processed/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/risk_train.jsonl",
-        "format": "jsonl",
-        "record_count": 45492,
-        "expected_count": 45492,
-        "sha256": "ceab63476005c53d960bf4be5585b805155b5e22e3e94f69e38c9885dd9725b8",
-        "manifest_hash_match": true
+      "resolved_bindings": {
+        "risk_train": {
+          "resolved_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/data/processed/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/risk_train.jsonl",
+          "format": "jsonl",
+          "record_count": 45492,
+          "expected_count": 45492,
+          "sha256": "ceab63476005c53d960bf4be5585b805155b5e22e3e94f69e38c9885dd9725b8",
+          "manifest_hash_match": true
+        },
+        "risk_val": {
+          "resolved_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/data/processed/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/risk_val.jsonl",
+          "format": "jsonl",
+          "record_count": 2344,
+          "expected_count": 2344,
+          "sha256": "e310432c17a8ac660401833fb3e71953ecbfaa7fa86198d9a764da1db4b4b5e2",
+          "manifest_hash_match": true
+        },
+        "gen_train": {
+          "resolved_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/data/processed/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/gen_train.jsonl",
+          "format": "jsonl",
+          "record_count": 18015,
+          "expected_count": 18015,
+          "sha256": "2f9b4c811cc0e7ed375049703cb5864e3b81dda5d5aaa432099ccc6592490aed",
+          "manifest_hash_match": true
+        },
+        "gen_val": {
+          "resolved_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/data/processed/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/gen_val.jsonl",
+          "format": "jsonl",
+          "record_count": 928,
+          "expected_count": 928,
+          "sha256": "7b562611c630972ba395caddee287c3ca8a6ec31eeb18776ada907d88a044f5c",
+          "manifest_hash_match": true
+        }
       },
-      "risk_val": {
-        "resolved_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/data/processed/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/risk_val.jsonl",
-        "format": "jsonl",
-        "record_count": 2344,
-        "expected_count": 2344,
-        "sha256": "e310432c17a8ac660401833fb3e71953ecbfaa7fa86198d9a764da1db4b4b5e2",
-        "manifest_hash_match": true
+      "canonical_arrow_sha256": {
+        "risk_train": "522ff92e4f02cbaa3ba88838516ce94dfed2434211db669e632efb1be4f3866a",
+        "risk_val": "abf37b75cace89a4e7afb4abf0b3f1419656d70e16bbe64346f7dd42c04d424b",
+        "gen_train": "85fe0fe389080f790959c3ead43534d436c2336f446ec0c9f4bca0b7da918921",
+        "gen_val": "dabc43c7cb0a4af6a56fc183c529b0d04df438b4a7396f438175ad3f0737471d"
       },
-      "gen_train": {
-        "resolved_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/data/processed/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/gen_train.jsonl",
-        "format": "jsonl",
-        "record_count": 18015,
-        "expected_count": 18015,
-        "sha256": "2f9b4c811cc0e7ed375049703cb5864e3b81dda5d5aaa432099ccc6592490aed",
-        "manifest_hash_match": true
-      },
-      "gen_val": {
-        "resolved_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/data/processed/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/gen_val.jsonl",
-        "format": "jsonl",
-        "record_count": 928,
-        "expected_count": 928,
-        "sha256": "7b562611c630972ba395caddee287c3ca8a6ec31eeb18776ada907d88a044f5c",
-        "manifest_hash_match": true
+      "canonical_counts": {
+        "risk_train": 45492,
+        "risk_val": 2344,
+        "gen_train": 18015,
+        "gen_val": 928
       }
     },
     "provenance_check": {
@@ -103,24 +127,14 @@
       "total_records_verified": 66779,
       "expected_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097"
     },
-    "schedule_hashing": {
-      "base_hash": "199fc61d2aaa75fe5b2f27022451c67a26480c0963afecb4223e419733bbca48",
-      "mutated_epoch_hash": "47af2d152c982262db4cd83c8fde7fec7edfcd97d02055b670d6c7314a2d4f14",
-      "is_sensitive": true
-    },
-    "wilson_intervals": {
-      "50_of_100": [
-        0.403832,
-        0.596168
-      ],
-      "0_of_100": [
-        0.0,
-        0.036993
-      ],
-      "100_of_100": [
-        0.963007,
-        1.0
-      ]
+    "schedule_verification": {
+      "legacy_hash": "b141fcbc05d8388086f8649d5162c63b4ef862b90e049cbc2e0b29f7f1eb3caa",
+      "legacy_match": true,
+      "full_audit_hash": "6e1be80718a7bd9f1fb2f5bd42c87a9cd793afac08694e46f5c449af379ec2a0",
+      "full_match": true,
+      "total_batches": 2344,
+      "total_valid_tokens": 20010611,
+      "mutation_sensitive": true
     },
     "parameter_counts": {
       "model_a_total": 35918848,
@@ -131,46 +145,25 @@
       "model_d_backbone": 33165824,
       "model_d_safety": 2757120
     },
-    "init_equality": {
-      "seed_20260821": {
-        "model_b_hash": "d688418c6ed0342dfa40c3b7eb39dc843a45cef14d971bdd6a12383c9acf7dfe",
-        "model_c_hash": "d688418c6ed0342dfa40c3b7eb39dc843a45cef14d971bdd6a12383c9acf7dfe",
-        "equal": true
-      },
-      "seed_20260822": {
-        "model_b_hash": "5eaa612f966bac531856ffd712522615f0f50a300164e54f2633a883a0351143",
-        "model_c_hash": "5eaa612f966bac531856ffd712522615f0f50a300164e54f2633a883a0351143",
-        "equal": true
-      },
-      "seed_20260823": {
-        "model_b_hash": "f884f5b42e6ae71a806bbd7c5ac2970f60bf4c7e722c952a482d355aee5fc4e0",
-        "model_c_hash": "f884f5b42e6ae71a806bbd7c5ac2970f60bf4c7e722c952a482d355aee5fc4e0",
-        "equal": true
-      }
-    },
-    "generation_config": {
-      "config": {
-        "do_sample": false,
-        "max_new_tokens": 48,
-        "tokenizer": "mistralai/Mistral-7B-v0.1@27d67f1b5f57dc0953326b2601d68371d40ea8da",
-        "prompt_template": "<s>User: {prompt}\nAssistant:"
-      },
-      "hash": "073b637cff17dfbb63580e00a04f4d49cf8378ac113c5f02ef7a4124423a440d",
-      "framing_ok": true
+    "smoke_init_hashes": {
+      "seed_20260821": "832a38e1c12298ad4bde00679ebb76fd6e83ea83490f31dc8595a98e9b22dcee",
+      "seed_20260823": "da8cfc48a44dabbc25ee987f319b53e0b29821432bb4dbceb53bbf65bc661bf5",
+      "seed_20260824": "d388c2524346f84039e237ae7ba2e59996fae904e4e7bf76e6bfe89ecad9689a"
     },
     "lineage_metadata": {
       "task4_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+      "fineweb_manifest_hash": "47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055",
       "id_benchmark_manifest_hash": "bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4",
       "ood_beavertails_manifest_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e",
-      "fineweb_edu_repo": "HuggingFaceFW/fineweb-edu",
-      "fineweb_edu_subset": "sample-100BT",
-      "fineweb_edu_revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
-      "mistral_tokenizer_repo": "mistralai/Mistral-7B-v0.1",
-      "mistral_tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
-      "wildguard_judge_repo": "allenai/wildguard",
-      "wildguard_judge_revision": "cbba4823f3e8020e5a74a5e29bf85072def6f2ff",
-      "fineweb_validation_raw_tokens": 1048576,
-      "fineweb_validation_target_tokens": 1047552
+      "wildguard_judge_revision": "cbba4823f3e8020e5a74a5e29bf85072def6f2ff"
+    },
+    "cost_projection": {
+      "h100_training_projected_usd": 17.38,
+      "l40s_eval_projected_usd": 3.9,
+      "judge_projected_usd": 2.34,
+      "total_projected_incremental_cost_usd": 23.62,
+      "hard_spending_limit_usd": 35.0,
+      "cost_gate_passed": true
     }
   }
 }
