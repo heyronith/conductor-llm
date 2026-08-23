@@ -1,0 +1,42 @@
+{
+  "canonical_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+  "canonical_bindings": {
+    "risk_train": {
+      "resolved_absolute_path": "/data_task4/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/risk/train.arrow",
+      "sha256": "522ff92e4f02cbaa3ba88838516ce94dfed2434211db669e632efb1be4f3866a",
+      "record_count": 45492,
+      "expected_count": 45492
+    },
+    "risk_val": {
+      "resolved_absolute_path": "/data_task4/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/risk/validation.arrow",
+      "sha256": "abf37b75cace89a4e7afb4abf0b3f1419656d70e16bbe64346f7dd42c04d424b",
+      "record_count": 2344,
+      "expected_count": 2344
+    },
+    "gen_train": {
+      "resolved_absolute_path": "/data_task4/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/generation/train.arrow",
+      "sha256": "85fe0fe389080f790959c3ead43534d436c2336f446ec0c9f4bca0b7da918921",
+      "record_count": 18015,
+      "expected_count": 18015
+    },
+    "gen_val": {
+      "resolved_absolute_path": "/data_task4/wildguard/d29c47f41c8b51348b5c8e8c81c039b3132b66d1/generation/validation.arrow",
+      "sha256": "dabc43c7cb0a4af6a56fc183c529b0d04df438b4a7396f438175ad3f0737471d",
+      "record_count": 928,
+      "expected_count": 928
+    }
+  },
+  "legacy_schedule_hash": "b141fcbc05d8388086f8649d5162c63b4ef862b90e049cbc2e0b29f7f1eb3caa",
+  "legacy_schedule_hash_verified": true,
+  "task7_3_1_full_schedule_audit_hash": "6e1be80718a7bd9f1fb2f5bd42c87a9cd793afac08694e46f5c449af379ec2a0",
+  "full_schedule_audit_hash_verified": true,
+  "total_batches": 2344,
+  "risk_batches": 1172,
+  "generation_batches": 1172,
+  "total_valid_input_tokens": 20010611,
+  "alternation_valid": true,
+  "schedule_full_record_identity_verified": true,
+  "first_crossing_batch_index": 2343,
+  "crossing_valid": true,
+  "schedule_audit_passed": true
+}

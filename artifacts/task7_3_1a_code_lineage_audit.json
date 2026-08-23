@@ -1,0 +1,26 @@
+{
+  "task7_3_frozen_contract_sha": "223662e49c71987515b1386121404c00eaecf41b",
+  "task7_3_1_source_sha": "f3e196ebe1265f7a55405c228ca7f49dd1f6b1be",
+  "task7_3_1a_audit_sha": "current_head",
+  "phases": {
+    "lm_1b": {
+      "checkpoint_git_sha": "unknown",
+      "status": "UNPROVEN",
+      "note": "Per-checkpoint execution SHA was omitted from checkpoint metadata in Task 7.3."
+    },
+    "safety_20m": {
+      "checkpoint_git_sha": "unknown",
+      "status": "UNPROVEN",
+      "note": "Per-checkpoint execution SHA was omitted from checkpoint metadata in Task 7.3."
+    },
+    "persistence_1000": {
+      "checkpoint_git_sha": "unknown",
+      "status": "UNPROVEN",
+      "note": "Per-checkpoint execution SHA was omitted from checkpoint metadata in Task 7.3."
+    }
+  },
+  "static_code_lineage_clean": true,
+  "training_semantics_uncontaminated": true,
+  "checkpoint_execution_sha_verified": false,
+  "training_lineage_not_invalid": true
+}
