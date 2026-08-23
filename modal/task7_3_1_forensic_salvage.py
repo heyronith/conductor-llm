@@ -117,9 +117,18 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
 
     for m in checkpoint_models:
         for p in checkpoint_phases:
-            ckpt_path = os.path.join(TASK7_3_RUN_DIR, "checkpoints", m, f"{p}_final.pt")
-            if not os.path.exists(ckpt_path):
-                raise FileNotFoundError(f"Missing immutable Task 7.3 checkpoint: {ckpt_path}")
+            candidates = [
+                os.path.join(TASK7_3_RUN_DIR, m, f"{p}_final.pt"),
+                os.path.join(TASK7_3_RUN_DIR, "checkpoints", m, f"{p}_final.pt"),
+                os.path.join(TASK7_3_RUN_DIR, f"{m}_{p}_final.pt"),
+            ]
+            ckpt_path = None
+            for c in candidates:
+                if os.path.exists(c):
+                    ckpt_path = c
+                    break
+            if ckpt_path is None:
+                raise FileNotFoundError(f"Missing immutable Task 7.3 checkpoint for {m} {p} in candidates: {candidates}")
             
             with open(ckpt_path, "rb") as f:
                 content = f.read()
@@ -129,7 +138,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
             ckpt_data = torch.load(ckpt_path, map_location="cpu", weights_only=False)
             checkpoint_git_shas[f"{m}_{p}"] = ckpt_data.get("git_commit_sha", "unknown")
             loaded_state_dicts[f"{m}_{p}"] = ckpt_data.get("model_state_dict", ckpt_data)
-            print(f"Loaded {m} {p}: sha={ckpt_sha[:16]}... git_sha={checkpoint_git_shas[f'{m}_{p}']}")
+            print(f"Loaded {m} {p} from {ckpt_path}: sha={ckpt_sha[:16]}... git_sha={checkpoint_git_shas[f'{m}_{p}']}")
 
     # A. B/C Initialization Equality
     print("\nReconstructing Model B and C initializations at seed 20260821...")
@@ -674,23 +683,30 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
     # 7. Cost Reconstruction
     # -------------------------------------------------------------
     print("\n--- 7. Cost Reconstruction from Progress Logs ---")
-    log_dir = os.path.join(TASK7_3_RUN_DIR, "logs")
     recovered_runtimes = {}
     
-    # Check log files
-    for phase_name in ["lm_progress.jsonl", "safety_progress.jsonl", "persistence_progress.jsonl"]:
-        p_path = os.path.join(log_dir, phase_name)
-        if os.path.exists(p_path):
-            max_elapsed = 0.0
-            with open(p_path, "r", encoding="utf-8") as f:
-                for line in f:
-                    try:
-                        d = json.loads(line.strip())
-                        if "elapsed_seconds" in d:
-                            max_elapsed = max(max_elapsed, float(d["elapsed_seconds"]))
-                    except Exception:
-                        pass
-            recovered_runtimes[phase_name] = max_elapsed
+    for m in checkpoint_models:
+        for phase_name in ["lm_progress.jsonl", "safety_progress.jsonl", "persistence_progress.jsonl"]:
+            candidates = [
+                os.path.join(TASK7_3_RUN_DIR, m, phase_name),
+                os.path.join(TASK7_3_RUN_DIR, "logs", phase_name),
+                os.path.join(TASK7_3_RUN_DIR, "logs", m, phase_name),
+                os.path.join(TASK7_3_RUN_DIR, f"{m}_{phase_name}"),
+            ]
+            for p_path in candidates:
+                if os.path.exists(p_path):
+                    max_elapsed = 0.0
+                    with open(p_path, "r", encoding="utf-8") as f:
+                        for line in f:
+                            try:
+                                d = json.loads(line.strip())
+                                if "elapsed_seconds" in d:
+                                    max_elapsed = max(max_elapsed, float(d["elapsed_seconds"]))
+                            except Exception:
+                                pass
+                    key = f"{m}_{phase_name.replace('.jsonl', '')}"
+                    recovered_runtimes[key] = max_elapsed
+                    break
 
     cost_audit = {
         "status": "RECONSTRUCTED_AUTHORITATIVE",
