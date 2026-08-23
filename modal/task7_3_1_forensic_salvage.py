@@ -85,6 +85,7 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
         infer_identity,
         infer_freeze_status,
     )
+    from pathlib import Path
     from ccpt.data.canonical_materializer import load_canonical_mistral_tokenizer
     from ccpt.data.wildguard import (
         load_wildguard_records,
