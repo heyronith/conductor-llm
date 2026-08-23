@@ -468,14 +468,9 @@ def run_task7_3_1a_salvage_pipeline() -> Dict[str, Any]:
     # -------------------------------------------------------------
     print("\n--- 5. Corrected Safe-Generation Evaluation with Attention Mask ---")
     tokenizer = load_canonical_mistral_tokenizer()
-    gen_collator = DataCollatorForSafeGenerationTraining(
-        tokenizer=tokenizer,
-        max_seq_len=1024,
-    )
-    risk_collator = DataCollatorForRiskTraining(
-        tokenizer=tokenizer,
-        max_seq_len=1024,
-    )
+    pad_id = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else 2
+    gen_collator = DataCollatorForSafeGenerationTraining(pad_token_id=pad_id)
+    risk_collator = DataCollatorForRiskTraining(pad_token_id=pad_id)
 
     def instantiate_model(model_key: str, state_dict: Dict[str, torch.Tensor]) -> nn.Module:
         if model_key == "model_a":
