@@ -391,6 +391,7 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
     micro_res = pipeline_fn(
         seed=20260823,
         model_type="model_c",
+        expected_code_sha=code_sha,
         test_mode=True,
         max_steps=2,
     )
@@ -407,10 +408,11 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
     details["micro_integration"] = micro_res
     print(f"  -> Micro Production Pipeline: {'PASSED' if micro_passed else 'FAILED'}")
 
-    # 15. Real Modal Remote In-Container Probes
-    print("\n[15/16] Executing Real In-Container Modal Probes (L40S & H100)...", flush=True)
+    # 15. Real Modal Remote In-Container Probes & H100 Real-Data Dry Run
+    print("\n[15/16] Executing Real In-Container Modal Probes & H100 Real-Data Dry Run...", flush=True)
     l40s_probe_res = None
     h100_probe_res = None
+    h100_dry_run_res = None
     modal_probes_passed = False
 
     if run_remote_modal_probes:
@@ -425,7 +427,16 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
                 h100_probe_res = mod.run_task7_4_modal_h100_probe.remote(expected_code_sha=code_sha)
                 print(f"     [H100 PASS] GPU: {h100_probe_res['runtime_fingerprint']['device_name']} | PyTorch: {h100_probe_res['runtime_fingerprint']['installed_versions']['torch']}")
 
-            modal_probes_passed = bool(l40s_probe_res.get("probe_passed") and h100_probe_res.get("probe_passed"))
+                print("     -> Running Modal H100 Real-Data Dry Run (LM [0,64) -> Safety -> Persistence [976544,976608))...", flush=True)
+                h100_dry_run_res = mod.run_task7_4_h100_real_data_dry_run.remote(expected_code_sha=code_sha)
+                print(f"     [H100 DRY RUN PASS] LM Blocks: {h100_dry_run_res['lm_blocks_read']} | Safety Tokens: {h100_dry_run_res['safety_tokens_read']} | Persistence Blocks: {h100_dry_run_res['persistence_blocks_read']} | Elapsed: {h100_dry_run_res['elapsed_sec']}s")
+
+            modal_probes_passed = bool(
+                l40s_probe_res.get("probe_passed") and
+                h100_probe_res.get("probe_passed") and
+                h100_dry_run_res.get("status") == "completed" and
+                h100_dry_run_res.get("strict_v3_reloads_passed")
+            )
         except Exception as e:
             print(f"  -> [MODAL PROBE NOTE]: Remote probe returned exception: {e}")
             details["modal_probe_exception"] = str(e)
@@ -438,6 +449,7 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
     details["modal_probes"] = {
         "l40s_probe": l40s_probe_res,
         "h100_probe": h100_probe_res,
+        "h100_real_data_dry_run": h100_dry_run_res,
         "probes_executed": run_remote_modal_probes,
     }
 

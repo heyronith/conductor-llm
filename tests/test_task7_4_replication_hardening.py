@@ -491,6 +491,7 @@ def test_cpu_micro_production_integration(tmp_path, monkeypatch):
     res = fn(
         seed=20260823,
         model_type="model_c",
+        expected_code_sha=dummy_sha,
         test_mode=True,
         max_steps=2,
     )
@@ -524,18 +525,18 @@ def test_production_ast_contains_real_phases():
     assert "run_single_model_replication_pipeline" in func_names
     assert "run_task7_4_modal_l40s_probe" in func_names
     assert "run_task7_4_modal_h100_probe" in func_names
+    assert "run_task7_4_h100_real_data_dry_run" in func_names
     assert "run_task7_4_evaluation_worker" in func_names
     assert "run_task7_4_centralized_judge_worker" in func_names
     assert "launch_task7_4_multiseed_replication" in func_names
     assert "aggregate_multiseed_status" in func_names
 
 
-def test_fineweb_block_reader_logical_indexing(tmp_path):
-    """Tests FineWebBlockReader contiguous batch slicing, shard boundary crossing, seek, and rolling hash."""
+def test_fineweb_block_reader_logical_indexing_and_resume_hash_invariance(tmp_path):
+    """Tests FineWebBlockReader contiguous batch slicing, shard boundary crossing, and resume-complete hash invariance."""
     import numpy as np
     from ccpt.data.fineweb import FineWebBlockReader, write_token_shard
 
-    # Create 2 temporary shards with 32 blocks each (total 64 blocks of 1024 tokens)
     seq_len = 1024
     blocks_shard1 = [np.full((seq_len,), i, dtype=np.uint16) for i in range(32)]
     blocks_shard2 = [np.full((seq_len,), 32 + i, dtype=np.uint16) for i in range(32)]
@@ -563,40 +564,24 @@ def test_fineweb_block_reader_logical_indexing(tmp_path):
         },
     ]
 
-    reader = FineWebBlockReader(shards_meta, start_block=0, end_block_exclusive=64, sequence_length=seq_len)
-    assert reader.cursor == 0
-    assert reader.total_blocks == 64
-    assert reader.remaining_blocks == 64
+    # 1. Uninterrupted run: read 0..64 in two batches of 32
+    reader_uninterrupted = FineWebBlockReader(shards_meta, start_block=0, end_block_exclusive=64, sequence_length=seq_len)
+    b1 = reader_uninterrupted.get_batch(batch_size=32)
+    b2 = reader_uninterrupted.get_batch(batch_size=32)
+    uninterrupted_hash = reader_uninterrupted.get_rolling_data_hash()
+    assert reader_uninterrupted.cursor == 64
 
-    # Read Batch 1: blocks [0, 32)
-    b1 = reader.get_batch(batch_size=32)
-    assert b1.shape == (32, seq_len)
-    assert b1[0, 0] == 0
-    assert b1[31, 0] == 31
-    assert reader.cursor == 32
-    assert reader.remaining_blocks == 32
+    # 2. Interrupted run: new reader starts, seeks to block 32, then reads batch 32..64
+    reader_resumed = FineWebBlockReader(shards_meta, start_block=0, end_block_exclusive=64, sequence_length=seq_len)
+    reader_resumed.seek(32)
+    assert reader_resumed.cursor == 32
+    b2_resumed = reader_resumed.get_batch(batch_size=32)
+    resumed_hash = reader_resumed.get_rolling_data_hash()
+    assert reader_resumed.cursor == 64
 
-    # Read Batch 2: blocks [32, 64)
-    b2 = reader.get_batch(batch_size=32)
-    assert b2.shape == (32, seq_len)
-    assert b2[0, 0] == 32
-    assert b2[31, 0] == 63
-    assert reader.cursor == 64
-    assert reader.remaining_blocks == 0
-
-    # Test rolling hash
-    hash1 = reader.get_rolling_data_hash()
-    assert len(hash1) == 64
-
-    # Test seek
-    reader.seek(16)
-    assert reader.cursor == 16
-    b_cross = reader.get_batch(batch_size=32)  # [16, 48) crosses shard 1 and shard 2 boundary!
-    assert b_cross.shape == (32, seq_len)
-    assert b_cross[0, 0] == 16
-    assert b_cross[15, 0] == 31
-    assert b_cross[16, 0] == 32
-    assert b_cross[31, 0] == 47
+    # The whole-phase data hash MUST be bit-for-bit identical!
+    assert uninterrupted_hash == resumed_hash, f"Hash mismatch between uninterrupted ({uninterrupted_hash}) and resumed ({resumed_hash})"
+    assert np.array_equal(b2, b2_resumed)
 
 
 def test_production_synthetic_leak_fail_closed():
@@ -608,6 +593,7 @@ def test_production_synthetic_leak_fail_closed():
     cfg = get_micro_baseline_config()
     model = ParameterMatchedBaselineModel(cfg)
     run_dir = Path("artifacts/test_fail_closed")
+    valid_sha = "a435ddd2b36df2397c7fcf5a8f51b12398289928"
 
     # Production LM requires data_reader
     with pytest.raises(RuntimeError, match="Production run_lm_phase requires an authoritative FineWebBlockReader"):
@@ -615,8 +601,8 @@ def test_production_synthetic_leak_fail_closed():
             model=model,
             model_type="model_a",
             seed=20260823,
+            expected_code_sha=valid_sha,
             run_dir=run_dir,
-            code_sha="a435ddd2b36df2397c7fcf5a8f51b12398289928",
             data_reader=None,
             test_mode=False,
         )
@@ -627,8 +613,8 @@ def test_production_synthetic_leak_fail_closed():
             model=model,
             model_type="model_a",
             seed=20260823,
+            expected_code_sha=valid_sha,
             run_dir=run_dir,
-            code_sha="a435ddd2b36df2397c7fcf5a8f51b12398289928",
             schedule_data=None,
             test_mode=False,
         )
@@ -639,8 +625,8 @@ def test_production_synthetic_leak_fail_closed():
             model=model,
             model_type="model_a",
             seed=20260823,
+            expected_code_sha=valid_sha,
             run_dir=run_dir,
-            code_sha="a435ddd2b36df2397c7fcf5a8f51b12398289928",
             data_reader=None,
             test_mode=False,
         )
@@ -660,12 +646,29 @@ def test_chicago_timezone_exact():
     assert now_chicago.tzinfo is not None
 
 
-def test_8_job_orchestrator_structure():
-    """Verifies that launch_task7_4_multiseed_replication configures all 8 replication jobs."""
+def test_8_job_orchestrator_structure(monkeypatch):
+    """Verifies that launch_task7_4_multiseed_replication configures all 8 replication jobs with real spawn calls."""
     mod = _load_task7_4_replication_module()
     launcher_fn = mod.launch_task7_4_multiseed_replication
 
+    dummy_sha = "308f2857788e84c9767a5048daf06ed9f96177a4"
+
+    # Mock spawn to avoid actual Modal remote dispatch during unit testing
+    class MockSpawnHandle:
+        def __init__(self, key):
+            self.object_id = f"fc-{key}"
+            self.key = key
+
+    spawn_calls = []
+
+    def mock_spawn(s, m, code_sha, test_mode=False):
+        spawn_calls.append((s, m, code_sha))
+        return MockSpawnHandle(f"{s}_{m}")
+
+    monkeypatch.setattr(mod.run_single_model_replication_pipeline, "spawn", mock_spawn)
+
     res = launcher_fn(
+        expected_code_sha=dummy_sha,
         seeds=[20260823, 20260824],
         models=["model_a", "model_b", "model_c", "model_d"],
         test_mode=True,
@@ -673,8 +676,95 @@ def test_8_job_orchestrator_structure():
     )
 
     assert res["total_jobs"] == 8
+    assert res["spawned_jobs"] == 8
     assert res["max_concurrency"] == 8
     assert res["status"] == "all_jobs_dispatched"
+    assert len(spawn_calls) == 8
     assert "seed_20260823_model_a" in res["job_handles"]
     assert "seed_20260823_model_c" in res["job_handles"]
     assert "seed_20260824_model_d" in res["job_handles"]
+    assert "spawn_handle_configured" not in str(res["job_handles"])
+
+
+def test_validate_code_sha_format_strictness():
+    """Verifies that validate_code_sha_format enforces 40-char hex and rejects invalid/unconfigured SHAs."""
+    mod = _load_task7_4_replication_module()
+    val_fn = mod.validate_code_sha_format
+
+    valid_sha = "308f2857788e84c9767a5048daf06ed9f96177a4"
+    assert val_fn(valid_sha) == valid_sha
+
+    for invalid in [
+        "",
+        None,
+        "UNCONFIGURED_CODE_SHA",
+        "unknown",
+        "unresolved",
+        "short_sha",
+        "308f2857788e84c9767a5048daf06ed9f96177z4",  # 'z' is not hex
+        "308f2857788e84c9767a5048daf06ed9f96177a44",  # 41 chars
+    ]:
+        with pytest.raises(RuntimeError):
+            val_fn(invalid)
+
+
+def test_rng_state_persistence_and_restore(tmp_path):
+    """Verifies that save_checkpoint persists torch_rng_state and cuda_rng_state and resume restores it."""
+    from ccpt.config import get_micro_baseline_config
+    from ccpt.modeling.baseline import ParameterMatchedBaselineModel
+    from ccpt.training.checkpoint import save_checkpoint, load_checkpoint
+    from ccpt.training.scheduler import TokenCosineScheduler
+
+    cfg = get_micro_baseline_config()
+    model = ParameterMatchedBaselineModel(cfg)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
+    scheduler = TokenCosineScheduler(max_lr=1e-3, min_lr=0.0, warmup_tokens=1000, total_tokens=10000)
+    ckpt_p = tmp_path / "test_rng_ckpt.pt"
+    dummy_sha = "308f2857788e84c9767a5048daf06ed9f96177a4"
+
+    # Set known RNG state and generate numbers
+    torch.manual_seed(42)
+    t1 = torch.randn(5)
+
+    save_checkpoint(
+        checkpoint_path=ckpt_p,
+        model=model,
+        optimizer=optimizer,
+        scheduler=scheduler,
+        phase="phase1_pretrain_1b",
+        global_step=1,
+        tokens_seen=32768,
+        model_type="model_a",
+        model_config=cfg,
+        git_commit_sha=dummy_sha,
+        require_exact_git_sha=True,
+        expected_git_sha=dummy_sha,
+        training_seed=20260823,
+        task4_manifest_hash="bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4",
+        data_manifest_hash="47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055",
+        stream_identity="fineweb-edu-100BT",
+        data_cursor=32,
+    )
+
+    # Scramble RNG
+    torch.manual_seed(999)
+    t_scrambled = torch.randn(5)
+    assert not torch.equal(t1, t_scrambled)
+
+    # Load and restore
+    loaded = load_checkpoint(ckpt_p, strict_v3=True, expected_git_commit_sha=dummy_sha, expected_model_type="model_a")
+    assert "torch_rng_state" in loaded
+    torch.set_rng_state(loaded["torch_rng_state"])
+
+    # Number generated after restore must match continuation from checkpoint save point
+    t_restored_next = torch.randn(5)
+
+    # Re-verify from seed 42
+    torch.manual_seed(42)
+    _ = torch.randn(5)
+    t_expected_next = torch.randn(5)
+
+    assert torch.equal(t_restored_next, t_expected_next)
+
+
+

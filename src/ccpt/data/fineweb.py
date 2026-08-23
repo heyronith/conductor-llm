@@ -327,10 +327,28 @@ class FineWebBlockReader:
         return batch
 
     def seek(self, block_index: int) -> None:
-        """Sets the logical cursor to the given global block index."""
+        """Sets the logical cursor to the given global block index and reconstructs rolling hash."""
         if block_index < self.start_block or block_index > self.end_block_exclusive:
             raise ValueError(f"Cannot seek to {block_index} outside range [{self.start_block}, {self.end_block_exclusive}]")
         self.current_cursor = block_index
+
+        # Reconstruct whole-phase rolling hash from start_block to new cursor
+        self._rolling_hasher = hashlib.sha256()
+        if block_index > self.start_block:
+            target_start = self.start_block
+            target_end = block_index
+            for idx, s in enumerate(self.indexed_shards):
+                if s["last_block"] <= target_start:
+                    continue
+                if s["first_block"] >= target_end:
+                    break
+                overlap_start = max(target_start, s["first_block"])
+                overlap_end = min(target_end, s["last_block"])
+                mmap_arr = self._get_shard_mmap(idx)
+                local_start = overlap_start - s["first_block"]
+                local_end = overlap_end - s["first_block"]
+                chunk = np.array(mmap_arr[local_start:local_end], copy=False)
+                self._rolling_hasher.update(chunk.tobytes())
 
     @property
     def cursor(self) -> int:
@@ -347,5 +365,6 @@ class FineWebBlockReader:
     def get_rolling_data_hash(self) -> str:
         """Returns the hex digest of the rolling SHA256 data consumption hash."""
         return self._rolling_hasher.hexdigest()
+
 
 
