@@ -326,8 +326,11 @@ def run_task7_3_1a_salvage_pipeline() -> Dict[str, Any]:
     canonical_gen_train = load_wildguard_records(canonical_files["gen_train"], record_type="generation")
     canonical_gen_val = load_wildguard_records(canonical_files["gen_val"], record_type="generation")
 
-    risk_lookup: Dict[str, Any] = {r["example_id"]: r for r in canonical_risk_train + canonical_risk_val}
-    gen_lookup: Dict[str, Any] = {r["example_id"]: r for r in canonical_gen_train + canonical_gen_val}
+    def _get_field(obj: Any, field_name: str) -> Any:
+        return getattr(obj, field_name) if hasattr(obj, field_name) else obj[field_name]
+
+    risk_lookup: Dict[str, Any] = {_get_field(r, "example_id"): r for r in canonical_risk_train + canonical_risk_val}
+    gen_lookup: Dict[str, Any] = {_get_field(r, "example_id"): r for r in canonical_gen_train + canonical_gen_val}
 
     # Load safety schedule
     schedule_path = "/data/safety_schedule.json"
@@ -373,13 +376,13 @@ def run_task7_3_1a_salvage_pipeline() -> Dict[str, Any]:
                     exact_record_identity_verified = False
                     break
                 rec = risk_lookup[eid]
-                batch_tokens += len(rec["input_ids"])
+                batch_tokens += len(_get_field(rec, "input_ids"))
             else:
                 if eid not in gen_lookup:
                     exact_record_identity_verified = False
                     break
                 rec = gen_lookup[eid]
-                batch_tokens += len(rec["input_ids"])
+                batch_tokens += len(_get_field(rec, "input_ids"))
 
         if batch_tokens != int(b["valid_input_tokens"]):
             exact_record_identity_verified = False
