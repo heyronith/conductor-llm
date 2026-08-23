@@ -26,7 +26,8 @@ app = modal.App("ccpt-task7-3-1-salvage")
 
 # Mount persistent volumes
 runs_vol = modal.Volume.from_name("ccpt-authoritative-runs", create_if_missing=True)
-data_vol = modal.Volume.from_name("ccpt-data", create_if_missing=True)
+data_vol = modal.Volume.from_name("ccpt-authoritative-data", create_if_missing=True)
+task4_vol = modal.Volume.from_name("ccpt-data", create_if_missing=True)
 
 image = (
     modal.Image.debian_slim(python_version="3.11")
@@ -56,7 +57,7 @@ SECRETS = [
 
 @app.function(
     image=image,
-    volumes={"/runs": runs_vol, "/data": data_vol},
+    volumes={"/runs": runs_vol, "/data": data_vol, "/data_task4": task4_vol},
     secrets=SECRETS,
     gpu="L40S",
     timeout=7200,
@@ -224,15 +225,23 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
     }
 
     # -------------------------------------------------------------
-    # 2. Safety Schedule & Canonical Task 4 Data Audit
+    # 2. Safety Schedule & Canonical Data Audit
     # -------------------------------------------------------------
     print("\n--- 2. Safety Schedule & Canonical Data Audit ---")
-    schedule_path = os.path.join(TASK7_3_RUN_DIR, "data", "safety_schedule.json")
-    if not os.path.exists(schedule_path):
-        schedule_path = "/data/safety_schedule.json"
-    if not os.path.exists(schedule_path):
-        raise FileNotFoundError(f"Could not locate actual safety schedule: {schedule_path}")
+    schedule_path = None
+    for cand in [
+        "/data/safety_schedule.json",
+        os.path.join(TASK7_3_RUN_DIR, "data", "safety_schedule.json"),
+        os.path.join(TASK7_3_RUN_DIR, "safety_schedule.json"),
+        "/data_task4/safety_schedule.json",
+    ]:
+        if os.path.exists(cand):
+            schedule_path = cand
+            break
+    if schedule_path is None:
+        raise FileNotFoundError("Could not locate actual safety schedule on /data, /runs, or /data_task4")
 
+    print(f"Loading actual safety schedule from: {schedule_path}")
     with open(schedule_path, "r", encoding="utf-8") as f:
         schedule_data = json.load(f)
 
@@ -252,24 +261,38 @@ def run_task7_3_1_salvage_pipeline() -> Dict[str, Any]:
     print(f"Full Schedule Audit Hash: {full_schedule_audit_hash}")
 
     # Load canonical Task 4 Arrow records
-    task4_dir = "/data"
-    raw_arrow_dir = None
-    for candidate in [
-        os.path.join(task4_dir, "prepared_wildguard_data_2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097"),
-        task4_dir,
-    ]:
-        if os.path.exists(os.path.join(candidate, "risk_train.arrow")):
-            raw_arrow_dir = candidate
-            break
+    def resolve_arrow_file(rel_path_suffix: str, filename: str) -> Path:
+        candidates = [
+            Path("/data_task4") / rel_path_suffix,
+            Path("/data_task4") / filename,
+            Path("/data_task4") / "prepared_wildguard_data_2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097" / filename,
+            Path("/data") / rel_path_suffix,
+            Path("/data") / filename,
+            Path("/data/ccpt") / rel_path_suffix,
+        ]
+        for c in candidates:
+            if c.exists():
+                return c
+        for base in [Path("/data_task4"), Path("/data")]:
+            if base.exists():
+                matches = list(base.glob(f"**/{filename}"))
+                if matches:
+                    return matches[0]
+                matches_suffix = list(base.glob(f"**/{rel_path_suffix}"))
+                if matches_suffix:
+                    return matches_suffix[0]
+        raise FileNotFoundError(f"Could not locate {filename} / {rel_path_suffix} across volumes")
 
-    if raw_arrow_dir is None:
-        raise FileNotFoundError("Could not find canonical Task 4 Arrow files on /data volume.")
+    risk_train_path = resolve_arrow_file("wildguard/risk/train.arrow", "risk_train.arrow")
+    risk_val_path = resolve_arrow_file("wildguard/risk/validation.arrow", "risk_validation.arrow")
+    gen_train_path = resolve_arrow_file("wildguard/generation/train.arrow", "generation_train.arrow")
+    gen_val_path = resolve_arrow_file("wildguard/generation/validation.arrow", "generation_validation.arrow")
 
-    print(f"Loading canonical Task 4 data from: {raw_arrow_dir}")
-    risk_train = load_wildguard_records(Path(raw_arrow_dir) / "risk_train.arrow", record_type="risk")
-    risk_val = load_wildguard_records(Path(raw_arrow_dir) / "risk_validation.arrow", record_type="risk")
-    gen_train = load_wildguard_records(Path(raw_arrow_dir) / "generation_train.arrow", record_type="generation")
-    gen_val = load_wildguard_records(Path(raw_arrow_dir) / "generation_validation.arrow", record_type="generation")
+    print(f"Loading canonical Task 4 data from:\n  {risk_train_path}\n  {risk_val_path}\n  {gen_train_path}\n  {gen_val_path}")
+    risk_train = load_wildguard_records(risk_train_path, record_type="risk")
+    risk_val = load_wildguard_records(risk_val_path, record_type="risk")
+    gen_train = load_wildguard_records(gen_train_path, record_type="generation")
+    gen_val = load_wildguard_records(gen_val_path, record_type="generation")
 
     print(f"Loaded Task 4 records: risk_train={len(risk_train)}, risk_val={len(risk_val)}, gen_train={len(gen_train)}, gen_val={len(gen_val)}")
     assert len(risk_train) == 45492, f"Expected 45492 risk_train records, found {len(risk_train)}"
