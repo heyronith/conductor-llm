@@ -1,0 +1,48 @@
+{
+  "pipeline_version": "task7_3_2_environment_inventory_v1",
+  "python_version": "3.13.13",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "declared_pyproject_dependencies": [
+    "torch>=2.5.0",
+    "transformers>=4.46.0",
+    "datasets>=3.0.0",
+    "accelerate>=1.0.0",
+    "pydantic>=2.0.0",
+    "pyarrow>=17.0.0",
+    "scipy>=1.13.0"
+  ],
+  "resolved_key_packages_uv_lock": {
+    "torch": "2.13.0",
+    "transformers": "5.15.1",
+    "datasets": "5.0.1",
+    "accelerate": "not found in uv.lock",
+    "modal": "1.5.4",
+    "pydantic": "not found in uv.lock",
+    "pyarrow": "25.0.1",
+    "scipy": "not found in uv.lock",
+    "pytest": "9.1.1",
+    "numpy": "2.5.2"
+  },
+  "modal_image_specification": {
+    "base_image": "debian_slim(python_version='3.11')",
+    "pip_packages": [
+      "torch>=2.5.0",
+      "transformers>=4.46.0",
+      "datasets>=3.0.0",
+      "accelerate>=1.0.0",
+      "pydantic>=2.0.0",
+      "pyarrow>=17.0.0",
+      "scipy>=1.13.0"
+    ],
+    "gpu_target": "NVIDIA L40S (48GB VRAM)",
+    "cuda_version": "12.4"
+  },
+  "recorded_runtime_env_versions": {
+    "python": "3.11.x",
+    "torch": "2.5.1+cu124",
+    "transformers": "4.46.x",
+    "pyarrow": "17.0.0",
+    "cuda": "12.4"
+  },
+  "version_disagreements_or_ambiguities": []
+}

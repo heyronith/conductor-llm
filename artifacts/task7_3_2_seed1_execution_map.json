@@ -1,0 +1,96 @@
+{
+  "pipeline_version": "task7_3_2_seed1_execution_map_v1",
+  "seed": 20260821,
+  "workflow_phases": {
+    "DATA_MATERIALIZATION": {
+      "source_file_path": "src/ccpt/data/pilot_v2_materializer.py",
+      "orchestration_path": "modal/pilot_v2_authoritative.py",
+      "function_name": "materialize_pilot_v2_data",
+      "known_relevant_commits": [
+        "6fb6c4b",
+        "f58f4a1",
+        "cf3f99e"
+      ],
+      "execution_phase_relation": "Executed prior to training to produce canonical 20M token WildGuard schedule",
+      "known_uncertainties": "None. Canonical Task 4 schedule hashes verified cryptographically (legacy: b141fcbc..., audit: 6e1be807...)"
+    },
+    "1B_LM_TRAINING": {
+      "source_file_path": "src/ccpt/training/engine.py",
+      "orchestration_path": "modal/pilot_v2_authoritative.py",
+      "function_name": "train_1b_lm_phase",
+      "known_relevant_commits": [
+        "cf3f99e"
+      ],
+      "execution_phase_relation": "Executed on 4x L40S GPUs (1B tokens on FineWeb sample-10BT across Model A, B, C, D)",
+      "known_uncertainties": "Git commit hash not embedded in checkpoint .pt metadata; verified via static lineage and identity-based tensor freeze checks"
+    },
+    "SAFETY_TRAINING": {
+      "source_file_path": "src/ccpt/training/engine.py",
+      "orchestration_path": "modal/pilot_v2_authoritative.py",
+      "function_name": "train_20m_safety_phase",
+      "known_relevant_commits": [
+        "cf3f99e"
+      ],
+      "execution_phase_relation": "Executed on 4x L40S GPUs (20M tokens on canonical WildGuard schedule for Model A, B, C, D)",
+      "known_uncertainties": "None on data/tensor invariants; capability stream strictly frozen (0/38 tensors changed, max_diff=0.0)"
+    },
+    "PRE_PERSISTENCE_EVALUATION": {
+      "source_file_path": "src/ccpt/evaluation/behavioral.py",
+      "orchestration_path": "modal/pilot_v2_authoritative.py",
+      "function_name": "evaluate_pre_persistence",
+      "known_relevant_commits": [
+        "cf3f99e",
+        "f3e196e",
+        "78f60cb"
+      ],
+      "execution_phase_relation": "Evaluated pre-persistence checkpoints on WildGuard ID (2,344 val) and BeaverTails OOD (512 val)",
+      "known_uncertainties": "Task 7.3 used unmasked padding in continuation CE; Task 7.3.1a corrected to attention-masked token-weighted CE (290,384 tokens)"
+    },
+    "PERSISTENCE_TRAINING": {
+      "source_file_path": "src/ccpt/training/engine.py",
+      "orchestration_path": "modal/pilot_v2_authoritative.py",
+      "function_name": "train_persistence_phase",
+      "known_relevant_commits": [
+        "cf3f99e"
+      ],
+      "execution_phase_relation": "Executed 1,000 steps of LM fine-tuning on FineWeb with safety parameters frozen across Model A, B, C, D",
+      "known_uncertainties": "Safety parameters strictly frozen (0/27 changed in Model C, 0/25 in Model D, max_diff=0.0)"
+    },
+    "POST_PERSISTENCE_EVALUATION": {
+      "source_file_path": "src/ccpt/evaluation/behavioral.py",
+      "orchestration_path": "modal/pilot_v2_authoritative.py",
+      "function_name": "evaluate_post_persistence",
+      "known_relevant_commits": [
+        "cf3f99e",
+        "f3e196e",
+        "78f60cb"
+      ],
+      "execution_phase_relation": "Evaluated post-persistence checkpoints on WildGuard ID and BeaverTails OOD",
+      "known_uncertainties": "Task 7.3.1a tri-state evaluation and padded CE fully authoritative"
+    },
+    "WILDGUARD_JUDGING": {
+      "source_file_path": "src/ccpt/evaluation/safety_judge.py",
+      "orchestration_path": "src/ccpt/evaluation/behavioral.py",
+      "function_name": "parse_wildguard_tri_state",
+      "known_relevant_commits": [
+        "f3e196e"
+      ],
+      "execution_phase_relation": "Independent WildGuard moderation model used to classify model responses into Refusal / Compliant / Unclear",
+      "known_uncertainties": "Explicit tri-state parsing with zero N/A coercion"
+    },
+    "FORENSIC_SALVAGE": {
+      "source_file_path": "src/ccpt/evaluation/forensics.py",
+      "orchestration_path": "modal/task7_3_1a_corrective_salvage.py",
+      "function_name": "run_task7_3_1a_salvage_pipeline",
+      "known_relevant_commits": [
+        "f3e196e",
+        "a95fc1c",
+        "f73b20e",
+        "78f60cb",
+        "0a68e2e"
+      ],
+      "execution_phase_relation": "Post-hoc forensic reconstruction of tensor invariants, Task 4 schedule hashes, and attention-masked continuation loss",
+      "known_uncertainties": "None. All 7 tensor checks pass, all schedule hashes match, and padded continuation loss is verified"
+    }
+  }
+}

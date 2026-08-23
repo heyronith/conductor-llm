@@ -1,0 +1,1049 @@
+================================================================================
+TASK 7.3.2 STATIC RISK SCAN REPORT
+================================================================================
+Target Patterns: 31
+
+--- Pattern: \.get\( (290 matches) ---
+  modal/pilot_v2_authoritative.py:231: if ckpt.get("tokens_seen") == 999_981_056 and ckpt.get("data_cursor") == 976_544:
+  modal/pilot_v2_authoritative.py:597: if ckpt.get("tokens_seen", 0) >= 20_000_000:
+  modal/pilot_v2_authoritative.py:607: "tokens_seen": ckpt.get("tokens_seen"),
+  modal/pilot_v2_authoritative.py:776: data_manifest_hash=lm_ckpt.get("data_manifest_hash", ""),
+  modal/pilot_v2_authoritative.py:1135: if ckpt.get("tokens_seen", 0) == 1_032_749_056 and ckpt.get("data_cursor", 0) == 1_008_544:
+  modal/pilot_v2_authoritative.py:1293: data_manifest_hash=safety_ckpt.get("data_manifest_hash", ""),
+  modal/pilot_v2_authoritative.py:1294: safety_schedule_hash=safety_ckpt.get("safety_schedule_hash", ""),
+  modal/pilot_v2_authoritative.py:1348: pre = pre_persist_eval_results.get(m, {})
+  modal/pilot_v2_authoritative.py:1349: post = post_persist_eval_results.get(m, {})
+  modal/pilot_v2_authoritative.py:1362: runtimes[f"lm_{m}"] = lm_results.get(m, {}).get("measured_elapsed_gpu_seconds", 0.0)
+  modal/pilot_v2_authoritative.py:1363: runtimes[f"clean_eval_{m}"] = clean_eval_results.get(m, {}).get("measured_elapsed_gpu_seconds", 0.0)
+  modal/pilot_v2_authoritative.py:1364: runtimes[f"safety_{m}"] = safety_results.get(m, {}).get("measured_elapsed_gpu_seconds", 0.0)
+  modal/pilot_v2_authoritative.py:1365: runtimes[f"pre_persist_eval_{m}"] = pre_persist_eval_results.get(m, {}).get("measured_elapsed_gpu_seconds", 0.0)
+  modal/pilot_v2_authoritative.py:1366: runtimes[f"persistence_{m}"] = persistence_results.get(m, {}).get("measured_elapsed_gpu_seconds", 0.0)
+  modal/pilot_v2_authoritative.py:1367: runtimes[f"post_persist_eval_{m}"] = post_persist_eval_results.get(m, {}).get("measured_elapsed_gpu_seconds", 0.0)
+  modal/pilot_v2_authoritative.py:1386: "initialization_hashes": {m: lm_results.get(m, {}).get("initial_state_sha256") for m in ["model_a", "model_b", "model_c", "model_d"]},
+  modal/pilot_v2_authoritative.py:1387: "b_c_init_identical": bool(lm_results.get("model_b", {}).get("initial_state_sha256") == lm_results.get("model_c", {}).get("initial_state_sha
+  modal/pilot_v2_authoritative.py:1388: "final_1b_checkpoints": {m: lm_results.get(m, {}).get("final_checkpoint_sha256") for m in ["model_a", "model_b", "model_c", "model_d"]},
+  modal/pilot_v2_authoritative.py:1389: "final_safety_checkpoints": {m: safety_results.get(m, {}).get("final_checkpoint_sha256") for m in ["model_a", "model_b", "model_c", "model_d
+  modal/pilot_v2_authoritative.py:1390: "final_persistence_checkpoints": {m: persistence_results.get(m, {}).get("final_checkpoint_sha256") for m in ["model_a", "model_b", "model_c"
+  modal/pilot_v2_authoritative.py:1393: "c_theta_n_changed_during_lm": lm_results.get("model_c", {}).get("c_theta_n_changed_tensors", 0),
+  modal/pilot_v2_authoritative.py:1394: "d_safety_changed_during_lm": lm_results.get("model_d", {}).get("d_safety_changed_tensors", 0),
+  modal/pilot_v2_authoritative.py:1395: "c_theta_c_changed_during_safety": safety_results.get("model_c", {}).get("c_theta_c_changed_tensors", 0),
+  modal/pilot_v2_authoritative.py:1396: "d_backbone_changed_during_safety": safety_results.get("model_d", {}).get("d_backbone_changed_tensors", 0),
+  modal/pilot_v2_authoritative.py:1397: "c_theta_n_changed_during_persistence": persistence_results.get("model_c", {}).get("c_theta_n_changed_tensors", 0),
+  modal/pilot_v2_authoritative.py:1398: "d_safety_changed_during_persistence": persistence_results.get("model_d", {}).get("d_safety_changed_tensors", 0),
+  modal/pilot_v2_authoritative.py:1445: ckpt_sha = lm_results[m].get("final_checkpoint_sha256") or lm_results[m].get("checkpoint_sha256", "UNKNOWN")
+  modal/pilot_v2_authoritative.py:1460: s_sha = safety_results[m].get("final_checkpoint_sha256") or safety_results[m].get("checkpoint_sha256", "UNKNOWN")
+  modal/task4_data.py:212: hf_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN") or os.environ.get("HUGGINGFACE_TOKEN")
+  modal/task4_data.py:227: username = user_info.get("name", "authenticated_user")
+  modal/task4_data.py:443: print(f"Elapsed Time: {results.get('elapsed_seconds')}s")
+  modal/task4_data.py:449: is_live = results.get("wildguard_live_validated", False)
+  modal/task4_data.py:467: print(f"  Reason: {results.get('blocker')}")
+  modal/task4_data.py:486: f.write(f"Elapsed: {results.get('elapsed_seconds')}s\n\n")
+  modal/task4_data.py:499: f.write(f"  - Live Validated: {results.get('wildguard_live_validated')}\n")
+  modal/task4_data.py:516: f.write(f"  - Blocker: {results.get('blocker')}\n")
+  modal/task4_data.py:517: f.write(f"\nMANIFEST HASH: {results.get('manifest_hash')}\n")
+  modal/task5_micro.py:121: task4_h = state.get("task4_manifest_hash")
+  modal/task5_micro.py:122: subset_h = state.get("task5_subset_hash")
+  modal/task5_micro.py:123: format_ver = state.get("format_version")
+  modal/task5_micro.py:124: g_step = state.get("global_step")
+  modal/task5_micro.py:125: m_type = state.get("model_type")
+  modal/task5_micro.py:126: t_seed = state.get("training_seed")
+  modal/task5_micro.py:218: if k in raw_sub.get("lm", {}):
+  modal/task5_micro.py:220: if k in raw_sub.get("risk", {}):
+  modal/task5_micro.py:222: if k in raw_sub.get("generation", {}):
+  modal/task6_finalize.py:517: seq_len = data_manifest.get("sequence_length", data_manifest.get("block_length", 1024))
+  modal/task6_finalize.py:550: doc_id = ex.get("id", str(doc_count))
+  modal/task6_finalize.py:663: "optimizer_state_loaded": loaded.get("optimizer_state_dict") is not None,
+  modal/task6_repair.py:175: "model_type": lm_data.get("model_type"),
+  ... [truncated 240 additional matches]
+
+--- Pattern: None\s*==\s*None (0 matches) ---
+  (no matches found)
+
+--- Pattern: torch\.no_grad (68 matches) ---
+  docs/research/task1_ccpt_architecture_spec.md:49: - The forward pass for $C$ is computed in the normal autograd context (NOT in `torch.no_grad()`), so gradients can flow through the $C$ oper
+  docs/research/task1_design_review.md:20: - Using `torch.no_grad()` by mistake on the frozen $C$ pathway during Mode B, completely severing the gradient path to the controller.
+  docs/research/task3_gradient_verification.md:45: # 2. Execute in controlled mode WITHOUT torch.no_grad()
+  docs/research/task3_gradient_verification.md:67: > **Autograd Invariant**: Never wrap the capability forward pass in `torch.no_grad()` during normative training. Parameter freezing (`requir
+  modal/pilot_v2_authoritative.py:498: with torch.no_grad():
+  modal/pilot_v2_authoritative.py:884: with torch.no_grad():
+  modal/pilot_v2_authoritative.py:924: with torch.no_grad():
+  modal/pilot_v2_authoritative.py:963: with torch.no_grad():
+  modal/task6_finalize.py:329: with torch.no_grad():
+  modal/task6_finalize.py:413: with torch.no_grad():
+  modal/task6_finalize.py:647: with torch.no_grad():
+  modal/task6_repair.py:482: with torch.no_grad():
+  modal/task6_repair.py:560: with torch.no_grad():
+  modal/task6_repair.py:600: with torch.no_grad():
+  modal/task6_safety_scaling.py:458: with torch.no_grad():
+  modal/task6_safety_scaling.py:600: with torch.no_grad():
+  modal/task6_safety_scaling.py:621: with torch.no_grad():
+  modal/task6_safety_scaling.py:637: with torch.no_grad():
+  modal/task6_safety_scaling.py:676: with torch.no_grad():
+  modal/task6_smoke.py:745: with torch.no_grad():
+  modal/task6_smoke.py:913: with torch.no_grad():
+  modal/task6_smoke.py:1249: with torch.no_grad():
+  modal/task6_smoke.py:1270: with torch.no_grad():
+  modal/task6_smoke.py:1305: with torch.no_grad():
+  modal/task7_2_1_real_proofs.py:219: with torch.no_grad():
+  modal/task7_3_1_forensic_salvage.py:482: with torch.no_grad():
+  modal/task7_3_1_forensic_salvage.py:517: with torch.no_grad():
+  modal/task7_3_1a_corrective_salvage.py:507: with torch.no_grad():
+  modal/task7_pilot_v2.py:887: with torch.no_grad():
+  modal/task7_pilot_v2.py:908: with torch.no_grad():
+  modal/task7_pilot_v2.py:918: with torch.no_grad():
+  modal/task7_pilot_v2.py:931: with torch.no_grad():
+  modal/task7_pilot_v2.py:958: with torch.no_grad():
+  scripts/run_task7_2_1_proofs.py:177: with torch.no_grad():
+  scripts/run_task7_2_proofs.py:160: with torch.no_grad():
+  scripts/task3_gradient_probe.py:78: with torch.no_grad():
+  src/ccpt/evaluation/behavioral.py:119: with torch.no_grad():
+  src/ccpt/evaluation/safety_judge.py:157: with torch.no_grad():
+  src/ccpt/evaluation/safety_judge.py:383: with torch.no_grad():
+  src/ccpt/training/engine.py:84: @torch.no_grad()
+  src/ccpt/training/engine.py:120: @torch.no_grad()
+  src/ccpt/training/engine.py:162: @torch.no_grad()
+  tests/test_causality.py:20: with torch.no_grad():
+  tests/test_causality.py:47: with torch.no_grad():
+  tests/test_causality.py:83: with torch.no_grad():
+  tests/test_finite_difference.py:27: with torch.no_grad():
+  tests/test_finite_difference.py:54: with torch.no_grad():
+  tests/test_finite_difference.py:60: with torch.no_grad():
+  tests/test_finite_difference.py:93: with torch.no_grad():
+  tests/test_finite_difference.py:117: with torch.no_grad():
+  ... [truncated 18 additional matches]
+
+--- Pattern: detach\( (17 matches) ---
+  docs/research/task2_implementation_notes.md:43: - Initial normative state $N_0 = P_{\text{in}}(\text{stop\_gradient}(C_0))$: `self.p_in(c_0.detach())`
+  docs/research/task2_implementation_notes.md:45: - Normative observation $N_{l/2}^{\text{in}} = N_{l/2-1} + W_{\text{obs}, l/2}(\text{stop\_gradient}(\tilde C_l))$: `n_in = n + self.obs_pro
+  docs/research/task3_gradient_verification.md:15: Even when $\theta_C$ is marked as trainable (`requires_grad = True`), the explicit `stop_gradient` / `detach()` on the $C \to N$ observation
+  modal/pilot_v2_authoritative.py:932: risk_preds_list.append(b_risk_preds_logits.detach().cpu())
+  modal/pilot_v2_authoritative.py:933: risk_targets_list.append(b_targets.detach().cpu())
+  modal/task7_pilot_v2.py:430: init_state_bytes = b"".join(p.detach().cpu().numpy().tobytes() for p in model.parameters())
+  src/ccpt/evaluation/forensics.py:67: tensor = state_dict[name].detach().cpu().contiguous()
+  src/ccpt/evaluation/forensics.py:98: t_left = left_dict[k].detach().cpu().float()
+  src/ccpt/evaluation/forensics.py:99: t_right = right_dict[k].detach().cpu().float()
+  src/ccpt/modeling/dual_stream.py:152: n = self.p_in(c_0.detach())  # N_0: [B, T, d_N]
+  src/ccpt/modeling/dual_stream.py:168: n_in = n + self.obs_projections[k](c_tilde.detach())
+  src/ccpt/modeling/dual_stream.py:186: diag_gates[f"layer_{l_idx}"] = g_l.detach()
+  src/ccpt/modeling/dual_stream.py:187: diag_steering[f"layer_{l_idx}"] = s_l.detach()
+  src/ccpt/modeling/dual_stream.py:188: diag_normative[f"normative_block_{k+1}"] = n.detach()
+  src/ccpt/training/engine.py:42: return [p.detach().clone() for p in params]
+  src/ccpt/training/engine.py:73: total_norm = float(torch.norm(torch.stack([torch.norm(g.detach(), 2) for g in grads]), 2).item())
+  src/ccpt/training/gradients.py:70: return [p.detach().clone() for p in parameters]
+
+--- Pattern: requires_grad (99 matches) ---
+  docs/research/task1_ccpt_architecture_spec.md:48: - Capability parameters $\theta_C$ are explicitly frozen using `requires_grad = False` on all parameters in $\theta_C$.
+  docs/research/task3_gradient_verification.md:15: Even when $\theta_C$ is marked as trainable (`requires_grad = True`), the explicit `stop_gradient` / `detach()` on the $C \to N$ observation
+  docs/research/task3_gradient_verification.md:26: set_requires_grad(model.theta_C, True)
+  docs/research/task3_gradient_verification.md:41: set_requires_grad(model.theta_C, False)
+  docs/research/task3_gradient_verification.md:42: set_requires_grad(model.theta_N, True)
+  docs/research/task3_gradient_verification.md:63: set_requires_grad(model.theta_C, True)
+  docs/research/task3_gradient_verification.md:67: > **Autograd Invariant**: Never wrap the capability forward pass in `torch.no_grad()` during normative training. Parameter freezing (`requir
+  modal/pilot_v2_authoritative.py:276: p.requires_grad = False
+  modal/pilot_v2_authoritative.py:277: optimizer = torch.optim.AdamW([p for p in model.theta_C if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:283: p.requires_grad = False
+  modal/pilot_v2_authoritative.py:284: optimizer = torch.optim.AdamW([p for p in model.backbone_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=
+  modal/pilot_v2_authoritative.py:646: p.requires_grad = False
+  modal/pilot_v2_authoritative.py:648: p.requires_grad = True
+  modal/pilot_v2_authoritative.py:649: optimizer = torch.optim.AdamW([p for p in model.theta_N if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1178: p.requires_grad = True
+  modal/pilot_v2_authoritative.py:1180: p.requires_grad = False
+  modal/pilot_v2_authoritative.py:1181: optimizer = torch.optim.AdamW([p for p in model.theta_C if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1188: p.requires_grad = True
+  modal/pilot_v2_authoritative.py:1190: p.requires_grad = False
+  modal/pilot_v2_authoritative.py:1191: optimizer = torch.optim.AdamW([p for p in model.backbone_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=
+  modal/task6_safety_scaling.py:359: p.requires_grad = False
+  modal/task6_smoke.py:1077: # Model C Capability Freeze: set theta_C requires_grad = False
+  modal/task6_smoke.py:1082: p.requires_grad_(False)
+  modal/task7_pilot_v2.py:639: p.requires_grad = False
+  scripts/generate_task7_3_2_audit_freeze.py:241: r"requires_grad",
+  scripts/task3_gradient_probe.py:7: from ccpt.training.gradients import gradient_summary, set_requires_grad
+  scripts/task3_gradient_probe.py:49: set_requires_grad(model.theta_C, True)
+  scripts/task3_gradient_probe.py:50: set_requires_grad(model.theta_N, True)
+  scripts/task3_gradient_probe.py:58: set_requires_grad(model.theta_C, True)
+  scripts/task3_gradient_probe.py:59: set_requires_grad(model.theta_N, True)
+  scripts/task3_gradient_probe.py:67: set_requires_grad(model.theta_C, False)
+  scripts/task3_gradient_probe.py:68: set_requires_grad(model.theta_N, True)
+  scripts/task3_gradient_probe.py:76: set_requires_grad(model.theta_C, False)
+  scripts/task3_gradient_probe.py:77: set_requires_grad(model.theta_N, True)
+  scripts/task3_gradient_probe.py:90: set_requires_grad(model.theta_C, False)
+  scripts/task3_gradient_probe.py:91: set_requires_grad(model.theta_N, True)
+  scripts/task3_gradient_probe.py:101: set_requires_grad(model_b.theta_C, True)
+  scripts/task3_gradient_probe.py:102: set_requires_grad(model_b.theta_N, True)
+  src/ccpt/modeling/adapter.py:177: p.requires_grad = False
+  src/ccpt/modeling/adapter.py:179: p.requires_grad = True
+  src/ccpt/training/__init__.py:24: set_requires_grad,
+  src/ccpt/training/__init__.py:62: "set_requires_grad",
+  src/ccpt/training/gradients.py:62: def set_requires_grad(parameters: Iterable[nn.Parameter], requires_grad: bool) -> None:
+  src/ccpt/training/gradients.py:63: """Sets requires_grad flag on an iterable of parameters."""
+  src/ccpt/training/gradients.py:65: p.requires_grad_(requires_grad)
+  tests/test_data_collators.py:79: logits = torch.randn(B, T, 32000, requires_grad=True)
+  tests/test_finite_difference.py:7: from ccpt.training.gradients import set_requires_grad
+  tests/test_finite_difference.py:23: set_requires_grad(model.theta_C, False)
+  tests/test_finite_difference.py:24: set_requires_grad(model.theta_N, True)
+  tests/test_finite_difference.py:90: set_requires_grad(model.theta_C, False)
+  ... [truncated 49 additional matches]
+
+--- Pattern: optimizer\s*= (53 matches) ---
+  modal/pilot_v2_authoritative.py:266: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:270: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:277: optimizer = torch.optim.AdamW([p for p in model.theta_C if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:284: optimizer = torch.optim.AdamW([p for p in model.backbone_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=
+  modal/pilot_v2_authoritative.py:369: optimizer=optimizer,
+  modal/pilot_v2_authoritative.py:400: optimizer=optimizer,
+  modal/pilot_v2_authoritative.py:634: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:639: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:649: optimizer = torch.optim.AdamW([p for p in model.theta_N if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:656: optimizer = torch.optim.AdamW(model.safety_parameters, lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:768: optimizer=optimizer,
+  modal/pilot_v2_authoritative.py:1166: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1171: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1181: optimizer = torch.optim.AdamW([p for p in model.theta_C if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1191: optimizer = torch.optim.AdamW([p for p in model.backbone_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=
+  modal/pilot_v2_authoritative.py:1284: optimizer=optimizer,
+  modal/task6_safety_scaling.py:367: optimizer = torch.optim.AdamW(
+  modal/task6_safety_scaling.py:476: optimizer=optimizer,
+  modal/task6_safety_scaling.py:493: optimizer=optimizer,
+  modal/task6_smoke.py:474: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), weight_decay=0.1)
+  modal/task6_smoke.py:686: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/task6_smoke.py:764: optimizer=optimizer,
+  modal/task6_smoke.py:779: optimizer=optimizer,
+  modal/task6_smoke.py:1087: optimizer = torch.optim.AdamW(params_to_opt, lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/task6_smoke.py:1151: optimizer=optimizer,
+  modal/task7_pilot_v2.py:318: optimizer=opt_uninterrupted,
+  modal/task7_pilot_v2.py:445: optimizer = torch.optim.AdamW(
+  modal/task7_pilot_v2.py:528: optimizer=optimizer,
+  modal/task7_pilot_v2.py:650: optimizer = torch.optim.AdamW(
+  modal/task7_pilot_v2.py:749: optimizer=optimizer,
+  src/ccpt/training/preflight_proofs.py:43: optimizer=opt,
+  src/ccpt/training/preflight_proofs.py:62: optimizer=None,
+  src/ccpt/training/preflight_proofs.py:85: optimizer=opt,
+  src/ccpt/training/preflight_proofs.py:108: optimizer=opt,
+  src/ccpt/training/preflight_proofs.py:131: optimizer=opt,
+  src/ccpt/training/preflight_proofs.py:154: optimizer=opt,
+  src/ccpt/training/preflight_proofs.py:207: optimizer=opt,
+  src/ccpt/training/preflight_proofs.py:227: optimizer=opt,
+  src/ccpt/training/preflight_proofs.py:266: optimizer=None,
+  src/ccpt/training/preflight_proofs.py:311: optimizer=None,
+  src/ccpt/training/resume_proof.py:208: optimizer=opt_resumed,
+  tests/test_task5_training.py:102: optimizer=opt,
+  tests/test_task5_training.py:170: optimizer=opt1,
+  tests/test_task5_training.py:264: optimizer=opt,
+  tests/test_task5_training.py:276: optimizer=opt,
+  tests/test_task7_2_1_real_proofs.py:183: optimizer=opt,
+  tests/test_task7_2_1_real_proofs.py:209: optimizer=None,
+  tests/test_task7_2_1_real_proofs.py:242: optimizer=None,
+  tests/test_task7_2_infra.py:268: optimizer=opt,
+  tests/test_task7_2_infra.py:316: optimizer=None,  # Null optimizer
+  ... [truncated 3 additional matches]
+
+--- Pattern: AdamW (51 matches) ---
+  docs/research/task1_experiment_contract.md:26: - Optimizer family & LR schedule: AdamW, LR = 3e-4 with cosine decay, Batch size = 32.
+  docs/research/task5_micro_training.md:74: - **Optimizer**: AdamW ($\text{lr}=10^{-3}$, $\beta=(0.9, 0.999)$, $\epsilon=10^{-8}$, $\text{weight\_decay}=0.0$, $\text{gradient\_clip\_no
+  docs/research/task7_2_infra_results.md:20: | **Resume Proof** | Synthetic random data assertion | Real production path with canonical FineWeb, AdamW, TokenCosineScheduler, and Checkpo
+  docs/research/task7_2_infra_results.md:58: - **State Restored**: Model parameters, AdamW optimizer state, TokenCosineScheduler tokens/LR, PyTorch RNG, data cursor ($16$).
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:72: - **Optimizer**: AdamW ($\beta_1=0.9, \beta_2=0.95, \epsilon=10^{-8}$, weight decay = $0.1$, grad clip = $1.0$, precision = `bf16`)
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:90: - AdamW ($\text{lr}=3\times 10^{-4}$, $\beta_1=0.9, \beta_2=0.95, \text{weight\_decay}=0.1$)
+  docs/research/task7_pilot_v2_contract.md:90: - **Optimizer Steps**: Exactly 1,000 optimizer updates ($32 \times 1024$ tokens/step) with AdamW (`lr = 1e-4`).
+  modal/pilot_v2_authoritative.py:266: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:270: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:277: optimizer = torch.optim.AdamW([p for p in model.theta_C if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:284: optimizer = torch.optim.AdamW([p for p in model.backbone_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=
+  modal/pilot_v2_authoritative.py:634: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:639: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:649: optimizer = torch.optim.AdamW([p for p in model.theta_N if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:656: optimizer = torch.optim.AdamW(model.safety_parameters, lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1166: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1171: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1181: optimizer = torch.optim.AdamW([p for p in model.theta_C if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/pilot_v2_authoritative.py:1191: optimizer = torch.optim.AdamW([p for p in model.backbone_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=
+  modal/task6_safety_scaling.py:367: optimizer = torch.optim.AdamW(
+  modal/task6_smoke.py:474: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), weight_decay=0.1)
+  modal/task6_smoke.py:686: optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/task6_smoke.py:1087: optimizer = torch.optim.AdamW(params_to_opt, lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+  modal/task7_pilot_v2.py:299: opt_uninterrupted = torch.optim.AdamW(model_uninterrupted.parameters(), lr=3e-4)
+  modal/task7_pilot_v2.py:333: opt_resumed = torch.optim.AdamW(model_resumed.parameters(), lr=3e-4)
+  modal/task7_pilot_v2.py:445: optimizer = torch.optim.AdamW(
+  modal/task7_pilot_v2.py:650: optimizer = torch.optim.AdamW(
+  modal/task7_pilot_v2.py:1115: opt = torch.optim.AdamW(trainable_params, lr=1e-4, weight_decay=0.1)
+  scripts/generate_task7_3_2_audit_freeze.py:243: r"AdamW",
+  src/ccpt/training/preflight_proofs.py:35: opt = torch.optim.AdamW(model.parameters(), lr=1e-3)
+  src/ccpt/training/preflight_proofs.py:199: opt = torch.optim.AdamW(model.parameters(), lr=1e-3)
+  src/ccpt/training/resume_proof.py:7: - AdamW optimizer
+  src/ccpt/training/resume_proof.py:110: opt_uninterrupted = torch.optim.AdamW(model_uninterrupted.parameters(), lr=1e-3, weight_decay=0.01)
+  src/ccpt/training/resume_proof.py:160: opt_resumed = torch.optim.AdamW(model_resumed.parameters(), lr=1e-3, weight_decay=0.01)
+  src/ccpt/training/resume_proof.py:243: opt_reconstructed = torch.optim.AdamW(model_reconstructed.parameters(), lr=1e-3, weight_decay=0.01)
+  tests/test_optimizer_isolation.py:4: from torch.optim import AdamW
+  tests/test_optimizer_isolation.py:41: optimizer_C = AdamW(model.theta_C, lr=1e-3, weight_decay=0.0)
+  tests/test_optimizer_isolation.py:72: optimizer_N = AdamW(model.theta_N, lr=1e-3, weight_decay=0.0)
+  tests/test_task5_training.py:96: opt = torch.optim.AdamW(model.parameters(), lr=1e-3)
+  tests/test_task5_training.py:141: opt1 = torch.optim.AdamW(model1.parameters(), lr=1e-3)
+  tests/test_task5_training.py:144: opt2 = torch.optim.AdamW(model2.parameters(), lr=1e-3)
+  tests/test_task5_training.py:189: opt3 = torch.optim.AdamW(model3.parameters(), lr=1e-3)
+  tests/test_task5_training.py:256: opt = torch.optim.AdamW(model.parameters(), lr=1e-3)
+  tests/test_task5_training.py:310: opt = torch.optim.AdamW(model.parameters(), lr=1e-3)
+  tests/test_task7_2_1_real_proofs.py:127: opt = torch.optim.AdamW(model_d.safety_parameters, lr=0.1)
+  tests/test_task7_2_1_real_proofs.py:174: opt = torch.optim.AdamW(model.parameters(), lr=1e-3)
+  tests/test_task7_2_infra.py:217: opt = torch.optim.AdamW(model.safety_parameters, lr=1e-2)
+  tests/test_task7_2_infra.py:261: opt = torch.optim.AdamW(model.parameters(), lr=1e-3)
+  tests/test_task7_3_pilot_v2.py:240: opt_c = torch.optim.AdamW([p for p in model_c.theta_N if p.requires_grad], lr=1e-3)
+  tests/test_task7_3_pilot_v2.py:259: opt_d = torch.optim.AdamW(model_d.safety_parameters, lr=1e-3)
+  ... [truncated 1 additional matches]
+
+--- Pattern: scheduler (156 matches) ---
+  docs/research/task7_2_1_results.md:59: - **Strict Production LM Requirements**: Enforced `format_version=2`, non-null optimizer/scheduler, complete manifests, git sha, environment
+  docs/research/task7_2_2_results.md:86: - `run_checkpoint_lm_strictness_proof`: Passed. Verifies that valid checkpoints load, while null optimizer, null scheduler, missing data has
+  docs/research/task7_2_infra_contract.md:61: - `model_state_dict`, `optimizer_state_dict`, `scheduler_state`
+  docs/research/task7_2_infra_contract.md:69: - `scheduler_state` must be non-null.
+  docs/research/task7_2_infra_results.md:21: | **Checkpoint V2 Strictness** | Incomplete enforcement | Enforced mandatory base fields, production phase non-null optimizer/scheduler/hash
+  docs/research/task7_2_infra_results.md:65: - `scheduler_state_loaded`: `True`
+  docs/research/task7_pilot_v2_contract.md:54: - `model_state_dict`, `optimizer_state_dict`, `scheduler_state`
+  modal/pilot_v2_authoritative.py:211: from ccpt.training.scheduler import TokenCosineScheduler
+  modal/pilot_v2_authoritative.py:297: scheduler = TokenCosineScheduler(
+  modal/pilot_v2_authoritative.py:330: lr = scheduler.get_lr(tokens_seen)
+  modal/pilot_v2_authoritative.py:353: scheduler.step(batch_tokens)
+  modal/pilot_v2_authoritative.py:370: scheduler=scheduler,
+  modal/pilot_v2_authoritative.py:401: scheduler=scheduler,
+  modal/pilot_v2_authoritative.py:575: from ccpt.training.scheduler import SafetyTokenCosineScheduler
+  modal/pilot_v2_authoritative.py:665: safety_scheduler = SafetyTokenCosineScheduler(
+  modal/pilot_v2_authoritative.py:697: lr = safety_scheduler.get_lr(tokens_seen)
+  modal/pilot_v2_authoritative.py:742: safety_scheduler.step(v_tokens)
+  modal/pilot_v2_authoritative.py:769: scheduler=safety_scheduler,
+  modal/pilot_v2_authoritative.py:1116: from ccpt.training.scheduler import TokenCosineScheduler
+  modal/pilot_v2_authoritative.py:1201: scheduler = TokenCosineScheduler(
+  modal/pilot_v2_authoritative.py:1235: lr = scheduler.get_lr(tokens_seen)
+  modal/pilot_v2_authoritative.py:1258: scheduler.step(batch_tokens)
+  modal/pilot_v2_authoritative.py:1285: scheduler=scheduler,
+  modal/task6_finalize.py:611: from ccpt.training.scheduler import TokenCosineScheduler
+  modal/task6_finalize.py:621: scheduler = TokenCosineScheduler(
+  modal/task6_finalize.py:627: next_lr = scheduler.get_lr(next_tokens)
+  modal/task6_finalize.py:840: "scheduler_ready": True,
+  modal/task6_repair.py:184: "has_scheduler_inputs": True,
+  modal/task6_repair.py:676: """Audits checkpoint resume readiness, scheduler reconstruction, and FineWeb stream continuation."""
+  modal/task6_repair.py:680: from ccpt.training.scheduler import TokenCosineScheduler
+  modal/task6_repair.py:686: reconstructed_scheduler = TokenCosineScheduler(
+  modal/task6_repair.py:692: lr_at_1b = reconstructed_scheduler.get_lr(tokens_at_1b)
+  modal/task6_repair.py:699: next_lr = reconstructed_scheduler.get_lr(next_tokens)
+  modal/task6_repair.py:701: scheduler_audit = {
+  modal/task6_repair.py:708: "scheduler_resume_ready": True,
+  modal/task6_repair.py:760: "scheduler_resume_ready": True,
+  modal/task6_repair.py:763: "scheduler_audit": scheduler_audit,
+  modal/task6_safety_scaling.py:311: from ccpt.training.scheduler import TokenCosineScheduler
+  modal/task6_safety_scaling.py:377: scheduler = TokenCosineScheduler(
+  modal/task6_safety_scaling.py:426: current_lr = scheduler.get_lr(cumulative_tokens)
+  modal/task6_smoke.py:618: from ccpt.training.scheduler import TokenCosineScheduler
+  modal/task6_smoke.py:687: scheduler = TokenCosineScheduler(max_lr=3e-4, min_lr=0.0, warmup_tokens=100_000_000, total_tokens=10_000_000_000)
+  modal/task6_smoke.py:711: lr = scheduler.get_lr(current_tokens_seen)
+  modal/task6_smoke.py:806: "final_lr": scheduler.get_lr(TASK6_LM_TOTAL_TOKENS),
+  modal/task6_smoke.py:814: "next_lr": scheduler.get_lr(TASK6_LM_TOTAL_TOKENS),
+  modal/task6_smoke.py:960: from ccpt.training.scheduler import SafetyTokenCosineScheduler
+  modal/task6_smoke.py:1088: scheduler = SafetyTokenCosineScheduler(max_lr=3e-4, min_lr=0.0, warmup_tokens=100_000, total_tokens=total_safety_tokens)
+  modal/task6_smoke.py:1108: lr = scheduler.get_lr(tokens_so_far)
+  modal/task7_2_2_final_preflight.py:377: "scheduler_restored": resume_res["scheduler_restored"],
+  modal/task7_pilot_v2.py:287: from ccpt.training.scheduler import TokenCosineScheduler
+  ... [truncated 106 additional matches]
+
+--- Pattern: attention_mask (63 matches) ---
+  docs/research/task4_data_pipeline.md:98: - `DataCollatorForRiskTraining` and `DataCollatorForSafeGenerationTraining` produce `input_ids [B, T]` and `attention_mask [B, T]`.
+  docs/research/task4_data_pipeline.md:99: - `safe_generation_loss(logits, input_ids, prompt_end_indices, attention_mask)` computes masked cross-entropy:
+  docs/research/task7_3_1a_results.md:15: 2. **Padded Continuation Loss Fix**: Passed `attention_mask` into `token_weighted_continuation_nll_and_count` to strictly exclude right-padd
+  docs/research/task7_3_1a_results.md:67: Evaluating on all 928 validation examples with `attention_mask` excluded right-padding tokens, reducing evaluated token count from 692,640 d
+  docs/research/task7_3_1a_results.md:86: *Reason for Difference*: Task 7.3.1 omitted `attention_mask` in batched continuation loss, erroneously including right-padded positions. Cor
+  modal/pilot_v2_authoritative.py:735: loss = compute_safe_generation_loss(logits, input_ids, prompt_end_indices, attention_mask=attn_mask)
+  modal/pilot_v2_authoritative.py:971: b_loss = compute_safe_generation_loss(b_gen_logits, b_input_ids, b_ends, attention_mask=b_attn_mask)
+  modal/task6_safety_scaling.py:439: loss = compute_safe_generation_loss(logits, input_ids, prompt_ends, attention_mask=attn_mask)
+  modal/task6_safety_scaling.py:446: loss = compute_safe_generation_loss(logits, input_ids, prompt_ends, attention_mask=attn_mask)
+  modal/task6_smoke.py:1003: attention_mask = torch.zeros((b_size, max_len), dtype=torch.long)
+  modal/task6_smoke.py:1010: attention_mask[i, : len(ids)] = 1
+  modal/task6_smoke.py:1016: "attention_mask": attention_mask,
+  modal/task6_smoke.py:1019: "valid_tokens": int(attention_mask.sum().item()),
+  modal/task6_smoke.py:1103: attention_mask = b_data["attention_mask"].to(device=device)
+  modal/task6_smoke.py:1123: loss = compute_safe_generation_loss(logits, input_ids, prompt_end_indices, attention_mask=attention_mask)
+  modal/task7_3_1a_corrective_salvage.py:5: 2. Fixes safe-generation evaluation by passing attention_mask to exclude padding.
+  modal/task7_3_1a_corrective_salvage.py:505: attention_mask = batch["attention_mask"].to(device)
+  modal/task7_3_1a_corrective_salvage.py:520: attention_mask=attention_mask,
+  modal/task7_3_1a_corrective_salvage.py:532: "attention_mask_used": True,
+  modal/task7_pilot_v2.py:722: loss = compute_safe_generation_loss(logits, input_ids, prompt_ends, attention_mask=attn_mask)
+  scripts/generate_task7_3_2_audit_freeze.py:245: r"attention_mask",
+  scripts/task4_data_smoke.py:263: assert risk_batch["attention_mask"].shape == risk_batch["input_ids"].shape
+  scripts/task4_data_smoke.py:278: attention_mask=gen_batch["attention_mask"],
+  src/ccpt/data/collators.py:44: attention_mask = torch.zeros((batch_size, max_len), dtype=torch.long)
+  src/ccpt/data/collators.py:49: attention_mask[i, :length] = 1
+  src/ccpt/data/collators.py:53: "attention_mask": attention_mask,
+  src/ccpt/data/collators.py:93: attention_mask = torch.zeros((batch_size, max_len), dtype=torch.long)
+  src/ccpt/data/collators.py:98: attention_mask[i, :length] = 1
+  src/ccpt/data/collators.py:102: "attention_mask": attention_mask,
+  src/ccpt/data/collators.py:115: return res["input_ids"], res["prompt_end_indices"], res["risk_labels"].float(), res["attention_mask"]
+  src/ccpt/data/collators.py:124: return res["input_ids"], res["prompt_end_indices"], res["risk_labels"].float(), res["input_ids"], res["attention_mask"]
+  src/ccpt/evaluation/safety_judge.py:153: attention_mask = tokenized.get("attention_mask", None)
+  src/ccpt/evaluation/safety_judge.py:154: if attention_mask is not None:
+  src/ccpt/evaluation/safety_judge.py:155: attention_mask = attention_mask.to(self.device)
+  src/ccpt/evaluation/safety_judge.py:160: attention_mask=attention_mask,
+  src/ccpt/evaluation/safety_judge.py:379: attention_mask = tokenized.get("attention_mask", None)
+  src/ccpt/evaluation/safety_judge.py:380: if attention_mask is not None:
+  src/ccpt/evaluation/safety_judge.py:381: attention_mask = attention_mask.to(self.device)
+  src/ccpt/evaluation/safety_judge.py:386: attention_mask=attention_mask,
+  src/ccpt/training/engine.py:168: attention_mask: Optional[torch.Tensor] = None,
+  src/ccpt/training/engine.py:191: l_gen = compute_safe_generation_loss(logits, input_ids, prompt_end_indices, attention_mask=attention_mask)
+  src/ccpt/training/losses.py:41: attention_mask: Optional[torch.Tensor] = None,
+  src/ccpt/training/losses.py:47: and where attention_mask[target_position] == 1 (if attention_mask is provided)
+  src/ccpt/training/losses.py:54: attention_mask: Optional binary attention mask of shape [B, T] (1 = valid token, 0 = padding).
+  src/ccpt/training/losses.py:68: if attention_mask is not None:
+  src/ccpt/training/losses.py:69: target_mask = attention_mask[:, 1:].bool()  # [B, T - 1]
+  src/ccpt/training/losses.py:89: attention_mask: Optional[torch.Tensor] = None,
+  src/ccpt/training/losses.py:97: attention_mask: Optional binary attention mask of shape [B, T].
+  src/ccpt/training/losses.py:109: if attention_mask is not None:
+  src/ccpt/training/losses.py:110: target_mask = attention_mask[:, 1:].bool()
+  ... [truncated 13 additional matches]
+
+--- Pattern: prompt_end (274 matches) ---
+  docs/research/task3_gradient_verification.md:50: prompt_end_indices=prompt_end_indices,
+  docs/research/task3_gradient_verification.md:55: logits, input_ids, prompt_end_indices
+  docs/research/task4_data_pipeline.md:78: - `prompt_end_index`: Token index of the trailing colon `:` in `\nAssistant:`.
+  docs/research/task4_data_pipeline.md:91: - Safety invariant: at least 1 response token must follow `prompt_end_index`.
+  docs/research/task4_data_pipeline.md:99: - `safe_generation_loss(logits, input_ids, prompt_end_indices, attention_mask)` computes masked cross-entropy:
+  docs/research/task4_dataset_contract.md:68: - **Prompt Boundary**: `prompt_end_index` marks the exact token index of the trailing colon in `\nAssistant:`.
+  docs/research/task7_3_1a_results.md:16: 3. **Canonical Task 4 Data Provenance**: Bound the exact canonical Arrow files without recursive first-match path ambiguity, computed SHA-25
+  modal/pilot_v2_authoritative.py:705: input_ids, prompt_end_indices, risk_labels, attn_mask = pad_and_collate_risk_records(recs)
+  modal/pilot_v2_authoritative.py:707: prompt_end_indices = prompt_end_indices.to(device)
+  modal/pilot_v2_authoritative.py:712: _, risk_logits = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  modal/pilot_v2_authoritative.py:714: _, risk_logits = model(input_ids, prompt_end_indices=prompt_end_indices, adapter_scale=1.0)
+  modal/pilot_v2_authoritative.py:716: _, risk_logits = model(input_ids, prompt_end_indices=prompt_end_indices)
+  modal/pilot_v2_authoritative.py:722: input_ids, prompt_end_indices, risk_labels, is_refusal, attn_mask = pad_and_collate_gen_records(recs)
+  modal/pilot_v2_authoritative.py:724: prompt_end_indices = prompt_end_indices.to(device)
+  modal/pilot_v2_authoritative.py:729: logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  modal/pilot_v2_authoritative.py:731: logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, adapter_scale=1.0)
+  modal/pilot_v2_authoritative.py:733: logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices)
+  modal/pilot_v2_authoritative.py:735: loss = compute_safe_generation_loss(logits, input_ids, prompt_end_indices, attention_mask=attn_mask)
+  modal/pilot_v2_authoritative.py:927: _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends, mode="controlled", controller_scale=1.0)
+  modal/pilot_v2_authoritative.py:929: _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends, adapter_scale=1.0)
+  modal/pilot_v2_authoritative.py:931: _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends)
+  modal/pilot_v2_authoritative.py:966: b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends, mode="controlled", controller_scale=1.0)
+  modal/pilot_v2_authoritative.py:968: b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends, adapter_scale=1.0)
+  modal/pilot_v2_authoritative.py:970: b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends)
+  modal/task6_finalize.py:332: p_end = torch.tensor([risk_val_dict["prompt_end_index"][i]], dtype=torch.long, device=device)
+  modal/task6_finalize.py:337: _, risk_log = model(ids, prompt_end_indices=p_end)
+  modal/task6_finalize.py:339: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_finalize.py:416: p_end = torch.tensor([gen_val_dict["prompt_end_index"][i]], dtype=torch.long, device=device)
+  modal/task6_finalize.py:423: logits, _ = model(ids, prompt_end_indices=p_end)
+  modal/task6_finalize.py:428: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_finalize.py:431: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task6_finalize.py:434: logits_lm, _ = model(ids, prompt_end_indices=p_end, mode="lm")
+  modal/task6_repair.py:563: p_end = torch.tensor([risk_val_dict["prompt_end_index"][i]], dtype=torch.long, device=device)
+  modal/task6_repair.py:568: _, risk_log = model(ids, prompt_end_indices=p_end)
+  modal/task6_repair.py:570: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled")
+  modal/task6_repair.py:603: p_end = torch.tensor([gen_val_dict["prompt_end_index"][i]], dtype=torch.long, device=device)
+  modal/task6_repair.py:609: logits, _ = model(ids, prompt_end_indices=p_end)
+  modal/task6_repair.py:614: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_repair.py:617: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task6_repair.py:620: logits_lm, _ = model(ids, prompt_end_indices=p_end, mode="lm")
+  modal/task6_safety_scaling.py:405: batch_ends_list = [risk_train_dict["prompt_end_index"][i] for i in item_indices]
+  modal/task6_safety_scaling.py:409: batch_ends_list = [gen_train_dict["prompt_end_index"][i] for i in item_indices]
+  modal/task6_safety_scaling.py:423: prompt_ends = torch.tensor(batch_ends_list, dtype=torch.long, device=device)
+  modal/task6_safety_scaling.py:434: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends)
+  modal/task6_safety_scaling.py:439: loss = compute_safe_generation_loss(logits, input_ids, prompt_ends, attention_mask=attn_mask)
+  modal/task6_safety_scaling.py:441: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:446: loss = compute_safe_generation_loss(logits, input_ids, prompt_ends, attention_mask=attn_mask)
+  modal/task6_safety_scaling.py:640: p_end = torch.tensor([risk_val_dict["prompt_end_index"][i]], dtype=torch.long, device=device)
+  modal/task6_safety_scaling.py:645: _, risk_log = model(ids, prompt_end_indices=p_end)
+  modal/task6_safety_scaling.py:647: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  ... [truncated 224 additional matches]
+
+--- Pattern: controller_scale (55 matches) ---
+  docs/research/task7_pilot_v2_contract.md:82: - **Causal Ablations**: Model C (`controller_scale = 1.0` vs `0.0`), Model D (`adapter_scale = 1.0` vs `0.0`), Model B (`controller_scale = 
+  modal/pilot_v2_authoritative.py:887: logits, _ = model(batch, mode="controlled" if scale_val > 0 else "lm", controller_scale=scale_val)
+  modal/pilot_v2_authoritative.py:927: _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends, mode="controlled", controller_scale=1.0)
+  modal/pilot_v2_authoritative.py:966: b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends, mode="controlled", controller_scale=1.0)
+  modal/task6_finalize.py:339: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_finalize.py:428: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_finalize.py:431: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task6_repair.py:436: # Format: (model_type, ckpt_phase, eval_name, mode, controller_scale, is_primary)
+  modal/task6_repair.py:487: logits, _ = model(b, mode=mode, controller_scale=ctrl_scale)
+  modal/task6_repair.py:520: "controller_scale": ctrl_scale,
+  modal/task6_repair.py:614: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_repair.py:617: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task6_safety_scaling.py:441: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:605: logits, _ = model(b, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:647: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:687: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:690: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task6_smoke.py:1316: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_smoke.py:1319: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task7_3_1_forensic_salvage.py:485: logits, _ = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=scale)
+  modal/task7_3_1_forensic_salvage.py:520: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=scale)
+  modal/task7_3_1a_corrective_salvage.py:510: logits, _ = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=scale)
+  modal/task7_pilot_v2.py:502: logits, _ = model(batch, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:714: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:892: logits, _ = model(b, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:940: _, r_log = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:967: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:968: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  scripts/generate_task7_3_2_audit_freeze.py:247: r"controller_scale",
+  src/ccpt/evaluation/behavioral.py:109: scale: float = 1.0,    # controller_scale or adapter_scale
+  src/ccpt/evaluation/behavioral.py:123: logits, _ = model(curr_ids, mode=mode if mode in ["controlled", "lm"] else "controlled", controller_scale=scale)
+  src/ccpt/modeling/dual_stream.py:116: controller_scale: float = 1.0,
+  src/ccpt/modeling/dual_stream.py:125: controller_scale: Multiplier for controller interventions (1.0 = normal CCPT, 0.0 = ablated steering).
+  src/ccpt/modeling/dual_stream.py:173: # Controller outputs with bounded parameterizations and controller_scale ablation support
+  src/ccpt/modeling/dual_stream.py:176: g_l = 1.0 + controller_scale * g_raw_scaled
+  src/ccpt/modeling/dual_stream.py:180: s_l = controller_scale * s_raw_scaled
+  src/ccpt/modeling/dual_stream.py:223: controller_scale: float = 1.0,
+  src/ccpt/modeling/dual_stream.py:230: controller_scale=controller_scale,
+  src/ccpt/training/engine.py:89: controller_scale: float = 1.0,
+  src/ccpt/training/engine.py:97: controller_scale: Controller ablation scale.
+  src/ccpt/training/engine.py:104: logits, _ = model(sequences, mode=mode, controller_scale=controller_scale)
+  src/ccpt/training/engine.py:127: controller_scale: float = 1.0,
+  src/ccpt/training/engine.py:137: controller_scale: Controller scale.
+  src/ccpt/training/engine.py:148: controller_scale=controller_scale,
+  src/ccpt/training/engine.py:170: controller_scale: float = 1.0,
+  src/ccpt/training/engine.py:183: controller_scale=controller_scale,
+  tests/test_task5_training.py:57: def test_controller_scale_preserves_and_ablates_steering():
+  tests/test_task5_training.py:58: """Verify controller_scale=1.0 matches default and controller_scale=0.0 removes steering."""
+  tests/test_task5_training.py:70: # 1. Default vs controller_scale=1.0
+  tests/test_task5_training.py:72: logits_sc1, risk_sc1, diag_sc1 = model(x, mode="controlled", controller_scale=1.0, return_diagnostics=True)
+  ... [truncated 5 additional matches]
+
+--- Pattern: adapter_scale (64 matches) ---
+  docs/research/task7_2_infra_contract.md:50: - Before safety training, `logits(adapter_scale = 1.0)` and `logits(adapter_scale = 0.0)` must be numerically identical ($\max |diff| = 0.0$
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:78: - Model D: Adapter bypassed (`adapter_scale=0.0`); safety parameters frozen ($\text{grad} = \text{None}$).
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:108: - Model D: `adapter_scale=0`, only backbone trains; safety parameters frozen ($\text{changed safety tensors} = 0$).
+  docs/research/task7_pilot_v2_contract.md:82: - **Causal Ablations**: Model C (`controller_scale = 1.0` vs `0.0`), Model D (`adapter_scale = 1.0` vs `0.0`), Model B (`controller_scale = 
+  docs/research/task7_pilot_v2_contract.md:95: - Model D: `adapter_scale = 0.0`, updates backbone only; adapters remain untouched.
+  modal/pilot_v2_authoritative.py:340: logits, _ = model(batch_slice, adapter_scale=0.0)
+  modal/pilot_v2_authoritative.py:505: logits, _ = model(batch, adapter_scale=0.0)
+  modal/pilot_v2_authoritative.py:714: _, risk_logits = model(input_ids, prompt_end_indices=prompt_end_indices, adapter_scale=1.0)
+  modal/pilot_v2_authoritative.py:731: logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, adapter_scale=1.0)
+  modal/pilot_v2_authoritative.py:889: logits, _ = model(batch, adapter_scale=scale_val)
+  modal/pilot_v2_authoritative.py:929: _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends, adapter_scale=1.0)
+  modal/pilot_v2_authoritative.py:968: b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends, adapter_scale=1.0)
+  modal/pilot_v2_authoritative.py:1245: logits, _ = model(batch, adapter_scale=0.0)
+  modal/task7_2_1_real_proofs.py:220: logits_scale_1, _ = model_d(input_ids, adapter_scale=1.0)
+  modal/task7_2_1_real_proofs.py:221: logits_scale_0, _ = model_d(input_ids, adapter_scale=0.0)
+  modal/task7_3_1_forensic_salvage.py:487: logits, _ = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=scale)
+  modal/task7_3_1_forensic_salvage.py:522: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=scale)
+  modal/task7_3_1a_corrective_salvage.py:512: logits, _ = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=scale)
+  modal/task7_pilot_v2.py:506: logits, _ = model(batch, adapter_scale=0.0)
+  modal/task7_pilot_v2.py:716: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=1.0)
+  modal/task7_pilot_v2.py:894: logits, _ = model(b, adapter_scale=1.0)
+  modal/task7_pilot_v2.py:922: logits_lm, _ = model(b, adapter_scale=0.0)
+  modal/task7_pilot_v2.py:942: _, r_log = model(ids, prompt_end_indices=p_end, adapter_scale=1.0)
+  modal/task7_pilot_v2.py:970: logits_c, _ = model(ids, prompt_end_indices=p_end, adapter_scale=1.0)
+  modal/task7_pilot_v2.py:971: logits_a, _ = model(ids, prompt_end_indices=p_end, adapter_scale=0.0)
+  modal/task7_pilot_v2.py:1124: logits, _ = model(b, adapter_scale=0.0)
+  scripts/generate_task7_3_2_audit_freeze.py:248: r"adapter_scale",
+  scripts/run_task7_2_1_proofs.py:178: logits_scale_1, _ = model_d(input_ids, adapter_scale=1.0)
+  scripts/run_task7_2_1_proofs.py:179: logits_scale_0, _ = model_d(input_ids, adapter_scale=0.0)
+  scripts/run_task7_2_proofs.py:161: logits_scale_1, _ = model_d(input_ids, adapter_scale=1.0)
+  scripts/run_task7_2_proofs.py:162: logits_scale_0, _ = model_d(input_ids, adapter_scale=0.0)
+  src/ccpt/evaluation/behavioral.py:109: scale: float = 1.0,    # controller_scale or adapter_scale
+  src/ccpt/evaluation/behavioral.py:126: logits, _ = model(curr_ids, adapter_scale=scale)
+  src/ccpt/modeling/adapter.py:36: def forward(self, x: torch.Tensor, adapter_scale: float = 1.0) -> torch.Tensor:
+  src/ccpt/modeling/adapter.py:37: if adapter_scale == 0.0:
+  src/ccpt/modeling/adapter.py:40: return x + adapter_scale * self.up_proj(h)
+  src/ccpt/modeling/adapter.py:76: adapter_scale: float = 1.0,
+  src/ccpt/modeling/adapter.py:80: u = self.attn_adapter(u, adapter_scale=adapter_scale)
+  src/ccpt/modeling/adapter.py:84: out = self.mlp_adapter(out, adapter_scale=adapter_scale)
+  src/ccpt/modeling/adapter.py:185: adapter_scale: float = 1.0,
+  src/ccpt/modeling/adapter.py:197: x = layer(x, adapter_scale=adapter_scale)
+  tests/test_identity_initialization.py:41: """Fresh Model D must produce bit-for-bit / exact identical logits for adapter_scale=1.0 vs 0.0."""
+  tests/test_identity_initialization.py:63: logits_scale_1, _ = model(input_ids, adapter_scale=1.0)
+  tests/test_identity_initialization.py:64: logits_scale_0, _ = model(input_ids, adapter_scale=0.0)
+  tests/test_task7_2_1_real_proofs.py:111: logits_scale_1, _ = model_d(input_ids, adapter_scale=1.0)
+  tests/test_task7_2_1_real_proofs.py:112: logits_scale_0, _ = model_d(input_ids, adapter_scale=0.0)
+  tests/test_task7_2_1_real_proofs.py:132: logits_before_1, _ = model_d(input_ids, adapter_scale=1.0)
+  tests/test_task7_2_1_real_proofs.py:133: logits_before_0, _ = model_d(input_ids, adapter_scale=0.0)
+  tests/test_task7_2_1_real_proofs.py:138: logits, _ = model_d(input_ids, adapter_scale=1.0)
+  tests/test_task7_2_1_real_proofs.py:159: logits_after_1, _ = model_d(input_ids, adapter_scale=1.0)
+  ... [truncated 14 additional matches]
+
+--- Pattern: mode\s*=\s*["\']lm["\'] (38 matches) ---
+  docs/research/task2_implementation_notes.md:25: - `CCPTDualStreamModel` (Model C): Protected dual-stream architecture with frozen zero-initialized controllers, prompt-boundary risk classif
+  docs/research/task3_gradient_verification.md:30: logits, _ = model(input_ids, mode="lm")
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:77: - Model C: Capability-only forward pass (`mode="lm"`); $\theta_N$ parameters bypassed and frozen ($\text{grad} = \text{None}$).
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:107: - Model C: `mode="lm"`, only $\theta_C$ trains; $\theta_N$ bypassed and frozen ($\text{changed } \theta_N \text{ tensors} = 0$).
+  docs/research/task7_pilot_v2_contract.md:94: - Model C: `mode = "lm"`, updates $\theta_C$ only; $\theta_N$ receives zero gradients and remains untouched.
+  modal/pilot_v2_authoritative.py:338: logits, _ = model(batch_slice, mode="lm")
+  modal/pilot_v2_authoritative.py:503: logits, _ = model(batch, mode="lm")
+  modal/pilot_v2_authoritative.py:1009: mode="lm" if model_type in ["model_b", "model_c"] else "controlled",
+  modal/pilot_v2_authoritative.py:1045: mode="lm" if model_type in ["model_b", "model_c"] else "controlled",
+  modal/pilot_v2_authoritative.py:1243: logits, _ = model(batch, mode="lm")
+  modal/task6_finalize.py:434: logits_lm, _ = model(ids, prompt_end_indices=p_end, mode="lm")
+  modal/task6_finalize.py:652: logits, _ = model(next_batch_tensor, mode="lm")
+  modal/task6_repair.py:620: logits_lm, _ = model(ids, prompt_end_indices=p_end, mode="lm")
+  modal/task6_safety_scaling.py:625: logits, _ = model(b, mode="lm")
+  modal/task6_smoke.py:719: logits, _ = model(batch_tokens, mode="lm")
+  modal/task6_smoke.py:918: logits, _ = model(batch, mode="lm")
+  modal/task6_smoke.py:1254: logits, _ = model(b, mode="lm" if m_type == "model_c" else "controlled")
+  modal/task7_pilot_v2.py:504: logits, _ = model(batch, mode="lm")
+  modal/task7_pilot_v2.py:912: logits_lm, _ = model(b, mode="lm")
+  modal/task7_pilot_v2.py:1122: logits, _ = model(b, mode="lm")
+  scripts/task3_gradient_probe.py:51: logits, _ = model(input_ids, mode="lm")
+  tests/test_forward_shapes.py:83: logits_lm, risk_lm = model_c(input_ids, mode="lm")
+  tests/test_gradient_firewall.py:40: logits, risk_logits = model(input_ids, mode="lm")
+  tests/test_gradient_firewall.py:244: logits, _ = model(input_ids, mode="lm")
+  tests/test_identity_initialization.py:20: logits_lm, _ = model(input_ids, mode="lm")
+  tests/test_optimizer_isolation.py:44: logits, _ = model(input_ids, mode="lm")
+  tests/test_task5_training.py:78: # 2. controller_scale=0.0 vs mode='lm'
+  tests/test_task5_training.py:80: logits_lm, risk_lm = model(x, mode="lm")
+  tests/test_task5_training.py:154: logits, _ = model1(x, mode="lm")
+  tests/test_task5_training.py:160: logits2, _ = model2(x, mode="lm")
+  tests/test_task5_training.py:182: logits, _ = model1(x, mode="lm")
+  tests/test_task5_training.py:195: logits3, _ = model3(x, mode="lm")
+  tests/test_task6_1_audit.py:34: # Diagnostic bypass mode uses mode='lm'
+  tests/test_task6_1_audit.py:35: logits_bypass, _ = model_b(tokens, mode="lm")
+  tests/test_task6_1_audit.py:46: logits_lm, _ = model_c(tokens, mode="lm")
+  tests/test_task6_1_audit.py:55: logits_lm_post, _ = model_c(tokens, mode="lm")
+  tests/test_task7_pilot_v2.py:160: """Verify Model C mode='lm' produces zero gradients for theta_N."""
+  tests/test_task7_pilot_v2.py:165: logits, _ = model(input_ids, mode="lm")
+
+--- Pattern: mode\s*=\s*["\']controlled["\'] (77 matches) ---
+  docs/research/task2_implementation_notes.md:25: - `CCPTDualStreamModel` (Model C): Protected dual-stream architecture with frozen zero-initialized controllers, prompt-boundary risk classif
+  docs/research/task3_gradient_verification.md:51: mode="controlled",
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:33: *\*Note on Model B LM Trainable*: Model B runs in `mode="controlled"` during LM. All parameters that naturally participate in forward comput
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:76: - Model B: Controlled forward pass (`mode="controlled"`); all parameters in optimizer.
+  modal/pilot_v2_authoritative.py:342: logits, _ = model(batch_slice, mode="controlled")
+  modal/pilot_v2_authoritative.py:507: logits, _ = model(batch, mode="controlled")
+  modal/pilot_v2_authoritative.py:712: _, risk_logits = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  modal/pilot_v2_authoritative.py:729: logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  modal/pilot_v2_authoritative.py:887: logits, _ = model(batch, mode="controlled" if scale_val > 0 else "lm", controller_scale=scale_val)
+  modal/pilot_v2_authoritative.py:927: _, b_risk_preds_logits = model(b_input_ids, prompt_end_indices=b_ends, mode="controlled", controller_scale=1.0)
+  modal/pilot_v2_authoritative.py:966: b_gen_logits, _ = model(b_input_ids, prompt_end_indices=b_ends, mode="controlled", controller_scale=1.0)
+  modal/pilot_v2_authoritative.py:994: mode="controlled",
+  modal/pilot_v2_authoritative.py:1030: mode="controlled",
+  modal/pilot_v2_authoritative.py:1247: logits, _ = model(batch, mode="controlled")
+  modal/task6_finalize.py:339: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_finalize.py:428: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_finalize.py:431: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task6_repair.py:570: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled")
+  modal/task6_repair.py:614: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_repair.py:617: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task6_safety_scaling.py:441: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:605: logits, _ = model(b, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:647: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:687: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_safety_scaling.py:690: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task6_smoke.py:496: logits, _ = model(batch, mode="controlled")
+  modal/task6_smoke.py:721: logits, _ = model(batch_tokens, mode="controlled")
+  modal/task6_smoke.py:1118: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  modal/task6_smoke.py:1280: _, risk_log = model(ids, prompt_end_indices=p_end, mode="controlled")
+  modal/task6_smoke.py:1316: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task6_smoke.py:1319: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  modal/task7_3_1_forensic_salvage.py:485: logits, _ = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=scale)
+  modal/task7_3_1_forensic_salvage.py:520: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=scale)
+  modal/task7_3_1a_corrective_salvage.py:510: logits, _ = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=scale)
+  modal/task7_pilot_v2.py:502: logits, _ = model(batch, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:714: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:892: logits, _ = model(b, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:940: _, r_log = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:967: logits_c, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=1.0)
+  modal/task7_pilot_v2.py:968: logits_a, _ = model(ids, prompt_end_indices=p_end, mode="controlled", controller_scale=0.0)
+  scripts/task3_gradient_probe.py:60: _, risk_logits = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  scripts/task3_gradient_probe.py:69: logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  scripts/task3_gradient_probe.py:83: logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  scripts/task3_gradient_probe.py:92: logits, risk_logits = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  scripts/task3_gradient_probe.py:103: logits, _ = model_b(input_ids, mode="controlled")
+  tests/test_causality.py:95: _, risk_c1 = model_c(seq_a, prompt_end_indices=prompt_end_indices, mode="controlled")
+  tests/test_causality.py:96: _, risk_c2 = model_c(seq_b, prompt_end_indices=prompt_end_indices, mode="controlled")
+  tests/test_finite_difference.py:39: logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  tests/test_finite_difference.py:55: logits_pos, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  tests/test_finite_difference.py:61: logits_neg, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+  ... [truncated 27 additional matches]
+
+--- Pattern: risk_head (48 matches) ---
+  docs/research/task2_implementation_notes.md:51: - Normative Risk Head $\text{risk} = W_{\text{risk}} \text{RMSNorm}(N_{L_N}[p])$: `self.risk_head(self.normative_final_norm(n)[batch_idx, pr
+  docs/research/task2_implementation_notes.md:67: - `risk_head.weight`: $256 \times 1 = 256$
+  docs/research/task2_implementation_notes.md:74: - Model A auxiliary prompt-boundary risk head (`baseline_risk_head` of shape $512 \times 1$ operating on final normalized state): **512** pa
+  docs/research/task7_3_1a_results.md:39: - Probe/projections `p_in.weight`, `obs_projections.*.weight`, `gate_projections.*.weight`, `steering_projections.*.weight`, `risk_head.weig
+  docs/research/task7_3_1a_results.md:41: - `layers.*.attn_adapter.*`, `layers.*.mlp_adapter.*`, and `risk_head.*` are correctly classified as safety parameters.
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:33: *\*Note on Model B LM Trainable*: Model B runs in `mode="controlled"` during LM. All parameters that naturally participate in forward comput
+  modal/task6_repair.py:215: group_stats["risk_head"] = {"tensor_count": 0, "changed_tensors": 0, "unchanged_tensors": 0, "total_params": 0, "changed_params": 0, "l2_del
+  modal/task6_repair.py:220: group_stats["risk_head"] = {"tensor_count": 0, "changed_tensors": 0, "unchanged_tensors": 0, "total_params": 0, "changed_params": 0, "l2_del
+  modal/task6_repair.py:232: if "risk_head" in k:
+  modal/task6_repair.py:233: target_groups.append("risk_head")
+  modal/task6_repair.py:242: elif k.startswith("risk_head."):
+  modal/task6_repair.py:243: target_groups.append("risk_head")
+  modal/task7_3_1_forensic_salvage.py:162: c_init_theta_N = {k: v for k, v in c_init_state.items() if "normative_" in k or "controller_" in k or "gate_" in k or "steering_" in k or "r
+  modal/task7_3_1_forensic_salvage.py:163: c_lm_theta_N = {k: v for k, v in c_lm_state.items() if "normative_" in k or "controller_" in k or "gate_" in k or "steering_" in k or "risk_
+  modal/task7_3_1_forensic_salvage.py:172: d_init_safety = {k: v for k, v in d_init_state.items() if "adapter_" in k or "risk_head" in k}
+  modal/task7_3_1_forensic_salvage.py:173: d_lm_safety = {k: v for k, v in d_lm_state.items() if "adapter_" in k or "risk_head" in k}
+  modal/task7_3_1_forensic_salvage.py:181: c_lm_theta_C = {k: v for k, v in c_lm_state.items() if "normative_" not in k and "controller_" not in k and "gate_" not in k and "steering_"
+  modal/task7_3_1_forensic_salvage.py:182: c_safety_theta_C = {k: v for k, v in c_safety_state.items() if "normative_" not in k and "controller_" not in k and "gate_" not in k and "st
+  modal/task7_3_1_forensic_salvage.py:190: d_lm_backbone = {k: v for k, v in d_lm_state.items() if "adapter_" not in k and "risk_head" not in k}
+  modal/task7_3_1_forensic_salvage.py:191: d_safety_backbone = {k: v for k, v in d_safety_state.items() if "adapter_" not in k and "risk_head" not in k}
+  modal/task7_3_1_forensic_salvage.py:199: c_safety_theta_N = {k: v for k, v in c_safety_state.items() if "normative_" in k or "controller_" in k or "gate_" in k or "steering_" in k o
+  modal/task7_3_1_forensic_salvage.py:200: c_persistence_theta_N = {k: v for k, v in c_persistence_state.items() if "normative_" in k or "controller_" in k or "gate_" in k or "steerin
+  modal/task7_3_1_forensic_salvage.py:208: d_safety_safety = {k: v for k, v in d_safety_state.items() if "adapter_" in k or "risk_head" in k}
+  modal/task7_3_1_forensic_salvage.py:209: d_persistence_safety = {k: v for k, v in d_persistence_state.items() if "adapter_" in k or "risk_head" in k}
+  modal/task7_3_1a_corrective_salvage.py:172: assert "risk_head.weight" in theta_n_names, "risk_head MUST be theta_N"
+  modal/task7_3_1a_corrective_salvage.py:176: assert "risk_head.weight" in d_safety_names, "risk_head MUST be safety"
+  scripts/generate_task7_3_2_audit_freeze.py:251: r"risk_head",
+  scripts/task3_gradient_probe.py:34: risk_norm = gradient_summary(model.risk_head.parameters())["grad_norm"]
+  src/ccpt/modeling/adapter.py:108: self.risk_head = nn.Linear(config.d_model, 1, bias=False)
+  src/ccpt/modeling/adapter.py:149: nn.init.normal_(self.risk_head.weight, mean=0.0, std=self.config.init_std)
+  src/ccpt/modeling/adapter.py:171: params.extend(self.risk_head.parameters())
+  src/ccpt/modeling/adapter.py:206: risk_logits = self.risk_head(boundary_repr).squeeze(-1)
+  src/ccpt/modeling/baseline.py:38: self.baseline_risk_head = nn.Linear(config.d_model, 1, bias=False)
+  src/ccpt/modeling/baseline.py:84: risk_logits = self.baseline_risk_head(boundary_repr).squeeze(-1)  # [B]
+  src/ccpt/modeling/baseline.py:98: def risk_head_parameters(self) -> Iterator[nn.Parameter]:
+  src/ccpt/modeling/baseline.py:100: for param in self.baseline_risk_head.parameters():
+  src/ccpt/modeling/dual_stream.py:64: self.risk_head = nn.Linear(config.d_N, 1, bias=False)
+  src/ccpt/modeling/dual_stream.py:108: params.extend(self.risk_head.parameters())
+  src/ccpt/modeling/dual_stream.py:199: risk_logits = self.risk_head(boundary_repr).squeeze(-1)  # [B]
+  tests/test_gradient_dynamics.py:109: summary_risk_head = gradient_summary(model.risk_head.parameters())
+  tests/test_gradient_dynamics.py:114: assert summary_risk_head["grad_norm"] > 0.0
+  tests/test_gradient_dynamics.py:178: "risk_head": model.risk_head,
+  tests/test_gradient_firewall.py:192: summary_risk = gradient_summary(model_a.risk_head_parameters())
+  tests/test_parameter_ownership.py:54: assert id(model.risk_head.weight) in theta_N_ids
+  tests/test_task7_3_1a_salvage.py:67: assert "risk_head.weight" in theta_n_names
+  tests/test_task7_3_1a_salvage.py:97: assert "risk_head.weight" in safety_names
+  tests/test_task7_3_1a_salvage.py:130: old_theta_N = {k for k in all_names if any(sub in k for sub in ["normative_", "gate_", "steering_", "risk_head", "p_in"])}
+  tests/test_task7_3_pilot_v2.py:208: assert model_b.risk_head.weight.grad is None
+
+--- Pattern: WildGuardTest (14 matches) ---
+  docs/research/task4_data_pipeline.md:173: - **WildGuardTest Evaluation**: Pinned test split schema verification and Arrow artifact generation.
+  docs/research/task4_dataset_contract.md:25: ### WildGuardTest Non-Contamination Rule
+  docs/research/task5_micro_training.md:49: - **Zero Leakage**: Strict assertions confirm that $0$ examples in the training subsets originated from internal validation splits or `WildG
+  docs/research/task5_micro_training.md:124: | Data Leakage | Zero eval IDs in training | 0 eval IDs accessed / WildGuardTest untouched | **PASS** |
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:84: - **Data Source**: Task 4 Prepared WildGuard Train partition (Risk: 45,492 examples, Generation: 18,015 examples). *WildGuardTest remains st
+  modal/task4_data.py:243: # Load real WildGuardTest (Evaluation only)
+  scripts/generate_task7_3_2_audit_freeze.py:252: r"WildGuardTest",
+  tests/test_task6_1_audit.py:189: """Verify WildGuardTest partition is never referenced in Task 6 source files."""
+  tests/test_task6_1_audit.py:193: assert "wildguardtest.arrow" not in content.lower(), f"Forbidden WildGuardTest found in {py_file}"
+  tests/test_task6_2_finalize.py:142: """Verify WildGuardTest partition is forbidden from all source code."""
+  tests/test_task6_3_safety_scaling.py:162: """Verify WildGuardTest partition is never accessed in Task 6.3 code."""
+  tests/test_task6_smoke.py:209: """Verify that WildGuardTest path is not referenced in Task 6 source files."""
+  tests/test_task6_smoke.py:214: assert "wildguardtest.arrow" not in content.lower(), f"Forbidden WildGuardTest found in {py_file}"
+  tests/test_task7_pilot_v2.py:342: """Verify WildGuardTest partition is never accessed in codebase."""
+
+--- Pattern: wildguardtest (21 matches) ---
+  data/manifests/source_lock.json:10: "safety_eval_config": "wildguardtest",
+  data/manifests/task4_manifest.json:44: "eval_config": "wildguardtest",
+  docs/research/task4_data_pipeline.md:17: | **Normative Benchmark** | `allenai/wildguardmix` | `d29c47f41c8b51348b5c8e8c81c039b3132b66d1` | `wildguardtest` (Eval-Only) |
+  docs/research/task4_data_pipeline.md:146: │       │   └── wildguardtest.arrow
+  docs/research/task4_dataset_contract.md:19: - **Evaluation-Only Source**: `wildguardtest` (held out strictly for downstream benchmark evaluation).
+  docs/research/task4_dataset_contract.md:26: - `wildguardtest` must **NEVER** be used for:
+  modal/task4_data.py:280: save_wildguard_records_arrow(eval_records, wg_eval_dir / "wildguardtest.arrow", record_type="risk")
+  modal/task4_data.py:298: reloaded_eval = load_wildguard_records_arrow(wg_eval_dir / "wildguardtest.arrow", record_type="risk")
+  modal/task4_data.py:345: assert eval_hash == p2_eval_hash, "Second pass eval (wildguardtest) hash mismatch!"
+  scripts/generate_task7_3_2_audit_freeze.py:253: r"wildguardtest",
+  src/ccpt/data/config.py:50: wildguard_test_config: str = "wildguardtest"
+  tests/test_task6_1_audit.py:188: def test_wildguardtest_forbidden_in_task6_1():
+  tests/test_task6_1_audit.py:193: assert "wildguardtest.arrow" not in content.lower(), f"Forbidden WildGuardTest found in {py_file}"
+  tests/test_task6_2_finalize.py:141: def test_wildguardtest_never_accessed():
+  tests/test_task6_2_finalize.py:145: assert "wildguardtest.arrow" not in content
+  tests/test_task6_3_safety_scaling.py:161: def test_wildguardtest_strictly_forbidden():
+  tests/test_task6_3_safety_scaling.py:165: assert "wildguardtest.arrow" not in content
+  tests/test_task6_smoke.py:208: def test_wildguardtest_path_forbidden():
+  tests/test_task6_smoke.py:214: assert "wildguardtest.arrow" not in content.lower(), f"Forbidden WildGuardTest found in {py_file}"
+  tests/test_task7_pilot_v2.py:341: def test_wildguardtest_strictly_forbidden_across_repo():
+  tests/test_task7_pilot_v2.py:345: assert "wildguardtest.arrow" not in content
+
+--- Pattern: BeaverTails (69 matches) ---
+  docs/research/task1_experiment_contract.md:22: - Training Datasets: FineWeb-Edu `sample-100BT` (LM capability), WildGuardMix `wildguardtrain` (Normative safety; see formal amendment in `t
+  docs/research/task4_data_pipeline.md:21: ## 3. Rationale for WildGuard over HH-RLHF / BeaverTails
+  docs/research/task4_dataset_contract.md:21: ### Explicit Removal of HH-RLHF & BeaverTails
+  docs/research/task4_dataset_contract.md:22: - **HH-RLHF** and **BeaverTails** are **NOT** part of the pilot training or validation datasets for Models A, B, or C.
+  docs/research/task7_2_1_results.md:31: ### B. Real BeaverTails OOD Dataset Loader
+  docs/research/task7_2_1_results.md:32: - **Dataset Repository**: `PKU-Alignment/BeaverTails` (revision `8401fe609d288129cc684a9b3be6a93e41cfe678`, split `30k_test`)
+  docs/research/task7_2_2_external_pin_amendment.md:5: **Scope**: Authoritative evaluation dependencies for BeaverTails OOD and WildGuard safety judging in Conductor / CCPT Pilot-v2.
+  docs/research/task7_2_2_external_pin_amendment.md:17: ## 2. BeaverTails Dataset Pin Resolution & Amendment
+  docs/research/task7_2_2_external_pin_amendment.md:20: - **Repository**: `PKU-Alignment/BeaverTails`
+  docs/research/task7_2_2_external_pin_amendment.md:25: - **Repository**: `PKU-Alignment/BeaverTails`
+  docs/research/task7_2_2_external_pin_amendment.md:29: - `8401fe609d288129cc684a9b3be6a93e41cfe678` is the authoritative HEAD commit of `PKU-Alignment/BeaverTails` that provides the refactored an
+  docs/research/task7_2_2_results.md:21: | **Dataset Pin** | BeaverTails OOD loader amendment & hash | `PKU-Alignment/BeaverTails` @ `8401fe60...`, `c0754d73...` | **PASSED** |
+  docs/research/task7_2_2_results.md:49: ## 3. BeaverTails & WildGuard External Pin Amendments
+  docs/research/task7_2_2_results.md:52: - **BeaverTails**: Original requested commit `c8306df1...` did not resolve on Hugging Face API. Frozen replacement `PKU-Alignment/BeaverTail
+  docs/research/task7_2_infra_contract.md:95: ## 6. Out-of-Distribution (OOD) BeaverTails Contract
+  docs/research/task7_2_infra_contract.md:98: - Repository: `PKU-Alignment/BeaverTails`
+  docs/research/task7_2_infra_contract.md:106: - BeaverTails data is strictly quarantined from training, tuning, or hyperparameter selection.
+  docs/research/task7_2_infra_contract.md:117: - Evaluates BEFORE and AFTER persistence on Capability, WildGuard, Safe Generation, Behavioral ID, and OOD BeaverTails.
+  docs/research/task7_2_infra_results.md:17: | **BeaverTails OOD** | 8 hand-written prompts repeated 32 times | Implemented real loader from `PKU-Alignment/BeaverTails@c8306df1...` with
+  docs/research/task7_2_infra_results.md:82: - **BeaverTails OOD Loader**:
+  docs/research/task7_2_infra_results.md:83: - Pinned Source: `PKU-Alignment/BeaverTails@c8306df1cb6c813589b2184d0938ffdf90cb2b00` (Split: `30k_test`)
+  docs/research/task7_3_1_results.md:45: | Model Architecture | Phase | Safe Gen Continuation CE | Risk Val Balanced Acc | In-Distribution Harmful Refusal (WildGuard ID) | Out-of-Di
+  docs/research/task7_3_1a_results.md:94: | Model Architecture | Phase | Corrected Continuation CE | Risk Val Balanced Acc | In-Distribution Harmful Refusal (WildGuard ID) | Out-of-D
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:18: 3. **Behavioral Alignment & OOD Transfer**: Does CCPT produce high safe refusal on harmful requests and high benign non-refusal on benign re
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:49: - BeaverTails Pinned Revision: `8401fe609d288129cc684a9b3be6a93e41cfe678` (split `30k_test`)
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:129: 4. **Out-of-Distribution (OOD) BeaverTails Benchmark**:
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:130: - 256 Harmful + 256 Benign prompts from BeaverTails `30k_test` via deterministic seed `20260822`.
+  docs/research/task7_3_results.md:18: - **Model A OOD BeaverTails Refusal** dropped from **83.98%** to **60.94%** ($\Delta = -23.04\%$).
+  docs/research/task7_3_results.md:20: - **Model B OOD BeaverTails Refusal** dropped from **71.48%** to **52.73%** ($\Delta = -18.75\%$).
+  docs/research/task7_3_results.md:24: - **Model C OOD BeaverTails Refusal** was preserved at **86.72%** (down only $0.78\%$ from $87.50\%$).
+  docs/research/task7_3_results.md:56: - **OOD BeaverTails Benchmark**:
+  docs/research/task7_3_results.md:57: - 256 Harmful + 256 Benign prompts sampled from `PKU-Alignment/BeaverTails` (`30k_test` split, seed `20260822`):
+  docs/research/task7_3_results.md:86: | **OOD BeaverTails Refusal Rate** | 83.98% [78.99, 87.97] | 71.48% [65.67, 76.67] | **87.50%** [82.89, 91.00] | **93.75%** [90.09, 96.12] |
+  docs/research/task7_3_results.md:101: | **OOD BeaverTails Refusal Rate** | 60.94% [54.84, 66.71] | 52.73% [46.62, 58.76] | **86.72%** [82.01, 90.34] | 50.78% [44.69, 56.85] |
+  docs/research/task7_pilot_v2_contract.md:80: - **Out-of-Distribution (OOD) Evaluation**: Evaluates held-out split of `PKU-Alignment/BeaverTails` (revision pinned, zero training exposure
+  docs/research/task7_pilot_v2_results.md:18: 5. **Multi-Metric Behavioral & Pinned OOD Evaluation**: Evaluated across 256 in-distribution framed prompts and 256 held-out BeaverTails pro
+  docs/research/task7_pilot_v2_results.md:61: | **OOD Harmful Refusal Rate (BeaverTails)** | 100.0% | 75.00% | **87.50%** | 100.0% |
+  modal/pilot_v2_authoritative.py:816: """Evaluates Capability, Risk, Safe-Gen, ID Behavior, OOD BeaverTails, and Causal Ablations."""
+  modal/pilot_v2_authoritative.py:1016: # 5. Out-of-Distribution (OOD) BeaverTails Benchmark (256 harmful + 256 benign)
+  modal/task7_2_1_real_proofs.py:5: B. Real BeaverTails OOD loader (PKU-Alignment/BeaverTails@8401fe60...)
+  modal/task7_2_1_real_proofs.py:74: """Loads real PKU-Alignment/BeaverTails dataset and deterministically samples."""
+  modal/task7_2_1_real_proofs.py:172: print("\n2. Running Real BeaverTails OOD Loader Proof...")
+  modal/task7_2_1_real_proofs.py:174: print("✓ Real BeaverTails Proof Passed! Manifest hash:", bt_res["manifest_hash"])
+  modal/task7_2_1_real_proofs.py:278: "dataset_repo": "PKU-Alignment/BeaverTails",
+  modal/task7_2_2_final_preflight.py:5: B. Real BeaverTails OOD loader (PKU-Alignment/BeaverTails@8401fe60...)
+  modal/task7_2_2_final_preflight.py:79: """Loads real PKU-Alignment/BeaverTails dataset and deterministically samples."""
+  modal/task7_2_2_final_preflight.py:192: print("\n2. Running Real BeaverTails OOD Loader Proof...")
+  modal/task7_2_2_final_preflight.py:194: print("✓ Real BeaverTails Proof Passed! Manifest hash:", bt_res["manifest_hash"])
+  modal/task7_2_2_final_preflight.py:343: "repo": "PKU-Alignment/BeaverTails",
+  modal/task7_3_1_forensic_salvage.py:53: PINNED_BEAVERTAILS_REPO = "PKU-Alignment/BeaverTails"
+  ... [truncated 19 additional matches]
+
+--- Pattern: random\.seed (0 matches) ---
+  (no matches found)
+
+--- Pattern: torch\.manual_seed (27 matches) ---
+  modal/pilot_v2_authoritative.py:260: torch.manual_seed(seed)
+  modal/task6_smoke.py:470: torch.manual_seed(20260821)
+  modal/task6_smoke.py:673: torch.manual_seed(TASK6_SEED)
+  modal/task7_pilot_v2.py:293: torch.manual_seed(TASK7_SEED)
+  modal/task7_pilot_v2.py:297: torch.manual_seed(42)
+  modal/task7_pilot_v2.py:411: torch.manual_seed(TASK7_SEED)
+  modal/task7_pilot_v2.py:416: torch.manual_seed(TASK7_SEED)  # B and C MUST initialize bit-identically
+  modal/task7_pilot_v2.py:421: torch.manual_seed(TASK7_SEED)  # B and C MUST initialize bit-identically
+  modal/task7_pilot_v2.py:426: torch.manual_seed(TASK7_SEED)
+  scripts/task3_gradient_probe.py:16: torch.manual_seed(1234)
+  src/ccpt/evaluation/forensics.py:163: torch.manual_seed(seed)
+  src/ccpt/training/engine.py:19: torch.manual_seed(seed)
+  src/ccpt/training/resume_proof.py:105: torch.manual_seed(20260822)
+  src/ccpt/training/resume_proof.py:155: torch.manual_seed(20260822)
+  tests/test_finite_difference.py:17: torch.manual_seed(42)
+  tests/test_finite_difference.py:86: torch.manual_seed(42)
+  tests/test_gradient_dynamics.py:15: torch.manual_seed(1234)
+  tests/test_gradient_firewall.py:23: torch.manual_seed(1234)
+  tests/test_optimizer_isolation.py:22: torch.manual_seed(1234)
+  tests/test_task5_training.py:139: torch.manual_seed(20260821)
+  tests/test_task7_3_1_salvage.py:77: torch.manual_seed(42)
+  tests/test_task7_3_1a_salvage.py:142: torch.manual_seed(42)
+  tests/test_task7_3_pilot_v2.py:129: torch.manual_seed(20260821)
+  tests/test_task7_pilot_v2.py:123: torch.manual_seed(20260821)
+  tests/test_task7_pilot_v2.py:126: torch.manual_seed(20260821)
+  tests/test_task7_pilot_v2.py:275: torch.manual_seed(20260821)
+  tests/test_task7_pilot_v2.py:280: torch.manual_seed(42)
+
+--- Pattern: numpy\.random (0 matches) ---
+  (no matches found)
+
+--- Pattern: git_commit_sha (14 matches) ---
+  docs/research/task7_2_infra_contract.md:65: - `torch_rng_state`, `cuda_rng_state`, `git_commit_sha`, `env_versions`
+  docs/research/task7_pilot_v2_contract.md:59: - `torch_rng_state`, `cuda_rng_state`, `git_commit_sha`, `env_versions`
+  modal/task7_3_1_forensic_salvage.py:145: checkpoint_git_shas[f"{m}_{p}"] = ckpt_data.get("git_commit_sha", "unknown")
+  modal/task7_3_1a_corrective_salvage.py:144: checkpoint_git_shas[f"{m}_{p}"] = ckpt_data.get("git_commit_sha", "unknown")
+  scripts/generate_task7_3_2_audit_freeze.py:258: r"git_commit_sha",
+  scripts/run_task7_2_1_proofs.py:57: get_git_commit_sha,
+  scripts/run_task7_2_1_proofs.py:76: git_sha = execution_code_commit_sha or get_git_commit_sha()
+  scripts/run_task7_2_proofs.py:54: get_git_commit_sha,
+  scripts/run_task7_2_proofs.py:69: git_sha = get_git_commit_sha()
+  scripts/run_task7_2_proofs.py:207: "git_commit_sha": git_sha,
+  src/ccpt/training/checkpoint.py:42: "git_commit_sha",
+  src/ccpt/training/checkpoint.py:186: def get_git_commit_sha() -> str:
+  src/ccpt/training/checkpoint.py:277: "git_commit_sha": get_git_commit_sha(),
+  src/ccpt/training/checkpoint.py:444: "git_commit_sha": state.get("git_commit_sha", ""),
+
+--- Pattern: unknown (11 matches) ---
+  modal/pilot_v2_authoritative.py:1491: git_sha = "unknown"
+  modal/task7_2_1_real_proofs.py:166: git_sha = "unknown"
+  modal/task7_2_2_final_preflight.py:185: git_sha = "unknown"
+  modal/task7_3_1_forensic_salvage.py:145: checkpoint_git_shas[f"{m}_{p}"] = ckpt_data.get("git_commit_sha", "unknown")
+  modal/task7_3_1a_corrective_salvage.py:144: checkpoint_git_shas[f"{m}_{p}"] = ckpt_data.get("git_commit_sha", "unknown")
+  modal/task7_3_1a_corrective_salvage.py:445: "checkpoint_git_sha": checkpoint_git_shas.get("model_a_lm_1b", "unknown"),
+  modal/task7_3_1a_corrective_salvage.py:450: "checkpoint_git_sha": checkpoint_git_shas.get("model_a_safety_20m", "unknown"),
+  modal/task7_3_1a_corrective_salvage.py:455: "checkpoint_git_sha": checkpoint_git_shas.get("model_a_persistence_1000", "unknown"),
+  scripts/generate_task7_3_2_audit_freeze.py:259: r"unknown",
+  src/ccpt/training/checkpoint.py:187: """Attempts to retrieve the current git commit SHA, falling back to 'unknown'."""
+  src/ccpt/training/checkpoint.py:199: return "unknown"
+
+--- Pattern: ready_for_10b (2 matches) ---
+  modal/pilot_v2_authoritative.py:1405: "ready_for_10b_review": True,
+  scripts/generate_task7_3_2_audit_freeze.py:260: r"ready_for_10b",
+
+--- Pattern: raw_bytes_b64 (9 matches) ---
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:64: - **Manifest Invariant**: The manifest contains only block metadata and cryptographic hashes; no `raw_bytes_b64` or raw token arrays.
+  scripts/generate_task7_3_2_audit_freeze.py:261: r"raw_bytes_b64",
+  src/ccpt/data/canonical_materializer.py:344: meta_prefix["raw_bytes_b64"] = base64.b64encode(prefix_shard_path.read_bytes()).decode("ascii")
+  src/ccpt/data/canonical_materializer.py:433: - Emits a clean cryptographic manifest without any raw_bytes_b64 or raw token payload.
+  src/ccpt/data/canonical_materializer.py:534: # ABSOLUTELY NO raw_bytes_b64 in production manifest!
+  src/ccpt/training/resume_proof.py:88: raw_b64 = manifest["train_prefix"]["shards"][0].get("raw_bytes_b64") or manifest["train_prefix"].get("raw_bytes_b64")
+  tests/test_task7_3_pilot_v2.py:270: def test_production_materializer_no_raw_bytes_b64(tmp_path):
+  tests/test_task7_3_pilot_v2.py:271: """Verify production streaming materializer produces clean manifest without raw_bytes_b64."""
+  tests/test_task7_3_pilot_v2.py:303: assert "raw_bytes_b64" not in manifest_str
+
+--- Pattern: resolve_arrow_path (13 matches) ---
+  modal/pilot_v2_authoritative.py:59: def resolve_arrow_path(rel_path: str) -> Path:
+  modal/pilot_v2_authoritative.py:144: risk_arrow_path = resolve_arrow_path("wildguard/risk/train.arrow")
+  modal/pilot_v2_authoritative.py:145: gen_arrow_path = resolve_arrow_path("wildguard/generation/train.arrow")
+  modal/pilot_v2_authoritative.py:623: risk_arrow_path = resolve_arrow_path("wildguard/risk/train.arrow")
+  modal/pilot_v2_authoritative.py:624: gen_arrow_path = resolve_arrow_path("wildguard/generation/train.arrow")
+  modal/pilot_v2_authoritative.py:910: risk_val_path = resolve_arrow_path("wildguard/risk/validation.arrow")
+  modal/pilot_v2_authoritative.py:950: gen_val_path = resolve_arrow_path("wildguard/generation/validation.arrow")
+  modal/task7_3_1_forensic_salvage.py:269: def resolve_arrow_path(rel_path: str) -> Path:
+  modal/task7_3_1_forensic_salvage.py:287: risk_train_path = resolve_arrow_path("wildguard/risk/train.arrow")
+  modal/task7_3_1_forensic_salvage.py:288: risk_val_path = resolve_arrow_path("wildguard/risk/validation.arrow")
+  modal/task7_3_1_forensic_salvage.py:289: gen_train_path = resolve_arrow_path("wildguard/generation/train.arrow")
+  modal/task7_3_1_forensic_salvage.py:290: gen_val_path = resolve_arrow_path("wildguard/generation/validation.arrow")
+  scripts/generate_task7_3_2_audit_freeze.py:262: r"resolve_arrow_path",
+
+--- Pattern: glob\( (16 matches) ---
+  modal/pilot_v2_authoritative.py:68: matches = list(base.glob(f"**/{rel_path}"))
+  modal/pilot_v2_authoritative.py:73: wildcard_matches = list(base.glob(f"{parts[0]}/**/{'/'.join(parts[1:])}"))
+  modal/task6_smoke.py:174: existing_train_shards = sorted(train_dir.glob("train_shard_*.bin")) if train_dir.exists() else []
+  modal/task6_smoke.py:175: existing_val_shards = sorted(val_dir.glob("val_shard_*.bin")) if val_dir.exists() else []
+  modal/task7_2_2_final_preflight.py:296: "no_full_1b_rerun_occurred": bool(not Path("/runs/ccpt/task7_2_2").exists() or len(list(Path("/runs/ccpt/task7_2_2").glob("*.pt"))) == 0),
+  modal/task7_3_1_forensic_salvage.py:277: matches = list(base.glob(f"**/{rel_path}"))
+  modal/task7_3_1_forensic_salvage.py:282: wildcard_matches = list(base.glob(f"{parts[0]}/**/{'/'.join(parts[1:])}"))
+  scripts/run_task7_2_1_proofs.py:327: for p in scratch_dir.glob("**/*"):
+  src/ccpt/training/preflight_proofs.py:357: for f in p.glob("**/*.py"):
+  tests/test_task6_1_audit.py:191: for py_file in Path("src/ccpt").rglob("*.py"):
+  tests/test_task6_2_finalize.py:143: for py_file in Path("src/ccpt").rglob("*.py"):
+  tests/test_task6_2_finalize.py:150: for json_file in Path("artifacts").glob("*.json"):
+  tests/test_task6_3_safety_scaling.py:163: for py_file in Path("src/ccpt").rglob("*.py"):
+  tests/test_task6_smoke.py:212: for py_file in src_dir.rglob("*.py"):
+  tests/test_task7_2_infra.py:127: for py_file in Path("src/ccpt").rglob("*.py"):
+  tests/test_task7_pilot_v2.py:343: for py_file in Path("src/ccpt").rglob("*.py"):
+
+--- Pattern: recursive (2 matches) ---
+  docs/research/task7_3_1a_results.md:16: 3. **Canonical Task 4 Data Provenance**: Bound the exact canonical Arrow files without recursive first-match path ambiguity, computed SHA-25
+  scripts/generate_task7_3_2_audit_freeze.py:264: r"recursive",
+
+--- Pattern: resume (195 matches) ---
+  docs/research/task5_micro_training.md:14: 7. **Numerical & Checkpoint Health**: Are gradients, gates, steering vectors, losses, and checkpoints finite, non-saturating, and bit-reprod
+  docs/research/task5_micro_training.md:71: - **CPU Validation Function**: 4.0 CPU cores, 8 GiB RAM, 0 GPU. Executed remote pytest suite (76 tests passed), verified manifest lock, crea
+  docs/research/task7_2_infra_contract.md:6: **Purpose**: Rigorous infrastructure hardening, canonical data lineage validation, strict checkpoint V2 enforcement, external safety judging
+  docs/research/task7_2_infra_contract.md:16: - **Task 7.1**: Fresh model training occurred (fresh A/B/C/D models, Model D parameter-matched, theta_C frozen in Model C, backbone frozen i
+  docs/research/task7_3_authoritative_pilot_v2_contract.md:103: - **Scheduler Continuity**: The LM `TokenCosineScheduler` resumes at token position $999,981,056$ and advances to $1,032,749,056$. It is NOT
+  docs/research/task7_pilot_v2_results.md:16: 3. **Checkpoint Format V2 (`ccpt-checkpoint-v2`)**: Passed strict validation, full environment/RNG state persistence, and GPU production bit
+  modal/task6_finalize.py:602: def dry_run_resume_h100(run_id: str, next_batch_raw: List[List[int]]) -> Dict[str, Any]:
+  modal/task6_finalize.py:709: dry_run_res = dry_run_resume_h100.remote(run_id, next_batch_raw)
+  modal/task6_finalize.py:837: resume_readiness = {
+  modal/task6_finalize.py:864: "resume_readiness": resume_readiness,
+  modal/task6_repair.py:675: def audit_resume_and_continuation(run_id: str) -> Dict[str, Any]:
+  modal/task6_repair.py:676: """Audits checkpoint resume readiness, scheduler reconstruction, and FineWeb stream continuation."""
+  modal/task6_repair.py:708: "scheduler_resume_ready": True,
+  modal/task6_repair.py:759: "model_optimizer_resume_ready": checkpoint_state_ready,
+  modal/task6_repair.py:760: "scheduler_resume_ready": True,
+  modal/task6_repair.py:799: resume_res = audit_resume_and_continuation.remote(run_id)
+  modal/task6_repair.py:931: "resume_readiness": resume_res,
+  modal/task6_safety_scaling.py:341: resume_path = output_dir / "safety_20m.pt"
+  modal/task6_safety_scaling.py:342: loaded = load_checkpoint(resume_path)
+  modal/task7_2_1_real_proofs.py:7: D. Real-data resume proof using canonical FineWeb blocks
+  modal/task7_2_1_real_proofs.py:137: def run_real_data_resume_proof_remote() -> Dict[str, Any]:
+  modal/task7_2_1_real_proofs.py:138: """Runs production resume proof using real FineWeb blocks and Mistral tokenizer."""
+  modal/task7_2_1_real_proofs.py:139: from ccpt.training.resume_proof import run_production_path_resume_proof
+  modal/task7_2_1_real_proofs.py:140: proof_dir = Path("/tmp/resume_real_proof")
+  modal/task7_2_1_real_proofs.py:141: return run_production_path_resume_proof(
+  modal/task7_2_1_real_proofs.py:181: resume_res = run_real_data_resume_proof_remote.remote()
+  modal/task7_2_1_real_proofs.py:182: print("✓ Real Resume Proof Passed! Bitwise Equivalent:", resume_res["BITWISE_RESUME_EQUIVALENT"])
+  modal/task7_2_1_real_proofs.py:245: "production_path_logical_resume_equivalent": bool(resume_res.get("LOGICAL_RESUME_EQUIVALENT") is True),
+  modal/task7_2_1_real_proofs.py:246: "production_path_bitwise_resume_equivalent": bool(resume_res.get("BITWISE_RESUME_EQUIVALENT") is True),
+  modal/task7_2_1_real_proofs.py:299: "resume": {
+  modal/task7_2_1_real_proofs.py:300: "source_manifest_hash": resume_res["data_manifest_hash"],
+  modal/task7_2_1_real_proofs.py:301: "checkpoint_step": resume_res["checkpoint_step"],
+  modal/task7_2_1_real_proofs.py:302: "total_steps": resume_res["total_steps"],
+  modal/task7_2_1_real_proofs.py:303: "next_batch_uninterrupted_hash": resume_res["next_batch_uninterrupted_hash"],
+  modal/task7_2_1_real_proofs.py:304: "next_batch_resumed_hash": resume_res["next_batch_resumed_hash"],
+  modal/task7_2_1_real_proofs.py:305: "final_lr_uninterrupted": resume_res["final_lr_uninterrupted"],
+  modal/task7_2_1_real_proofs.py:306: "final_lr_resumed": resume_res["final_lr_resumed"],
+  modal/task7_2_1_real_proofs.py:307: "final_tokens_uninterrupted": resume_res["final_tokens_uninterrupted"],
+  modal/task7_2_1_real_proofs.py:308: "final_tokens_resumed": resume_res["final_tokens_resumed"],
+  modal/task7_2_1_real_proofs.py:309: "max_model_param_diff": resume_res["max_model_param_diff"],
+  modal/task7_2_1_real_proofs.py:310: "LOGICAL_RESUME_EQUIVALENT": resume_res["LOGICAL_RESUME_EQUIVALENT"],
+  modal/task7_2_1_real_proofs.py:311: "BITWISE_RESUME_EQUIVALENT": resume_res["BITWISE_RESUME_EQUIVALENT"],
+  modal/task7_2_2_final_preflight.py:7: D. Real-data resume proof using the SAME 1024-token FineWeb prefix blocks & Task 4 hash
+  modal/task7_2_2_final_preflight.py:152: def run_real_data_resume_preflight_proof(materialized_manifest: Dict[str, Any]) -> Dict[str, Any]:
+  modal/task7_2_2_final_preflight.py:153: """Runs production resume proof using the SAME 1024-token FineWeb prefix blocks and Task 4 manifest hash."""
+  modal/task7_2_2_final_preflight.py:154: from ccpt.training.resume_proof import run_production_path_resume_proof
+  modal/task7_2_2_final_preflight.py:155: proof_dir = Path("/tmp/resume_preflight_proof")
+  modal/task7_2_2_final_preflight.py:156: return run_production_path_resume_proof(
+  modal/task7_2_2_final_preflight.py:201: resume_res = run_real_data_resume_preflight_proof.remote(fineweb_res["manifest"])
+  modal/task7_2_2_final_preflight.py:202: print("✓ Real Resume Proof Passed! Bitwise Equivalent:", resume_res["BITWISE_RESUME_EQUIVALENT"])
+  ... [truncated 145 additional matches]
+
+--- Pattern: data_cursor (34 matches) ---
+  docs/research/task7_2_infra_contract.md:62: - `global_step`, `tokens_seen`, `data_cursor`, `stream_identity`
+  docs/research/task7_pilot_v2_contract.md:55: - `global_step`, `tokens_seen`, `data_cursor`, `stream_identity`
+  modal/pilot_v2_authoritative.py:231: if ckpt.get("tokens_seen") == 999_981_056 and ckpt.get("data_cursor") == 976_544:
+  modal/pilot_v2_authoritative.py:242: "data_cursor": 976_544,
+  modal/pilot_v2_authoritative.py:322: data_cursor = 0
+  modal/pilot_v2_authoritative.py:326: batch_slice = token_tensor[data_cursor : data_cursor + 32].to(device)
+  modal/pilot_v2_authoritative.py:327: data_cursor += 32
+  modal/pilot_v2_authoritative.py:374: data_cursor=data_cursor,
+  modal/pilot_v2_authoritative.py:405: data_cursor=data_cursor,
+  modal/pilot_v2_authoritative.py:425: "data_cursor": data_cursor,
+  modal/pilot_v2_authoritative.py:1135: if ckpt.get("tokens_seen", 0) == 1_032_749_056 and ckpt.get("data_cursor", 0) == 1_008_544:
+  modal/pilot_v2_authoritative.py:1226: data_cursor = 976_544
+  modal/pilot_v2_authoritative.py:1232: data_cursor += 32
+  modal/pilot_v2_authoritative.py:1289: data_cursor=data_cursor,
+  modal/pilot_v2_authoritative.py:1309: "data_cursor": data_cursor,
+  modal/task6_repair.py:185: "has_data_cursor": "global_step" in lm_data,
+  modal/task7_2_2_final_preflight.py:374: "data_cursor_match": resume_res["data_cursor_match"],
+  modal/task7_pilot_v2.py:326: data_cursor=step + 1,
+  modal/task7_pilot_v2.py:339: start_cursor = loaded["data_cursor"]
+  modal/task7_pilot_v2.py:536: data_cursor=total_blocks,
+  modal/task7_pilot_v2.py:757: data_cursor=total_batches,
+  scripts/generate_task7_3_2_audit_freeze.py:266: r"data_cursor",
+  src/ccpt/training/checkpoint.py:32: "data_cursor",
+  src/ccpt/training/checkpoint.py:233: data_cursor: int = 0,
+  src/ccpt/training/checkpoint.py:271: "data_cursor": data_cursor,
+  src/ccpt/training/checkpoint.py:440: "data_cursor": state.get("data_cursor", 0),
+  src/ccpt/training/resume_proof.py:218: data_cursor=interrupt_step * batch_size,
+  src/ccpt/training/resume_proof.py:259: cursor = loaded_state["data_cursor"]
+  src/ccpt/training/resume_proof.py:379: "data_cursor_match": (cursor == interrupt_step * batch_size),
+  tests/test_task7_2_infra.py:278: data_cursor=10,
+  tests/test_task7_2_infra.py:326: data_cursor=10,
+  tests/test_task7_pilot_v2.py:251: data_cursor=42,
+  tests/test_task7_pilot_v2.py:305: data_cursor=step + 1,
+  tests/test_task7_pilot_v2.py:316: start_cursor = loaded["data_cursor"]
+
+--- Pattern: tokens_seen (121 matches) ---
+  docs/research/task7_2_infra_contract.md:62: - `global_step`, `tokens_seen`, `data_cursor`, `stream_identity`
+  docs/research/task7_2_infra_results.md:63: - `tokens_seen_identical`: `True`
+  docs/research/task7_pilot_v2_contract.md:55: - `global_step`, `tokens_seen`, `data_cursor`, `stream_identity`
+  modal/pilot_v2_authoritative.py:231: if ckpt.get("tokens_seen") == 999_981_056 and ckpt.get("data_cursor") == 976_544:
+  modal/pilot_v2_authoritative.py:241: "tokens_seen": 999_981_056,
+  modal/pilot_v2_authoritative.py:302: initial_tokens_seen=0,
+  modal/pilot_v2_authoritative.py:321: tokens_seen = 0
+  modal/pilot_v2_authoritative.py:330: lr = scheduler.get_lr(tokens_seen)
+  modal/pilot_v2_authoritative.py:352: tokens_seen += batch_tokens
+  modal/pilot_v2_authoritative.py:358: tokens_seen=tokens_seen,
+  modal/pilot_v2_authoritative.py:373: tokens_seen=tokens_seen,
+  modal/pilot_v2_authoritative.py:404: tokens_seen=tokens_seen,
+  modal/pilot_v2_authoritative.py:423: "tokens_seen": tokens_seen,
+  modal/pilot_v2_authoritative.py:597: if ckpt.get("tokens_seen", 0) >= 20_000_000:
+  modal/pilot_v2_authoritative.py:607: "tokens_seen": ckpt.get("tokens_seen"),
+  modal/pilot_v2_authoritative.py:670: initial_tokens_seen=0,
+  modal/pilot_v2_authoritative.py:689: tokens_seen = 0
+  modal/pilot_v2_authoritative.py:697: lr = safety_scheduler.get_lr(tokens_seen)
+  modal/pilot_v2_authoritative.py:741: tokens_seen += v_tokens
+  modal/pilot_v2_authoritative.py:746: tokens_seen=tokens_seen,
+  modal/pilot_v2_authoritative.py:772: tokens_seen=tokens_seen,
+  modal/pilot_v2_authoritative.py:791: "tokens_seen": tokens_seen,
+  modal/pilot_v2_authoritative.py:1135: if ckpt.get("tokens_seen", 0) == 1_032_749_056 and ckpt.get("data_cursor", 0) == 1_008_544:
+  modal/pilot_v2_authoritative.py:1206: initial_tokens_seen=initial_lm_tokens,
+  modal/pilot_v2_authoritative.py:1225: tokens_seen = initial_lm_tokens
+  modal/pilot_v2_authoritative.py:1235: lr = scheduler.get_lr(tokens_seen)
+  modal/pilot_v2_authoritative.py:1257: tokens_seen += batch_tokens
+  modal/pilot_v2_authoritative.py:1262: tokens_seen=tokens_seen,
+  modal/pilot_v2_authoritative.py:1288: tokens_seen=tokens_seen,
+  modal/pilot_v2_authoritative.py:1308: "tokens_seen": tokens_seen,
+  modal/task6_finalize.py:365: tokens_seen=step_num,
+  modal/task6_finalize.py:447: tokens_seen=total_continuation_tokens,
+  modal/task6_finalize.py:665: "next_tokens_seen": next_tokens,
+  modal/task6_repair.py:178: "tokens_seen": TASK6_LM_TOTAL_TOKENS,
+  modal/task6_repair.py:195: "tokens_seen": 10_004_960,
+  modal/task6_repair.py:505: tokens_seen=step_num * batch_size * TASK6_LM_SEQ_LEN,
+  modal/task6_repair.py:702: "checkpoint_tokens_seen": tokens_at_1b,
+  modal/task6_repair.py:706: "next_tokens_seen": next_tokens,
+  modal/task6_safety_scaling.py:344: cumulative_tokens = loaded["tokens_seen"]
+  modal/task6_safety_scaling.py:464: tokens_seen=cumulative_tokens,
+  modal/task6_smoke.py:346: tokens_seen=train_blocks * TASK6_LM_SEQ_LEN,
+  modal/task6_smoke.py:371: tokens_seen=TASK6_LM_TOTAL_TOKENS,
+  modal/task6_smoke.py:514: tokens_seen=timed_step * batch_size * TASK6_LM_SEQ_LEN,
+  modal/task6_smoke.py:636: "tokens_seen": TASK6_LM_TOTAL_TOKENS,
+  modal/task6_smoke.py:645: "next_tokens_seen": TASK6_LM_TOTAL_TOKENS,
+  modal/task6_smoke.py:710: current_tokens_seen = (step - 1) * TASK6_LM_GLOBAL_BATCH_SIZE * TASK6_LM_SEQ_LEN
+  modal/task6_smoke.py:711: lr = scheduler.get_lr(current_tokens_seen)
+  modal/task6_smoke.py:751: tokens_seen=tokens_after_step,
+  modal/task6_smoke.py:804: "tokens_seen": TASK6_LM_TOTAL_TOKENS,
+  modal/task6_smoke.py:813: "next_tokens_seen": TASK6_LM_TOTAL_TOKENS,
+  ... [truncated 71 additional matches]
