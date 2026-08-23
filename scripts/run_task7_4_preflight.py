@@ -414,19 +414,15 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
 
     if run_remote_modal_probes:
         try:
-            print("  -> Spawning Modal L40S Preflight Probe...", flush=True)
-            l40s_fn = mod.run_task7_4_modal_l40s_probe
-            l40s_call = l40s_fn.spawn(expected_code_sha=code_sha)
-            l40s_probe_res = l40s_call.get(timeout=300)
-            l40s_probe_res["modal_call_id"] = getattr(l40s_call, "object_id", str(l40s_call))
-            print(f"     [L40S PASS] Call ID: {l40s_probe_res['modal_call_id']} | GPU: {l40s_probe_res['runtime_fingerprint']['device_name']}")
+            print("  -> Initializing Modal App & Spawning Remote Probes...", flush=True)
+            with mod.app.run():
+                print("     -> Running Modal L40S Preflight Probe...", flush=True)
+                l40s_probe_res = mod.run_task7_4_modal_l40s_probe.remote(expected_code_sha=code_sha)
+                print(f"     [L40S PASS] GPU: {l40s_probe_res['runtime_fingerprint']['device_name']} | PyTorch: {l40s_probe_res['runtime_fingerprint']['installed_versions']['torch']}")
 
-            print("  -> Spawning Modal Minimal H100 Preflight Probe...", flush=True)
-            h100_fn = mod.run_task7_4_modal_h100_probe
-            h100_call = h100_fn.spawn(expected_code_sha=code_sha)
-            h100_probe_res = h100_call.get(timeout=300)
-            h100_probe_res["modal_call_id"] = getattr(h100_call, "object_id", str(h100_call))
-            print(f"     [H100 PASS] Call ID: {h100_probe_res['modal_call_id']} | GPU: {h100_probe_res['runtime_fingerprint']['device_name']}")
+                print("     -> Running Modal Minimal H100 Preflight Probe...", flush=True)
+                h100_probe_res = mod.run_task7_4_modal_h100_probe.remote(expected_code_sha=code_sha)
+                print(f"     [H100 PASS] GPU: {h100_probe_res['runtime_fingerprint']['device_name']} | PyTorch: {h100_probe_res['runtime_fingerprint']['installed_versions']['torch']}")
 
             modal_probes_passed = bool(l40s_probe_res.get("probe_passed") and h100_probe_res.get("probe_passed"))
         except Exception as e:
