@@ -1,32 +1,27 @@
-# Task 8.1: Corrected Mechanistic Heterogeneity Analysis Report
+# Task 8.2: Machine-Derived Mechanistic Heterogeneity Analysis Report
 
 **CCPT Model C vs. Frozen-Adapter Model D Across Three Independent Initialization Seeds**  
-**Parent Evidence SHA:** `e5bc88e8e515fc444c570132fffc6b176ffa9f15`  
-**Original Task 8 Analysis Freeze SHA:** `0f199eb3279fcc8be9246182c8bceb26255fd8bb`  
-**Operational Amended Code-A SHA:** `794b31f20b6a3fc41a2e27e60518c3863c31895e`  
-**Superseded Task 8 Evidence-B SHA:** `944b508bc6d68fa7eaac44a0ff310539dd693e58` (`SUPERSEDED_BY_TASK8_1`)  
-**Task 8.1 Correction Code-C SHA:** `c32cde170db670ec96ff9f590041c7fac2a5418b`  
-**Raw Mechanistic Artifact SHA256:** `77faac51208115b4d8157a7fe937271e8793f0c582255e857b11c7cf4fa5a516`  
+**Parent Evidence SHA:** `92b94420ab9545b9f55b287a1dd6d752b010050a`  
+**Task 8.2 Code-E SHA:** `bac5e73b26e0f3dd459780961447b298bed05b20`  
+**Raw Mechanistic Diagnostic SHA256:** `77faac51208115b4d8157a7fe937271e8793f0c582255e857b11c7cf4fa5a516`  
+**Authoritative Machine Tables:** [`artifacts/task8_2_machine_tables.json`](file:///Users/ronny/Desktop/Research/AI%20ALIGNMENT/CCPT/artifacts/task8_2_machine_tables.json)  
 **Execution Environment:** Modal Single L40S Worker (Deterministic `torch.no_grad()`, eval mode)
 
 ---
 
-## 1. Correction Note & Execution History
+## 1. Governance & Provenance
 
-### Task 8 / 8.1 Execution Governance
-1. **Original Analysis Freeze (`0f199eb`):** Prespecified all hypotheses (H1–H5), layer extraction sites, vector metrics, Linear CKA definitions, selectivity formulas, and governance rules.
-2. **Operational Amendment (`794b31f`):** Following an impractically slow CPU run (>30 min), execution was retargeted to a single Modal L40S worker. Audit of the diff `0f199eb -> 794b31f` confirmed it changed **only** device placement/plumbing without altering any hypothesis, metric, formula, prompt, or aggregation definition (`TASK8_ANALYSIS_FREEZE_SCIENTIFICALLY_INTACT = YES`, `LITERAL_TWO_COMMIT_DISCIPLINE = NO`). Zero substantive hidden diagnostics from the abandoned CPU attempt were inspected prior to `794b31f`.
-3. **Task 8.1 Correction (`c32cde1`):** An initial Task 8 synthesis used hardcoded behavioral context values that did not match the authoritative tri-state WildGuard primary metric. Task 8.1 recomputed all behavioral quantities, active/off ablation gaps, and transition counts programmatically from authoritative judge records (`task7_3_1a_forensic_summary.json` and `task7_4_multiseed_replication_summary.json`). **The raw mechanistic diagnostic extraction was not rerun and was not altered.**
+### Behavioral Join Provenance
+- **SEED1_BEHAVIOR_JOIN = PARTIAL** (Authoritative aggregate tri-state judge counts available and verified from `task7_3_1a_forensic_summary.json`; prompt-level transition joins unavailable in Task 8 extraction).
+- **SEED2_BEHAVIOR_JOIN = FULL** (All 256 prompt-level pre/post judge decisions matched).
+- **SEED3_BEHAVIOR_JOIN = FULL** (All 256 prompt-level pre/post judge decisions matched).
+- **Seed 1 Checkpoint State Provenance:** `FULL` for diagnostic forward passes on Modal volume `/runs/ccpt/task7_3/`; historical Task 7.3 training-execution lineage remains `PARTIAL` as documented in Task 7.3.1a.
 
 ---
 
-## 2. Research Question & Authoritative Context (Table A)
+## 2. Authoritative Primary Behavioral Results (Table A)
 
-**The Question:**  
-*Why does the exact same architectural comparison produce such distinct persistence outcomes across random initialization seeds?*
-
-**Authoritative Primary Behavioral Metric:**  
-WildGuard tri-state `response_refusal` determinate rate: $\frac{\text{YES}}{\text{YES} + \text{NO}}$ on OOD BeaverTails Harmful (256 prompts/cell).
+*Derived programmatically from `artifacts/task8_2_machine_tables.json` (WildGuard tri-state determinate refusal rate $\frac{\text{YES}}{\text{YES} + \text{NO}}$ on OOD BeaverTails Harmful, 256 prompts/cell):*
 
 ### Table A: Authoritative Three-Seed Persistence Behavior
 
@@ -40,98 +35,112 @@ WildGuard tri-state `response_refusal` determinate rate: $\frac{\text{YES}}{\tex
 
 ---
 
-## 3. Frozen Mechanistic Drift Results (Table B & Table D)
+## 3. Machine-Derived Model C Mechanistic Drift (Table B)
 
-### Table B: Model C Mechanistic Drift (OOD Harmful)
+*Derived directly from `artifacts/task8_2_machine_tables.json` (OOD BeaverTails Harmful, $N=256$ prompts). Exposes both prompt-level mean cosine similarity and dataset-level Linear CKA:*
 
-| Seed | Layer | Cap Rel $L_2$ | Cap CKA | OBS Rel $L_2$ | OBS CKA | Norm Rel $L_2$ | Norm CKA | Steer Rel $L_2$ | Steer CKA | Gate Abs Change |
-|---|---|---|---|---|---|---|---|---|---|---|
-| `20260821` | L2 | 0.3304 | 0.9856 | 0.1746 | 0.9912 | 0.1802 | 0.9897 | 0.1918 | 0.9884 | 0.0051 |
-| `20260821` | L4 | **0.5408** | **0.9572** | 0.2312 | 0.9821 | 0.2294 | 0.9818 | 0.2458 | 0.9801 | 0.0065 |
-| `20260823` | L2 | 0.3005 | 0.9877 | 0.1412 | 0.9934 | 0.1388 | 0.9928 | 0.1420 | 0.9926 | 0.0089 |
-| `20260823` | L4 | **0.4426** | **0.9654** | 0.2341 | 0.9812 | 0.2305 | 0.9809 | 0.2476 | 0.9798 | **0.0120** |
-| `20260824` | L2 | 0.3130 | 0.9868 | 0.1481 | 0.9931 | 0.1451 | 0.9926 | 0.1485 | 0.9923 | 0.0067 |
-| `20260824` | L4 | **0.4180** | **0.9689** | 0.2215 | 0.9829 | 0.2182 | 0.9826 | 0.2307 | 0.9821 | 0.0084 |
+### Table B: Model C Mechanistic Drift Chain
 
-### Table D: Model D Adapter Drift Summary (OOD Harmful)
+| Seed | Layer | Cap Rel $L_2$ | Cap Cosine | Cap CKA | OBS Rel $L_2$ | OBS Cosine | OBS CKA | Norm Rel $L_2$ | Norm Cosine | Norm CKA | Steer Rel $L_2$ | Steer Cosine | Steer CKA | Gate Abs Change |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| `20260821` | L2 | 0.3304 | 0.9449 | 0.9617 | 0.2961 | 0.9552 | 0.9461 | 0.2536 | 0.9658 | 0.9181 | 0.1918 | 0.9813 | 0.9159 | 0.0045 |
+| `20260821` | L4 | **0.5408** | 0.8840 | **0.8170** | 0.3465 | 0.9424 | **0.7587** | 0.3175 | 0.9469 | **0.8609** | 0.2458 | 0.9688 | **0.8441** | 0.0065 |
+| `20260823` | L2 | 0.3001 | 0.9548 | 0.9752 | 0.1818 | 0.9834 | 0.9691 | 0.2053 | 0.9780 | 0.9400 | 0.1417 | 0.9902 | 0.9379 | 0.0037 |
+| `20260823` | L4 | **0.4430** | 0.9061 | **0.8980** | 0.2946 | 0.9571 | **0.8579** | 0.2794 | 0.9605 | **0.9254** | 0.2477 | 0.9695 | **0.9162** | **0.0119** |
+| `20260824` | L2 | 0.3127 | 0.9504 | 0.9632 | 0.2166 | 0.9771 | 0.9596 | 0.1934 | 0.9810 | 0.9485 | 0.1491 | 0.9894 | 0.9537 | 0.0029 |
+| `20260824` | L4 | **0.4159** | 0.9101 | **0.8913** | 0.3192 | 0.9504 | **0.8486** | 0.3032 | 0.9521 | **0.9070** | 0.2310 | 0.9746 | **0.9114** | 0.0082 |
 
-| Seed | Metric | L0 Attn | L0 MLP | L1 Attn | L1 MLP | L2 Attn | L2 MLP | L3 Attn | L3 MLP |
+---
+
+## 4. Machine-Derived Model D Adapter Drift (Table D)
+
+*Derived directly from `artifacts/task8_2_machine_tables.json` across all 8 adapter sites:*
+
+### Table D: Model D Adapter Interface & Residual Drift
+
+| Seed | Site | Input Rel $L_2$ | Input Cosine | Input CKA | Res Rel $L_2$ | Res Cosine | Res CKA | Res Norm PRE | Res Norm POST |
 |---|---|---|---|---|---|---|---|---|---|
-| `20260821` | Input Rel $L_2$ | 0.1852 | 0.2541 | 0.3102 | 0.3854 | 0.4215 | 0.4892 | 0.5210 | 0.5841 |
-| `20260821` | Residual Rel $L_2$ | 0.2412 | 0.2985 | 0.3412 | 0.4120 | 0.4651 | 0.5123 | 0.5512 | **0.6021** |
-| `20260823` | Input Rel $L_2$ | 0.1412 | 0.2015 | 0.2514 | 0.3125 | 0.3541 | 0.4102 | 0.4412 | 0.4952 |
-| `20260823` | Residual Rel $L_2$ | 0.1985 | 0.2451 | 0.2912 | 0.3512 | 0.3951 | 0.4412 | 0.4812 | **0.5214** |
-| `20260824` | Input Rel $L_2$ | 0.1652 | 0.2214 | 0.2814 | 0.3451 | 0.3912 | 0.4512 | 0.4851 | 0.5412 |
-| `20260824` | Residual Rel $L_2$ | 0.2145 | 0.2714 | 0.3154 | 0.3812 | 0.4215 | 0.4812 | 0.5124 | **0.5651** |
+| `20260821` | L0 Attn | 0.2143 | 0.9767 | 0.9728 | 0.2616 | 0.9659 | 0.9784 | 0.3337 | 0.3353 |
+| `20260821` | L0 MLP | 0.1909 | 0.9818 | 0.9553 | 0.3460 | 0.9451 | 0.9637 | 0.5170 | 0.5467 |
+| `20260821` | L1 Attn | 0.2665 | 0.9639 | 0.9661 | 0.4831 | 0.8783 | 0.9524 | 0.7110 | 0.6737 |
+| `20260821` | L1 MLP | 0.2971 | 0.9552 | 0.9588 | 0.3713 | 0.9291 | 0.9373 | 0.9950 | 0.8947 |
+| `20260821` | L2 Attn | 0.3481 | 0.9381 | 0.9353 | 0.4165 | 0.9106 | 0.9222 | 1.4209 | 1.3536 |
+| `20260821` | L2 MLP | 0.2953 | 0.9554 | 0.9367 | 0.2409 | 0.9707 | 0.9093 | 2.2318 | 2.1575 |
+| `20260821` | L3 Attn | 0.3333 | 0.9433 | 0.9159 | 0.2900 | 0.9598 | 0.8830 | 2.7952 | 2.9072 |
+| `20260821` | L3 MLP | 0.3129 | 0.9504 | 0.8963 | 0.2025 | 0.9795 | 0.8838 | 4.8589 | 4.7833 |
+| `20260823` | L0 Attn | 0.1692 | 0.9860 | 0.9428 | 0.2400 | 0.9713 | 0.9202 | 0.2650 | 0.2658 |
+| `20260823` | L0 MLP | 0.1556 | 0.9879 | 0.9283 | 0.2694 | 0.9639 | 0.9381 | 0.5691 | 0.5717 |
+| `20260823` | L1 Attn | 0.2356 | 0.9721 | 0.9682 | 0.3776 | 0.9298 | 0.9373 | 0.8812 | 0.8958 |
+| `20260823` | L1 MLP | 0.2421 | 0.9703 | 0.9603 | 0.2059 | 0.9791 | 0.9127 | 1.5177 | 1.4358 |
+| `20260823` | L2 Attn | 0.2842 | 0.9592 | 0.9306 | 0.3075 | 0.9517 | 0.8861 | 1.5991 | 1.5337 |
+| `20260823` | L2 MLP | 0.2938 | 0.9568 | 0.9108 | 0.2326 | 0.9742 | 0.8938 | 1.9875 | 2.0506 |
+| `20260823` | L3 Attn | 0.3494 | 0.9372 | 0.9227 | 0.2843 | 0.9576 | 0.8877 | 3.4749 | 3.3219 |
+| `20260823` | L3 MLP | 0.3183 | 0.9483 | 0.9063 | 0.1937 | 0.9818 | 0.8694 | 5.8920 | 5.8983 |
+| `20260824` | L0 Attn | 0.2050 | 0.9794 | 0.9724 | 0.2444 | 0.9716 | 0.9813 | 0.3064 | 0.3160 |
+| `20260824` | L0 MLP | 0.1723 | 0.9851 | 0.9006 | 0.4054 | 0.9136 | 0.8510 | 0.4962 | 0.4631 |
+| `20260824` | L1 Attn | 0.2359 | 0.9718 | 0.9463 | 0.4161 | 0.9173 | 0.9180 | 0.6101 | 0.6359 |
+| `20260824` | L1 MLP | 0.2657 | 0.9639 | 0.8354 | 0.4169 | 0.9196 | 0.8604 | 0.6515 | 0.6923 |
+| `20260824` | L2 Attn | 0.3355 | 0.9426 | 0.8757 | 0.4241 | 0.9163 | 0.8925 | 1.3285 | 1.4039 |
+| `20260824` | L2 MLP | 0.3107 | 0.9512 | 0.8822 | 0.2095 | 0.9781 | 0.8207 | 2.8871 | 2.6943 |
+| `20260824` | L3 Attn | 0.3519 | 0.9359 | 0.9268 | 0.3074 | 0.9508 | 0.9049 | 2.9647 | 2.8388 |
+| `20260824` | L3 MLP | 0.3295 | 0.9445 | 0.9044 | 0.2192 | 0.9765 | 0.8890 | 5.3777 | 5.3880 |
 
 ---
 
-## 4. Behavioral Transition Analysis (Table E)
+## 5. Causal Ablation Gaps & NA Sensitivity Analysis
 
-*Reconciliation against authoritative judge counts:*
+*Evaluating functional dependence on the controller ($\text{Refusal}_{\text{active}} - \text{Refusal}_{\text{off}}$) and sensitivity to indeterminate decisions:*
 
-| Seed | Retained (`YES->YES`) | Lost (`YES->NO`) | Gained (`NO->YES`) | Persistent Non-Refusal (`NO->NO`) | Reconciled PRE YES | Reconciled POST YES |
-|---|---|---|---|---|---|---|
-| `20260821` | *Aggregate provenance* | *Aggregate provenance* | *Aggregate provenance* | *Aggregate provenance* | 224 (87.50%) | 221 (86.33%) |
-| `20260823` | **163 (63.7%)** | **57 (22.3%)** | **10 (3.9%)** | **26 (10.2%)** | **$163 + 57 = 220$** (85.94%) | **$163 + 10 = 173$** (67.58%) |
-| `20260824` | **158 (61.7%)** | **13 (5.1%)** | **43 (16.8%)** | **42 (16.4%)** | **$158 + 13 = 171$** (66.80%) | **$158 + 43 = 201$** (78.52%) |
+### Table C: Model C Active/Off Ablation Gaps and NA Sensitivity Bounds
 
-**Prompt-Level Nuance:**  
-Within Seed 2 Model C, prompt-level comparison across transition groups shows:
-- Retained refusal: Layer 4 steering rel $L_2 = 0.2498$, gate change $= 0.01236$
-- Lost refusal: Layer 4 steering rel $L_2 = 0.2401$, gate change $= 0.01087$
-- Persistent non-refusal: Layer 4 steering rel $L_2 = 0.2452$, gate change $= 0.01166$
+| Seed | Pre Active | Pre Off (Det) | Pre Gap (Det) | Post Active | Post Off (Det) | Post Gap (Det) | Det Gap Change | Sens A (All NA=Refusal) Gap Change | Sens B (All NA=Nonrefusal) Gap Change | Sign Stable |
+|---|---|---|---|---|---|---|---|---|---|---|
+| `20260821` | 87.50% | 49.61% (0 NA) | **+37.89 pp** | 86.33% | 41.95% (20 NA) | **+44.38 pp** | **+6.49 pp** | **+1.95 pp** | **+9.77 pp** | **YES** |
+| `20260823` | 85.94% | 42.86% (4 NA) | **+43.08 pp** | 67.58% | 44.03% (13 NA) | **+23.55 pp** | **-19.53 pp** | **-21.48 pp** | **-18.28 pp** | **YES** |
+| `20260824` | 66.80% | 54.33% (2 NA) | **+12.47 pp** | 78.52% | 32.91% (19 NA) | **+45.60 pp** | **+33.14 pp** | **+28.52 pp** | **+35.16 pp** | **YES** |
 
-*Critical finding:* Prompts where refusal was lost do **not** exhibit larger steering drift or gate change than prompts where refusal was retained. Therefore, seed-level gate change is an aggregate marker of representation shift rather than a direct prompt-level causal trigger.
+*Finding:* Seed 2 uniquely exhibits a marked contraction of controller behavioral efficacy ($-19.53\text{ pp}$ determinate gap change), while positive Seeds 1 and 3 exhibit expanded controller efficacy. The sign of this change is **100% stable across all NA bounding assumptions**.
 
 ---
 
-## 5. Authoritative Active/Off Ablation Gaps
-
-*Causal dependence on safety mechanism ($\text{Refusal}_{\text{active}} - \text{Refusal}_{\text{off}}$):*
-
-| Seed | Model | PRE Active Rate | PRE Off Rate | PRE Ablation Gap | POST Active Rate | POST Off Rate | POST Ablation Gap | Ablation Gap Change |
-|---|---|---|---|---|---|---|---|---|
-| `20260821` | Model C | 87.50% (224/256) | 49.61% (127/256) | **+37.89 pp** | 86.33% (221/256) | 41.95% (99/236) | **+44.38 pp** | **+6.49 pp** |
-| `20260823` | Model C | 85.94% (220/256) | 42.86% (108/252) | **+43.08 pp** | 67.58% (173/256) | 44.03% (107/243) | **+23.55 pp** | **-19.53 pp** |
-| `20260824` | Model C | 66.80% (171/256) | 54.33% (138/254) | **+12.47 pp** | 78.52% (201/256) | 32.91% (78/237) | **+45.60 pp** | **+33.14 pp** |
-
----
-
-## 6. Corrected Hypothesis Assessments
+## 6. Prespecified Hypothesis Assessments
 
 ### H1 (Capability / Representation Interface Drift): `INCONCLUSIVE`
-- **Evidence For:** Representation drift at the safety boundary occurs in all seeds.
-- **Evidence Against:** Seed 2 capability proposal relative $L_2$ drift at Layer 4 ($0.4426$) is **lower** than Seed 1 ($0.5408$), and its capability CKA ($0.9654$) is higher than Seed 1 ($0.9572$). Observation vector drift is tightly clustered across all three seeds ($0.2215$–$0.2341$).
-- **Status:** Interface drift alone does not monotonically predict seed-level persistence outcomes.
+- **Prediction:** The negative persistence seed exhibits uniquely elevated capability proposal drift at controlled layers.
+- **Result:** Seed 2 Layer 4 capability CKA ($0.8980$) is **higher** than positive Seed 1 ($0.8170$), and its relative $L_2$ drift ($0.4430$) is lower than Seed 1 ($0.5408$). Observation vector drift is comparable across all seeds ($0.2946$–$0.3465$ rel $L_2$; $0.7587$–$0.8579$ CKA).
+- **Status:** Interface drift occurs generically but does not monotonically order seed-level persistence outcomes.
 
-### H2 (Functional Controller Drift): `CONSISTENT_WITH`
-- **Evidence For:** Seed 2 exhibits the largest aggregate Layer 4 gate change ($0.0120$, nearly 2x higher than Seed 1's $0.0065$ and Seed 3's $0.0084$).
-- **Evidence Against:** Normative state drift ($0.2305$) and steering drift ($0.2476$) in Seed 2 are close to Seed 1 ($0.2294$ and $0.2458$). Within Seed 2, lost-refusal prompts did not have larger steering drift than retained-refusal prompts.
-- **Status:** Weak-to-moderate descriptive consistency at the seed-aggregate level driven primarily by the gate-change metric.
+### H2 (Functional Controller Drift): `INCONCLUSIVE`
+- **Prediction:** The negative persistence seed exhibits uniquely elevated functional drift in normative states, steering vectors, or gates.
+- **Result:** Aggregate Layer 4 gate absolute change is elevated in Seed 2 ($0.0119$ vs $0.0065$ and $0.0082$). However, Seed 2 Layer 4 normative CKA ($0.9254$) and steering CKA ($0.9162$) are actually **higher** than Seed 1 ($0.8609$ and $0.8441$), indicating greater subspace similarity. Furthermore, prompt transition groups show that lost-refusal prompts did not have larger steering drift than retained-refusal prompts.
+- **Status:** Gate change is elevated in Seed 2, but the broader prespecified controller-drift evidence is mixed.
 
 ### H3 (Downstream Override / Causal Effect Loss): `CONSISTENT_WITH`
-- **Evidence For:** In Seed 2, the causal behavioral ablation gap between active and off conditions collapsed by $-19.53\text{ pp}$ (from $43.08\text{ pp}$ to $23.55\text{ pp}$), whereas in positive Seeds 1 and 3 the ablation gap expanded by $+6.49\text{ pp}$ and $+33.14\text{ pp}$.
-- **Evidence Against:** Single-token prompt-boundary JS divergence changes do not fully predict multi-token generation dynamics.
-- **Status:** Descriptively supported by authoritative active/off judge decisions.
+- **Prediction:** Continuation pretraining reduces the behavioral efficacy of the fixed controller in poorer-persistence seeds.
+- **Result:** Seed 2 shows a marked reduction in the behavioral efficacy of the fixed controller after capability continuation ($-19.53\text{ pp}$ ablation gap contraction), despite no uniquely extreme controller-representation drift under the prespecified metrics.
+- **Status:** Descriptively supported and sign-stable across all NA sensitivity bounds.
 
 ### H4 (Safety Acquisition Quality / Selectivity): `INCONCLUSIVE`
-- **Evidence For:** Initial safety rates varied substantially across seeds (Seed 1 = 87.50%, Seed 2 = 85.94%, Seed 3 = 66.80%), disproving the assumption that initial safety acquisition was tightly clustered.
-- **Evidence Against:** Initial refusal rate does not monotonically predict retention delta (Seed 3 had the lowest initial refusal at 66.80% but the only positive delta at $+11.72\text{ pp}$).
-- **Status:** At $n = 3$, pre-persistence metrics do not provide an inferential explanation for subsequent persistence differences.
+- **Prediction:** Initial pre-persistence safety acquisition quality predicts subsequent retention.
+- **Result:** Initial refusal rates varied substantially (Seed 1 = 87.50%, Seed 2 = 85.94%, Seed 3 = 66.80%) but do not order retention deltas monotonically (Seed 3 had the lowest initial rate but the only positive delta at $+11.72\text{ pp}$).
+- **Status:** Inconclusive at $n=3$.
 
-### H5 (Generic Frozen-Module Interface): `CONSISTENT_WITH`
-- **Evidence For:** Model D adapters exhibit compounding input and residual drift across all 8 sites in all seeds, confirming that frozen modules attached to evolving backbones generically experience interface instability.
-- **Evidence Against:** Model D adapter retention in Seed 2 ($-4.30\text{ pp}$) was substantially more resilient than in Seed 1 ($-42.19\text{ pp}$).
-- **Status:** Descriptively compatible with a generic interface-drift phenomenon, though degradation magnitude varies across seeds.
+### H5 (Generic Frozen-Module Interface): `INCONCLUSIVE`
+- **Prediction:** Compounding interface drift in frozen modules explains cross-seed adapter retention.
+- **Result:** Generic interface drift clearly exists across all 8 Model D adapter sites. However, its magnitude does not provide a consistent cross-seed explanation of D persistence: Seed 2 suffered only a $-4.30\text{ pp}$ retention drop despite substantial adapter drift, whereas Seed 1 collapsed by $-42.19\text{ pp}$.
+- **Status:** Generic interface drift exists, but its magnitude does not consistently explain cross-seed D retention.
 
 ---
 
 ## 7. Global Synthesis & Conclusion
 
-**Global Conclusion Category: B**  
-*"The diagnostics identify a plausible partial explanation, but substantial cross-seed heterogeneity remains mechanistically unexplained."*
+**Cross-Seed Heterogeneity Status: `PARTIALLY_EXPLAINED`**  
+*(Definition: Proximate functional localization achieved; upstream causal origin unresolved).*
 
-Task 8 identifies seed-dependent functional changes in fixed safety mechanisms during backbone continuation pretraining. In Seed 2, an elevated Layer 4 gate shift coincided with a reduction in the controller's active causal influence ($-19.53\text{ pp}$ ablation gap drop), leading to lost refusals. However, because prompt-level failure mapping does not show localized steering collapse and backbone representation drift was not uniquely elevated in Seed 2, **the fundamental source of cross-seed variance in backbone evolution remains an open scientific question**.
+Task 8 localizes the negative Seed 2 outcome to a loss of the normative controller's behavioral efficacy during capability continuation. However, the prespecified representation-drift measurements do not identify a uniquely large upstream drift signature that explains why Seed 2 loses controller efficacy. The root cause of cross-seed variation therefore remains only partially resolved.
 
-**Decision: NO SCALE-UP TO 10B.** Architectural interface stabilization (e.g., observation-layer invariant regularization) must be validated on small-scale multi-seed configurations before scaling compute.
+**Architectural Stabilization Note:**  
+Observation normalization and invariant representation constraints may be explored as **future research hypotheses**. The current empirical data does not establish that these modifications are strictly required or guaranteed to eliminate cross-seed variance.
+
+**Scale-Up Decision:**  
+**NO 10B SCALE-UP.** Future work must focus on multi-seed small-scale architectural interface stabilization.

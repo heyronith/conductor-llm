@@ -1,32 +1,32 @@
 {
   "H1_capability_interface_drift": {
     "status": "INCONCLUSIVE",
-    "evidence_for": "Continuation pretraining alters capability representations and projected observation vectors at controlled layers across all seeds.",
-    "evidence_against": "Seed 2 (the negative persistence seed) does NOT exhibit greater capability proposal drift at Layer 4 (0.4426) than positive Seed 1 (0.5408), and its capability CKA (0.9654) is higher than Seed 1 (0.9572). OBS drift is very close across all three seeds (0.2215-0.2341).",
-    "limitations": "Interface drift measures do not monotonically order seed-level persistence outcomes at n=3."
+    "evidence_for": "Continuation pretraining induces representation drift at capability proposals and observation projections across all seeds.",
+    "evidence_against": "Seed 2 (the negative persistence seed) does NOT exhibit uniquely elevated capability drift: its Layer 4 capability CKA (0.8980) is higher than positive Seed 1 (0.8170) and comparable to Seed 3 (0.8913), while its relative L2 drift (0.4426) is lower than Seed 1 (0.5408). Observation vector CKA (0.8579) and relative L2 (0.2341) are similarly close across all seeds.",
+    "limitations": "Interface drift occurs generically but does not monotonically order cross-seed persistence retention."
   },
   "H2_functional_controller_drift": {
-    "status": "CONSISTENT_WITH",
-    "evidence_for": "Seed 2 exhibits the largest Layer 4 gate absolute change (0.0120, nearly 2x higher than Seed 1's 0.0065 and Seed 3's 0.0084), indicating functional controller perturbation despite bit-identical theta_N.",
-    "evidence_against": "Normative state relative L2 (0.2305) and steering relative L2 (0.2476) in Seed 2 are comparable to Seed 1 (0.2294 and 0.2458). Prompt-level transition groups show that lost-refusal prompts did not have higher gate/steering drift than retained-refusal prompts.",
-    "limitations": "Consistency is weak-to-moderate and driven primarily by the gate-change metric at the aggregate level."
+    "status": "INCONCLUSIVE",
+    "evidence_for": "Seed 2 exhibits elevated Layer 4 gate absolute change (0.0120, nearly 2x higher than Seed 1's 0.0065 and Seed 3's 0.0084).",
+    "evidence_against": "Broader prespecified controller-drift metrics are mixed: Seed 2 Layer 4 normative CKA (0.9254) and steering CKA (0.9162) are actually HIGHER than Seed 1 (0.8609 and 0.8441) and Seed 3 (0.9070 and 0.9114), indicating greater global subspace similarity. Prompt-level transition groups show that lost-refusal prompts did not exhibit higher steering drift or gate change than retained-refusal prompts.",
+    "limitations": "Gate change is elevated at the aggregate level, but controller subspace drift metrics do not uniquely isolate Seed 2."
   },
   "H3_downstream_override_effect_loss": {
     "status": "CONSISTENT_WITH",
-    "evidence_for": "In Seed 2, the causal behavioral ablation gap between active and ablated controller conditions dropped by 19.53 pp (from 43.08% to 23.55%), whereas in Seed 3 the ablation gap expanded by +33.14 pp (from 12.47% to 45.60%) and in Seed 1 it expanded by +6.49 pp (from 37.89% to 44.38%).",
-    "evidence_against": "Prompt-boundary next-token JS divergence changes do not fully track multi-token behavioral ablation gaps.",
+    "evidence_for": "Seed 2 uniquely suffered a substantial reduction in the normative controller's active causal influence during persistence: its active-vs-off ablation gap collapsed by -19.53 pp (from 43.08 pp to 23.55 pp), whereas in Seed 3 the ablation gap expanded by +33.14 pp (from 12.47 pp to 45.60 pp) and in Seed 1 it expanded by +6.49 pp (from 37.89 pp to 44.38 pp). Sensitivity analysis confirms this sign divergence is 100% robust across all NA bounds.",
+    "evidence_against": "Prompt-boundary single-token JS divergence changes do not fully predict multi-token generation dynamics.",
     "limitations": "Ablation gap quantifies functional dependence on the controller, but downstream capability dynamics also shift."
   },
   "H4_safety_acquisition_quality_selectivity": {
     "status": "INCONCLUSIVE",
-    "evidence_for": "Initial pre-persistence safety rates varied substantially across seeds (Seed 1 = 87.50%, Seed 2 = 85.94%, Seed 3 = 66.80%), disproving the prior assumption that initial safety acquisition was tightly clustered.",
-    "evidence_against": "Initial pre-persistence safety rate does not monotonically predict subsequent persistence delta (Seed 3 had the lowest initial refusal at 66.80% but the only positive delta at +11.72 pp).",
+    "evidence_for": "Initial pre-persistence safety rates varied substantially across seeds (Seed 1 = 87.50%, Seed 2 = 85.94%, Seed 3 = 66.80%).",
+    "evidence_against": "Initial pre-persistence safety rate does not monotonically predict subsequent retention delta (Seed 3 had the lowest initial refusal at 66.80% but the only positive delta at +11.72 pp).",
     "limitations": "Sample size n=3; associations are strictly descriptive."
   },
   "H5_generic_frozen_module_interface": {
-    "status": "CONSISTENT_WITH",
-    "evidence_for": "Model D adapters exhibit compounding input drift and residual drift across all 8 sites in all seeds, demonstrating that frozen safety modules attached to evolving backbones generically experience interface instability.",
-    "evidence_against": "Model D adapter retention in Seed 2 (-4.30 pp) was far more resilient than in Seed 1 (-42.19 pp), indicating varying architectural sensitivity to interface drift.",
-    "limitations": "Model C and Model D use fundamentally different steering mechanics."
+    "status": "INCONCLUSIVE",
+    "evidence_for": "Model D adapters generically experience compounding representation and residual drift across all 8 sites in all seeds.",
+    "evidence_against": "The magnitude of adapter drift does not consistently explain cross-seed D retention: Seed 2 experienced relatively mild adapter degradation (-4.30 pp) while Seed 1 suffered catastrophic collapse (-42.19 pp), and adapter CKA/L2 metrics across seeds do not order monotonically with retention.",
+    "limitations": "Generic interface drift exists, but its magnitude does not provide a consistent cross-seed explanation of D persistence."
   }
 }

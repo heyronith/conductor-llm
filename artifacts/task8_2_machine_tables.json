@@ -1,0 +1,623 @@
+{
+  "version": "task8_2_machine_tables_v1",
+  "parent_evidence_sha": "92b94420ab9545b9f55b287a1dd6d752b010050a",
+  "raw_mechanistic_artifact_sha256": "77faac51208115b4d8157a7fe937271e8793f0c582255e857b11c7cf4fa5a516",
+  "table_a_behavior": {
+    "20260821": {
+      "c_pre_refusal_rate": 0.875,
+      "c_post_refusal_rate": 0.86328125,
+      "c_retention_delta_pp": -1.171875,
+      "d_pre_refusal_rate": 0.93359375,
+      "d_post_refusal_rate": 0.51171875,
+      "d_retention_delta_pp": -42.1875,
+      "primary_effect_pp": 41.015625
+    },
+    "20260823": {
+      "c_pre_refusal_rate": 0.859375,
+      "c_post_refusal_rate": 0.67578125,
+      "c_retention_delta_pp": -18.359375,
+      "d_pre_refusal_rate": 0.9296875,
+      "d_post_refusal_rate": 0.88671875,
+      "d_retention_delta_pp": -4.296875,
+      "primary_effect_pp": -14.0625
+    },
+    "20260824": {
+      "c_pre_refusal_rate": 0.66796875,
+      "c_post_refusal_rate": 0.78515625,
+      "c_retention_delta_pp": 11.71875,
+      "d_pre_refusal_rate": 0.9609375,
+      "d_post_refusal_rate": 0.85546875,
+      "d_retention_delta_pp": -10.546875,
+      "primary_effect_pp": 22.265625
+    }
+  },
+  "table_b_model_c_drift": {
+    "20260821": {
+      "layer_2": {
+        "capability_relative_l2_mean": 0.3303891335817909,
+        "capability_mean_cosine": 0.9448672573305625,
+        "capability_linear_cka": 0.9617218337610292,
+        "obs_relative_l2_mean": 0.29610233811078013,
+        "obs_mean_cosine": 0.955200349212507,
+        "obs_linear_cka": 0.9461140898155741,
+        "normative_relative_l2_mean": 0.25363344807697974,
+        "normative_mean_cosine": 0.9657639664835157,
+        "normative_linear_cka": 0.9180821542245433,
+        "steering_relative_l2_mean": 0.19182214623233335,
+        "steering_mean_cosine": 0.9813360834307785,
+        "steering_linear_cka": 0.9159203449230052,
+        "gate_absolute_change_mean": 0.004512530053034425
+      },
+      "layer_4": {
+        "capability_relative_l2_mean": 0.5408086572410817,
+        "capability_mean_cosine": 0.8840392424347367,
+        "capability_linear_cka": 0.8170134136730633,
+        "obs_relative_l2_mean": 0.3464731374442739,
+        "obs_mean_cosine": 0.9423652914190372,
+        "obs_linear_cka": 0.7586609151415924,
+        "normative_relative_l2_mean": 0.3175034027558659,
+        "normative_mean_cosine": 0.9468954619782805,
+        "normative_linear_cka": 0.8609297428508642,
+        "steering_relative_l2_mean": 0.2458408193899041,
+        "steering_mean_cosine": 0.9687590566875115,
+        "steering_linear_cka": 0.8441041846377509,
+        "gate_absolute_change_mean": 0.006549864541739225
+      }
+    },
+    "20260823": {
+      "layer_2": {
+        "capability_relative_l2_mean": 0.30014254550541314,
+        "capability_mean_cosine": 0.9548013632523495,
+        "capability_linear_cka": 0.9751957887939039,
+        "obs_relative_l2_mean": 0.18176642255295222,
+        "obs_mean_cosine": 0.9834325790945897,
+        "obs_linear_cka": 0.9691231725963402,
+        "normative_relative_l2_mean": 0.20527589158485599,
+        "normative_mean_cosine": 0.9779958807882747,
+        "normative_linear_cka": 0.9400262460361308,
+        "steering_relative_l2_mean": 0.1417068039363639,
+        "steering_mean_cosine": 0.9901575557526026,
+        "steering_linear_cka": 0.9378897291186117,
+        "gate_absolute_change_mean": 0.0036796187050640583
+      },
+      "layer_4": {
+        "capability_relative_l2_mean": 0.4429768711905119,
+        "capability_mean_cosine": 0.9060654849051308,
+        "capability_linear_cka": 0.8979946813159756,
+        "obs_relative_l2_mean": 0.2946204703861802,
+        "obs_mean_cosine": 0.9570660004282647,
+        "obs_linear_cka": 0.8579075081974732,
+        "normative_relative_l2_mean": 0.27939673149165756,
+        "normative_mean_cosine": 0.9605104123983685,
+        "normative_linear_cka": 0.925430396273934,
+        "steering_relative_l2_mean": 0.24770024167414062,
+        "steering_mean_cosine": 0.969507142122491,
+        "steering_linear_cka": 0.9161559628106464,
+        "gate_absolute_change_mean": 0.011946293292567134
+      }
+    },
+    "20260824": {
+      "layer_2": {
+        "capability_relative_l2_mean": 0.31267873832260545,
+        "capability_mean_cosine": 0.9503828511273902,
+        "capability_linear_cka": 0.9632256120741102,
+        "obs_relative_l2_mean": 0.2165657424747608,
+        "obs_mean_cosine": 0.9770598110720959,
+        "obs_linear_cka": 0.9595628173923797,
+        "normative_relative_l2_mean": 0.19342727496850576,
+        "normative_mean_cosine": 0.9810086598180634,
+        "normative_linear_cka": 0.94851966590787,
+        "steering_relative_l2_mean": 0.14905891591839138,
+        "steering_mean_cosine": 0.9893712650957884,
+        "steering_linear_cka": 0.9536644430965089,
+        "gate_absolute_change_mean": 0.002862729365006089
+      },
+      "layer_4": {
+        "capability_relative_l2_mean": 0.4159350401277079,
+        "capability_mean_cosine": 0.9101438783064818,
+        "capability_linear_cka": 0.8913148920896833,
+        "obs_relative_l2_mean": 0.3191607479589489,
+        "obs_mean_cosine": 0.9503862162686005,
+        "obs_linear_cka": 0.848581008288665,
+        "normative_relative_l2_mean": 0.30317096957022177,
+        "normative_mean_cosine": 0.9520837361096033,
+        "normative_linear_cka": 0.906958805238548,
+        "steering_relative_l2_mean": 0.23095099656235435,
+        "steering_mean_cosine": 0.9746380591515529,
+        "steering_linear_cka": 0.9114038590541139,
+        "gate_absolute_change_mean": 0.008182110730558634
+      }
+    }
+  },
+  "table_c_model_c_causal_selectivity": {
+    "20260821": {
+      "layer_2": {
+        "harmful_steering_norm_pre": 2.7735331303897564,
+        "harmful_steering_norm_post": 2.6332228599416974,
+        "benign_steering_norm_pre": 2.749065666486424,
+        "benign_steering_norm_post": 2.6101750245231083,
+        "selectivity_pre": 0.02446746390333221,
+        "selectivity_post": 0.023047835418589013,
+        "selectivity_change": -0.0014196284847431961
+      },
+      "layer_4": {
+        "harmful_steering_norm_pre": 6.827914949990237,
+        "harmful_steering_norm_post": 6.649313495625963,
+        "benign_steering_norm_pre": 6.664098739202745,
+        "benign_steering_norm_post": 6.461566563365373,
+        "selectivity_pre": 0.1638162107874921,
+        "selectivity_post": 0.18774693226058936,
+        "selectivity_change": 0.02393072147309727
+      }
+    },
+    "20260823": {
+      "layer_2": {
+        "harmful_steering_norm_pre": 2.790371741642115,
+        "harmful_steering_norm_post": 2.6744682898086305,
+        "benign_steering_norm_pre": 2.7186085081869247,
+        "benign_steering_norm_post": 2.6080979481916633,
+        "selectivity_pre": 0.07176323345519053,
+        "selectivity_post": 0.0663703416169672,
+        "selectivity_change": -0.005392891838223335
+      },
+      "layer_4": {
+        "harmful_steering_norm_pre": 5.896438826625198,
+        "harmful_steering_norm_post": 5.944229441900664,
+        "benign_steering_norm_pre": 5.938122406939908,
+        "benign_steering_norm_post": 5.943858821710869,
+        "selectivity_pre": -0.04168358031470998,
+        "selectivity_post": 0.0003706201897948347,
+        "selectivity_change": 0.04205420050450481
+      }
+    },
+    "20260824": {
+      "layer_2": {
+        "harmful_steering_norm_pre": 3.048771283669622,
+        "harmful_steering_norm_post": 2.9001056635283566,
+        "benign_steering_norm_pre": 3.032202715157001,
+        "benign_steering_norm_post": 2.894675456502866,
+        "selectivity_pre": 0.016568568512620896,
+        "selectivity_post": 0.005430207025490574,
+        "selectivity_change": -0.011138361487130322
+      },
+      "layer_4": {
+        "harmful_steering_norm_pre": 7.101563098504295,
+        "harmful_steering_norm_post": 6.5405418687611645,
+        "benign_steering_norm_pre": 6.913836989796141,
+        "benign_steering_norm_post": 6.358862036240483,
+        "selectivity_pre": 0.1877261087081541,
+        "selectivity_post": 0.18167983252068165,
+        "selectivity_change": -0.0060462761874724436
+      }
+    }
+  },
+  "table_d_model_d_adapter_drift": {
+    "20260821": {
+      "layer_0_attn_adapter": {
+        "input_relative_l2_mean": 0.21434843543231813,
+        "input_mean_cosine": 0.976708768448628,
+        "input_linear_cka": 0.9728356039883814,
+        "residual_relative_l2_mean": 0.2615933899544741,
+        "residual_mean_cosine": 0.9658822564655555,
+        "residual_linear_cka": 0.9783644567640905,
+        "residual_norm_pre": 0.33366386990208213,
+        "residual_norm_post": 0.3353008163661795
+      },
+      "layer_0_mlp_adapter": {
+        "input_relative_l2_mean": 0.19085246235238892,
+        "input_mean_cosine": 0.9817742748681968,
+        "input_linear_cka": 0.9552942678364249,
+        "residual_relative_l2_mean": 0.3460451660502383,
+        "residual_mean_cosine": 0.9451028938507087,
+        "residual_linear_cka": 0.9637110815553189,
+        "residual_norm_pre": 0.5169773095957806,
+        "residual_norm_post": 0.5467351255515667
+      },
+      "layer_1_attn_adapter": {
+        "input_relative_l2_mean": 0.2664895455308399,
+        "input_mean_cosine": 0.9639011576519514,
+        "input_linear_cka": 0.9660525849390145,
+        "residual_relative_l2_mean": 0.4830620413203747,
+        "residual_mean_cosine": 0.8783173662443152,
+        "residual_linear_cka": 0.9524077948662307,
+        "residual_norm_pre": 0.7109689773297476,
+        "residual_norm_post": 0.6736714868383946
+      },
+      "layer_1_mlp_adapter": {
+        "input_relative_l2_mean": 0.2971451608223602,
+        "input_mean_cosine": 0.9551869431897588,
+        "input_linear_cka": 0.9588053688842199,
+        "residual_relative_l2_mean": 0.3713125526325787,
+        "residual_mean_cosine": 0.9290772618725298,
+        "residual_linear_cka": 0.9373107985860093,
+        "residual_norm_pre": 0.9950019626361978,
+        "residual_norm_post": 0.8946551548621127
+      },
+      "layer_2_attn_adapter": {
+        "input_relative_l2_mean": 0.34811104931302655,
+        "input_mean_cosine": 0.9380740919014565,
+        "input_linear_cka": 0.9352574182954414,
+        "residual_relative_l2_mean": 0.4164916218958772,
+        "residual_mean_cosine": 0.9106315344719504,
+        "residual_linear_cka": 0.922155295472605,
+        "residual_norm_pre": 1.420903132084978,
+        "residual_norm_post": 1.353597949847678
+      },
+      "layer_2_mlp_adapter": {
+        "input_relative_l2_mean": 0.2953251405935827,
+        "input_mean_cosine": 0.955410589423723,
+        "input_linear_cka": 0.9367207412008534,
+        "residual_relative_l2_mean": 0.240896314173543,
+        "residual_mean_cosine": 0.9707044850262863,
+        "residual_linear_cka": 0.9093195868599958,
+        "residual_norm_pre": 2.2317741017470976,
+        "residual_norm_post": 2.1574774337363065
+      },
+      "layer_3_attn_adapter": {
+        "input_relative_l2_mean": 0.3333358790721552,
+        "input_mean_cosine": 0.9433349648614057,
+        "input_linear_cka": 0.9158529695273057,
+        "residual_relative_l2_mean": 0.2899801622139354,
+        "residual_mean_cosine": 0.9597796876697136,
+        "residual_linear_cka": 0.8830494161596827,
+        "residual_norm_pre": 2.7951577256392706,
+        "residual_norm_post": 2.907238163069854
+      },
+      "layer_3_mlp_adapter": {
+        "input_relative_l2_mean": 0.3129405293214679,
+        "input_mean_cosine": 0.9504369220890482,
+        "input_linear_cka": 0.8962990300965453,
+        "residual_relative_l2_mean": 0.20252840993291757,
+        "residual_mean_cosine": 0.979462421232826,
+        "residual_linear_cka": 0.8838230684868694,
+        "residual_norm_pre": 4.858888172217572,
+        "residual_norm_post": 4.783322001867887
+      }
+    },
+    "20260823": {
+      "layer_0_attn_adapter": {
+        "input_relative_l2_mean": 0.16915073417894894,
+        "input_mean_cosine": 0.9860138432769747,
+        "input_linear_cka": 0.9427770874382586,
+        "residual_relative_l2_mean": 0.23997758423501764,
+        "residual_mean_cosine": 0.9712910053972756,
+        "residual_linear_cka": 0.9202252245400533,
+        "residual_norm_pre": 0.2649769584895614,
+        "residual_norm_post": 0.2657934156560495
+      },
+      "layer_0_mlp_adapter": {
+        "input_relative_l2_mean": 0.15558096145518927,
+        "input_mean_cosine": 0.9879258566152809,
+        "input_linear_cka": 0.9283029959018606,
+        "residual_relative_l2_mean": 0.2693917234588505,
+        "residual_mean_cosine": 0.9639041272331899,
+        "residual_linear_cka": 0.9381352331465147,
+        "residual_norm_pre": 0.5691151168184755,
+        "residual_norm_post": 0.5716595098605232
+      },
+      "layer_1_attn_adapter": {
+        "input_relative_l2_mean": 0.23558778819552306,
+        "input_mean_cosine": 0.9720819933033664,
+        "input_linear_cka": 0.9681616096166807,
+        "residual_relative_l2_mean": 0.377648182806725,
+        "residual_mean_cosine": 0.9298034293622797,
+        "residual_linear_cka": 0.9372918517974941,
+        "residual_norm_pre": 0.8812109745375547,
+        "residual_norm_post": 0.895785181318325
+      },
+      "layer_1_mlp_adapter": {
+        "input_relative_l2_mean": 0.24205924132713702,
+        "input_mean_cosine": 0.9702875224912689,
+        "input_linear_cka": 0.9602526445072876,
+        "residual_relative_l2_mean": 0.20589181584096775,
+        "residual_mean_cosine": 0.9791170855393663,
+        "residual_linear_cka": 0.9127416732100261,
+        "residual_norm_pre": 1.5177358552276434,
+        "residual_norm_post": 1.4358425929390883
+      },
+      "layer_2_attn_adapter": {
+        "input_relative_l2_mean": 0.2841842015238939,
+        "input_mean_cosine": 0.9592036963225606,
+        "input_linear_cka": 0.9305710721347018,
+        "residual_relative_l2_mean": 0.30754064915490453,
+        "residual_mean_cosine": 0.9516794363862269,
+        "residual_linear_cka": 0.8861452317206778,
+        "residual_norm_pre": 1.5991203779143865,
+        "residual_norm_post": 1.5336699722091467
+      },
+      "layer_2_mlp_adapter": {
+        "input_relative_l2_mean": 0.2937930359420085,
+        "input_mean_cosine": 0.9567591783672773,
+        "input_linear_cka": 0.9108423760873428,
+        "residual_relative_l2_mean": 0.23261890105085017,
+        "residual_mean_cosine": 0.974241075975529,
+        "residual_linear_cka": 0.8937803643465164,
+        "residual_norm_pre": 1.9874557415653622,
+        "residual_norm_post": 2.0506221161952176
+      },
+      "layer_3_attn_adapter": {
+        "input_relative_l2_mean": 0.3493774905276076,
+        "input_mean_cosine": 0.937203647089274,
+        "input_linear_cka": 0.9227189533996655,
+        "residual_relative_l2_mean": 0.2842936373364132,
+        "residual_mean_cosine": 0.9575896580890244,
+        "residual_linear_cka": 0.8876648376264353,
+        "residual_norm_pre": 3.474894997774711,
+        "residual_norm_post": 3.3219193602211816
+      },
+      "layer_3_mlp_adapter": {
+        "input_relative_l2_mean": 0.31830481784905096,
+        "input_mean_cosine": 0.9483203402498639,
+        "input_linear_cka": 0.9062874152576731,
+        "residual_relative_l2_mean": 0.19366658736237585,
+        "residual_mean_cosine": 0.9818050777131406,
+        "residual_linear_cka": 0.869426262263935,
+        "residual_norm_pre": 5.8919804384880035,
+        "residual_norm_post": 5.898296561298987
+      }
+    },
+    "20260824": {
+      "layer_0_attn_adapter": {
+        "input_relative_l2_mean": 0.20500409646097817,
+        "input_mean_cosine": 0.9794416304413696,
+        "input_linear_cka": 0.9723906537478539,
+        "residual_relative_l2_mean": 0.24441975776907773,
+        "residual_mean_cosine": 0.9715697506445673,
+        "residual_linear_cka": 0.9813265642987616,
+        "residual_norm_pre": 0.30635907220859804,
+        "residual_norm_post": 0.3160141062440251
+      },
+      "layer_0_mlp_adapter": {
+        "input_relative_l2_mean": 0.17225553843545277,
+        "input_mean_cosine": 0.9850619556966781,
+        "input_linear_cka": 0.9006184768357146,
+        "residual_relative_l2_mean": 0.4054166077859998,
+        "residual_mean_cosine": 0.9136263964592519,
+        "residual_linear_cka": 0.8510173567056621,
+        "residual_norm_pre": 0.49620017307018005,
+        "residual_norm_post": 0.46307392652019674
+      },
+      "layer_1_attn_adapter": {
+        "input_relative_l2_mean": 0.23594227551621264,
+        "input_mean_cosine": 0.9718415865117438,
+        "input_linear_cka": 0.9462641077223429,
+        "residual_relative_l2_mean": 0.4160642137225487,
+        "residual_mean_cosine": 0.9172912537253635,
+        "residual_linear_cka": 0.9179962170383316,
+        "residual_norm_pre": 0.6100924280442939,
+        "residual_norm_post": 0.6359083608983254
+      },
+      "layer_1_mlp_adapter": {
+        "input_relative_l2_mean": 0.2657395923148056,
+        "input_mean_cosine": 0.9639018345860763,
+        "input_linear_cka": 0.8354452612917042,
+        "residual_relative_l2_mean": 0.4169207904706199,
+        "residual_mean_cosine": 0.9195569786828441,
+        "residual_linear_cka": 0.8604028532513361,
+        "residual_norm_pre": 0.6515388244918177,
+        "residual_norm_post": 0.6922982601376299
+      },
+      "layer_2_attn_adapter": {
+        "input_relative_l2_mean": 0.33551656192161095,
+        "input_mean_cosine": 0.9425718095471631,
+        "input_linear_cka": 0.8757322844590452,
+        "residual_relative_l2_mean": 0.4240519427639243,
+        "residual_mean_cosine": 0.9162943567321795,
+        "residual_linear_cka": 0.892500824640603,
+        "residual_norm_pre": 1.3285358746989733,
+        "residual_norm_post": 1.4038522365229844
+      },
+      "layer_2_mlp_adapter": {
+        "input_relative_l2_mean": 0.3107171374815545,
+        "input_mean_cosine": 0.9511527712786304,
+        "input_linear_cka": 0.8821765808165035,
+        "residual_relative_l2_mean": 0.20950983168958726,
+        "residual_mean_cosine": 0.9780663402302106,
+        "residual_linear_cka": 0.820692973444087,
+        "residual_norm_pre": 2.8870956352874946,
+        "residual_norm_post": 2.6942714363924787
+      },
+      "layer_3_attn_adapter": {
+        "input_relative_l2_mean": 0.3518994118616223,
+        "input_mean_cosine": 0.9358862993459582,
+        "input_linear_cka": 0.9267650501153379,
+        "residual_relative_l2_mean": 0.30735560851900556,
+        "residual_mean_cosine": 0.9508289832263619,
+        "residual_linear_cka": 0.9048854526712113,
+        "residual_norm_pre": 2.9647186891220505,
+        "residual_norm_post": 2.838801732450096
+      },
+      "layer_3_mlp_adapter": {
+        "input_relative_l2_mean": 0.3294677356198126,
+        "input_mean_cosine": 0.9444711677637119,
+        "input_linear_cka": 0.9043832694932371,
+        "residual_relative_l2_mean": 0.2191622729212952,
+        "residual_mean_cosine": 0.9765191542738987,
+        "residual_linear_cka": 0.8889724954722579,
+        "residual_norm_pre": 5.377739077076141,
+        "residual_norm_post": 5.388019598544994
+      }
+    }
+  },
+  "table_e_transitions": {
+    "20260821": {
+      "retained_refusal": {
+        "count": 0,
+        "percentage": 0.0
+      },
+      "lost_refusal": {
+        "count": 0,
+        "percentage": 0.0
+      },
+      "gained_refusal": {
+        "count": 0,
+        "percentage": 0.0
+      },
+      "persistent_nonrefusal": {
+        "count": 0,
+        "percentage": 0.0
+      },
+      "indeterminate": {
+        "count": 256,
+        "percentage": 100.0,
+        "layer_2_capability_rel_l2_mean": 0.3303891335817909,
+        "layer_2_steering_rel_l2_mean": 0.19182214623233335,
+        "layer_4_capability_rel_l2_mean": 0.5408086572410817,
+        "layer_4_steering_rel_l2_mean": 0.2458408193899041,
+        "layer_4_gate_change_mean": 0.006549864541739225
+      }
+    },
+    "20260823": {
+      "retained_refusal": {
+        "count": 163,
+        "percentage": 63.671875,
+        "layer_2_capability_rel_l2_mean": 0.29895918929826815,
+        "layer_2_steering_rel_l2_mean": 0.13927424271751077,
+        "layer_4_capability_rel_l2_mean": 0.4422957224944967,
+        "layer_4_steering_rel_l2_mean": 0.24984531894184628,
+        "layer_4_gate_change_mean": 0.012359270654573032
+      },
+      "lost_refusal": {
+        "count": 57,
+        "percentage": 22.265625,
+        "layer_2_capability_rel_l2_mean": 0.3008399195879704,
+        "layer_2_steering_rel_l2_mean": 0.14561792745416519,
+        "layer_4_capability_rel_l2_mean": 0.44229076722636784,
+        "layer_4_steering_rel_l2_mean": 0.24011895389523086,
+        "layer_4_gate_change_mean": 0.010868730252249199
+      },
+      "gained_refusal": {
+        "count": 10,
+        "percentage": 3.90625,
+        "layer_2_capability_rel_l2_mean": 0.3063617358229752,
+        "layer_2_steering_rel_l2_mean": 0.13817281909871618,
+        "layer_4_capability_rel_l2_mean": 0.45554243236968706,
+        "layer_4_steering_rel_l2_mean": 0.2624445315125489,
+        "layer_4_gate_change_mean": 0.012092572450637818
+      },
+      "persistent_nonrefusal": {
+        "count": 26,
+        "percentage": 10.15625,
+        "layer_2_capability_rel_l2_mean": 0.30364042380861445,
+        "layer_2_steering_rel_l2_mean": 0.14974193034155092,
+        "layer_4_capability_rel_l2_mean": 0.44391839240647063,
+        "layer_4_steering_rel_l2_mean": 0.24520189207328447,
+        "layer_4_gate_change_mean": 0.011663331435276912
+      },
+      "indeterminate": {
+        "count": 0,
+        "percentage": 0.0
+      }
+    },
+    "20260824": {
+      "retained_refusal": {
+        "count": 158,
+        "percentage": 61.71875,
+        "layer_2_capability_rel_l2_mean": 0.31092573843018934,
+        "layer_2_steering_rel_l2_mean": 0.1474027652670259,
+        "layer_4_capability_rel_l2_mean": 0.4195377825467426,
+        "layer_4_steering_rel_l2_mean": 0.23266182296691917,
+        "layer_4_gate_change_mean": 0.008804368067391311
+      },
+      "lost_refusal": {
+        "count": 13,
+        "percentage": 5.078125,
+        "layer_2_capability_rel_l2_mean": 0.3151338280106393,
+        "layer_2_steering_rel_l2_mean": 0.14373149258682563,
+        "layer_4_capability_rel_l2_mean": 0.40864509667513843,
+        "layer_4_steering_rel_l2_mean": 0.2384882888735958,
+        "layer_4_gate_change_mean": 0.005643404447115385
+      },
+      "gained_refusal": {
+        "count": 43,
+        "percentage": 16.796875,
+        "layer_2_capability_rel_l2_mean": 0.31564358112602786,
+        "layer_2_steering_rel_l2_mean": 0.1515139373171346,
+        "layer_4_capability_rel_l2_mean": 0.41132257920818793,
+        "layer_4_steering_rel_l2_mean": 0.21809699169095811,
+        "layer_4_gate_change_mean": 0.007924479107524073
+      },
+      "persistent_nonrefusal": {
+        "count": 42,
+        "percentage": 16.40625,
+        "layer_2_capability_rel_l2_mean": 0.3154780139537992,
+        "layer_2_steering_rel_l2_mean": 0.1544246870155377,
+        "layer_4_capability_rel_l2_mean": 0.409360558751881,
+        "layer_4_steering_rel_l2_mean": 0.23534211174098885,
+        "layer_4_gate_change_mean": 0.006890793641408284
+      },
+      "indeterminate": {
+        "count": 0,
+        "percentage": 0.0
+      }
+    }
+  },
+  "ablation_sensitivity": {
+    "20260821": {
+      "pre_active_rate": 0.875,
+      "pre_off_rate_determinate": 0.49609375,
+      "pre_off_na_count": 0,
+      "pre_ablation_gap_determinate": 0.37890625,
+      "post_active_rate": 0.86328125,
+      "post_off_rate_determinate": 0.4194915254237288,
+      "post_off_na_count": 20,
+      "post_ablation_gap_determinate": 0.4437897245762712,
+      "ablation_gap_change_determinate": 0.0648834745762712,
+      "sensitivity_a_all_na_refusal": {
+        "pre_gap": 0.37890625,
+        "post_gap": 0.3984375,
+        "gap_change": 0.01953125
+      },
+      "sensitivity_b_all_na_nonrefusal": {
+        "pre_gap": 0.37890625,
+        "post_gap": 0.4765625,
+        "gap_change": 0.09765625
+      },
+      "sign_stable_across_bounds": true
+    },
+    "20260823": {
+      "pre_active_rate": 0.859375,
+      "pre_off_rate_determinate": 0.42857142857142855,
+      "pre_off_na_count": 4,
+      "pre_ablation_gap_determinate": 0.43080357142857145,
+      "post_active_rate": 0.67578125,
+      "post_off_rate_determinate": 0.4403292181069959,
+      "post_off_na_count": 13,
+      "post_ablation_gap_determinate": 0.23545203189300412,
+      "ablation_gap_change_determinate": -0.19535153953556733,
+      "sensitivity_a_all_na_refusal": {
+        "pre_gap": 0.421875,
+        "post_gap": 0.20703125,
+        "gap_change": -0.21484375
+      },
+      "sensitivity_b_all_na_nonrefusal": {
+        "pre_gap": 0.4375,
+        "post_gap": 0.2578125,
+        "gap_change": -0.1796875
+      },
+      "sign_stable_across_bounds": true
+    },
+    "20260824": {
+      "pre_active_rate": 0.66796875,
+      "pre_off_rate_determinate": 0.5433070866141733,
+      "pre_off_na_count": 2,
+      "pre_ablation_gap_determinate": 0.12466166338582674,
+      "post_active_rate": 0.78515625,
+      "post_off_rate_determinate": 0.3291139240506329,
+      "post_off_na_count": 19,
+      "post_ablation_gap_determinate": 0.4560423259493671,
+      "ablation_gap_change_determinate": 0.3313806625635404,
+      "sensitivity_a_all_na_refusal": {
+        "pre_gap": 0.12109375,
+        "post_gap": 0.40625,
+        "gap_change": 0.28515625
+      },
+      "sensitivity_b_all_na_nonrefusal": {
+        "pre_gap": 0.12890625,
+        "post_gap": 0.48046875,
+        "gap_change": 0.3515625
+      },
+      "sign_stable_across_bounds": true
+    }
+  }
+}
