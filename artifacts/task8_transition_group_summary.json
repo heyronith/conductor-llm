@@ -1,0 +1,113 @@
+{
+  "20260821": {
+    "retained_refusal": {
+      "count": 0,
+      "percentage": 0.0
+    },
+    "lost_refusal": {
+      "count": 0,
+      "percentage": 0.0
+    },
+    "gained_refusal": {
+      "count": 0,
+      "percentage": 0.0
+    },
+    "persistent_nonrefusal": {
+      "count": 0,
+      "percentage": 0.0
+    },
+    "indeterminate": {
+      "count": 256,
+      "percentage": 100.0,
+      "layer_2_capability_rel_l2_mean": 0.3303891335817909,
+      "layer_2_steering_rel_l2_mean": 0.19182214623233335,
+      "layer_4_capability_rel_l2_mean": 0.5408086572410817,
+      "layer_4_steering_rel_l2_mean": 0.2458408193899041,
+      "layer_4_gate_change_mean": 0.006549864541739225
+    }
+  },
+  "20260823": {
+    "retained_refusal": {
+      "count": 163,
+      "percentage": 63.671875,
+      "layer_2_capability_rel_l2_mean": 0.29895918929826815,
+      "layer_2_steering_rel_l2_mean": 0.13927424271751077,
+      "layer_4_capability_rel_l2_mean": 0.4422957224944967,
+      "layer_4_steering_rel_l2_mean": 0.24984531894184628,
+      "layer_4_gate_change_mean": 0.012359270654573032
+    },
+    "lost_refusal": {
+      "count": 57,
+      "percentage": 22.265625,
+      "layer_2_capability_rel_l2_mean": 0.3008399195879704,
+      "layer_2_steering_rel_l2_mean": 0.14561792745416519,
+      "layer_4_capability_rel_l2_mean": 0.44229076722636784,
+      "layer_4_steering_rel_l2_mean": 0.24011895389523086,
+      "layer_4_gate_change_mean": 0.010868730252249199
+    },
+    "gained_refusal": {
+      "count": 10,
+      "percentage": 3.90625,
+      "layer_2_capability_rel_l2_mean": 0.3063617358229752,
+      "layer_2_steering_rel_l2_mean": 0.13817281909871618,
+      "layer_4_capability_rel_l2_mean": 0.45554243236968706,
+      "layer_4_steering_rel_l2_mean": 0.2624445315125489,
+      "layer_4_gate_change_mean": 0.012092572450637818
+    },
+    "persistent_nonrefusal": {
+      "count": 26,
+      "percentage": 10.15625,
+      "layer_2_capability_rel_l2_mean": 0.30364042380861445,
+      "layer_2_steering_rel_l2_mean": 0.14974193034155092,
+      "layer_4_capability_rel_l2_mean": 0.44391839240647063,
+      "layer_4_steering_rel_l2_mean": 0.24520189207328447,
+      "layer_4_gate_change_mean": 0.011663331435276912
+    },
+    "indeterminate": {
+      "count": 0,
+      "percentage": 0.0
+    }
+  },
+  "20260824": {
+    "retained_refusal": {
+      "count": 158,
+      "percentage": 61.71875,
+      "layer_2_capability_rel_l2_mean": 0.31092573843018934,
+      "layer_2_steering_rel_l2_mean": 0.1474027652670259,
+      "layer_4_capability_rel_l2_mean": 0.4195377825467426,
+      "layer_4_steering_rel_l2_mean": 0.23266182296691917,
+      "layer_4_gate_change_mean": 0.008804368067391311
+    },
+    "lost_refusal": {
+      "count": 13,
+      "percentage": 5.078125,
+      "layer_2_capability_rel_l2_mean": 0.3151338280106393,
+      "layer_2_steering_rel_l2_mean": 0.14373149258682563,
+      "layer_4_capability_rel_l2_mean": 0.40864509667513843,
+      "layer_4_steering_rel_l2_mean": 0.2384882888735958,
+      "layer_4_gate_change_mean": 0.005643404447115385
+    },
+    "gained_refusal": {
+      "count": 43,
+      "percentage": 16.796875,
+      "layer_2_capability_rel_l2_mean": 0.31564358112602786,
+      "layer_2_steering_rel_l2_mean": 0.1515139373171346,
+      "layer_4_capability_rel_l2_mean": 0.41132257920818793,
+      "layer_4_steering_rel_l2_mean": 0.21809699169095811,
+      "layer_4_gate_change_mean": 0.007924479107524073
+    },
+    "persistent_nonrefusal": {
+      "count": 42,
+      "percentage": 16.40625,
+      "layer_2_capability_rel_l2_mean": 0.3154780139537992,
+      "layer_2_steering_rel_l2_mean": 0.1544246870155377,
+      "layer_4_capability_rel_l2_mean": 0.409360558751881,
+      "layer_4_steering_rel_l2_mean": 0.23534211174098885,
+      "layer_4_gate_change_mean": 0.006890793641408284
+    },
+    "indeterminate": {
+      "count": 0,
+      "percentage": 0.0
+    }
+  }
+}

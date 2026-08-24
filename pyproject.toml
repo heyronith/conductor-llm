@@ -32,3 +32,8 @@ modal = [
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 
+[dependency-groups]
+dev = [
+    "matplotlib>=3.9.4",
+]
+

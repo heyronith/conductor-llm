@@ -1,0 +1,32 @@
+{
+  "H1_capability_interface_drift": {
+    "status": "CONSISTENT_WITH",
+    "evidence_for": "Seed 2 (the negative persistence seed) exhibits greater relative L2 capability proposal drift at Layer 4 and lower observation CKA compared to positive persistence Seeds 1 and 3.",
+    "evidence_against": "At Layer 2, capability proposal drift is moderately comparable across seeds.",
+    "limitations": "Descriptive at n=3 seeds. Independent initialization offsets also contribute to baseline representation dynamics."
+  },
+  "H2_functional_controller_drift": {
+    "status": "CONSISTENT_WITH",
+    "evidence_for": "Seed 2 exhibits higher functional steering vector drift (Layer 4 steering relative L2) and larger gate absolute change despite theta_N being strictly bit-identical, showing that representation drift translates into functional controller perturbation.",
+    "evidence_against": "Steering vector cosine similarity remains relatively high (>0.85) across all seeds.",
+    "limitations": "Prompt-level variance within seeds is high; differences are visible in aggregate means."
+  },
+  "H3_downstream_override_effect_loss": {
+    "status": "NOT_CONSISTENT_WITH",
+    "evidence_for": "Ablation gap decreases in all seeds during persistence training.",
+    "evidence_against": "Seed 2 active/off causal gap does not collapse disproportionately relative to steering vector drift; rather, controller output itself drifted.",
+    "limitations": "Ablation gap is a single-token prompt-boundary proxy for multi-token generation."
+  },
+  "H4_safety_acquisition_quality_selectivity": {
+    "status": "INCONCLUSIVE",
+    "evidence_for": "Pre-persistence safety refusal on OOD harmful was slightly higher in Seed 2 (84.4%) than Seed 1 (80.1%), indicating that failure to retain safety was not caused by poor initial safety acquisition.",
+    "evidence_against": "Initial pre-persistence refusal selectivity is high across all three seeds and does not linearly predict subsequent persistence delta.",
+    "limitations": "Only three seeds available; pre-persistence metrics are tightly clustered in the 80-85% range."
+  },
+  "H5_generic_frozen_module_interface": {
+    "status": "CONSISTENT_WITH",
+    "evidence_for": "Model D adapters also exhibit substantial input drift and residual drift across all 8 sites during persistence training, demonstrating that frozen modules attached to evolving backbones generically experience interface instability.",
+    "evidence_against": "Model D adapter retention in Seed 2 remained higher than Model C, indicating differing architectural sensitivity to interface drift.",
+    "limitations": "Model C and Model D have distinct parameterizations (multiplicative/additive controller vs. bottleneck adapters)."
+  }
+}

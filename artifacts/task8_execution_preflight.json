@@ -1,0 +1,35 @@
+{
+  "preflight_version": "task8_execution_preflight_v1",
+  "timestamp_utc": "2026-08-24T14:04:40.000000+00:00",
+  "parent_evidence_sha": "e5bc88e8e515fc444c570132fffc6b176ffa9f15",
+  "task8_code_a_sha": "0f199eb3279fcc8be9246182c8bceb26255fd8bb",
+  "scientific_training_code_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
+  "git_working_tree_clean": true,
+  "test_suite_status": "232_passed_zero_failed",
+  "seed_provenance": {
+    "seed_20260821": {
+      "provenance": "FULL",
+      "model_c_dir": "/runs/ccpt/task7_3/pilot_v2_authoritative_run_20260822/model_c",
+      "model_d_dir": "/runs/ccpt/task7_3/pilot_v2_authoritative_run_20260822/model_d",
+      "verified_by": "Task 7.3.1a forensic tensor invariants"
+    },
+    "seed_20260823": {
+      "provenance": "FULL",
+      "model_c_dir": "/runs/ccpt/task7_4/multiseed_replication_v1/seed_20260823/model_c",
+      "model_d_dir": "/runs/ccpt/task7_4/multiseed_replication_v1/seed_20260823/model_d",
+      "verified_by": "Task 7.4.6 / 7.4.6A forensic lineage closure"
+    },
+    "seed_20260824": {
+      "provenance": "FULL",
+      "model_c_dir": "/runs/ccpt/task7_4/multiseed_replication_v1/seed_20260824/model_c",
+      "model_d_dir": "/runs/ccpt/task7_4/multiseed_replication_v1/seed_20260824/model_d",
+      "verified_by": "Task 7.4.6 / 7.4.6A forensic lineage closure"
+    }
+  },
+  "benchmarks_verified": {
+    "tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    "id_manifest_hash": "bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4",
+    "ood_manifest_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e"
+  },
+  "preflight_verdict": "READY_FOR_DIAGNOSTIC_EXECUTION"
+}
