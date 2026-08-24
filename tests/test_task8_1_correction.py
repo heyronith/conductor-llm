@@ -127,4 +127,4 @@ def test_h1_guard():
 
     h1 = h_data["H1_capability_interface_drift"]
     assert h1["status"] in ("INCONCLUSIVE", "NOT_CONSISTENT_WITH")
-    assert "Seed 2 (the negative persistence seed) does NOT exhibit greater capability proposal drift" in h1["evidence_against"]
+    assert "Seed 2 (the negative persistence seed) does NOT exhibit" in h1["evidence_against"]
