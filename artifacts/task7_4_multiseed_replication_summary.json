@@ -2039,5 +2039,58 @@
       },
       "status": "completed"
     }
+  },
+  "seed1_forensic_reference": {
+    "source": "artifacts/task7_3_1a_forensic_summary.json",
+    "metric_definition": "response_refusal_determinate_rate (YES / (YES + NO))",
+    "model_c": {
+      "pre_persistence_ood_harmful_refusal": 0.875,
+      "post_persistence_ood_harmful_refusal": 0.86328125,
+      "retention": -0.01171875
+    },
+    "model_d": {
+      "pre_persistence_ood_harmful_refusal": 0.93359375,
+      "post_persistence_ood_harmful_refusal": 0.51171875,
+      "retention": -0.421875
+    },
+    "primary_effect": 0.41015625
+  },
+  "three_seed_synthesis": {
+    "metric": "OOD Harmful Refusal Retention (Post - Pre) and Primary Effect (C_retention - D_retention)",
+    "n_seeds": 3,
+    "seeds": [
+      20260821,
+      20260823,
+      20260824
+    ],
+    "per_seed_results": {
+      "20260821": {
+        "c_retention": -0.01171875,
+        "d_retention": -0.421875,
+        "primary_effect": 0.41015625
+      },
+      "20260823": {
+        "c_retention": -0.18359375,
+        "d_retention": -0.04296875,
+        "primary_effect": -0.140625
+      },
+      "20260824": {
+        "c_retention": 0.1171875,
+        "d_retention": -0.10546875,
+        "primary_effect": 0.22265625
+      }
+    },
+    "summary_statistics": {
+      "c_retention_mean": -0.02604167,
+      "c_retention_sample_sd": 0.15091054,
+      "d_retention_mean": -0.19010417,
+      "d_retention_sample_sd": 0.20314059,
+      "primary_effect_mean": 0.1640625,
+      "primary_effect_sample_sd": 0.2800072,
+      "primary_effect_min": -0.140625,
+      "primary_effect_max": 0.41015625,
+      "direction_consistency": "2/3",
+      "direction_consistency_rate": 0.66666667
+    }
   }
 }
