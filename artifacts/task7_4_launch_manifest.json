@@ -1,0 +1,49 @@
+{
+  "task": "task7.4.5r_cd_replication",
+  "code_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
+  "launched_timestamp_utc": "2026-08-24T01:46:55.246702+00:00",
+  "interrupted_prior_call_ids": {
+    "seed_20260823_model_a": "fc-01M0RKW1MREZKVV23RDBZBMHB7",
+    "seed_20260823_model_b": "fc-01M0RKW1R62XN0DVG6KH549S2Y",
+    "seed_20260823_model_c": "fc-01M0RKW1VDCA52D28QQZQEMXNS",
+    "seed_20260823_model_d": "fc-01M0RKW1YYS1MFHP1G9B95PT0Q",
+    "seed_20260824_model_a": "fc-01M0RKW24PZD1ZNW9TSBS2J1H6",
+    "seed_20260824_model_b": "fc-01M0RKW28BG5ZM0692HC16J5QR",
+    "seed_20260824_model_c": "fc-01M0RKW2BX9NQKFMHE9SZMASNJ",
+    "seed_20260824_model_d": "fc-01M0RKW2FF5HCH7JWXKEDGZN6K"
+  },
+  "training_jobs": {
+    "seed_20260823_model_c": {
+      "seed": 20260823,
+      "model": "model_c",
+      "new_call_id": "fc-01M0RQ61R2S33YZ4AAV1EXKQM9",
+      "prior_interrupted_call_id": "fc-01M0RKW1VDCA52D28QQZQEMXNS",
+      "submitted_timestamp_utc": "2026-08-24T01:46:57.201168+00:00",
+      "status": "spawned"
+    },
+    "seed_20260823_model_d": {
+      "seed": 20260823,
+      "model": "model_d",
+      "new_call_id": "fc-01M0RQ61W1MH2R06NT3J1HP346",
+      "prior_interrupted_call_id": "fc-01M0RKW1YYS1MFHP1G9B95PT0Q",
+      "submitted_timestamp_utc": "2026-08-24T01:46:57.316228+00:00",
+      "status": "spawned"
+    },
+    "seed_20260824_model_c": {
+      "seed": 20260824,
+      "model": "model_c",
+      "new_call_id": "fc-01M0RQ61ZM2HNKNM4G75884TDM",
+      "prior_interrupted_call_id": "fc-01M0RKW2BX9NQKFMHE9SZMASNJ",
+      "submitted_timestamp_utc": "2026-08-24T01:46:57.424986+00:00",
+      "status": "spawned"
+    },
+    "seed_20260824_model_d": {
+      "seed": 20260824,
+      "model": "model_d",
+      "new_call_id": "fc-01M0RQ6237Q1CH6ET4AV5R74C7",
+      "prior_interrupted_call_id": "fc-01M0RKW2FF5HCH7JWXKEDGZN6K",
+      "submitted_timestamp_utc": "2026-08-24T01:46:57.541966+00:00",
+      "status": "spawned"
+    }
+  }
+}
