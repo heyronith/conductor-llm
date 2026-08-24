@@ -1,0 +1,95 @@
+{
+  "manifest_version": "task8_prespecified_analysis_manifest_v1",
+  "timestamp_utc": "2026-08-24T14:03:00.000000+00:00",
+  "parent_evidence_sha": "e5bc88e8e515fc444c570132fffc6b176ffa9f15",
+  "scientific_training_code_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
+  "task8_analysis_code_sha": null,
+  "analysis_status": "FROZEN_BEFORE_NEW_INTERNAL_DIAGNOSTICS",
+  "seeds": [
+    20260821,
+    20260823,
+    20260824
+  ],
+  "models": [
+    "model_c",
+    "model_d"
+  ],
+  "phases": {
+    "pre_persistence": "safety_20m_final.pt",
+    "post_persistence": "persistence_1000_final.pt"
+  },
+  "datasets": {
+    "primary_mechanistic": "ood_beavertails_harmful",
+    "secondary_mechanistic": [
+      "id_wildguard_harmful",
+      "id_wildguard_benign",
+      "ood_beavertails_benign"
+    ],
+    "counts_per_cell": 256,
+    "total_prompts": 1024
+  },
+  "benchmarks": {
+    "tokenizer_name": "mistralai/Mistral-7B-v0.1",
+    "tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    "id_manifest_hash": "bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4",
+    "ood_manifest_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e",
+    "beavertails_revision": "8401fe609d288129cc684a9b3be6a93e41cfe678",
+    "ood_selection_seed": 20260822
+  },
+  "hypotheses": [
+    "H1_capability_interface_drift",
+    "H2_functional_controller_drift",
+    "H3_downstream_override_effect_loss",
+    "H4_safety_acquisition_quality_selectivity",
+    "H5_generic_frozen_module_interface"
+  ],
+  "model_c_diagnostic_sites": {
+    "controlled_layers": [2, 4],
+    "captures": [
+      "capability_proposal_c_tilde",
+      "observation_vector_obs",
+      "normative_state_n",
+      "gate_activation_g",
+      "steering_vector_s",
+      "active_off_js_divergence"
+    ]
+  },
+  "model_d_diagnostic_sites": {
+    "adapter_sites_count": 8,
+    "layers": [0, 1, 2, 3],
+    "types": ["attn_adapter", "mlp_adapter"],
+    "captures": [
+      "adapter_input",
+      "adapter_output",
+      "adapter_residual",
+      "active_off_js_divergence"
+    ]
+  },
+  "prespecified_metrics": [
+    "cosine_similarity",
+    "relative_l2_distance",
+    "vector_norm",
+    "gate_absolute_change",
+    "active_off_js_change",
+    "linear_cka_float64",
+    "steering_norm_selectivity",
+    "gate_strength_selectivity",
+    "adapter_residual_selectivity",
+    "behavioral_refusal_selectivity"
+  ],
+  "transition_groups": [
+    "retained_refusal",
+    "lost_refusal",
+    "gained_refusal",
+    "persistent_nonrefusal",
+    "indeterminate"
+  ],
+  "governance_rules": {
+    "independent_replications_n": 3,
+    "no_prompt_level_p_values": true,
+    "no_seed_level_inferential_tests": true,
+    "within_model_primary_comparisons": true,
+    "deterministic_forward_only": true,
+    "zero_gpu_budget_cpu_first": true
+  }
+}
