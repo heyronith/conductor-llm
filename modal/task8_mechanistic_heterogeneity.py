@@ -1,7 +1,7 @@
 """Task 8: Modal Execution Script for Prespecified Mechanistic Heterogeneity Analysis.
 
 Executes deterministic prompt-boundary forward-pass diagnostics on Model C and Model D
-across Seeds 20260821, 20260823, 20260824 on Modal persistent volumes.
+across Seeds 20260821, 20260823, 20260824 on Modal persistent volumes using a single L40S worker.
 """
 
 import os
@@ -50,7 +50,7 @@ task8_image = (
 
 @app.function(
     image=task8_image,
-    gpu=None,  # CPU execution first as specified
+    gpu="L40S",  # Authorized single L40S worker for practical diagnostic forward throughput
     volumes={"/data": data_volume, "/data_task4": task4_data_volume, "/runs": runs_volume},
     timeout=3600,
 )
@@ -84,7 +84,9 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
         ModelDDiagnosticHooks,
     )
 
-    device = torch.device("cpu")
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Task 8 diagnostic executor running on device: {device}", flush=True)
+
     num_prompts = 10 if test_mode else 256
 
     tokenizer = AutoTokenizer.from_pretrained(
@@ -132,7 +134,7 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
         return base / "safety_20m_final.pt", base / "persistence_1000_final.pt"
 
     # Helper to load judged records for behavioral transitions
-    judge_decisions: Dict[Tuple[int, str, str, str], Dict[str, str]] = {}
+    judge_decisions: Dict[Tuple[int, str, str, str, str, str], Dict[str, str]] = {}
     # Load Seeds 2 & 3 judge records
     for s in [20260823, 20260824]:
         j_path = Path(f"/runs/ccpt/task7_4/multiseed_replication_v1/seed_{s}/centralized_judged_records.jsonl")
@@ -141,7 +143,6 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                 for line in f:
                     if line.strip():
                         r = json.loads(line.strip())
-                        # Key: (seed, model, condition, dataset, prompt_type, prompt_str)
                         k = (s, r["model"], r["condition"], r["dataset"], r["prompt_type"], r["prompt"])
                         if k not in judge_decisions:
                             judge_decisions[k] = {}
@@ -151,14 +152,15 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
     for s in seeds:
         for m in models:
             tag = f"seed_{s}_{m}"
+            print(f" -> Processing {tag}...", flush=True)
             p_pre, p_post = get_ckpt_paths(s, m)
             if not p_pre.exists() or not p_post.exists():
-                print(f"Skipping {tag}: Checkpoints not found ({p_pre}, {p_post})")
+                print(f"Skipping {tag}: Checkpoints not found ({p_pre}, {p_post})", flush=True)
                 continue
 
             # Load PRE and POST checkpoints
-            ckpt_pre = torch.load(str(p_pre), map_location=device, weights_only=False)
-            ckpt_post = torch.load(str(p_post), map_location=device, weights_only=False)
+            ckpt_pre = torch.load(str(p_pre), map_location="cpu", weights_only=False)
+            ckpt_post = torch.load(str(p_post), map_location="cpu", weights_only=False)
 
             # Checkpoint SHA immutability baseline
             sha_pre_before = hashlib.sha256(b"".join([t.numpy().tobytes() for t in ckpt_pre["model_state_dict"].values()])).hexdigest()
@@ -173,8 +175,8 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                 model_pre = FrozenBackboneAdapterModel(cfg).to(device)
                 model_post = FrozenBackboneAdapterModel(cfg).to(device)
 
-            model_pre.load_state_dict(ckpt_pre["model_state_dict"])
-            model_post.load_state_dict(ckpt_post["model_state_dict"])
+            model_pre.load_state_dict({k: v.to(device) for k, v in ckpt_pre["model_state_dict"].items()})
+            model_post.load_state_dict({k: v.to(device) for k, v in ckpt_post["model_state_dict"].items()})
             model_pre.eval()
             model_post.eval()
 
@@ -184,7 +186,6 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                 p_type = "harmful" if is_harmful else "benign"
                 dataset_category = "id_wildguard" if "id" in dset_name else "ood_beavertails"
 
-                # Containers for CKA matrices
                 c_tensors_pre: Dict[str, List[np.ndarray]] = {}
                 c_tensors_post: Dict[str, List[np.ndarray]] = {}
 
@@ -221,7 +222,6 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                         with torch.no_grad():
                             logits_post_off, _ = model_post(in_t, prompt_end_indices=prompt_end_idx, mode="controlled", controller_scale=0.0)
 
-                        # Compute active/off next-token JS divergence at prompt boundary
                         prob_pre_on = F.softmax(logits_pre_active[0, -1, :], dim=-1).cpu().numpy()
                         prob_pre_off = F.softmax(logits_pre_off[0, -1, :], dim=-1).cpu().numpy()
                         prob_post_on = F.softmax(logits_post_active[0, -1, :], dim=-1).cpu().numpy()
@@ -233,9 +233,7 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                         rec["active_off_js_post"] = js_post
                         rec["active_off_js_change"] = js_post - js_pre
 
-                        # Controlled layers 2 and 4 metrics
                         for l_num in [2, 4]:
-                            # Vectors at prompt boundary (index -1)
                             c_pre = hooks_pre.captured[f"c_tilde_layer_{l_num}"][0, -1, :].cpu().numpy()
                             c_post = hooks_post.captured[f"c_tilde_layer_{l_num}"][0, -1, :].cpu().numpy()
                             obs_pre = hooks_pre.captured[f"obs_layer_{l_num}"][0, -1, :].cpu().numpy()
@@ -247,7 +245,6 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                             s_pre = hooks_pre.captured[f"steering_scaled_layer_{l_num}"][0, -1, :].cpu().numpy()
                             s_post = hooks_post.captured[f"steering_scaled_layer_{l_num}"][0, -1, :].cpu().numpy()
 
-                            # Store for CKA calculation
                             c_tensors_pre.setdefault(f"c_tilde_{l_num}", []).append(c_pre)
                             c_tensors_post.setdefault(f"c_tilde_{l_num}", []).append(c_post)
                             c_tensors_pre.setdefault(f"obs_{l_num}", []).append(obs_pre)
@@ -257,7 +254,6 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                             c_tensors_pre.setdefault(f"steer_{l_num}", []).append(s_pre)
                             c_tensors_post.setdefault(f"steer_{l_num}", []).append(s_post)
 
-                            # Metrics
                             rec[f"layer_{l_num}_capability_cosine"] = cosine_similarity(c_pre, c_post)
                             rec[f"layer_{l_num}_capability_relative_l2"] = relative_l2(c_pre, c_post)
                             rec[f"layer_{l_num}_obs_cosine"] = cosine_similarity(obs_pre, obs_post)
@@ -273,7 +269,6 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                             rec[f"layer_{l_num}_steering_relative_l2"] = relative_l2(s_pre, s_post)
 
                     else:
-                        # Model D
                         with torch.no_grad(), ModelDDiagnosticHooks(model_pre) as hooks_pre:
                             logits_pre_active, _ = model_pre(in_t, adapter_scale=1.0)
                         with torch.no_grad():
@@ -295,7 +290,6 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                         rec["active_off_js_post"] = js_post
                         rec["active_off_js_change"] = js_post - js_pre
 
-                        # 8 Adapter sites
                         for l_idx in range(4):
                             for a_type in ["attn", "mlp"]:
                                 site_name = f"layer_{l_idx}_{a_type}_adapter"
@@ -318,7 +312,6 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
 
                     results["per_prompt_records"].append(rec)
 
-                # Compute Linear CKA for each diagnostic site across this dataset
                 cka_key_prefix = f"seed_{s}_{m}_{dset_name}"
                 for site_k in c_tensors_pre:
                     X = np.array(c_tensors_pre[site_k], dtype=np.float64)
@@ -326,9 +319,9 @@ def run_task8_mechanistic_diagnostics(test_mode: bool = False) -> Dict[str, Any]
                     cka_val = compute_linear_cka(X, Y)
                     results["cka_summary"][f"{cka_key_prefix}_{site_k}"] = cka_val
 
-            # Checkpoint immutability verification
-            sha_pre_after = hashlib.sha256(b"".join([t.numpy().tobytes() for t in model_pre.state_dict().values()])).hexdigest()
-            sha_post_after = hashlib.sha256(b"".join([t.numpy().tobytes() for t in model_post.state_dict().values()])).hexdigest()
+            # Checkpoint immutability check
+            sha_pre_after = hashlib.sha256(b"".join([t.cpu().numpy().tobytes() for t in model_pre.state_dict().values()])).hexdigest()
+            sha_post_after = hashlib.sha256(b"".join([t.cpu().numpy().tobytes() for t in model_post.state_dict().values()])).hexdigest()
             if sha_pre_before != sha_pre_after or sha_post_before != sha_post_after:
                 results["immutability_passed"] = False
                 raise RuntimeError(f"Immutability violation in {tag}!")
@@ -340,7 +333,7 @@ def main():
     print("=== TASK 8: PRESPECIFIED MECHANISTIC HETEROGENEITY ANALYSIS ===", flush=True)
     with modal.enable_output():
         with app.run():
-            print(" -> Running diagnostic extraction on Modal CPU...", flush=True)
+            print(" -> Running diagnostic extraction on Modal single L40S...", flush=True)
             res = run_task8_mechanistic_diagnostics.remote(test_mode=False)
 
             out_dir = PROJECT_ROOT / "artifacts"
