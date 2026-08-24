@@ -1,7 +1,7 @@
 {
-  "task": "task7.4.3_seeds23_preflight",
-  "timestamp_utc": "2026-08-23T23:30:56.786090+00:00",
-  "execution_code_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
+  "task": "task7.4.4a_seeds23_preflight",
+  "timestamp_utc": "2026-08-24T00:27:39.310192+00:00",
+  "execution_code_commit_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
   "authorized_for_seeds_2_and_3_execution": true,
   "seeds_2_and_3_started": false,
   "full_10b_run_executed": false,
@@ -72,7 +72,7 @@
       "replication_limitation_note": "Seed 1 historical container exact environment is uncertain; Seeds 2 and 3 are frozen to TASK7_4_FROZEN_REPLICATION_ENVIRONMENT."
     },
     "git_lineage": {
-      "code_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
+      "code_commit_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
       "is_known_sha": true
     },
     "wildguard_artifacts": {
@@ -192,14 +192,14 @@
           "numpy": "2.1.3",
           "pytest": "9.1.1"
         },
-        "git_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
-        "fingerprint_hash": "72a616e415f35467820596d961bdca0de7f01c0206a5f3088664d018a653de9c"
+        "git_commit_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
+        "fingerprint_hash": "c1146f5a9f7798a43b745eb649c096299cdf91ee130d35f2a8410bd205c94d4f"
       }
     },
     "modal_probes": {
       "l40s_probe": {
         "probe_type": "L40S_modal_probe",
-        "timestamp_utc": "2026-08-23T23:30:15.781931+00:00",
+        "timestamp_utc": "2026-08-24T00:26:38.889917+00:00",
         "runtime_fingerprint": {
           "environment_name": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
           "python_version": "3.11.12 (main, May 21 2025, 23:34:13) [GCC 12.2.0]",
@@ -220,8 +220,8 @@
             "numpy": "2.1.3",
             "pytest": "8.3.3"
           },
-          "git_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
-          "fingerprint_hash": "837d6a96da6c2e6505a6889fd765fe8f9310031f53cb860b5351f96d87801dd5"
+          "git_commit_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
+          "fingerprint_hash": "18e263f02998e702f0b9729b5ff9d9e50cec076e5357442c2b6b14b5779c04c6"
         },
         "fineweb_verification": {
           "manifest_path": "/data/fineweb_authoritative/manifest.json",
@@ -277,7 +277,7 @@
       },
       "h100_probe": {
         "probe_type": "H100_modal_probe",
-        "timestamp_utc": "2026-08-23T23:30:22.633862+00:00",
+        "timestamp_utc": "2026-08-24T00:26:44.894387+00:00",
         "runtime_fingerprint": {
           "environment_name": "TASK7_4_FROZEN_REPLICATION_ENVIRONMENT",
           "python_version": "3.11.12 (main, May 21 2025, 23:34:13) [GCC 12.2.0]",
@@ -298,18 +298,18 @@
             "numpy": "2.1.3",
             "pytest": "8.3.3"
           },
-          "git_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
-          "fingerprint_hash": "e6daf52cae404a5b5f6ac8d1a8d03524c7c7e851456185301782d0da36b43633"
+          "git_commit_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
+          "fingerprint_hash": "76c9506983fdf3fb7d4e459943a0207d79b42a77120bec985917a08f7de8a555"
         },
-        "test_math_result": 3408.0,
+        "test_math_result": 2064.0,
         "probe_passed": true
       },
       "h100_real_data_dry_run": {
         "status": "completed",
         "dry_run": true,
         "gpu_device": "NVIDIA H100 80GB HBM3",
-        "code_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
-        "elapsed_sec": 27.8,
+        "code_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
+        "elapsed_sec": 44.75,
         "lm_blocks_read": 64,
         "lm_data_hash": "ab47475cfba53ef455c5dffb5ad31ed85555c8b31e4b39b204138f40c4c8aa88",
         "safety_batches_read": 2,
@@ -340,22 +340,22 @@
             "numpy": "2.1.3",
             "pytest": "8.3.3"
           },
-          "git_commit_sha": "7ec0c99f19d6e97f93e49777fc6c03cf544b21e6",
-          "fingerprint_hash": "e6daf52cae404a5b5f6ac8d1a8d03524c7c7e851456185301782d0da36b43633"
+          "git_commit_sha": "4e69012026fe94e9ca551cce95c9f21fca3b90ef",
+          "fingerprint_hash": "76c9506983fdf3fb7d4e459943a0207d79b42a77120bec985917a08f7de8a555"
         }
       },
       "probes_executed": true
     },
     "cost_projection": {
-      "telemetry_source": "Reconstructed from Seed 1 empirical wall-clock telemetry in artifacts/task7_3_summary.json",
-      "projection_confidence": "MEDIUM",
+      "telemetry_source": "Corrected Task 7.4.4a exact evaluation workload (14,336 responses/seed, clean-1B capability only)",
+      "projection_confidence": "HIGH",
       "h100_training_seconds": 17360.0,
       "h100_training_projected_usd": 19.04,
-      "l40s_eval_seconds": 7200.0,
-      "l40s_eval_projected_usd": 3.9,
-      "judge_seconds": 4320.0,
-      "judge_projected_usd": 2.34,
-      "total_projected_incremental_cost_usd": 25.29,
+      "l40s_eval_seconds": 4800.0,
+      "l40s_eval_projected_usd": 2.6,
+      "judge_seconds": 2000.0,
+      "judge_projected_usd": 1.08,
+      "total_projected_incremental_cost_usd": 22.73,
       "hard_spending_limit_usd": 35.0,
       "cost_gate_passed": true
     }

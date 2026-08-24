@@ -93,21 +93,21 @@ Following the forensic verification of Seed 1 (Task 7.3.1a), the complete codeba
 
 ## 6. Authoritative Remote Modal Preflight Results
 
-- **L40S Remote Probe:** `PASSED` (Device: `NVIDIA L40S`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `7ec0c99f...`, Volumes `/data` and `/data_task4` and Schedule Verified)
-- **H100 Remote Probe:** `PASSED` (Device: `NVIDIA H100 80GB HBM3`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `7ec0c99f...`, Tensor Math: `3408.0`)
-- **H100 Real-Data Dry Run:** `PASSED` (Device: `NVIDIA H100 80GB HBM3`, Code SHA: `7ec0c99f...`, LM Blocks: 64, Safety Tokens: 17,719, Persistence Blocks: 64, Strict V3 Reloads: `PASSED`, Real Optimizers Persisted: `PASSED`, Freeze Invariants Verified: `PASSED`, Production Seed Dirs Untouched: `PASSED`, Elapsed: 27.8s)
-- **Full Unit & Integration Suite:** 217 passed in 39.74s (0 failures, 0 regressions)
+- **L40S Remote Probe:** `PASSED` (Device: `NVIDIA L40S`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `4e690120...`, Volumes `/data` and `/data_task4` and Schedule Verified)
+- **H100 Remote Probe:** `PASSED` (Device: `NVIDIA H100 80GB HBM3`, PyTorch: `2.5.1`, CUDA: `12.4`, Code SHA: `4e690120...`, Tensor Math: `2064.0`)
+- **H100 Real-Data Dry Run:** `PASSED` (Device: `NVIDIA H100 80GB HBM3`, Code SHA: `4e690120...`, LM Blocks: 64, Safety Tokens: 17,719, Persistence Blocks: 64, Strict V3 Reloads: `PASSED`, Real Optimizers Persisted: `PASSED`, Freeze Invariants Verified: `PASSED`, Production Seed Dirs Untouched: `PASSED`, Elapsed: 44.75s)
+- **Full Unit & Integration Suite:** 223 passed in 33.50s (0 failures, 0 regressions)
 
 ---
 
 ## 7. Cost Ceiling & Incremental Resource Projections
 
 - **H100 Training Compute:** 8 (seed, model) pipelines $\times$ 2,170s = 17,360s $\approx$ **$19.04**
-- **L40S Evaluation Compute:** 8 (seed, model) pipelines $\times$ 900s = 7,200s $\approx$ **$3.90**
-- **Centralized WildGuard Judging:** 2 seeds $\times$ 2,160s = 4,320s $\approx$ **$2.34**
-- **Total Projected Incremental Spend:** **$25.29**
+- **L40S Evaluation Compute:** 8 (seed, model) pipelines $\times$ 600s = 4,800s $\approx$ **$2.60**
+- **Centralized WildGuard Judging:** 2 seeds (14,336 responses/seed) $\times$ 1,000s = 2,000s $\approx$ **$1.08**
+- **Total Projected Incremental Spend:** **$22.72**
 - **Hard Cost Gate Ceiling:** $\le \$35.00$
-- **Cost Gate Decision:** `PASSED` ($25.29 \le \$35.00$)
+- **Cost Gate Decision:** `PASSED` ($22.72 \le \$35.00$)
 
 ---
 
