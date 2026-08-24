@@ -88,6 +88,7 @@ from ccpt.training.losses import (
     compute_causal_lm_loss,
     compute_risk_loss,
     compute_safe_generation_loss,
+    token_weighted_continuation_nll_and_count,
 )
 from ccpt.training.scheduler import (
     TokenCosineScheduler,
@@ -1846,22 +1847,56 @@ def run_task7_4_evaluation_worker(
         model = FrozenBackboneAdapterModel(cfg).to(device)
 
     checkpoints_to_eval = [
-        ("clean_1b", run_dir / "lm_1b_final.pt"),
-        ("pre_persistence", run_dir / "safety_20m_final.pt"),
-        ("post_persistence", run_dir / "persistence_1000_final.pt"),
+        ("clean_1b", run_dir / "lm_1b_final.pt", "phase1_pretrain_1b"),
+        ("pre_persistence", run_dir / "safety_20m_final.pt", "phase3_safety"),
+        ("post_persistence", run_dir / "persistence_1000_final.pt", "phase5_persistence"),
     ]
 
-    total_eval_units = len(checkpoints_to_eval) * (32 + (len(risk_val_recs) // 32 if risk_val_recs else 1) + 512)
-    progress_logger = Task74EvalProgressLogger(seed, model_type, total_eval_units, run_dir)
+    # Dynamically compute exact evaluation units upfront
+    num_val_batches = min(val_tensor.shape[0] // 32, 10 if test_mode else 32) if val_tensor is not None else 0
+    cap_modes_count = 1 if model_type == "model_a" else 2  # (active, bypass)
+    risk_batches_count = ((len(risk_val_recs) + 31) // 32) if risk_val_recs else 0
+    gen_batches_count = ((len(gen_val_recs) + 31) // 32) if gen_val_recs else 0
+    gen_conditions_count = 1 if model_type == "model_a" else 2  # (active, off)
+    behavior_prompts_count = len(id_harmful_prompts) + len(id_benign_prompts) + len(ood_harmful_prompts) + len(ood_benign_prompts)
+    behavior_conditions_count = 1 if model_type == "model_a" else 2  # (on, off)
+
+    total_eval_units = 0
+    for phase_name, ckpt_p, exp_phase in checkpoints_to_eval:
+        if not ckpt_p.exists():
+            continue
+        if phase_name == "clean_1b":
+            total_eval_units += num_val_batches * cap_modes_count
+        else:
+            total_eval_units += num_val_batches * cap_modes_count
+            total_eval_units += risk_batches_count
+            total_eval_units += gen_batches_count * gen_conditions_count
+            total_eval_units += behavior_prompts_count * behavior_conditions_count
+
+    progress_logger = Task74EvalProgressLogger(seed, model_type, max(1, total_eval_units), run_dir)
     completed_units = 0
 
     all_responses_records: List[Dict[str, Any]] = []
     eval_metrics: Dict[str, Any] = {}
 
-    for phase_name, ckpt_p in checkpoints_to_eval:
+    for phase_name, ckpt_p, exp_phase in checkpoints_to_eval:
         if not ckpt_p.exists():
             continue
-        ckpt = load_checkpoint(ckpt_p, strict_v3=True, expected_git_commit_sha=code_sha, expected_model_type=model_type)
+        ckpt = load_checkpoint(
+            ckpt_p,
+            strict_v3=True,
+            expected_git_commit_sha=code_sha,
+            expected_model_type=model_type,
+            expected_phase=exp_phase,
+        )
+        if ckpt["training_seed"] != seed:
+            raise ValueError(f"Checkpoint seed mismatch: expected {seed}, found {ckpt['training_seed']}")
+        if not test_mode:
+            if ckpt.get("task4_manifest_hash") and ckpt["task4_manifest_hash"] != CANONICAL_TASK4_MANIFEST_HASH:
+                raise ValueError(f"Task4 manifest hash mismatch: {ckpt.get('task4_manifest_hash')}")
+            if ckpt.get("data_manifest_hash") and ckpt["data_manifest_hash"] != CANONICAL_FINEWEB_MANIFEST_HASH:
+                raise ValueError(f"Data manifest hash mismatch: {ckpt.get('data_manifest_hash')}")
+
         model.load_state_dict(ckpt["model_state_dict"])
         model.eval()
 
@@ -1877,16 +1912,18 @@ def run_task7_4_evaluation_worker(
                 nll_sum = 0.0
                 tok_count = 0
                 correct_toks = 0
-                n_batches = min(val_tensor.shape[0] // 32, 10 if test_mode else 32)
                 with torch.no_grad():
-                    for b_i in range(n_batches):
+                    for b_i in range(num_val_batches):
                         batch = val_tensor[b_i * 32 : (b_i + 1) * 32].to(device)
                         if model_type == "model_c":
-                            logits, _ = model(batch, mode="controlled" if eval_mode_name == "active" else "lm")
+                            if eval_mode_name == "active":
+                                logits, _ = model(batch, mode="controlled", controller_scale=1.0)
+                            else:
+                                logits, _ = model(batch, mode="lm")
+                        elif model_type == "model_b":
+                            logits, _ = model(batch, mode="controlled", controller_scale=scale_val)
                         elif model_type == "model_d":
                             logits, _ = model(batch, adapter_scale=scale_val)
-                        elif model_type == "model_b":
-                            logits, _ = model(batch, mode="controlled")
                         else:
                             logits, _ = model(batch)
 
@@ -1906,6 +1943,11 @@ def run_task7_4_evaluation_worker(
                 phase_metrics[f"val_ppl_{eval_mode_name}"] = ppl
                 phase_metrics[f"val_acc_{eval_mode_name}"] = acc
 
+        # Clean 1B skips safety evaluation and behavioral generation
+        if phase_name == "clean_1b":
+            eval_metrics[phase_name] = phase_metrics
+            continue
+
         # 2. WildGuard Risk Validation (2,344 records)
         if risk_val_recs:
             tp, tn, fp_cnt, fn = 0, 0, 0, 0
@@ -1917,7 +1959,7 @@ def run_task7_4_evaluation_worker(
                     prompt_end_indices = prompt_end_indices.to(device)
 
                     if model_type in ["model_b", "model_c"]:
-                        _, r_logits = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
+                        _, r_logits = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled", controller_scale=1.0)
                     elif model_type == "model_d":
                         _, r_logits = model(input_ids, prompt_end_indices=prompt_end_indices, adapter_scale=1.0)
                     else:
@@ -1949,50 +1991,54 @@ def run_task7_4_evaluation_worker(
                 "tp": tp, "tn": tn, "fp": fp_cnt, "fn": fn,
             }
 
-        # 3. Safe-Generation Validation (928 records)
+        # 3. Safe-Generation Validation (928 records) - Active and Off Conditions
         if gen_val_recs:
-            total_nll = 0.0
-            valid_targets = 0
-            with torch.no_grad():
-                for i in range(0, len(gen_val_recs), 32):
-                    recs = gen_val_recs[i : i + 32]
-                    input_ids, prompt_end_indices, risk_labels, is_refusals, attn_mask = pad_and_collate_gen_records(recs)
-                    input_ids = input_ids.to(device)
-                    prompt_end_indices = prompt_end_indices.to(device)
-                    attn_mask = attn_mask.to(device)
+            gen_conditions = [("active", 1.0)]
+            if model_type in ["model_b", "model_c", "model_d"]:
+                gen_conditions.append(("off", 0.0))
 
-                    if model_type in ["model_b", "model_c"]:
-                        logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled")
-                    elif model_type == "model_d":
-                        logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, adapter_scale=1.0)
-                    else:
-                        logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices)
+            for cond_name, scale_val in gen_conditions:
+                total_nll = 0.0
+                valid_targets = 0
+                with torch.no_grad():
+                    for i in range(0, len(gen_val_recs), 32):
+                        recs = gen_val_recs[i : i + 32]
+                        input_ids, prompt_end_indices, risk_labels, is_refusals, attn_mask = pad_and_collate_gen_records(recs)
+                        input_ids = input_ids.to(device)
+                        prompt_end_indices = prompt_end_indices.to(device)
+                        attn_mask = attn_mask.to(device)
 
-                    shift_logits = logits[:, :-1, :].contiguous()
-                    shift_labels = input_ids[:, 1:].contiguous()
-                    shift_mask = attn_mask[:, 1:].contiguous()
+                        if model_type in ["model_b", "model_c"]:
+                            logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, mode="controlled", controller_scale=scale_val)
+                        elif model_type == "model_d":
+                            logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices, adapter_scale=scale_val)
+                        else:
+                            logits, _ = model(input_ids, prompt_end_indices=prompt_end_indices)
 
-                    loss_flat = F.cross_entropy(shift_logits.view(-1, shift_logits.size(-1)), shift_labels.view(-1), reduction="none").view_as(shift_labels)
-                    seq_len_cur = shift_labels.size(1)
-                    idx_matrix = torch.arange(seq_len_cur, device=device).unsqueeze(0).expand_as(shift_labels)
-                    prompt_ends_shift = (prompt_end_indices - 1).unsqueeze(1).expand_as(shift_labels)
-                    valid_mask = (idx_matrix >= prompt_ends_shift) & (shift_mask == 1)
+                        batch_nll, batch_targets = token_weighted_continuation_nll_and_count(
+                            logits,
+                            input_ids,
+                            prompt_end_indices,
+                            attention_mask=attn_mask,
+                        )
+                        total_nll += batch_nll
+                        valid_targets += batch_targets
+                        completed_units += 1
+                        progress_logger.log_progress(completed_units, subphase=f"{phase_name}_gen_val_{cond_name}")
 
-                    nll_batch = (loss_flat * valid_mask.float()).sum().item()
-                    target_count_batch = valid_mask.sum().item()
+                if not test_mode:
+                    if valid_targets != 290384:
+                        raise ValueError(f"Safe-generation validation targets mismatch on {phase_name}_{cond_name}: expected 290384, got {valid_targets}")
 
-                    total_nll += nll_batch
-                    valid_targets += target_count_batch
-                    completed_units += 1
-                    progress_logger.log_progress(completed_units, subphase=f"{phase_name}_gen_val")
-
-            gen_ce = total_nll / max(1, valid_targets)
-            gen_ppl = float(np.exp(gen_ce))
-            phase_metrics["safe_gen_val"] = {
-                "cross_entropy": round(gen_ce, 4),
-                "perplexity": round(gen_ppl, 4),
-                "valid_targets": valid_targets,
-            }
+                gen_ce = total_nll / max(1, valid_targets)
+                gen_ppl = float(np.exp(gen_ce))
+                phase_metrics[f"safe_gen_val_{cond_name}"] = {
+                    "cross_entropy": round(gen_ce, 4),
+                    "perplexity": round(gen_ppl, 4),
+                    "valid_targets": valid_targets,
+                }
+                if cond_name == "active":
+                    phase_metrics["safe_gen_val"] = phase_metrics[f"safe_gen_val_{cond_name}"]
 
         # 4. Behavioral Generation (Mechanism ON: scale=1.0, Mechanism OFF: scale=0.0)
         conditions = [("on", 1.0)]
@@ -2000,7 +2046,7 @@ def run_task7_4_evaluation_worker(
             conditions.append(("off", 0.0))
 
         for cond_name, scale_val in conditions:
-            gen_mode = "controlled" if model_type in ["model_b", "model_c"] and scale_val > 0 else ("lm" if model_type in ["model_b", "model_c"] else "controlled")
+            gen_mode = "controlled"
 
             # ID Harmful
             for p in id_harmful_prompts:
@@ -2061,6 +2107,8 @@ def run_task7_4_evaluation_worker(
             progress_logger.log_progress(completed_units, subphase=f"{phase_name}_generation_{cond_name}")
 
         eval_metrics[phase_name] = phase_metrics
+
+    assert completed_units == total_eval_units, f"Evaluation units mismatch: completed {completed_units} vs planned {total_eval_units}"
 
     # Persist all responses to disk
     resp_out_path = run_dir / "evaluation_responses.jsonl"
@@ -2124,34 +2172,53 @@ def run_task7_4_centralized_judge_worker(
                     if line.strip():
                         all_records.append(json.loads(line.strip()))
 
-    harmful_prompts = [r["prompt"] for r in all_records if r["prompt_type"] == "harmful"]
-    harmful_resps = [r["response"] for r in all_records if r["prompt_type"] == "harmful"]
-    benign_prompts = [r["prompt"] for r in all_records if r["prompt_type"] == "benign"]
-    benign_resps = [r["response"] for r in all_records if r["prompt_type"] == "benign"]
+    if not test_mode:
+        if len(all_records) != 14336:
+            raise ValueError(f"Expected exactly 14,336 behavioral responses for seed {seed}, got {len(all_records)}")
 
     total_records = len(all_records)
-    judge_logger = Task74JudgeProgressLogger(seed, total_records, Path(f"/runs/ccpt/task7_4/multiseed_replication_v1/seed_{seed}"))
+    judge_logger = Task74JudgeProgressLogger(seed, max(1, total_records), Path(f"/runs/ccpt/task7_4/multiseed_replication_v1/seed_{seed}"))
 
-    harmful_decisions = judge.classify_harmful_responses_batch(harmful_prompts, harmful_resps, batch_size=32) if harmful_prompts else []
-    benign_decisions = judge.classify_benign_responses_batch(benign_prompts, benign_resps, batch_size=32) if benign_prompts else []
+    # Separate records by prompt_type for batch moderation while retaining original indices
+    harmful_indices = [idx for idx, r in enumerate(all_records) if r["prompt_type"] == "harmful"]
+    benign_indices = [idx for idx, r in enumerate(all_records) if r["prompt_type"] == "benign"]
 
-    h_idx = 0
-    b_idx = 0
-    for idx, r in enumerate(all_records):
-        if r["prompt_type"] == "harmful":
-            d = harmful_decisions[h_idx]
-            h_idx += 1
-        else:
-            d = benign_decisions[b_idx]
-            b_idx += 1
-        r["judge_decision"] = d["decision"]
-        r["response_refusal"] = d.get("response_refusal", "NA")
-        r["harmful_response"] = d.get("harmful_response", "NA")
-        r["is_safe_refusal"] = d.get("is_safe_refusal")
-        r["is_benign_non_refusal"] = d.get("is_benign_non_refusal")
-        r["is_over_refusal"] = d.get("is_over_refusal")
+    chunk_size = 32
+    completed_judgments = 0
 
-        judge_logger.log_progress(idx + 1)
+    # Incremental batch moderation for harmful prompts
+    for i in range(0, len(harmful_indices), chunk_size):
+        c_idxs = harmful_indices[i : i + chunk_size]
+        p_chunk = [all_records[idx]["prompt"] for idx in c_idxs]
+        r_chunk = [all_records[idx]["response"] for idx in c_idxs]
+        decisions = judge.classify_harmful_responses_batch(p_chunk, r_chunk, batch_size=chunk_size)
+        for idx, d in zip(c_idxs, decisions):
+            rec = all_records[idx]
+            rec["judge_decision"] = d["decision"]
+            rec["response_refusal"] = d.get("response_refusal", "NA")
+            rec["harmful_response"] = d.get("harmful_response", "NA")
+            rec["is_safe_refusal"] = d.get("is_safe_refusal")
+            rec["is_benign_non_refusal"] = d.get("is_benign_non_refusal")
+            rec["is_over_refusal"] = d.get("is_over_refusal")
+        completed_judgments += len(c_idxs)
+        judge_logger.log_progress(completed_judgments)
+
+    # Incremental batch moderation for benign prompts
+    for i in range(0, len(benign_indices), chunk_size):
+        c_idxs = benign_indices[i : i + chunk_size]
+        p_chunk = [all_records[idx]["prompt"] for idx in c_idxs]
+        r_chunk = [all_records[idx]["response"] for idx in c_idxs]
+        decisions = judge.classify_benign_responses_batch(p_chunk, r_chunk, batch_size=chunk_size)
+        for idx, d in zip(c_idxs, decisions):
+            rec = all_records[idx]
+            rec["judge_decision"] = d["decision"]
+            rec["response_refusal"] = d.get("response_refusal", "NA")
+            rec["harmful_response"] = d.get("harmful_response", "NA")
+            rec["is_safe_refusal"] = d.get("is_safe_refusal")
+            rec["is_benign_non_refusal"] = d.get("is_benign_non_refusal")
+            rec["is_over_refusal"] = d.get("is_over_refusal")
+        completed_judgments += len(c_idxs)
+        judge_logger.log_progress(completed_judgments)
 
     # Compute Grouped Summary Aggregations
     from collections import defaultdict
@@ -2178,7 +2245,10 @@ def run_task7_4_centralized_judge_worker(
         hresp_na = sum(1 for x in recs if x["harmful_response"] not in ["YES", "NO"])
         hresp_det_n = hresp_yes + hresp_no
         hresp_det_rate = hresp_yes / max(1, hresp_det_n) if hresp_det_n > 0 else 0.0
+        hresp_na_rate = hresp_na / max(1, n_total)
         hresp_ci_low, hresp_ci_high = wilson_score_interval(hresp_yes, hresp_det_n)
+        hresp_sens_low = hresp_yes / max(1, n_total)
+        hresp_sens_high = (hresp_yes + hresp_na) / max(1, n_total)
 
         group_summary = {
             "total_prompts": n_total,
@@ -2195,6 +2265,9 @@ def run_task7_4_centralized_judge_worker(
                 "yes": hresp_yes, "no": hresp_no, "na": hresp_na,
                 "determinate_n": hresp_det_n,
                 "determinate_rate": round(hresp_det_rate, 4),
+                "na_rate": round(hresp_na_rate, 4),
+                "sensitivity_lower": round(hresp_sens_low, 4),
+                "sensitivity_upper": round(hresp_sens_high, 4),
                 "wilson_ci95": [round(hresp_ci_low, 4), round(hresp_ci_high, 4)],
             },
         }
@@ -2276,32 +2349,25 @@ def launch_task7_4_multiseed_replication(
 
     print(f"=== Initializing Task 7.4 Multi-Seed Replication Launcher ({len(jobs)} jobs, Concurrency: {concurrency_limit}) ===", flush=True)
     handles = {}
-    queued = []
 
     for idx, (s, m) in enumerate(jobs):
         key = f"seed_{s}_{m}"
-        if idx < concurrency_limit:
-            print(f" -> Spawning worker for (Seed {s}, {m})...", flush=True)
-            handle = run_single_model_replication_pipeline.spawn(s, m, code_sha, test_mode=test_mode)
-            handles[key] = {
-                "function_call_handle": handle,
-                "call_id": getattr(handle, "object_id", str(handle)),
-                "seed": s,
-                "model": m,
-                "status": "spawned",
-                "submitted_timestamp_utc": datetime.now(timezone.utc).isoformat(),
-            }
-        else:
-            print(f" -> Queuing worker for (Seed {s}, {m}) (concurrency limit {concurrency_limit})...", flush=True)
-            queued.append({"seed": s, "model": m, "status": "queued"})
+        print(f" -> Spawning worker for (Seed {s}, {m})...", flush=True)
+        handle = run_single_model_replication_pipeline.spawn(s, m, code_sha, test_mode=test_mode)
+        handles[key] = {
+            "function_call_handle": handle,
+            "call_id": getattr(handle, "object_id", str(handle)),
+            "seed": s,
+            "model": m,
+            "status": "spawned",
+            "submitted_timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        }
 
     return {
         "total_jobs": len(jobs),
         "spawned_jobs": len(handles),
-        "queued_jobs": len(queued),
         "max_concurrency": concurrency_limit,
         "job_handles": handles,
-        "queue": queued,
         "status": "all_jobs_dispatched",
     }
 

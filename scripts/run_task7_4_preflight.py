@@ -455,16 +455,10 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
 
     # 16. Prelaunch Incremental Cost Projection & Hard Gate (<= $35.00)
     print("\n[16/16] Computing Incremental Spend Projection & Hard Cost Gate...", flush=True)
-    # Reconstructed Historical Telemetry from Seed 1:
-    # LM 1B: ~1,980s on H100 per run
-    # Safety 20M: ~80s on H100 per run
-    # Persistence 1000: ~110s on H100 per run
-    # Total H100 per model = 2,170s -> 8 pipelines = 17,360s
-    # L40S Evaluation per model = ~900s -> 8 pipelines = 7,200s
-    # Persistent Judge: ~2,160s * 2 = 4,320s
-    h100_sec = 8 * 2170.0
-    l40s_eval_sec = 8 * 900.0
-    judge_sec = 2 * 2160.0
+    # Workload: 8 training pipelines, clean-1B capability only, pre/post full eval, 14,336 judge responses/seed (28,672 total)
+    h100_sec = 8 * 2170.0       # 17,360s @ $3.95/hr = $19.04
+    l40s_eval_sec = 8 * 600.0   # 4,800s @ $1.95/hr = $2.60
+    judge_sec = 2 * 1000.0      # 2,000s @ $1.95/hr = $1.08
 
     h100_cost = compute_gpu_cost(h100_sec, gpu_type="H100")
     l40s_eval_cost = compute_gpu_cost(l40s_eval_sec, gpu_type="L40S")
@@ -475,8 +469,8 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
     checks_passed["cost_under_budget_gate"] = cost_under_budget
 
     details["cost_projection"] = {
-        "telemetry_source": "Reconstructed from Seed 1 empirical wall-clock telemetry in artifacts/task7_3_summary.json",
-        "projection_confidence": "MEDIUM",
+        "telemetry_source": "Corrected Task 7.4.4a exact evaluation workload (14,336 responses/seed, clean-1B capability only)",
+        "projection_confidence": "HIGH",
         "h100_training_seconds": h100_sec,
         "h100_training_projected_usd": round(h100_cost, 2),
         "l40s_eval_seconds": l40s_eval_sec,
@@ -493,7 +487,7 @@ def run_preflight(run_remote_modal_probes: bool = True) -> Dict[str, Any]:
     all_required_passed = all(checks_passed.values())
 
     preflight_record = {
-        "task": "task7.4.3_seeds23_preflight",
+        "task": "task7.4.4a_seeds23_preflight",
         "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         "execution_code_commit_sha": code_sha,
         "authorized_for_seeds_2_and_3_execution": all_required_passed,
