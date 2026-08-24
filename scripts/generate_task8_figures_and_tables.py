@@ -354,37 +354,96 @@ def main():
     print(f" -> Wrote authoritative machine tables artifact to {tables_out}")
 
     # =========================================================================
-    # REASSESS HYPOTHESES HONESTLY & CONSERVATIVELY
+    # REASSESS HYPOTHESES DYNAMICALLY FROM MACHINE TABLES
     # =========================================================================
+    tb = machine_tables["table_b_model_c_drift"]
+    ta = machine_tables["table_a_behavior"]
+    asens = machine_tables["ablation_sensitivity"]
+
+    # Seed-level values
+    s1_cap_cka_l4 = tb["20260821"]["layer_4"]["capability_linear_cka"]
+    s2_cap_cka_l4 = tb["20260823"]["layer_4"]["capability_linear_cka"]
+    s3_cap_cka_l4 = tb["20260824"]["layer_4"]["capability_linear_cka"]
+
+    s1_cap_l2_l4 = tb["20260821"]["layer_4"]["capability_relative_l2_mean"]
+    s2_cap_l2_l4 = tb["20260823"]["layer_4"]["capability_relative_l2_mean"]
+    s3_cap_l2_l4 = tb["20260824"]["layer_4"]["capability_relative_l2_mean"]
+
+    s1_obs_cka_l4 = tb["20260821"]["layer_4"]["obs_linear_cka"]
+    s2_obs_cka_l4 = tb["20260823"]["layer_4"]["obs_linear_cka"]
+    s3_obs_cka_l4 = tb["20260824"]["layer_4"]["obs_linear_cka"]
+
+    s1_obs_l2_l4 = tb["20260821"]["layer_4"]["obs_relative_l2_mean"]
+    s2_obs_l2_l4 = tb["20260823"]["layer_4"]["obs_relative_l2_mean"]
+    s3_obs_l2_l4 = tb["20260824"]["layer_4"]["obs_relative_l2_mean"]
+
+    s1_gate_l4 = tb["20260821"]["layer_4"]["gate_absolute_change_mean"]
+    s2_gate_l4 = tb["20260823"]["layer_4"]["gate_absolute_change_mean"]
+    s3_gate_l4 = tb["20260824"]["layer_4"]["gate_absolute_change_mean"]
+
+    s1_norm_cka_l4 = tb["20260821"]["layer_4"]["normative_linear_cka"]
+    s2_norm_cka_l4 = tb["20260823"]["layer_4"]["normative_linear_cka"]
+    s3_norm_cka_l4 = tb["20260824"]["layer_4"]["normative_linear_cka"]
+
+    s1_steer_cka_l4 = tb["20260821"]["layer_4"]["steering_linear_cka"]
+    s2_steer_cka_l4 = tb["20260823"]["layer_4"]["steering_linear_cka"]
+    s3_steer_cka_l4 = tb["20260824"]["layer_4"]["steering_linear_cka"]
+
+    s1_gap_change = asens["20260821"]["ablation_gap_change_determinate"] * 100.0
+    s1_pre_gap = asens["20260821"]["pre_ablation_gap_determinate"] * 100.0
+    s1_post_gap = asens["20260821"]["post_ablation_gap_determinate"] * 100.0
+
+    s2_gap_change = asens["20260823"]["ablation_gap_change_determinate"] * 100.0
+    s2_pre_gap = asens["20260823"]["pre_ablation_gap_determinate"] * 100.0
+    s2_post_gap = asens["20260823"]["post_ablation_gap_determinate"] * 100.0
+
+    s3_gap_change = asens["20260824"]["ablation_gap_change_determinate"] * 100.0
+    s3_pre_gap = asens["20260824"]["pre_ablation_gap_determinate"] * 100.0
+    s3_post_gap = asens["20260824"]["post_ablation_gap_determinate"] * 100.0
+
+    s1_c_pre = ta["20260821"]["c_pre_refusal_rate"] * 100.0
+    s2_c_pre = ta["20260823"]["c_pre_refusal_rate"] * 100.0
+    s3_c_pre = ta["20260824"]["c_pre_refusal_rate"] * 100.0
+    s3_c_delta = ta["20260824"]["c_retention_delta_pp"]
+
+    s1_d_delta = ta["20260821"]["d_retention_delta_pp"]
+    s2_d_delta = ta["20260823"]["d_retention_delta_pp"]
+    s3_d_delta = ta["20260824"]["d_retention_delta_pp"]
+
+    min_obs_l2 = min(s1_obs_l2_l4, s2_obs_l2_l4, s3_obs_l2_l4)
+    max_obs_l2 = max(s1_obs_l2_l4, s2_obs_l2_l4, s3_obs_l2_l4)
+    min_obs_cka = min(s1_obs_cka_l4, s2_obs_cka_l4, s3_obs_cka_l4)
+    max_obs_cka = max(s1_obs_cka_l4, s2_obs_cka_l4, s3_obs_cka_l4)
+
     hypothesis_assessment = {
         "H1_capability_interface_drift": {
             "status": "INCONCLUSIVE",
             "evidence_for": "Continuation pretraining induces representation drift at capability proposals and observation projections across all seeds.",
-            "evidence_against": "Seed 2 (the negative persistence seed) does NOT exhibit uniquely elevated capability drift: its Layer 4 capability CKA (0.8980) is higher than positive Seed 1 (0.8170) and comparable to Seed 3 (0.8913), while its relative L2 drift (0.4426) is lower than Seed 1 (0.5408). Observation vector CKA (0.8579) and relative L2 (0.2341) are similarly close across all seeds.",
+            "evidence_against": f"Seed 2 (the negative persistence seed) does NOT exhibit uniquely elevated capability drift: its Layer 4 capability CKA ({s2_cap_cka_l4:.4f}) is higher than positive Seed 1 ({s1_cap_cka_l4:.4f}) and comparable to Seed 3 ({s3_cap_cka_l4:.4f}), while its relative L2 drift ({s2_cap_l2_l4:.4f}) is lower than Seed 1 ({s1_cap_l2_l4:.4f}). Observation vector CKA ({s2_obs_cka_l4:.4f}) and relative L2 ({s2_obs_l2_l4:.4f}) are within a narrow range across all seeds ({min_obs_l2:.4f}-{max_obs_l2:.4f} rel L2; {min_obs_cka:.4f}-{max_obs_cka:.4f} CKA).",
             "limitations": "Interface drift occurs generically but does not monotonically order cross-seed persistence retention."
         },
         "H2_functional_controller_drift": {
             "status": "INCONCLUSIVE",
-            "evidence_for": "Seed 2 exhibits elevated Layer 4 gate absolute change (0.0120, nearly 2x higher than Seed 1's 0.0065 and Seed 3's 0.0084).",
-            "evidence_against": "Broader prespecified controller-drift metrics are mixed: Seed 2 Layer 4 normative CKA (0.9254) and steering CKA (0.9162) are actually HIGHER than Seed 1 (0.8609 and 0.8441) and Seed 3 (0.9070 and 0.9114), indicating greater global subspace similarity. Prompt-level transition groups show that lost-refusal prompts did not exhibit higher steering drift or gate change than retained-refusal prompts.",
+            "evidence_for": f"Seed 2 exhibits elevated Layer 4 gate absolute change ({s2_gate_l4:.4f}, higher than Seed 1's {s1_gate_l4:.4f} and Seed 3's {s3_gate_l4:.4f}).",
+            "evidence_against": f"Broader prespecified controller-drift metrics are mixed: Seed 2 Layer 4 normative CKA ({s2_norm_cka_l4:.4f}) and steering CKA ({s2_steer_cka_l4:.4f}) are actually higher than Seed 1 ({s1_norm_cka_l4:.4f} and {s1_steer_cka_l4:.4f}) and comparable to Seed 3 ({s3_norm_cka_l4:.4f} and {s3_steer_cka_l4:.4f}), indicating greater global subspace similarity. Prompt-level transition groups show that lost-refusal prompts did not exhibit higher steering drift or gate change than retained-refusal prompts.",
             "limitations": "Gate change is elevated at the aggregate level, but controller subspace drift metrics do not uniquely isolate Seed 2."
         },
         "H3_downstream_override_effect_loss": {
             "status": "CONSISTENT_WITH",
-            "evidence_for": "Seed 2 uniquely suffered a substantial reduction in the normative controller's active causal influence during persistence: its active-vs-off ablation gap collapsed by -19.53 pp (from 43.08 pp to 23.55 pp), whereas in Seed 3 the ablation gap expanded by +33.14 pp (from 12.47 pp to 45.60 pp) and in Seed 1 it expanded by +6.49 pp (from 37.89 pp to 44.38 pp). Sensitivity analysis confirms this sign divergence is 100% robust across all NA bounds.",
+            "evidence_for": f"Seed 2 uniquely suffered a substantial reduction in the normative controller's active causal influence during persistence: its active-vs-off ablation gap collapsed by {s2_gap_change:+.2f} pp (from {s2_pre_gap:.2f} pp to {s2_post_gap:.2f} pp), whereas in Seed 3 the ablation gap expanded by {s3_gap_change:+.2f} pp (from {s3_pre_gap:.2f} pp to {s3_post_gap:.2f} pp) and in Seed 1 it expanded by {s1_gap_change:+.2f} pp (from {s1_pre_gap:.2f} pp to {s1_post_gap:.2f} pp). Sensitivity analysis confirms this sign divergence is 100% robust across all NA bounds.",
             "evidence_against": "Prompt-boundary single-token JS divergence changes do not fully predict multi-token generation dynamics.",
             "limitations": "Ablation gap quantifies functional dependence on the controller, but downstream capability dynamics also shift."
         },
         "H4_safety_acquisition_quality_selectivity": {
             "status": "INCONCLUSIVE",
-            "evidence_for": "Initial pre-persistence safety rates varied substantially across seeds (Seed 1 = 87.50%, Seed 2 = 85.94%, Seed 3 = 66.80%).",
-            "evidence_against": "Initial pre-persistence safety rate does not monotonically predict subsequent retention delta (Seed 3 had the lowest initial refusal at 66.80% but the only positive delta at +11.72 pp).",
+            "evidence_for": f"Initial pre-persistence safety rates varied substantially across seeds (Seed 1 = {s1_c_pre:.2f}%, Seed 2 = {s2_c_pre:.2f}%, Seed 3 = {s3_c_pre:.2f}%).",
+            "evidence_against": f"Initial pre-persistence safety rate does not monotonically predict subsequent retention delta (Seed 3 had the lowest initial refusal at {s3_c_pre:.2f}% but the only positive delta at {s3_c_delta:+.2f} pp).",
             "limitations": "Sample size n=3; associations are strictly descriptive."
         },
         "H5_generic_frozen_module_interface": {
             "status": "INCONCLUSIVE",
             "evidence_for": "Model D adapters generically experience compounding representation and residual drift across all 8 sites in all seeds.",
-            "evidence_against": "The magnitude of adapter drift does not consistently explain cross-seed D retention: Seed 2 experienced relatively mild adapter degradation (-4.30 pp) while Seed 1 suffered catastrophic collapse (-42.19 pp), and adapter CKA/L2 metrics across seeds do not order monotonically with retention.",
+            "evidence_against": f"The magnitude of adapter drift does not consistently explain cross-seed D retention: Seed 2 experienced relatively mild adapter degradation ({s2_d_delta:+.2f} pp) while Seed 1 suffered catastrophic collapse ({s1_d_delta:+.2f} pp) and Seed 3 experienced moderate degradation ({s3_d_delta:+.2f} pp), and adapter CKA/L2 metrics across seeds do not order monotonically with retention.",
             "limitations": "Generic interface drift exists, but its magnitude does not provide a consistent cross-seed explanation of D persistence."
         }
     }
@@ -392,7 +451,7 @@ def main():
     hyp_out = ARTIFACTS_DIR / "task8_hypothesis_assessment.json"
     with open(hyp_out, "w", encoding="utf-8") as f:
         json.dump(hypothesis_assessment, f, indent=2)
-    print(f" -> Wrote corrected hypothesis assessment to {hyp_out}")
+    print(f" -> Wrote dynamically generated hypothesis assessment to {hyp_out}")
 
     # =========================================================================
     # PLOT FIGURE 1: C MECHANISTIC DRIFT CHAIN

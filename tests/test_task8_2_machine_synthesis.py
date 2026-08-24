@@ -95,3 +95,67 @@ def test_seed1_behavior_join_partial_qualification():
         text = f.read()
 
     assert "SEED1_BEHAVIOR_JOIN = PARTIAL" in text or "Seed 1 behavior join: PARTIAL" in text or "Aggregate provenance" in text
+
+
+def test_hypothesis_assessment_numerical_values_match_machine_tables():
+    """Verify that all numerical values quoted in task8_hypothesis_assessment.json match task8_2_machine_tables.json."""
+    hyp_p = ARTIFACTS_DIR / "task8_hypothesis_assessment.json"
+    tables_p = ARTIFACTS_DIR / "task8_2_machine_tables.json"
+
+    assert hyp_p.exists() and tables_p.exists()
+
+    with open(hyp_p, "r", encoding="utf-8") as f:
+        hyp = json.load(f)
+
+    with open(tables_p, "r", encoding="utf-8") as f:
+        tables = json.load(f)
+
+    tb = tables["table_b_model_c_drift"]
+    ta = tables["table_a_behavior"]
+    sens = tables["ablation_sensitivity"]
+
+    # Verify H1 statuses and quoted values
+    h1_text = hyp["H1_capability_interface_drift"]["evidence_against"]
+    assert f"{tb['20260823']['layer_4']['capability_linear_cka']:.4f}" in h1_text
+    assert f"{tb['20260821']['layer_4']['capability_linear_cka']:.4f}" in h1_text
+    assert f"{tb['20260824']['layer_4']['capability_linear_cka']:.4f}" in h1_text
+    assert f"{tb['20260823']['layer_4']['capability_relative_l2_mean']:.4f}" in h1_text
+    assert f"{tb['20260821']['layer_4']['capability_relative_l2_mean']:.4f}" in h1_text
+    assert f"{tb['20260823']['layer_4']['obs_linear_cka']:.4f}" in h1_text
+    assert f"{tb['20260823']['layer_4']['obs_relative_l2_mean']:.4f}" in h1_text
+
+    # Verify H2 statuses and quoted values
+    h2_for = hyp["H2_functional_controller_drift"]["evidence_for"]
+    h2_against = hyp["H2_functional_controller_drift"]["evidence_against"]
+    assert f"{tb['20260823']['layer_4']['gate_absolute_change_mean']:.4f}" in h2_for
+    assert f"{tb['20260821']['layer_4']['gate_absolute_change_mean']:.4f}" in h2_for
+    assert f"{tb['20260824']['layer_4']['gate_absolute_change_mean']:.4f}" in h2_for
+    assert f"{tb['20260823']['layer_4']['normative_linear_cka']:.4f}" in h2_against
+    assert f"{tb['20260823']['layer_4']['steering_linear_cka']:.4f}" in h2_against
+
+    # Verify H3 statuses and quoted values
+    h3_for = hyp["H3_downstream_override_effect_loss"]["evidence_for"]
+    assert f"{sens['20260823']['ablation_gap_change_determinate'] * 100.0:+.2f}" in h3_for
+    assert f"{sens['20260824']['ablation_gap_change_determinate'] * 100.0:+.2f}" in h3_for
+    assert f"{sens['20260821']['ablation_gap_change_determinate'] * 100.0:+.2f}" in h3_for
+
+    # Verify H4 statuses and quoted values
+    h4_for = hyp["H4_safety_acquisition_quality_selectivity"]["evidence_for"]
+    h4_against = hyp["H4_safety_acquisition_quality_selectivity"]["evidence_against"]
+    assert f"{ta['20260821']['c_pre_refusal_rate'] * 100.0:.2f}" in h4_for
+    assert f"{ta['20260823']['c_pre_refusal_rate'] * 100.0:.2f}" in h4_for
+    assert f"{ta['20260824']['c_pre_refusal_rate'] * 100.0:.2f}" in h4_for
+    assert f"{ta['20260824']['c_retention_delta_pp']:+.2f}" in h4_against
+
+    # Verify H5 statuses and quoted values
+    h5_against = hyp["H5_generic_frozen_module_interface"]["evidence_against"]
+    assert f"{ta['20260823']['d_retention_delta_pp']:+.2f}" in h5_against
+    assert f"{ta['20260821']['d_retention_delta_pp']:+.2f}" in h5_against
+    assert f"{ta['20260824']['d_retention_delta_pp']:+.2f}" in h5_against
+
+    # Verify all hypothesis statuses
+    assert hyp["H1_capability_interface_drift"]["status"] == "INCONCLUSIVE"
+    assert hyp["H2_functional_controller_drift"]["status"] == "INCONCLUSIVE"
+    assert hyp["H3_downstream_override_effect_loss"]["status"] == "CONSISTENT_WITH"
+    assert hyp["H4_safety_acquisition_quality_selectivity"]["status"] == "INCONCLUSIVE"
+    assert hyp["H5_generic_frozen_module_interface"]["status"] == "INCONCLUSIVE"
