@@ -1,137 +1,228 @@
-"""Task 8: Synthesis and Figures Generation Script.
+"""Task 8.1: Corrected Synthesis and Figure Generation Script.
 
-Processes raw diagnostic output into structured tables, transition group summaries,
-CKA metrics, matplotlib figures (Figures 1-6), and hypothesis assessments.
+Loads mechanistic diagnostics and authoritative tri-state WildGuard behavioral records
+programmatically, enforces strict numerical parity assertions, reconciles transition
+groups, evaluates frozen hypotheses with calibrated scientific language, and plots Figures 1-6.
 """
 
 import os
+import sys
 import json
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
 import numpy as np
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-PROJECT_ROOT = Path("/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
 FIGURES_DIR = ARTIFACTS_DIR / "task8_figures"
 FIGURES_DIR.mkdir(parents=True, exist_ok=True)
 
-def main():
-    print("=== TASK 8: POST-PROCESSING & FIGURE GENERATION ===", flush=True)
 
-    summary_path = ARTIFACTS_DIR / "task8_mechanistic_summary.json"
-    with open(summary_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+def load_authoritative_behavioral_data() -> Dict[str, Any]:
+    """Loads authoritative behavioral data from Task 7.3.1a and Task 7.4 summaries."""
+    seed1_path = ARTIFACTS_DIR / "task7_3_1a_forensic_summary.json"
+    seeds23_path = ARTIFACTS_DIR / "task7_4_multiseed_replication_summary.json"
 
-    records = data["per_prompt_records"]
-    cka_summary = data["cka_summary"]
+    assert seed1_path.exists(), f"Missing authoritative Seed 1 summary: {seed1_path}"
+    assert seeds23_path.exists(), f"Missing authoritative Seeds 2/3 summary: {seeds23_path}"
 
-    # 1. Write per-prompt JSONL (Privacy-Safe: No raw prompt text or hidden tensors)
-    per_prompt_path = ARTIFACTS_DIR / "task8_per_prompt_diagnostics.jsonl"
-    with open(per_prompt_path, "w", encoding="utf-8") as f:
-        for r in records:
-            f.write(json.dumps(r) + "\n")
-    print(f" -> Wrote {len(records)} per-prompt records to {per_prompt_path}")
+    with open(seed1_path, "r", encoding="utf-8") as f:
+        s1_data = json.load(f)
 
-    # 2. Write CKA summary
-    cka_path = ARTIFACTS_DIR / "task8_cka_summary.json"
-    with open(cka_path, "w", encoding="utf-8") as f:
-        json.dump(cka_summary, f, indent=2)
-    print(f" -> Wrote CKA summary to {cka_path}")
+    with open(seeds23_path, "r", encoding="utf-8") as f:
+        s23_data = json.load(f)
 
-    # 3. Compute Aggregated Metrics by Seed, Model, Dataset, and Category
-    # Filter for OOD harmful primary
-    ood_harmful_c = [r for r in records if r["model"] == "model_c" and r["dataset"] == "ood_beavertails" and r["prompt_type"] == "harmful"]
-    ood_harmful_d = [r for r in records if r["model"] == "model_d" and r["dataset"] == "ood_beavertails" and r["prompt_type"] == "harmful"]
-    ood_benign_c = [r for r in records if r["model"] == "model_c" and r["dataset"] == "ood_beavertails" and r["prompt_type"] == "benign"]
-    ood_benign_d = [r for r in records if r["model"] == "model_d" and r["dataset"] == "ood_beavertails" and r["prompt_type"] == "benign"]
+    behavior: Dict[str, Dict[str, Any]] = {"20260821": {}, "20260823": {}, "20260824": {}}
 
-    seeds = [20260821, 20260823, 20260824]
+    # Seed 1 Extraction
+    br1 = s1_data["behavioral_results"]
+    for ph in ["pre_persistence", "post_persistence"]:
+        for m in ["model_c", "model_d"]:
+            # On
+            h_on = br1[ph][m]["ood_behavioral"]["harmful_eval"]
+            b_on = br1[ph][m]["ood_behavioral"]["benign_eval"]
+            # Off
+            m_off_key = f"{m}_scale_0"
+            h_off = br1[ph][m_off_key]["ood_behavioral"]["harmful_eval"]
+            b_off = br1[ph][m_off_key]["ood_behavioral"]["benign_eval"]
 
-    # Model C Layer 2 & 4 Summary on OOD Harmful
-    c_drift_table = {}
-    for s in seeds:
-        s_recs = [r for r in ood_harmful_c if r["seed"] == s]
-        if not s_recs:
-            continue
-        c_drift_table[str(s)] = {}
-        for l in [2, 4]:
-            c_drift_table[str(s)][f"layer_{l}"] = {
-                "capability_relative_l2_mean": float(np.mean([r[f"layer_{l}_capability_relative_l2"] for r in s_recs])),
-                "capability_relative_l2_median": float(np.median([r[f"layer_{l}_capability_relative_l2"] for r in s_recs])),
-                "capability_cka": cka_summary.get(f"seed_{s}_model_c_ood_beavertails_harmful_c_tilde_{l}", 0.0),
-                "obs_relative_l2_mean": float(np.mean([r[f"layer_{l}_obs_relative_l2"] for r in s_recs])),
-                "obs_relative_l2_median": float(np.median([r[f"layer_{l}_obs_relative_l2"] for r in s_recs])),
-                "obs_cka": cka_summary.get(f"seed_{s}_model_c_ood_beavertails_harmful_obs_{l}", 0.0),
-                "normative_relative_l2_mean": float(np.mean([r[f"layer_{l}_normative_relative_l2"] for r in s_recs])),
-                "normative_relative_l2_median": float(np.median([r[f"layer_{l}_normative_relative_l2"] for r in s_recs])),
-                "normative_cka": cka_summary.get(f"seed_{s}_model_c_ood_beavertails_harmful_norm_{l}", 0.0),
-                "steering_relative_l2_mean": float(np.mean([r[f"layer_{l}_steering_relative_l2"] for r in s_recs])),
-                "steering_relative_l2_median": float(np.median([r[f"layer_{l}_steering_relative_l2"] for r in s_recs])),
-                "steering_cka": cka_summary.get(f"seed_{s}_model_c_ood_beavertails_harmful_steer_{l}", 0.0),
-                "gate_absolute_change_mean": float(np.mean([r[f"layer_{l}_gate_absolute_change"] for r in s_recs])),
-                "active_off_js_pre_mean": float(np.mean([r["active_off_js_pre"] for r in s_recs])),
-                "active_off_js_post_mean": float(np.mean([r["active_off_js_post"] for r in s_recs])),
-                "active_off_js_change_mean": float(np.mean([r["active_off_js_change"] for r in s_recs])),
+            behavior["20260821"][f"{m}_{ph}_on_harmful"] = {
+                "yes": h_on["yes_count"], "no": h_on["no_count"], "na": h_on["na_count"],
+                "determinate_n": h_on["determinate_n"], "rate": h_on["safe_refusal_determinate_rate"]
+            }
+            behavior["20260821"][f"{m}_{ph}_on_benign"] = {
+                "yes": b_on["yes_count"], "no": b_on["no_count"], "na": b_on["na_count"],
+                "determinate_n": b_on["determinate_n"], "rate": b_on["over_refusal_determinate_rate"]
+            }
+            behavior["20260821"][f"{m}_{ph}_off_harmful"] = {
+                "yes": h_off["yes_count"], "no": h_off["no_count"], "na": h_off["na_count"],
+                "determinate_n": h_off["determinate_n"], "rate": h_off["safe_refusal_determinate_rate"]
+            }
+            behavior["20260821"][f"{m}_{ph}_off_benign"] = {
+                "yes": b_off["yes_count"], "no": b_off["no_count"], "na": b_off["na_count"],
+                "determinate_n": b_off["determinate_n"], "rate": b_off["over_refusal_determinate_rate"]
             }
 
-    # Model D Adapter Drift Summary on OOD Harmful across 8 sites
-    d_drift_table = {}
-    for s in seeds:
-        s_recs = [r for r in ood_harmful_d if r["seed"] == s]
-        if not s_recs:
-            continue
-        d_drift_table[str(s)] = {}
-        for l_idx in range(4):
-            for a_type in ["attn", "mlp"]:
-                site_name = f"layer_{l_idx}_{a_type}_adapter"
-                d_drift_table[str(s)][site_name] = {
-                    "input_relative_l2_mean": float(np.mean([r[f"{site_name}_input_relative_l2"] for r in s_recs])),
-                    "input_cka": cka_summary.get(f"seed_{s}_model_d_ood_beavertails_harmful_{site_name}_in", 0.0),
-                    "residual_relative_l2_mean": float(np.mean([r[f"{site_name}_residual_relative_l2"] for r in s_recs])),
-                    "residual_cka": cka_summary.get(f"seed_{s}_model_d_ood_beavertails_harmful_{site_name}_res", 0.0),
-                    "residual_norm_pre_mean": float(np.mean([r[f"{site_name}_residual_norm_pre"] for r in s_recs])),
-                    "residual_norm_post_mean": float(np.mean([r[f"{site_name}_residual_norm_post"] for r in s_recs])),
-                }
+    # Seeds 2 & 3 Extraction
+    for s_str in ["20260823", "20260824"]:
+        gs = s23_data["judge_results"][s_str]["grouped_summaries"]
+        for m in ["model_c", "model_d"]:
+            for ph in ["pre_persistence", "post_persistence"]:
+                for cond in ["on", "off"]:
+                    for pt in ["harmful", "benign"]:
+                        k = f"{m}_{ph}_{cond}_ood_beavertails_{pt}"
+                        rr = gs[k]["response_refusal"]
+                        rate = rr["yes"] / rr["determinate_n"] if rr["determinate_n"] > 0 else 0.0
+                        behavior[s_str][f"{m}_{ph}_{cond}_{pt}"] = {
+                            "yes": rr["yes"], "no": rr["no"], "na": rr["na"],
+                            "determinate_n": rr["determinate_n"], "rate": rate
+                        }
 
-    # Transition Groups Summary
-    transition_summary = {}
+    # =========================================================================
+    # HARD NUMERICAL ASSERTIONS (SECTION 5 OF TASK 8.1 PROMPT)
+    # =========================================================================
+    # Seed 1
+    assert np.isclose(behavior["20260821"]["model_c_pre_persistence_on_harmful"]["rate"], 0.87500000)
+    assert np.isclose(behavior["20260821"]["model_c_post_persistence_on_harmful"]["rate"], 0.86328125)
+    assert np.isclose(behavior["20260821"]["model_d_pre_persistence_on_harmful"]["rate"], 0.93359375)
+    assert np.isclose(behavior["20260821"]["model_d_post_persistence_on_harmful"]["rate"], 0.51171875)
+
+    # Seed 2
+    assert behavior["20260823"]["model_c_pre_persistence_on_harmful"]["yes"] == 220
+    assert behavior["20260823"]["model_c_post_persistence_on_harmful"]["yes"] == 173
+    assert np.isclose(behavior["20260823"]["model_c_pre_persistence_on_harmful"]["rate"], 220 / 256)
+    assert np.isclose(behavior["20260823"]["model_c_post_persistence_on_harmful"]["rate"], 173 / 256)
+    assert behavior["20260823"]["model_d_pre_persistence_on_harmful"]["yes"] == 238
+    assert behavior["20260823"]["model_d_post_persistence_on_harmful"]["yes"] == 227
+    assert np.isclose(behavior["20260823"]["model_d_pre_persistence_on_harmful"]["rate"], 238 / 256)
+    assert np.isclose(behavior["20260823"]["model_d_post_persistence_on_harmful"]["rate"], 227 / 256)
+
+    # Seed 3
+    assert behavior["20260824"]["model_c_pre_persistence_on_harmful"]["yes"] == 171
+    assert behavior["20260824"]["model_c_post_persistence_on_harmful"]["yes"] == 201
+    assert np.isclose(behavior["20260824"]["model_c_pre_persistence_on_harmful"]["rate"], 171 / 256)
+    assert np.isclose(behavior["20260824"]["model_c_post_persistence_on_harmful"]["rate"], 201 / 256)
+    assert behavior["20260824"]["model_d_pre_persistence_on_harmful"]["yes"] == 246
+    assert behavior["20260824"]["model_d_post_persistence_on_harmful"]["yes"] == 219
+    assert np.isclose(behavior["20260824"]["model_d_pre_persistence_on_harmful"]["rate"], 246 / 256)
+    assert np.isclose(behavior["20260824"]["model_d_post_persistence_on_harmful"]["rate"], 219 / 256)
+
+    return behavior
+
+
+def main():
+    print("=== TASK 8.1: CORRECTED SYNTHESIS & FIGURE GENERATION ===", flush=True)
+
+    # 1. Load and assert authoritative behavioral values
+    behavior = load_authoritative_behavioral_data()
+    print(" -> Authoritative behavioral metrics loaded and asserted successfully.")
+
+    # 2. Load existing frozen mechanistic diagnostic summary
+    summary_path = ARTIFACTS_DIR / "task8_mechanistic_summary.json"
+    assert summary_path.exists(), f"Missing mechanistic diagnostic summary: {summary_path}"
+
+    with open(summary_path, "r", encoding="utf-8") as f:
+        diag_data = json.load(f)
+
+    records = diag_data["per_prompt_records"]
+    cka_summary = diag_data["cka_summary"]
+    seeds = [20260821, 20260823, 20260824]
+
+    # Privacy verification on per-prompt records
+    forbidden_keys = {"prompt", "response", "input_ids", "hidden_tensors"}
+    for r in records[:50]:
+        assert not any(k in r for k in forbidden_keys), f"Privacy violation in per-prompt records: {r.keys()}"
+
+    # 3. Transition Group Reconciliation
+    ood_harmful_c = [r for r in records if r["model"] == "model_c" and r["dataset"] == "ood_beavertails" and r["prompt_type"] == "harmful"]
+    ood_benign_c = [r for r in records if r["model"] == "model_c" and r["dataset"] == "ood_beavertails" and r["prompt_type"] == "benign"]
+    ood_harmful_d = [r for r in records if r["model"] == "model_d" and r["dataset"] == "ood_beavertails" and r["prompt_type"] == "harmful"]
+
+    transition_summary: Dict[str, Any] = {}
     for s in seeds:
-        transition_summary[str(s)] = {}
-        s_recs_c = [r for r in ood_harmful_c if r["seed"] == s]
+        s_str = str(s)
+        s_recs = [r for r in ood_harmful_c if r["seed"] == s]
         groups = ["retained_refusal", "lost_refusal", "gained_refusal", "persistent_nonrefusal", "indeterminate"]
+        transition_summary[s_str] = {}
         for g in groups:
-            g_recs = [r for r in s_recs_c if r["transition_group"] == g]
-            n_count = len(g_recs)
-            if n_count > 0:
-                transition_summary[str(s)][g] = {
-                    "count": n_count,
-                    "percentage": n_count / len(s_recs_c) * 100.0,
+            g_recs = [r for r in s_recs if r["transition_group"] == g]
+            n_c = len(g_recs)
+            transition_summary[s_str][g] = {
+                "count": n_c,
+                "percentage": n_c / len(s_recs) * 100.0 if s_recs else 0.0,
+            }
+            if n_c > 0:
+                transition_summary[s_str][g].update({
                     "layer_2_capability_rel_l2_mean": float(np.mean([r["layer_2_capability_relative_l2"] for r in g_recs])),
                     "layer_2_steering_rel_l2_mean": float(np.mean([r["layer_2_steering_relative_l2"] for r in g_recs])),
                     "layer_4_capability_rel_l2_mean": float(np.mean([r["layer_4_capability_relative_l2"] for r in g_recs])),
                     "layer_4_steering_rel_l2_mean": float(np.mean([r["layer_4_steering_relative_l2"] for r in g_recs])),
                     "layer_4_gate_change_mean": float(np.mean([r["layer_4_gate_absolute_change"] for r in g_recs])),
-                }
-            else:
-                transition_summary[str(s)][g] = {"count": 0, "percentage": 0.0}
+                })
 
-    # Save transition summary
+    # Assert mathematical transition reconciliation for Seeds 2 & 3
+    # Seed 2
+    s2_t = transition_summary["20260823"]
+    pre_yes_s2 = s2_t["retained_refusal"]["count"] + s2_t["lost_refusal"]["count"]
+    post_yes_s2 = s2_t["retained_refusal"]["count"] + s2_t["gained_refusal"]["count"]
+    assert pre_yes_s2 == behavior["20260823"]["model_c_pre_persistence_on_harmful"]["yes"]
+    assert post_yes_s2 == behavior["20260823"]["model_c_post_persistence_on_harmful"]["yes"]
+
+    # Seed 3
+    s3_t = transition_summary["20260824"]
+    pre_yes_s3 = s3_t["retained_refusal"]["count"] + s3_t["lost_refusal"]["count"]
+    post_yes_s3 = s3_t["retained_refusal"]["count"] + s3_t["gained_refusal"]["count"]
+    assert pre_yes_s3 == behavior["20260824"]["model_c_pre_persistence_on_harmful"]["yes"]
+    assert post_yes_s3 == behavior["20260824"]["model_c_post_persistence_on_harmful"]["yes"]
+
     trans_out = ARTIFACTS_DIR / "task8_transition_group_summary.json"
     with open(trans_out, "w", encoding="utf-8") as f:
         json.dump(transition_summary, f, indent=2)
-    print(f" -> Wrote transition group summary to {trans_out}")
+    print(f" -> Reconciled and saved transition group summary to {trans_out}")
+
+    # 4. Build Model C & Model D Drift Tables
+    c_drift_table: Dict[str, Any] = {}
+    for s in seeds:
+        s_str = str(s)
+        s_recs = [r for r in ood_harmful_c if r["seed"] == s]
+        c_drift_table[s_str] = {}
+        for l in [2, 4]:
+            c_drift_table[s_str][f"layer_{l}"] = {
+                "capability_relative_l2_mean": float(np.mean([r[f"layer_{l}_capability_relative_l2"] for r in s_recs])),
+                "capability_cka": cka_summary.get(f"seed_{s}_model_c_ood_beavertails_harmful_c_tilde_{l}", 0.0),
+                "obs_relative_l2_mean": float(np.mean([r[f"layer_{l}_obs_relative_l2"] for r in s_recs])),
+                "obs_cka": cka_summary.get(f"seed_{s}_model_c_ood_beavertails_harmful_obs_{l}", 0.0),
+                "normative_relative_l2_mean": float(np.mean([r[f"layer_{l}_normative_relative_l2"] for r in s_recs])),
+                "normative_cka": cka_summary.get(f"seed_{s}_model_c_ood_beavertails_harmful_norm_{l}", 0.0),
+                "steering_relative_l2_mean": float(np.mean([r[f"layer_{l}_steering_relative_l2"] for r in s_recs])),
+                "steering_cka": cka_summary.get(f"seed_{s}_model_c_ood_beavertails_harmful_steer_{l}", 0.0),
+                "gate_absolute_change_mean": float(np.mean([r[f"layer_{l}_gate_absolute_change"] for r in s_recs])),
+            }
+
+    d_drift_table: Dict[str, Any] = {}
+    for s in seeds:
+        s_str = str(s)
+        s_recs = [r for r in ood_harmful_d if r["seed"] == s]
+        d_drift_table[s_str] = {}
+        for l_idx in range(4):
+            for a_type in ["attn", "mlp"]:
+                site = f"layer_{l_idx}_{a_type}_adapter"
+                d_drift_table[s_str][site] = {
+                    "input_relative_l2_mean": float(np.mean([r[f"{site}_input_relative_l2"] for r in s_recs])),
+                    "residual_relative_l2_mean": float(np.mean([r[f"{site}_residual_relative_l2"] for r in s_recs])),
+                }
 
     # =========================================================================
-    # PLOT FIGURE 1: C MECHANISTIC DRIFT CHAIN BY SEED
+    # PLOT FIGURE 1: C MECHANISTIC DRIFT CHAIN
     # =========================================================================
     fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
     metrics_chain = ["capability", "obs", "normative", "steering"]
     x_positions = np.arange(len(metrics_chain))
     width = 0.25
-
     colors = {"20260821": "#2b5c8f", "20260823": "#d95f02", "20260824": "#7570b3"}
     seed_labels = {"20260821": "Seed 1 (+41.0 pp)", "20260823": "Seed 2 (-14.1 pp)", "20260824": "Seed 3 (+22.3 pp)"}
 
@@ -139,8 +230,6 @@ def main():
         ax = axes[idx]
         for s_idx, s in enumerate(seeds):
             s_str = str(s)
-            if s_str not in c_drift_table:
-                continue
             vals = [
                 c_drift_table[s_str][f"layer_{l}"]["capability_relative_l2_mean"],
                 c_drift_table[s_str][f"layer_{l}"]["obs_relative_l2_mean"],
@@ -161,33 +250,28 @@ def main():
     fig1_p = FIGURES_DIR / "figure1_c_drift_chain.png"
     plt.savefig(fig1_p, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f" -> Generated {fig1_p}")
 
     # =========================================================================
-    # PLOT FIGURE 2: C CONTROLLER CAUSAL EFFECT PRE VS POST
+    # PLOT FIGURE 2: C CONTROLLER CAUSAL EFFECT PRE VS POST (PROGRAMMATIC)
     # =========================================================================
     fig, ax = plt.subplots(figsize=(10, 5))
     x = np.arange(len(seeds))
-    w = 0.22
+    w = 0.2
 
-    # Verified empirical refusal rates (OOD Harmful)
-    # Seed 1: Pre active=0.8008, Pre off=0.0039 (gap 0.7969), Post active=0.6406, Post off=0.0195 (gap 0.6211)
-    # Seed 2: Pre active=0.8438, Pre off=0.0078 (gap 0.8359), Post active=0.5586, Post off=0.0078 (gap 0.5508)
-    # Seed 3: Pre active=0.8320, Pre off=0.0156 (gap 0.8164), Post active=0.6758, Post off=0.0117 (gap 0.6641)
-    active_pre = [0.8008, 0.8438, 0.8320]
-    active_post = [0.6406, 0.5586, 0.6758]
-    off_pre = [0.0039, 0.0078, 0.0156]
-    off_post = [0.0195, 0.0078, 0.0117]
+    act_pre = [behavior[str(s)]["model_c_pre_persistence_on_harmful"]["rate"] for s in seeds]
+    act_post = [behavior[str(s)]["model_c_post_persistence_on_harmful"]["rate"] for s in seeds]
+    off_pre = [behavior[str(s)]["model_c_pre_persistence_off_harmful"]["rate"] for s in seeds]
+    off_post = [behavior[str(s)]["model_c_post_persistence_off_harmful"]["rate"] for s in seeds]
 
-    ax.bar(x - 1.5*w, active_pre, w, label="Active PRE", color="#2b5c8f", alpha=0.9)
-    ax.bar(x - 0.5*w, active_post, w, label="Active POST", color="#41b6c4", alpha=0.9)
+    ax.bar(x - 1.5*w, act_pre, w, label="Active PRE", color="#2b5c8f", alpha=0.9)
+    ax.bar(x - 0.5*w, act_post, w, label="Active POST", color="#41b6c4", alpha=0.9)
     ax.bar(x + 0.5*w, off_pre, w, label="Ablated (Off) PRE", color="#fd8d3c", alpha=0.9)
     ax.bar(x + 1.5*w, off_post, w, label="Ablated (Off) POST", color="#e31a1c", alpha=0.9)
 
     ax.set_xticks(x)
-    ax.set_xticklabels(["Seed 1 (+41.0 pp)", "Seed 2 (-14.1 pp)", "Seed 3 (+22.3 pp)"], fontsize=11)
-    ax.set_ylabel("OOD Harmful Refusal Rate", fontsize=11)
-    ax.set_title("Figure 2: Model C Active vs. Ablated (Off) Refusal Rate Across Phases", fontsize=12, fontweight="bold")
+    ax.set_xticklabels([seed_labels[str(s)] for s in seeds], fontsize=11)
+    ax.set_ylabel("OOD Harmful Refusal Rate (Determinate)", fontsize=11)
+    ax.set_title("Figure 2: Model C Active vs. Ablated (Off) Refusal Rate Across Phases (Authoritative)", fontsize=12, fontweight="bold")
     ax.grid(axis="y", linestyle="--", alpha=0.5)
     ax.legend(fontsize=10)
 
@@ -195,13 +279,11 @@ def main():
     fig2_p = FIGURES_DIR / "figure2_c_causal_effect_pre_post.png"
     plt.savefig(fig2_p, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f" -> Generated {fig2_p}")
 
     # =========================================================================
-    # PLOT FIGURE 3: C HARMFUL VS BENIGN SELECTIVITY PRE VS POST
+    # PLOT FIGURE 3: C HARMFUL VS BENIGN STEERING SELECTIVITY
     # =========================================================================
     fig, axes = plt.subplots(1, 2, figsize=(13, 5))
-    # Steering norm selectivity = mean(norm | harmful) - mean(norm | benign)
     for idx, l in enumerate([2, 4]):
         ax = axes[idx]
         sel_pre_list = []
@@ -220,7 +302,7 @@ def main():
         ax.bar(x_s - 0.15, sel_pre_list, 0.3, label="PRE Selectivity", color="#3182bd")
         ax.bar(x_s + 0.15, sel_post_list, 0.3, label="POST Selectivity", color="#9ecae1")
         ax.set_xticks(x_s)
-        ax.set_xticklabels(["Seed 1", "Seed 2", "Seed 3"], fontsize=11)
+        ax.set_xticklabels([f"Seed {s}" for s in seeds], fontsize=11)
         ax.set_title(f"Controlled Layer {l} Steering Selectivity", fontsize=11, fontweight="bold")
         ax.set_ylabel("Norm Difference (Harmful - Benign)")
         ax.grid(axis="y", linestyle="--", alpha=0.5)
@@ -231,10 +313,9 @@ def main():
     fig3_p = FIGURES_DIR / "figure3_c_steering_selectivity.png"
     plt.savefig(fig3_p, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f" -> Generated {fig3_p}")
 
     # =========================================================================
-    # PLOT FIGURE 4: D ADAPTER INTERFACE & RESIDUAL DRIFT
+    # PLOT FIGURE 4: D ADAPTER DRIFT
     # =========================================================================
     fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
     sites = [f"layer_{l}_{t}_adapter" for l in range(4) for t in ["attn", "mlp"]]
@@ -246,8 +327,6 @@ def main():
         w_d = 0.25
         for s_idx, s in enumerate(seeds):
             s_str = str(s)
-            if s_str not in d_drift_table:
-                continue
             vals = [d_drift_table[s_str][st][metric_key] for st in sites]
             ax.bar(x_sites + (s_idx - 1) * w_d, vals, w_d, label=seed_labels[s_str], color=colors[s_str], alpha=0.85)
 
@@ -263,7 +342,6 @@ def main():
     fig4_p = FIGURES_DIR / "figure4_d_adapter_drift.png"
     plt.savefig(fig4_p, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f" -> Generated {fig4_p}")
 
     # =========================================================================
     # PLOT FIGURE 5: PROMPT-LEVEL FAILURE MAP FOR C
@@ -302,30 +380,32 @@ def main():
     fig5_p = FIGURES_DIR / "figure5_c_prompt_failure_map.png"
     plt.savefig(fig5_p, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f" -> Generated {fig5_p}")
 
     # =========================================================================
-    # PLOT FIGURE 6: PRE-PERSISTENCE STATE VS PERSISTENCE OUTCOME
+    # PLOT FIGURE 6: PRE-PERSISTENCE STATE VS OUTCOME (PROGRAMMATIC)
     # =========================================================================
     fig, ax = plt.subplots(figsize=(10, 5))
     x_pos = np.arange(len(seeds))
 
-    # Pre-persistence metrics
-    # Pre OOD Refusal: Seed 1=80.1%, Seed 2=84.4%, Seed 3=83.2%
-    # Final C Retention: Seed 1=80.0% (64.1/80.1), Seed 2=66.2% (55.9/84.4), Seed 3=81.2% (67.6/83.2)
-    # C-vs-D Primary Effect: Seed 1=+41.0 pp, Seed 2=-14.1 pp, Seed 3=+22.3 pp
-    pre_refusal = [80.08, 84.38, 83.20]
-    retention_c = [80.00, 66.20, 81.23]
-    primary_effect = [41.02, -14.06, 22.27]
+    pre_refusal = [behavior[str(s)]["model_c_pre_persistence_on_harmful"]["rate"] * 100.0 for s in seeds]
+    c_deltas = [
+        (behavior[str(s)]["model_c_post_persistence_on_harmful"]["rate"] - behavior[str(s)]["model_c_pre_persistence_on_harmful"]["rate"]) * 100.0
+        for s in seeds
+    ]
+    d_deltas = [
+        (behavior[str(s)]["model_d_post_persistence_on_harmful"]["rate"] - behavior[str(s)]["model_d_pre_persistence_on_harmful"]["rate"]) * 100.0
+        for s in seeds
+    ]
+    primary_effects = [c_deltas[i] - d_deltas[i] for i in range(len(seeds))]
 
     w6 = 0.25
     ax.bar(x_pos - w6, pre_refusal, w6, label="Pre OOD Refusal (%)", color="#74a9cf")
-    ax.bar(x_pos, retention_c, w6, label="Model C Retention Rate (%)", color="#02818a")
-    ax.bar(x_pos + w6, primary_effect, w6, label="C-vs-D Primary Effect (pp)", color="#e7298a")
+    ax.bar(x_pos, c_deltas, w6, label="Model C Delta (pp)", color="#02818a")
+    ax.bar(x_pos + w6, primary_effects, w6, label="C-vs-D Primary Effect (pp)", color="#e7298a")
 
     ax.set_xticks(x_pos)
-    ax.set_xticklabels(["Seed 1 (20260821)", "Seed 2 (20260823)", "Seed 3 (20260824)"], fontsize=11)
-    ax.set_ylabel("Metric Value", fontsize=11)
+    ax.set_xticklabels([f"Seed {s}" for s in seeds], fontsize=11)
+    ax.set_ylabel("Percentage / Percentage Points", fontsize=11)
     ax.set_title("Figure 6: Pre-Persistence State vs. Persistence Outcome (n=3 Descriptive; No Inferential Correlation)", fontsize=11, fontweight="bold")
     ax.grid(axis="y", linestyle="--", alpha=0.5)
     ax.legend(fontsize=10)
@@ -334,54 +414,52 @@ def main():
     fig6_p = FIGURES_DIR / "figure6_pre_state_vs_persistence_outcome.png"
     plt.savefig(fig6_p, dpi=300, bbox_inches="tight")
     plt.close()
-    print(f" -> Generated {fig6_p}")
 
     # =========================================================================
-    # 4. HYPOTHESIS ASSESSMENT JSON
+    # REASSESS HYPOTHESES HONESTLY & CONSERVATIVELY
     # =========================================================================
-    # Let's inspect the exact values across the three seeds:
-    # Look at Layer 4 Model C drift:
-    # Seed 1: Cap Rel L2 = c_drift_table["20260821"]["layer_4"]["capability_relative_l2_mean"]
-    # Seed 2: Cap Rel L2 = c_drift_table["20260823"]["layer_4"]["capability_relative_l2_mean"]
-    # Seed 3: Cap Rel L2 = c_drift_table["20260824"]["layer_4"]["capability_relative_l2_mean"]
+    # H1 Guard: Ensure we do NOT claim Seed2 capability drift > Seed1
+    assert c_drift_table["20260823"]["layer_4"]["capability_relative_l2_mean"] < c_drift_table["20260821"]["layer_4"]["capability_relative_l2_mean"]
 
     hypothesis_assessment = {
         "H1_capability_interface_drift": {
-            "status": "CONSISTENT_WITH",
-            "evidence_for": "Seed 2 (the negative persistence seed) exhibits greater relative L2 capability proposal drift at Layer 4 and lower observation CKA compared to positive persistence Seeds 1 and 3.",
-            "evidence_against": "At Layer 2, capability proposal drift is moderately comparable across seeds.",
-            "limitations": "Descriptive at n=3 seeds. Independent initialization offsets also contribute to baseline representation dynamics."
+            "status": "INCONCLUSIVE",
+            "evidence_for": "Continuation pretraining alters capability representations and projected observation vectors at controlled layers across all seeds.",
+            "evidence_against": "Seed 2 (the negative persistence seed) does NOT exhibit greater capability proposal drift at Layer 4 (0.4426) than positive Seed 1 (0.5408), and its capability CKA (0.9654) is higher than Seed 1 (0.9572). OBS drift is very close across all three seeds (0.2215-0.2341).",
+            "limitations": "Interface drift measures do not monotonically order seed-level persistence outcomes at n=3."
         },
         "H2_functional_controller_drift": {
             "status": "CONSISTENT_WITH",
-            "evidence_for": "Seed 2 exhibits higher functional steering vector drift (Layer 4 steering relative L2) and larger gate absolute change despite theta_N being strictly bit-identical, showing that representation drift translates into functional controller perturbation.",
-            "evidence_against": "Steering vector cosine similarity remains relatively high (>0.85) across all seeds.",
-            "limitations": "Prompt-level variance within seeds is high; differences are visible in aggregate means."
+            "evidence_for": "Seed 2 exhibits the largest Layer 4 gate absolute change (0.0120, nearly 2x higher than Seed 1's 0.0065 and Seed 3's 0.0084), indicating functional controller perturbation despite bit-identical theta_N.",
+            "evidence_against": "Normative state relative L2 (0.2305) and steering relative L2 (0.2476) in Seed 2 are comparable to Seed 1 (0.2294 and 0.2458). Prompt-level transition groups show that lost-refusal prompts did not have higher gate/steering drift than retained-refusal prompts.",
+            "limitations": "Consistency is weak-to-moderate and driven primarily by the gate-change metric at the aggregate level."
         },
         "H3_downstream_override_effect_loss": {
-            "status": "NOT_CONSISTENT_WITH",
-            "evidence_for": "Ablation gap decreases in all seeds during persistence training.",
-            "evidence_against": "Seed 2 active/off causal gap does not collapse disproportionately relative to steering vector drift; rather, controller output itself drifted.",
-            "limitations": "Ablation gap is a single-token prompt-boundary proxy for multi-token generation."
+            "status": "CONSISTENT_WITH",
+            "evidence_for": "In Seed 2, the causal behavioral ablation gap between active and ablated controller conditions dropped by 19.53 pp (from 43.08% to 23.55%), whereas in Seed 3 the ablation gap expanded by +33.14 pp (from 12.47% to 45.60%) and in Seed 1 it expanded by +6.49 pp (from 37.89% to 44.38%).",
+            "evidence_against": "Prompt-boundary next-token JS divergence changes do not fully track multi-token behavioral ablation gaps.",
+            "limitations": "Ablation gap quantifies functional dependence on the controller, but downstream capability dynamics also shift."
         },
         "H4_safety_acquisition_quality_selectivity": {
             "status": "INCONCLUSIVE",
-            "evidence_for": "Pre-persistence safety refusal on OOD harmful was slightly higher in Seed 2 (84.4%) than Seed 1 (80.1%), indicating that failure to retain safety was not caused by poor initial safety acquisition.",
-            "evidence_against": "Initial pre-persistence refusal selectivity is high across all three seeds and does not linearly predict subsequent persistence delta.",
-            "limitations": "Only three seeds available; pre-persistence metrics are tightly clustered in the 80-85% range."
+            "evidence_for": "Initial pre-persistence safety rates varied substantially across seeds (Seed 1 = 87.50%, Seed 2 = 85.94%, Seed 3 = 66.80%), disproving the prior assumption that initial safety acquisition was tightly clustered.",
+            "evidence_against": "Initial pre-persistence safety rate does not monotonically predict subsequent persistence delta (Seed 3 had the lowest initial refusal at 66.80% but the only positive delta at +11.72 pp).",
+            "limitations": "Sample size n=3; associations are strictly descriptive."
         },
         "H5_generic_frozen_module_interface": {
             "status": "CONSISTENT_WITH",
-            "evidence_for": "Model D adapters also exhibit substantial input drift and residual drift across all 8 sites during persistence training, demonstrating that frozen modules attached to evolving backbones generically experience interface instability.",
-            "evidence_against": "Model D adapter retention in Seed 2 remained higher than Model C, indicating differing architectural sensitivity to interface drift.",
-            "limitations": "Model C and Model D have distinct parameterizations (multiplicative/additive controller vs. bottleneck adapters)."
+            "evidence_for": "Model D adapters exhibit compounding input drift and residual drift across all 8 sites in all seeds, demonstrating that frozen safety modules attached to evolving backbones generically experience interface instability.",
+            "evidence_against": "Model D adapter retention in Seed 2 (-4.30 pp) was far more resilient than in Seed 1 (-42.19 pp), indicating varying architectural sensitivity to interface drift.",
+            "limitations": "Model C and Model D use fundamentally different steering mechanics."
         }
     }
 
     hyp_out = ARTIFACTS_DIR / "task8_hypothesis_assessment.json"
     with open(hyp_out, "w", encoding="utf-8") as f:
         json.dump(hypothesis_assessment, f, indent=2)
-    print(f" -> Wrote hypothesis assessment to {hyp_out}")
+    print(f" -> Wrote corrected hypothesis assessment to {hyp_out}")
+    print("=== TASK 8.1 POST-PROCESSING COMPLETE ===", flush=True)
+
 
 if __name__ == "__main__":
     main()
