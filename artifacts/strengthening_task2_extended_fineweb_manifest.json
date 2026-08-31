@@ -1,0 +1,329 @@
+{
+  "manifest_version": "ccpt-strengthening-task2-v1",
+  "created_timestamp_utc": "2026-08-31T23:36:20Z",
+  "code_sha": "7fd1262cee4142473a8048a50f6093e2b6fa246d",
+  "source_dataset": {
+    "repo": "HuggingFaceFW/fineweb-edu",
+    "config": "sample-100BT",
+    "revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9"
+  },
+  "tokenizer": {
+    "repo": "mistralai/Mistral-7B-v0.1",
+    "revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    "bos_token_id": 1,
+    "eos_token_id": 2,
+    "unk_token_id": 0
+  },
+  "sequence_length": 1024,
+  "capability_prefix": {
+    "logical_block_range": [
+      0,
+      976544
+    ],
+    "target_blocks": 976544,
+    "target_tokens": 999981056,
+    "logical_prefix_hash": "a13410b63d9c1533211784c2a08fa5a918e29cc446448470395aa93919712585",
+    "source_manifest_path": "/data/fineweb_authoritative/manifest.json"
+  },
+  "original_persistence_continuation": {
+    "logical_block_range": [
+      976544,
+      1008544
+    ],
+    "target_blocks": 32000,
+    "target_tokens": 32768000,
+    "logical_continuation_hash": "1f6dd66f49a9afa3537244a719af74006308ab81902b0b654142510672022243",
+    "first_32k_parity": "BIT_IDENTICAL",
+    "shards": [
+      {
+        "shard_id": "persistence_continuation_0000",
+        "file_name": "persistence_continuation_0000.bin",
+        "logical_first_block": 976544,
+        "logical_last_block_exclusive": 984736,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216,
+        "sha256": "91edf8dc1a9047c8a90bc62f98235bc562558bfee6e4604feb4d38acc0454b40",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0000.bin"
+      },
+      {
+        "shard_id": "persistence_continuation_0001",
+        "file_name": "persistence_continuation_0001.bin",
+        "logical_first_block": 984736,
+        "logical_last_block_exclusive": 992928,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216,
+        "sha256": "41fbf91197fef03002dcd908eee735487573fcccf43ae59795106a154344f942",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0001.bin"
+      },
+      {
+        "shard_id": "persistence_continuation_0002",
+        "file_name": "persistence_continuation_0002.bin",
+        "logical_first_block": 992928,
+        "logical_last_block_exclusive": 1001120,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216,
+        "sha256": "15c43d1316c335053eace4d5a454f361ad9dd0f317ffe0ff0167f3b9f8377c47",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0002.bin"
+      },
+      {
+        "shard_id": "persistence_continuation_0003",
+        "file_name": "persistence_continuation_0003.bin",
+        "logical_first_block": 1001120,
+        "logical_last_block_exclusive": 1008544,
+        "num_blocks": 7424,
+        "num_tokens": 7602176,
+        "num_bytes": 15204352,
+        "sha256": "531a41afa03a2946e427c3ae157bbeca6f12769e0b0f03d482d1043935743c59",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0003.bin"
+      }
+    ]
+  },
+  "persistence_continuation": {
+    "logical_block_range": [
+      976544,
+      1104544
+    ],
+    "target_blocks": 128000,
+    "target_tokens": 131072000,
+    "logical_continuation_hash": "26829ec5297e61e8ed91b89a64d6522c58c0123ac3c7aeab23801ee101510fa3",
+    "first_32k_parity": "BIT_IDENTICAL",
+    "shards": [
+      {
+        "shard_id": "persistence_continuation_0000",
+        "file_name": "persistence_continuation_0000.bin",
+        "logical_first_block": 976544,
+        "logical_last_block_exclusive": 984736,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216,
+        "sha256": "91edf8dc1a9047c8a90bc62f98235bc562558bfee6e4604feb4d38acc0454b40",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0000.bin"
+      },
+      {
+        "shard_id": "persistence_continuation_0001",
+        "file_name": "persistence_continuation_0001.bin",
+        "logical_first_block": 984736,
+        "logical_last_block_exclusive": 992928,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216,
+        "sha256": "41fbf91197fef03002dcd908eee735487573fcccf43ae59795106a154344f942",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0001.bin"
+      },
+      {
+        "shard_id": "persistence_continuation_0002",
+        "file_name": "persistence_continuation_0002.bin",
+        "logical_first_block": 992928,
+        "logical_last_block_exclusive": 1001120,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216,
+        "sha256": "15c43d1316c335053eace4d5a454f361ad9dd0f317ffe0ff0167f3b9f8377c47",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0002.bin"
+      },
+      {
+        "shard_id": "persistence_continuation_0003",
+        "file_name": "persistence_continuation_0003.bin",
+        "logical_first_block": 1001120,
+        "logical_last_block_exclusive": 1008544,
+        "num_blocks": 7424,
+        "num_tokens": 7602176,
+        "num_bytes": 15204352,
+        "sha256": "531a41afa03a2946e427c3ae157bbeca6f12769e0b0f03d482d1043935743c59",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0003.bin"
+      },
+      {
+        "file_name": "persistence_continuation_0004.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "f410fccc34a55f47732507d55434bbf42afd6ceb85e139ecffafc7e6f7ef1cce",
+        "shard_id": "persistence_continuation_0004",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0004.bin",
+        "logical_first_block": 1008544,
+        "logical_last_block_exclusive": 1016736,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0005.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "993b47d85f4ba0342c1d005bf7d7232c705717e18007b0b0784865eba078b45a",
+        "shard_id": "persistence_continuation_0005",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0005.bin",
+        "logical_first_block": 1016736,
+        "logical_last_block_exclusive": 1024928,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0006.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "1ae9b52dc14b42c37697aa62c7e8c3c024a91e0e9a032865c11969a1af1d4727",
+        "shard_id": "persistence_continuation_0006",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0006.bin",
+        "logical_first_block": 1024928,
+        "logical_last_block_exclusive": 1033120,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0007.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "b2f6933bee614c83c7be304bdb1550d738ac0d7cd2d1756913fe2059c71b1678",
+        "shard_id": "persistence_continuation_0007",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0007.bin",
+        "logical_first_block": 1033120,
+        "logical_last_block_exclusive": 1041312,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0008.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "df9d5e74b5764a880055ba4442969d52f1af8c193b2084595aeaac26dfcff33a",
+        "shard_id": "persistence_continuation_0008",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0008.bin",
+        "logical_first_block": 1041312,
+        "logical_last_block_exclusive": 1049504,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0009.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "9600f0b22a4ee12f61b55893849f0d5cbd9cd2938946a43f900428cee9809379",
+        "shard_id": "persistence_continuation_0009",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0009.bin",
+        "logical_first_block": 1049504,
+        "logical_last_block_exclusive": 1057696,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0010.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "c78d7a44209a258784cee65d55635d94f4d6e73f97fe63698370fa999d94500a",
+        "shard_id": "persistence_continuation_0010",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0010.bin",
+        "logical_first_block": 1057696,
+        "logical_last_block_exclusive": 1065888,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0011.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "2ecaa1efb8f94f14838f225fffce65ef3dbc401c6c1d66e073ec1200e98fa021",
+        "shard_id": "persistence_continuation_0011",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0011.bin",
+        "logical_first_block": 1065888,
+        "logical_last_block_exclusive": 1074080,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0012.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "9fcba7abeaf37f9d488e8222964a71e997cd56c0d660576247f242944f7d8041",
+        "shard_id": "persistence_continuation_0012",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0012.bin",
+        "logical_first_block": 1074080,
+        "logical_last_block_exclusive": 1082272,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0013.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "55aee0c3a08c20e2454c8ca2e953f4e45b3fbbf9fc7d4981ddadd3e3495a582b",
+        "shard_id": "persistence_continuation_0013",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0013.bin",
+        "logical_first_block": 1082272,
+        "logical_last_block_exclusive": 1090464,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0014.bin",
+        "token_count": 8388608,
+        "block_count": 8192,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "ccc8457bc3eb2c2a3fc1ad6c6aa9cf6609bb628cb9716b73cf0880f554f50931",
+        "shard_id": "persistence_continuation_0014",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0014.bin",
+        "logical_first_block": 1090464,
+        "logical_last_block_exclusive": 1098656,
+        "num_blocks": 8192,
+        "num_tokens": 8388608,
+        "num_bytes": 16777216
+      },
+      {
+        "file_name": "persistence_continuation_0015.bin",
+        "token_count": 6029312,
+        "block_count": 5888,
+        "sequence_length": 1024,
+        "dtype": "uint16",
+        "sha256": "4a0cf89fb0eff43abd652a805bc89f7bf85848c6ce92959e1e32cd64ae1e25a2",
+        "shard_id": "persistence_continuation_0015",
+        "path": "/data/fineweb_strengthening/shards/persistence_continuation_0015.bin",
+        "logical_first_block": 1098656,
+        "logical_last_block_exclusive": 1104544,
+        "num_blocks": 5888,
+        "num_tokens": 6029312,
+        "num_bytes": 12058624
+      }
+    ]
+  },
+  "materialization_method": {
+    "method": "deterministic_append_only_unbroken_packer",
+    "first_32k_source": "authoritative_relink",
+    "extended_continuation_start_doc": 902449,
+    "doc_902449_offset": 446,
+    "extended_docs_consumed": 81891,
+    "packer_residual_tokens_at_end": 970
+  },
+  "manifest_hash": "c8cd82d442aa04ed8db125710fe5def39af6d5a2b3b5cb28d15b841fb2c3ba2f"
+}

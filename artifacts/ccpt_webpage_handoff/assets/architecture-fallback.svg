@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="100%" height="100%" style="background:#ffffff; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#475569"/>
+    </marker>
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#059669"/>
+    </marker>
+    <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#d97706"/>
+    </marker>
+  </defs>
+
+  <text x="40" y="38" font-size="18" font-weight="700" fill="#0f172a">CCPT Architecture &amp; Optimization Firewall</text>
+  <text x="40" y="58" font-size="13" fill="#64748b">Asymmetric dual-stream information flow with strict parameter ownership isolation</text>
+
+  <!-- Capability Stream Column -->
+  <rect x="40" y="80" width="380" height="380" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="55" y="95" width="350" height="32" rx="6" fill="#e2e8f0"/>
+  <text x="70" y="116" font-size="14" font-weight="700" fill="#1e293b">Capability Stream (θ_C: 33.2M params)</text>
+
+  <rect x="80" y="145" width="300" height="40" rx="6" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="140" y="170" font-size="13" font-weight="600" fill="#334155">Input Embeddings (512-dim)</text>
+
+  <rect x="80" y="210" width="300" height="50" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="110" y="240" font-size="13" font-weight="600" fill="#1d4ed8">Capability Layer 1-2 (Causal Self-Attn + MLP)</text>
+
+  <rect x="80" y="295" width="300" height="50" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="110" y="325" font-size="13" font-weight="600" fill="#1d4ed8">Capability Layer 3-4 (Causal Self-Attn + MLP)</text>
+
+  <rect x="80" y="380" width="300" height="45" rx="6" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+  <text x="145" y="407" font-size="13" font-weight="600" fill="#0f172a">LM Head &amp; Logits Output</text>
+
+  <!-- Normative Stream Column -->
+  <rect x="480" y="80" width="380" height="380" rx="12" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <rect x="495" y="95" width="350" height="32" rx="6" fill="#dcfce7"/>
+  <text x="510" y="116" font-size="14" font-weight="700" fill="#065f46">Normative Control Stream (θ_N: 2.8M params)</text>
+
+  <rect x="520" y="210" width="300" height="50" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+  <text x="555" y="240" font-size="13" font-weight="600" fill="#047857">Normative Layer 1 (Causal Attn + MLP)</text>
+
+  <rect x="520" y="295" width="300" height="50" rx="6" fill="#ffffff" stroke="#059669" stroke-width="1.5"/>
+  <text x="555" y="325" font-size="13" font-weight="600" fill="#047857">Normative Layer 2 + Risk Head</text>
+
+  <!-- Flow Edges -->
+  <path d="M 380 235 L 512 235" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arrow-amber)"/>
+  <rect x="405" y="215" width="85" height="20" rx="4" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+  <text x="410" y="229" font-size="9" font-weight="700" fill="#b45309">stop_gradient(C)</text>
+
+  <path d="M 520 320 L 388 320" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#arrow-emerald)"/>
+  <rect x="400" y="300" width="100" height="22" rx="4" fill="#dcfce7" stroke="#10b981" stroke-width="1"/>
+  <text x="406" y="315" font-size="9" font-weight="700" fill="#047857">g_l · ΔC_l + s_l (Steer)</text>
+
+  <line x1="230" y1="185" x2="230" y2="204" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="230" y1="260" x2="230" y2="289" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="230" y1="345" x2="230" y2="374" stroke="#475569" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <rect x="40" y="475" width="820" height="35" rx="6" fill="#f1f5f9"/>
+  <circle cx="65" cy="492" r="5" fill="#2563eb"/>
+  <text x="78" y="496" font-size="11" fill="#334155"><tspan font-weight="600">Phase 1 LM Training:</tspan> Updates θ_C only (θ_N frozen, ∇_θ_N = 0)</text>
+
+  <circle cx="345" cy="492" r="5" fill="#059669"/>
+  <text x="358" y="496" font-size="11" fill="#334155"><tspan font-weight="600">Phase 2 Safety Optimization:</tspan> Updates θ_N only (θ_C frozen, ∇_θ_C = 0)</text>
+
+  <circle cx="645" cy="492" r="5" fill="#d97706"/>
+  <text x="658" y="496" font-size="11" fill="#334155"><tspan font-weight="600">Phase 3 Persistence:</tspan> Updates θ_C only</text>
+</svg>

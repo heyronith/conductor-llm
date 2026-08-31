@@ -1,0 +1,99 @@
+{
+  "preflight_version": "ccpt-strengthening-task2-preflight-v1",
+  "timestamp_utc": "2026-08-31T23:43:17.882480+00:00",
+  "execution_sha": "7fd1262cee4142473a8048a50f6093e2b6fa246d",
+  "overall_status": "PASSED",
+  "checks": {
+    "repository_lineage": {
+      "head_sha": "7fd1262cee4142473a8048a50f6093e2b6fa246d",
+      "required_ancestor_sha": "7fd1262cee4142473a8048a50f6093e2b6fa246d",
+      "is_direct_descendant": true,
+      "status": "PASSED"
+    },
+    "container_package_spec": {
+      "expected": {
+        "torch": "2.5.1",
+        "transformers": "4.46.3",
+        "tokenizers": "0.20.3",
+        "datasets": "3.1.0",
+        "huggingface_hub": "0.26.2",
+        "sentencepiece": "0.2.0",
+        "tiktoken": "0.8.0",
+        "accelerate": "1.1.1",
+        "pyarrow": "17.0.0",
+        "numpy": "2.1.3",
+        "pytest": "8.3.3"
+      },
+      "pinned_in_image": {
+        "torch": "2.5.1",
+        "transformers": "4.46.3",
+        "tokenizers": "0.20.3",
+        "datasets": "3.1.0",
+        "huggingface_hub": "0.26.2",
+        "sentencepiece": "0.2.0",
+        "tiktoken": "0.8.0",
+        "accelerate": "1.1.1",
+        "pyarrow": "17.0.0",
+        "numpy": "2.1.3",
+        "pytest": "8.3.3"
+      },
+      "missing_pins": [],
+      "status": "PASSED"
+    },
+    "gpu_specification": {
+      "requires_h100_bang_training": true,
+      "requires_l40s_eval": true,
+      "status": "PASSED"
+    },
+    "fineweb_datasets": {
+      "prefix_hash": "a13410b63d9c1533211784c2a08fa5a918e29cc446448470395aa93919712585",
+      "prefix_hash_match": true,
+      "original_32k_continuation_hash": "1f6dd66f49a9afa3537244a719af74006308ab81902b0b654142510672022243",
+      "original_32k_parity": "BIT_IDENTICAL",
+      "extended_128k_continuation_hash": "26829ec5297e61e8ed91b89a64d6522c58c0123ac3c7aeab23801ee101510fa3",
+      "extended_128k_continuation_hash_match": true,
+      "target_blocks": 128000,
+      "status": "PASSED"
+    },
+    "calibration_manifest": {
+      "path": "artifacts/strengthening_calibration_prompt_manifest.json",
+      "total_records": 2335,
+      "logical_hash": "e39be5aed40e698d12b5132980c208ff68ad7208501fcd918ceae1011491ef7d",
+      "expected_logical_hash": "e39be5aed40e698d12b5132980c208ff68ad7208501fcd918ceae1011491ef7d",
+      "status": "PASSED"
+    },
+    "seed_safety": {
+      "allowed_sentinel_seeds": [
+        20260821,
+        20260825
+      ],
+      "reserved_evaluation_seed": 20260822,
+      "reserved_seed_excluded_from_training": true,
+      "status": "PASSED"
+    },
+    "initialization_parity": {
+      "seeds": {
+        "20260821": {
+          "hash_b": "832a38e1c12298ad4bde00679ebb76fd6e83ea83490f31dc8595a98e9b22dcee",
+          "hash_c": "832a38e1c12298ad4bde00679ebb76fd6e83ea83490f31dc8595a98e9b22dcee",
+          "parity": "BIT_IDENTICAL"
+        },
+        "20260825": {
+          "hash_b": "ca0f0651ac9f4249ccae1745b80f361efaf9a22f78fcae42581a5614f17d8af7",
+          "hash_c": "ca0f0651ac9f4249ccae1745b80f361efaf9a22f78fcae42581a5614f17d8af7",
+          "parity": "BIT_IDENTICAL"
+        }
+      },
+      "status": "PASSED"
+    },
+    "parameter_ownership": {
+      "model_c_partition_valid": true,
+      "model_c_theta_c_count": 38,
+      "model_c_theta_n_count": 27,
+      "model_d_partition_valid": true,
+      "model_d_backbone_count": 38,
+      "model_d_safety_count": 25,
+      "status": "PASSED"
+    }
+  }
+}

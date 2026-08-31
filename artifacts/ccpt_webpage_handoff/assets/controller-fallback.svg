@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="100%" height="100%" style="background:#ffffff; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <text x="40" y="38" font-size="18" font-weight="700" fill="#0f172a">Controller Causal Ablation (Active vs. Ablated / Off Refusal Rates)</text>
+  <text x="40" y="58" font-size="13" fill="#64748b">OOD Harmful Refusal Rate with Controller Active (scale=1.0) vs. Ablated (scale=0.0)</text>
+
+  <g transform="translate(60, 90)">
+    <line x1="40" y1="20" x2="720" y2="20" stroke="#f1f5f9" stroke-width="1.5"/>
+    <text x="25" y="24" font-size="11" fill="#94a3b8" text-anchor="end">100%</text>
+
+    <line x1="40" y1="80" x2="720" y2="80" stroke="#f1f5f9" stroke-width="1.5"/>
+    <text x="25" y="84" font-size="11" fill="#94a3b8" text-anchor="end">75%</text>
+
+    <line x1="40" y1="140" x2="720" y2="140" stroke="#f1f5f9" stroke-width="1.5"/>
+    <text x="25" y="144" font-size="11" fill="#94a3b8" text-anchor="end">50%</text>
+
+    <line x1="40" y1="200" x2="720" y2="200" stroke="#f1f5f9" stroke-width="1.5"/>
+    <text x="25" y="204" font-size="11" fill="#94a3b8" text-anchor="end">25%</text>
+
+    <line x1="40" y1="260" x2="720" y2="260" stroke="#cbd5e1" stroke-width="1.5"/>
+    <text x="25" y="264" font-size="11" fill="#94a3b8" text-anchor="end">0%</text>
+    <line x1="40" y1="10" x2="40" y2="260" stroke="#cbd5e1" stroke-width="1.5"/>
+
+    <!-- Seed 1 -->
+    <rect x="75" y="50.0" width="22" height="210.0" rx="2" fill="#1d4ed8"/>
+    <rect x="100" y="140.9" width="22" height="119.1" rx="2" fill="#93c5fd"/>
+    <rect x="135" y="52.8" width="22" height="207.2" rx="2" fill="#047857"/>
+    <rect x="160" y="159.3" width="22" height="100.7" rx="2" fill="#6ee7b7"/>
+
+    <text x="128" y="285" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">Seed 20260821</text>
+    <rect x="80" y="300" width="96" height="22" rx="4" fill="#dcfce7" stroke="#10b981" stroke-width="1"/>
+    <text x="128" y="315" font-size="10" font-weight="700" fill="#047857" text-anchor="middle">Gap: +37.9 → +44.4 pp</text>
+
+    <!-- Seed 2 -->
+    <rect x="295" y="53.8" width="22" height="206.2" rx="2" fill="#1d4ed8"/>
+    <rect x="320" y="157.1" width="22" height="102.9" rx="2" fill="#93c5fd"/>
+    <rect x="355" y="97.8" width="22" height="162.2" rx="2" fill="#047857"/>
+    <rect x="380" y="154.3" width="22" height="105.7" rx="2" fill="#6ee7b7"/>
+
+    <text x="348" y="285" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">Seed 20260823</text>
+    <rect x="300" y="300" width="96" height="22" rx="4" fill="#fee2e2" stroke="#ef4444" stroke-width="1"/>
+    <text x="348" y="315" font-size="10" font-weight="700" fill="#b91c1c" text-anchor="middle">Gap: +43.1 → +23.5 pp</text>
+
+    <!-- Seed 3 -->
+    <rect x="515" y="99.7" width="22" height="160.3" rx="2" fill="#1d4ed8"/>
+    <rect x="540" y="129.6" width="22" height="130.4" rx="2" fill="#93c5fd"/>
+    <rect x="575" y="71.6" width="22" height="188.4" rx="2" fill="#047857"/>
+    <rect x="600" y="181.0" width="22" height="79.0" rx="2" fill="#6ee7b7"/>
+
+    <text x="568" y="285" font-size="12" font-weight="600" fill="#1e293b" text-anchor="middle">Seed 20260824</text>
+    <rect x="520" y="300" width="96" height="22" rx="4" fill="#dcfce7" stroke="#10b981" stroke-width="1"/>
+    <text x="568" y="315" font-size="10" font-weight="700" fill="#047857" text-anchor="middle">Gap: +12.5 → +45.6 pp</text>
+  </g>
+
+  <g transform="translate(60, 435)">
+    <rect x="0" y="0" width="730" height="35" rx="6" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+    <rect x="15" y="12" width="12" height="12" rx="2" fill="#1d4ed8"/>
+    <text x="32" y="22" font-size="10" font-weight="600" fill="#334155">PRE Active</text>
+
+    <rect x="110" y="12" width="12" height="12" rx="2" fill="#93c5fd"/>
+    <text x="127" y="22" font-size="10" font-weight="600" fill="#334155">PRE Off</text>
+
+    <rect x="190" y="12" width="12" height="12" rx="2" fill="#047857"/>
+    <text x="207" y="22" font-size="10" font-weight="600" fill="#334155">POST Active</text>
+
+    <rect x="285" y="12" width="12" height="12" rx="2" fill="#6ee7b7"/>
+    <text x="302" y="22" font-size="10" font-weight="600" fill="#334155">POST Off</text>
+
+    <text x="375" y="22" font-size="10" font-style="italic" fill="#64748b">Finding: Seed 2 uniquely exhibits marked reduction in controller efficacy (-19.5 pp gap drop).</text>
+  </g>
+</svg>

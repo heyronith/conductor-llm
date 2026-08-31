@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Constitutional Control-Plane Transformer (CCPT) — Research Project</title>
+  <meta name="description" content="An experimental investigation into whether architectural optimization separation between language capability and normative safety computation enhances alignment persistence under continued capability training.">
+  <link rel="stylesheet" href="ccpt-article.css">
+</head>
+<body>
+
+  <main class="ccpt-wrapper">
+
+    <!-- =======================================================================
+         1. HERO SECTION
+         ======================================================================= -->
+    <header class="ccpt-hero">
+      <div class="ccpt-badge-group">
+        <span class="ccpt-badge primary">Research Project</span>
+        <span class="ccpt-badge">Three-Seed Controlled Experiment</span>
+        <span class="ccpt-badge">~36M Parameter Models</span>
+        <span class="ccpt-badge">1B-Token Pretraining</span>
+      </div>
+
+      <h1 class="ccpt-title">Constitutional Control-Plane Transformer (CCPT)</h1>
+      <p class="ccpt-lead">
+        Does giving normative safety computation its own protected internal pathway—isolated from ordinary language capability optimization—produce more robust alignment persistence when a model undergoes continued capability pretraining?
+      </p>
+    </header>
+
+    <!-- =======================================================================
+         2. WHY THIS PROBLEM MATTERS
+         ======================================================================= -->
+    <section class="ccpt-section">
+      <h2>1. Why Safety Persistence Matters</h2>
+      <p>
+        Modern post-training alignment techniques—including Reinforcement Learning from Human Feedback (RLHF), Direct Preference Optimization (DPO), and supervised safety fine-tuning—typically encode safety behaviors directly into the dense weight matrices that govern general language modeling, reasoning, and factual retrieval. While this paradigm successfully produces compliant behavior in immediate evaluations, it leaves acquired safety constraints vulnerable to downstream distribution shifts and continued learning.
+      </p>
+      <p>
+        In production settings, language models frequently undergo subsequent rounds of pretraining, continual domain adaptation, or multi-task fine-tuning. During this continued capability training, ordinary cross-entropy loss gradients on unaligned data routinely degrade, overwrite, or bypass previously learned safety behaviors—a vulnerability known as <em>safety persistence collapse</em> or representation erosion.
+      </p>
+      <p>
+        The working hypothesis of the <strong>Constitutional Control-Plane Transformer (CCPT)</strong> is that this fragility is fundamentally an <em>architectural</em> consequence of optimization coupling. When normative evaluation and capability generation share identical parameter manifolds, general-purpose gradient steps inevitably drift safety-critical representations. CCPT tests whether establishing strict optimization firewalls—isolating normative computation within a dedicated, gradient-protected internal stream—allows safety mechanisms to persist through substantial capability continuation.
+      </p>
+    </section>
+
+    <!-- =======================================================================
+         3. THE ARCHITECTURE
+         ======================================================================= -->
+    <section class="ccpt-section">
+      <h2>2. The CCPT Dual-Stream Architecture</h2>
+      <p>
+        To decouple safety computation from ordinary language modeling, CCPT organizes internal computation across two asymmetric, parallel pathways:
+      </p>
+      <ul>
+        <li>
+          <strong>Capability Stream (<code>C</code>, <span data-bind="model_c_cap_params">33.2M</span> parameters):</strong> A standard autoregressive causal Transformer backbone that learns vocabulary representations, syntactic structures, factual knowledge, and next-token probability distributions.
+        </li>
+        <li>
+          <strong>Normative Stream (<code>N</code>, <span data-bind="model_c_norm_params">2.8M</span> parameters):</strong> A dedicated Transformer module tasked exclusively with tracking conversational context, evaluating harmful intent, and computing bounded steering vectors to prevent harmful generation.
+        </li>
+      </ul>
+      <p>
+        Information flow between these streams is strictly asymmetric. The normative stream monitors capability states via a detached observation projection:
+      </p>
+      <div class="ccpt-callout">
+        <code>N_(l+1) = N_l + F_N(N_l, stop_gradient(C_l))</code>
+        <p class="secondary" style="margin-top:6px; margin-bottom:0;">
+          The <code>stop_gradient</code> operator guarantees that ordinary capability updates cannot backpropagate into or overwrite normative parameter weights.
+        </p>
+      </div>
+      <p>
+        To intervene during generation, the normative stream applies a gated steering intervention at controlled intermediate layers (Layers 2 and 4):
+      </p>
+      <div class="ccpt-callout">
+        <code>C_(l+1) = C_l + g_l · ΔC_l + s_l</code>
+        <p class="secondary" style="margin-top:6px; margin-bottom:0;">
+          where <code>ΔC_l</code> is the standard capability layer proposal, <code>g_l ∈ [0, 1]</code> is a bounded scalar gate, and <code>s_l</code> is an additive steering vector parameterized by the normative state.
+        </p>
+      </div>
+
+      <!-- Interactive 1: Architecture Explorer -->
+      <div class="ccpt-interactive-card">
+        <div class="ccpt-card-header">
+          <div class="ccpt-card-title-group">
+            <h3>Interactive Architecture &amp; Optimization Firewall</h3>
+            <p>Select a training phase to inspect parameter ownership, gradient firewalls, and data flow.</p>
+          </div>
+          <div class="ccpt-segmented-control" role="group" aria-label="Architecture Training Phase">
+            <button class="ccpt-btn active" data-arch-mode="lm_training">1. LM Training</button>
+            <button class="ccpt-btn" data-arch-mode="safety_training">2. Safety Training</button>
+            <button class="ccpt-btn" data-arch-mode="inference">3. Inference</button>
+          </div>
+        </div>
+
+        <div class="ccpt-chart-stage" id="arch-stage">
+          <noscript>
+            <div class="ccpt-fallback-wrapper">
+              <img src="assets/architecture-fallback.svg" alt="CCPT Architecture Diagram showing capability and normative streams">
+            </div>
+          </noscript>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         4. THE EXPERIMENT
+         ======================================================================= -->
+    <section class="ccpt-section">
+      <h2>3. The Controlled Experimental Design</h2>
+      <p>
+        To isolate the causal effect of architectural separation—avoiding confounding variables such as parameter disparities, optimizer differences, or token sequence discrepancies—we compare CCPT (<strong>Model C</strong>) against a parameter-matched <strong>Frozen-Backbone Bottleneck Adapter Control (Model D)</strong> across three sequential training stages and three independent random initialization seeds:
+      </p>
+      <ol>
+        <li>
+          <strong>Phase 1 (Base Capability Pretraining):</strong> Both models train on 1.0 billion tokens of FineWeb-Edu general text using standard autoregressive next-token cross-entropy. Total parameters are strictly matched at ~35.9M.
+        </li>
+        <li>
+          <strong>Phase 2 (Safety Optimization):</strong> Capability parameters (<code>θ_C</code>) and backbone parameters are completely frozen. The models train on 20.0 million tokens of WildGuard risk and safe-generation data to acquire refusal behaviors on harmful prompts.
+        </li>
+        <li>
+          <strong>Phase 3 (Persistence Continuation Pretraining):</strong> Safety parameters (<code>θ_N</code> and adapters) remain completely frozen. The models undergo 1,000 batches (~2.0 million tokens) of additional capability pretraining on FineWeb-Edu text, testing whether fixed safety mechanisms persist through continued backbone optimization.
+        </li>
+      </ol>
+      <p>
+        All evaluations measure out-of-distribution (OOD) refusal retention on 256 unseen harmful prompts from the BeaverTails benchmark, adjudicated via an authoritative tri-state WildGuard judge (<code>YES / (YES + NO)</code> determinate rate).
+      </p>
+    </section>
+
+    <!-- =======================================================================
+         5. MAIN RESULTS & HETEROGENEITY
+         ======================================================================= -->
+    <section class="ccpt-section">
+      <h2>4. Empirical Persistence Results &amp; Seed Heterogeneity</h2>
+      <p>
+        Evaluating CCPT against the matched adapter control across three independent initialization seeds reveals a pronounced, but heterogeneous, persistence signal. The primary endpoint (defined as Model C refusal retention minus Model D refusal retention, <code>ΔC - ΔD</code>) produced:
+      </p>
+      <ul>
+        <li><strong>Seed 20260821 (Seed 1):</strong> Model C retention = <span data-bind="s1_c_delta">-1.17 pp</span> (<span data-bind="s1_c_pre">87.5%</span> → <span data-bind="s1_c_post">86.3%</span>) vs. Model D = <span data-bind="s1_d_delta">-42.19 pp</span> (<span data-bind="s1_d_pre">93.4%</span> → <span data-bind="s1_d_post">51.2%</span>) → <strong>Primary Effect = <span data-bind="s1_primary_effect">+41.02 percentage points</span></strong>.</li>
+        <li><strong>Seed 20260823 (Seed 2):</strong> Model C retention = <span data-bind="s2_c_delta">-18.36 pp</span> (<span data-bind="s2_c_pre">85.9%</span> → <span data-bind="s2_c_post">67.6%</span>) vs. Model D = <span data-bind="s2_d_delta">-4.30 pp</span> (<span data-bind="s2_d_pre">93.0%</span> → <span data-bind="s2_d_post">88.7%</span>) → <strong>Primary Effect = <span data-bind="s2_primary_effect">-14.06 percentage points</span></strong>.</li>
+        <li><strong>Seed 20260824 (Seed 3):</strong> Model C retention = <span data-bind="s3_c_delta">+11.72 pp</span> (<span data-bind="s3_c_pre">66.8%</span> → <span data-bind="s3_c_post">78.5%</span>) vs. Model D = <span data-bind="s3_d_delta">-10.55 pp</span> (<span data-bind="s3_d_pre">96.1%</span> → <span data-bind="s3_d_post">85.5%</span>) → <strong>Primary Effect = <span data-bind="s3_primary_effect">+22.27 percentage points</span></strong>.</li>
+      </ul>
+      <p>
+        Across the three seeds, the sample mean primary effect is <strong><span data-bind="mean_primary_effect">+16.41 pp</span></strong>. However, the substantial sample standard deviation (<strong><span data-bind="sd_primary_effect">28.00 pp</span></strong>) and the direction reversal in Seed 2 demonstrate that the architecture does not achieve uniform, seed-invariant persistence.
+      </p>
+
+      <!-- Interactive 2: Persistence Explorer -->
+      <div class="ccpt-interactive-card">
+        <div class="ccpt-card-header">
+          <div class="ccpt-card-title-group">
+            <h3>Interactive Three-Seed Persistence Explorer</h3>
+            <p>Compare OOD harmful refusal retention and benign over-refusal across all three seeds.</p>
+          </div>
+          <div class="ccpt-segmented-control" role="group" aria-label="Persistence Metric Selector">
+            <button class="ccpt-btn active" data-persistence-metric="harmful">Harmful Refusal Retention</button>
+            <button class="ccpt-btn" data-persistence-metric="benign">Benign Over-Refusal</button>
+          </div>
+        </div>
+
+        <div class="ccpt-chart-stage" id="persistence-stage">
+          <noscript>
+            <div class="ccpt-fallback-wrapper">
+              <img src="assets/persistence-fallback.svg" alt="Three-seed persistence chart showing +41.02 pp in Seed 1, -14.06 pp in Seed 2, and +22.27 pp in Seed 3">
+            </div>
+          </noscript>
+        </div>
+
+        <div class="ccpt-data-panel" id="persistence-data-box">
+          <!-- Dynamically populated from ccpt-results.json -->
+        </div>
+      </div>
+
+      <h3>The Utility Tradeoff: High Benign Over-Refusal</h3>
+      <p>
+        A critical limitation observed across all tested models is high <strong>benign over-refusal</strong>. On 256 benign prompts from the BeaverTails benchmark, post-persistence over-refusal rates ranged from <strong><span data-bind="post_c_benign_range">64.8% to 79.3%</span></strong> for CCPT and <strong><span data-bind="post_d_benign_range">62.5% to 91.0%</span></strong> for Model D. At this ~36M parameter scale, steering vectors act relatively coarsely: while they reliably suppress harmful completions, they also induce high refusal rates on benign prompts, demonstrating that achieving fine-grained selectivity without over-refusal remains an open optimization challenge.
+      </p>
+    </section>
+
+    <!-- =======================================================================
+         6. WHAT THE CONTROLLER IS DOING
+         ======================================================================= -->
+    <section class="ccpt-section">
+      <h2>5. Functional Localization: Controller Causal Ablations</h2>
+      <p>
+        To understand why Seed 2 experienced a persistence decline while Seeds 1 and 3 remained highly resistant to erosion, Task 8 executed test-time causal ablations (evaluating the model with <code>controller_scale = 0.0</code>) and extracted hidden representations across all diagnostic layers.
+      </p>
+      <p>
+        The ablation results localize Seed 2's failure to a <strong>marked reduction in the controller's downstream behavioral efficacy</strong>:
+      </p>
+      <ul>
+        <li>In <strong>Seed 1</strong>, the active-vs-off ablation gap expanded from <span data-bind="s1_pre_gap">+37.89 pp</span> to <span data-bind="s1_post_gap">+44.38 pp</span> (<span data-bind="s1_delta_gap">+6.49 pp</span> change).</li>
+        <li>In <strong>Seed 3</strong>, the active-vs-off ablation gap expanded from <span data-bind="s3_pre_gap">+12.47 pp</span> to <span data-bind="s3_post_gap">+45.60 pp</span> (<span data-bind="s3_delta_gap">+33.14 pp</span> change).</li>
+        <li>In <strong>Seed 2</strong>, the active-vs-off ablation gap collapsed from <span data-bind="s2_pre_gap">+43.08 pp</span> to <span data-bind="s2_post_gap">+23.55 pp</span> (<span data-bind="s2_delta_gap">-19.53 pp</span> change).</li>
+      </ul>
+      <p>
+        Sensitivity analysis confirms that the direction remains unchanged under both extreme indeterminate (NA) judge treatments.
+      </p>
+
+      <!-- Interactive 3: Controller Ablation Explorer -->
+      <div class="ccpt-interactive-card">
+        <div class="ccpt-card-header">
+          <div class="ccpt-card-title-group">
+            <h3>Interactive Controller Efficacy &amp; Causal Ablation Explorer</h3>
+            <p>Inspect active vs. ablated refusal rates and intermediate representation drift across seeds.</p>
+          </div>
+          <div class="ccpt-segmented-control" role="group" aria-label="Seed Selector">
+            <button class="ccpt-btn" data-controller-seed="20260821">Seed 1 (+41.0 pp)</button>
+            <button class="ccpt-btn active" data-controller-seed="20260823">Seed 2 (-14.1 pp)</button>
+            <button class="ccpt-btn" data-controller-seed="20260824">Seed 3 (+22.3 pp)</button>
+          </div>
+        </div>
+
+        <div class="ccpt-chart-stage" id="controller-stage">
+          <noscript>
+            <div class="ccpt-fallback-wrapper">
+              <img src="assets/controller-fallback.svg" alt="Controller causal ablation chart showing active vs off refusal rates">
+            </div>
+          </noscript>
+        </div>
+
+        <div class="ccpt-data-panel" id="controller-data-box">
+          <!-- Populated dynamically -->
+        </div>
+
+        <div id="controller-mech-box" style="margin-top: 16px;">
+          <!-- Mechanistic table dynamically rendered -->
+        </div>
+      </div>
+
+      <p class="secondary" style="margin-top:16px;">
+        <strong>Mechanistic Diagnostic Findings:</strong> While aggregate Layer 4 gate absolute change was elevated in Seed 2 (<code><span data-bind="s2_l4_gate">0.0119</span></code> vs <code><span data-bind="s1_l4_gate">0.0065</span></code> and <code><span data-bind="s3_l4_gate">0.0082</span></code>), linear CKA metrics confirm that normative state subspaces (CKA = <span data-bind="s2_l4_norm_cka">0.9254</span>) and steering subspaces (CKA = <span data-bind="s2_l4_steer_cka">0.9162</span>) remained globally aligned in Seed 2. Furthermore, prompt-level failure mapping demonstrates that lost-refusal prompts did not exhibit greater steering drift than retained-refusal prompts. Thus, while proximate functional localization is achieved, the upstream stochastic trigger in capability evolution remains unresolved.
+      </p>
+    </section>
+
+    <!-- =======================================================================
+         7. WHAT WE LEARNED & WHAT WE DID NOT
+         ======================================================================= -->
+    <section class="ccpt-section">
+      <h2>6. Scientific Assessment: Supported Findings vs. Open Questions</h2>
+      
+      <h3>Empirically Supported Findings</h3>
+      <ul>
+        <li><strong>Active Causal Steering:</strong> Test-time ablations prove that the normative stream functions as an active causal controller, creating a 23–45 pp refusal margin over unsteered capability generations.</li>
+        <li><strong>Optimization Isolation:</strong> Strict gradient firewalls successfully protect normative parameter weights from cross-entropy updates during LM pretraining.</li>
+        <li><strong>Substantial Persistence Advantage in 2 of 3 Seeds:</strong> CCPT achieved major persistence improvements over matched adapters in Seed 1 (+41.0 pp) and Seed 3 (+22.3 pp).</li>
+      </ul>
+
+      <h3>Not Established / Open Research Questions</h3>
+      <ul>
+        <li><strong>Seed-Invariant Superiority:</strong> CCPT did not achieve uniform superiority across all random seeds, suffering a direction reversal in Seed 2 (-14.1 pp).</li>
+        <li><strong>Identified Root Cause for Seed 2:</strong> Upstream representation drift metrics (CKA, relative L2) did not monotonically order seed-level outcomes.</li>
+        <li><strong>Acceptable Utility Frontier:</strong> High benign over-refusal (&gt;64%) demonstrates that steering selectivity requires further optimization at small scale.</li>
+        <li><strong>Foundation Scale Generalization:</strong> Evaluations were conducted on ~36M parameter models; scaling properties on multi-billion parameter models remain unverified.</li>
+      </ul>
+    </section>
+
+    <!-- =======================================================================
+         8. WHAT'S NEXT
+         ======================================================================= -->
+    <section class="ccpt-section">
+      <h2>7. Next Research Directions</h2>
+      <p>
+        Because cross-seed heterogeneity remains partially unexplained and over-refusal is substantial, <strong>scaling CCPT to large parameter regimes (such as 10B parameters) is not yet scientifically justified</strong>. Immediate research priorities focus on small-scale architectural interface stabilization:
+      </p>
+      <ul>
+        <li><strong>Observation Invariant Regularization:</strong> Investigating auxiliary loss objectives that regularize capability observation projections against representation drift during continuation training.</li>
+        <li><strong>Adaptive Gating Mechanisms:</strong> Exploring norm-bounded, state-dependent gating formulations that preserve controller efficacy across diverse capability trajectories.</li>
+        <li><strong>Selectivity &amp; Utility Tuning:</strong> Refining safe generation objectives to reduce over-refusal on benign distributions.</li>
+      </ul>
+    </section>
+
+    <!-- =======================================================================
+         9. FOOTER & METADATA
+         ======================================================================= -->
+    <footer class="ccpt-footer">
+      <p>
+        <strong>CCPT Research Package</strong> · Authoritative Data Derived from Task 7 &amp; Task 8 Forensic Checkpoints · Model Scale: ~36M Total Parameters · Pretraining Budget: 1B Tokens FineWeb-Edu.
+      </p>
+      <p class="secondary" style="margin-top:6px;">
+        All figures dynamically loaded from <code>data/ccpt-results.json</code>. Zero external runtime dependencies.
+      </p>
+    </footer>
+
+  </main>
+
+  <script src="ccpt-article.js"></script>
+</body>
+</html>
