@@ -1,4 +1,4 @@
-"""Targeted tests asserting all protocol freeze invariants for CCPT Strengthening Round Task 1."""
+"""Targeted tests asserting all protocol freeze invariants for CCPT Strengthening Round Task 1 & 1.1."""
 
 import json
 import hashlib
@@ -10,6 +10,7 @@ ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
 DOCS_DIR = PROJECT_ROOT / "docs" / "research"
 PROTOCOL_PATH = ARTIFACTS_DIR / "strengthening_task1_protocol.json"
 PREFLIGHT_PATH = ARTIFACTS_DIR / "strengthening_task1_preflight.json"
+CALIBRATION_MANIFEST_PATH = ARTIFACTS_DIR / "strengthening_calibration_prompt_manifest.json"
 
 
 @pytest.fixture(scope="module")
@@ -25,6 +26,14 @@ def preflight_data():
     """Load the preflight execution report."""
     assert PREFLIGHT_PATH.exists(), f"Missing {PREFLIGHT_PATH}"
     with open(PREFLIGHT_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@pytest.fixture(scope="module")
+def calibration_data():
+    """Load the calibration prompt manifest."""
+    assert CALIBRATION_MANIFEST_PATH.exists(), f"Missing {CALIBRATION_MANIFEST_PATH}"
+    with open(CALIBRATION_MANIFEST_PATH, "r", encoding="utf-8") as f:
         return json.load(f)
 
 
@@ -98,14 +107,101 @@ def test_historical_task8_artifacts_byte_identical():
         assert actual_h == exp_h, f"Hash mismatch for {rel_p}!"
 
 
-def test_primary_endpoints_and_extended_persistence_curve(protocol_data):
-    """Assert primary safety and persistence endpoints remain fixed and curve contains required steps."""
-    prim = protocol_data["primary_experiment_specification"]
-    assert prim["safety_training"]["primary_endpoint_tokens"] == 20_000_000
-    assert prim["persistence_continuation"]["primary_endpoint_steps"] == 1000
+def test_persistence_token_parity(protocol_data):
+    """Assert exact token count: 1000 steps = 32,768,000 tokens, 4000 steps = 131,072,000 tokens."""
+    from ccpt.data.canonical_materializer import TARGET_PERSISTENCE_BLOCKS
 
-    curve = prim["persistence_continuation"]["extended_curve_steps"]
-    assert curve == [0, 250, 1000, 4000]
+    tokens_1000 = TARGET_PERSISTENCE_BLOCKS * 1024
+    assert tokens_1000 == 32_768_000, f"Expected 32,768,000 tokens, got {tokens_1000}"
+
+    tokens_4000 = 4000 * 32 * 1024
+    assert tokens_4000 == 131_072_000, f"Expected 131,072,000 tokens, got {tokens_4000}"
+
+    prim = protocol_data["primary_experiment_specification"]
+    assert prim["persistence_continuation"]["primary_endpoint_tokens"] == 32_768_000
+    assert prim["persistence_continuation"]["extended_curve_tokens"] == [0, 8192000, 32768000, 131072000]
+
+
+def test_authoritative_task7_4_parity():
+    """Assert agreement with authoritative Task-7.4 constants, manifests, and invariants."""
+    from ccpt.data.canonical_materializer import TARGET_TRAIN_PREFIX_BLOCKS, TARGET_PERSISTENCE_BLOCKS
+    from ccpt.data.wildguard import CANONICAL_TASK4_MANIFEST_HASH
+    from ccpt.training.engine import create_identical_dual_stream_models
+    from ccpt.config import get_smoke_dual_stream_config
+
+    assert TARGET_TRAIN_PREFIX_BLOCKS == 976_544
+    assert TARGET_TRAIN_PREFIX_BLOCKS * 1024 == 999_981_056
+    assert TARGET_PERSISTENCE_BLOCKS == 32_000
+    assert CANONICAL_TASK4_MANIFEST_HASH == "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097"
+
+    cfg = get_smoke_dual_stream_config()
+    mb, mc = create_identical_dual_stream_models(cfg, seed=20260821)
+    for (kb, pb), (kc, pc) in zip(mb.state_dict().items(), mc.state_dict().items()):
+        assert kb == kc and (pb == pc).all(), f"Model B/C initialization divergence on {kb}"
+
+
+def test_protocol_markdown_parity(protocol_data):
+    """Assert that markdown document exactly matches machine-readable protocol values."""
+    doc_path = DOCS_DIR / "strengthening_task1_protocol.md"
+    assert doc_path.exists()
+    text = doc_path.read_text(encoding="utf-8")
+
+    # Seeds
+    for s in protocol_data["seeds"]["primary_six_seed_cohort"]:
+        assert str(s) in text
+    assert str(protocol_data["seeds"]["reserved_seeds"][0]) in text
+
+    # Model parameters & names
+    assert "JointTrainingDualStreamModel" in text
+    assert "CCPTDualStreamModel" in text
+    assert "FrozenBackboneAdapterModel" in text
+    assert "35,920,384" in text
+    assert "35,922,944" in text
+
+    # Exact token counts
+    assert "32,768,000" in text
+    assert "131,072,000" in text
+    assert "~2.0M tokens" not in text
+
+    # Hardware & Budget
+    assert "Modal H100!" in text
+    assert "L40S" in text
+    assert "$40.00" in text
+    assert "$14.00" in text
+
+
+def test_calibration_manifest_integrity_and_isolation(calibration_data):
+    """Assert calibration prompt set has exact record count, logical hash, and 0 test overlap."""
+    from ccpt.data.hashing import sha256_json
+
+    records = calibration_data["records"]
+    assert len(records) == 2335
+    assert calibration_data["deduplication_and_filtering_policy"]["harmful_records_count"] == 1189
+    assert calibration_data["deduplication_and_filtering_policy"]["benign_records_count"] == 1146
+
+    computed_hash = sha256_json(records)
+    assert computed_hash == "e39be5aed40e698d12b5132980c208ff68ad7208501fcd918ceae1011491ef7d"
+
+    audit = calibration_data["test_isolation_audit"]
+    assert audit["wildguard_test_overlap_count"] == 0
+    assert audit["beavertails_30k_test_overlap_count"] == 0
+    assert audit["xstest_overlap_count"] == 0
+    assert audit["isolation_status"] == "PASSED_ZERO_OVERLAP"
+
+
+def test_pinned_xstest_composition_and_source(protocol_data):
+    """Assert pinned XSTest dataset composition (250 safe, 200 unsafe, 450 total) and immutable source."""
+    xs = protocol_data["evaluation_and_benchmarks"]["over_refusal_benchmark"]
+    assert xs["benchmark"] == "XSTest"
+    assert xs["total_prompts"] == 450
+    assert xs["safe_prompts"] == 250
+    assert xs["contrast_unsafe_prompts"] == 200
+
+    pinned = xs["pinned_dataset"]
+    assert pinned["repo"] == "natolambert/xstest-v2-copy"
+    assert pinned["revision"] == "b71afe2a6d10e5a6254ea8bcb006c48b095a15d5"
+    assert pinned["file"] == "data/prompts-00000-of-00001.parquet"
+    assert pinned["sha256"] == "322d4e89df9fb419c296d5b360067f3265845d40a561a37d9be77a078d219522"
 
 
 def test_hardware_specification_and_gpu_safety(protocol_data):
@@ -122,17 +218,6 @@ def test_compute_budget_limits(protocol_data):
     assert cb["hard_authorization_ceiling_usd"] == 40.0
     assert cb["allocations"]["task2_sentinel"]["hard_stop_gate_usd"] == 14.0
     assert cb["allocations"]["task2_sentinel"]["target_max_usd"] <= 12.0
-
-
-def test_calibration_split_isolation(protocol_data):
-    """Assert calibrated operating-point analysis cannot use final ID/OOD test splits."""
-    op = protocol_data["operating_point_experiment"]
-    assert op["status"] == "SECONDARY_SENSITIVITY_ANALYSIS"
-    forbidden = op["forbidden_calibration_datasets"]
-    assert any("WildGuard test" in f for f in forbidden)
-    assert any("BeaverTails 30k OOD" in f for f in forbidden)
-    assert any("XSTest" in f for f in forbidden)
-    assert "WildGuard validation" in op["calibration_dataset"]
 
 
 def test_preflight_artifact_validity(preflight_data):

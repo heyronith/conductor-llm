@@ -1,6 +1,6 @@
 # CCPT Strengthening Round: Protocol Freeze & Experimental Specification
 
-**Task 1 Freeze Document**  
+**Task 1 Freeze Document (Task 1.1 Integrity Patch)**  
 **Anchor Commit:** `75877602bbcb1411478c65230da437f96e1f9554` (Task 8.2A)  
 **Target Branch:** `strengthening-task1-protocol-freeze`  
 **Execution Environment:** Modal H100! (Training/Persistence) / L40S (Evaluation) / CPU (Preflight)  
@@ -85,8 +85,9 @@ The primary statistical cohort consists of $N=6$ independent random initializati
 
 ### Primary Experimental Endpoint
 The primary endpoint of the entire CCPT research program remains strictly unchanged:
-- **Safety Training Budget:** Fixed 20.0M tokens on WildGuard risk and safe-generation splits.
-- **Persistence Continuation Budget:** Fixed 1,000 continuation steps (~2.0M tokens) on FineWeb-Edu.
+- **Capability Pretraining Budget:** 976,544 packed blocks = 999,981,056 tokens (~1B prefix) on FineWeb-Edu; 30,517 steps at batch size 32.
+- **Safety Training Budget:** Fixed 20,000,000 tokens on WildGuard risk and safe-generation splits.
+- **Persistence Continuation Budget:** Fixed 1,000 continuation steps (32,000 blocks = 32,768,000 tokens) on FineWeb-Edu.
 - **Evaluation Set:** 256 unseen OOD harmful prompts from BeaverTails 30k.
 - **Evaluation Judge:** Authoritative tri-state WildGuard judge.
 - **Primary Metric:** Determinate refusal rate $\text{RR} = \frac{\text{YES}}{\text{YES} + \text{NO}}$.
@@ -96,7 +97,11 @@ The primary endpoint of the entire CCPT research program remains strictly unchan
   $$\Delta_{\text{firewall}} = (C_{\text{post}, 1000} - C_{\text{pre}}) - (B_{\text{post}, 1000} - B_{\text{pre}})$$
 
 ### Secondary Endpoints & Sensitivity Analyses
-1. **Extended Persistence Curve:** Trajectory at steps $0 \to 250 \to 1000 \to 4000$.
+1. **Extended Persistence Curve:** Continuous trajectory evaluated at:
+   - Step 0: 0 tokens (pre-persistence baseline)
+   - Step 250: 8,000 blocks = 8,192,000 tokens (continuation blocks `[976544, 984544)`)
+   - Step 1000: 32,000 blocks = 32,768,000 tokens (continuation blocks `[976544, 1008544)`)
+   - Step 4000: 128,000 blocks = 131,072,000 tokens (continuation blocks `[976544, 1104544)`)
 2. **Calibrated Operating-Point Matching:** Sensitivity analysis across 10M, 20M, 30M, 40M safety checkpoints.
 3. **Challenging Over-Refusal Benchmark:** XSTest evaluation (250 safe prompts with sensitive keywords, 200 unsafe contrasts).
 4. **Independent Model Judge:** External evaluation with `meta-llama/Llama-Guard-3-8B`.
@@ -111,7 +116,7 @@ Task 2 executes a targeted sentinel run before any full-scale replication comput
   - Seed 1 (`20260821`): Model B, Model C, Model D
   - Seed 4 (`20260825`): Model B, Model C, Model D
 - **Total Pipelines:** Exactly 6 model training and evaluation runs.
-- **Trajectory:** Full LM pretraining (or paired initialization), primary 20M safety training, continuous persistence to step 4000 with checkpoints saved at steps 250, 1000, and 4000.
+- **Trajectory:** Full LM pretraining (or paired initialization), primary 20M safety training, continuous persistence to step 4000 (131,072,000 tokens) with checkpoints saved at steps 250, 1000, and 4000.
 
 > **CRITICAL SCIENTIFIC INVARIANT:**  
 > The sentinel is NOT used to select favorable scientific outcomes. It exists strictly to prevent spending further compute on an invalid, broken, or non-identifying experiment.  
@@ -122,10 +127,14 @@ Task 2 executes a targeted sentinel run before any full-scale replication comput
 ## 7. Extended Persistence Trajectory Specification
 
 To test whether persistence differences are transient or permanent, new training runs execute a continuous persistence trajectory:
-- Checkpoints saved at: **Step 0 (pre-persistence), Step 250, Step 1000, and Step 4000**.
-- **Data Continuity:** The FineWeb-Edu token stream is continuous and uninterrupted across the entire 4000 steps. The data stream is NOT reset at intermediate checkpoints.
+- Checkpoints saved at:
+  - **Step 0:** 0 tokens (pre-persistence baseline)
+  - **Step 250:** 8,192,000 tokens (8,000 blocks)
+  - **Step 1000:** 32,768,000 tokens (32,000 blocks)
+  - **Step 4000:** 131,072,000 tokens (128,000 blocks)
+- **Data Continuity:** The FineWeb-Edu token stream is continuous and uninterrupted across the entire 4000 steps (`[976544, 1104544)`). The data stream is NOT reset at intermediate checkpoints.
 - **Optimizer State:** The optimizer is initialized/reset at Step 0 as in the original experiment. The optimizer is **NOT reset at Step 250 or Step 1000**.
-- **Parity Invariant:** Checkpoint 1000 must reproduce the exact semantic endpoint of the original Task 7 experiment.
+- **Parity Invariant:** Checkpoint 1000 reproduces the exact semantic endpoint of the original Task 7 experiment (32,768,000 continuation tokens).
 - **Existing Seeds 2 & 3:** The 1B capability pretraining is NOT repeated. For Seeds 2 and 3, continuous persistence resumes directly from verified pre-persistence safety checkpoints to generate steps 250, 1000, and 4000. The newly generated step-1000 result serves as an exact parity check against historical Task 7.4.
 
 ---
@@ -134,9 +143,14 @@ To test whether persistence differences are transient or permanent, new training
 
 Because models may learn safety at different rates, Task 4 conducts a pre-registered sensitivity analysis:
 - **Candidate Checkpoints:** Checkpoints saved at approximately **10M, 20M, 30M, and 40M** valid safety tokens.
-- **Calibration Split (Strictly Isolated):**
-  - Checkpoint matching is performed on the established WildGuard validation split (`risk_val` [2,344 rows] and `gen_val` [928 rows]).
-  - **FORBIDDEN:** The BeaverTails OOD test set, WildGuard test set, and XSTest benchmark must NEVER be used to choose operating points.
+- **Calibration Manifest (Strictly Isolated):**
+  - Stored in: `artifacts/strengthening_calibration_prompt_manifest.json`
+  - Record count: Exactly **2,335 clean validation records** (1,189 harmful, 1,146 benign).
+  - Logical content hash: `e39be5aed40e698d12b5132980c208ff68ad7208501fcd918ceae1011491ef7d`.
+  - **FORBIDDEN & VERIFIED ZERO OVERLAP:**
+    - WildGuard test split: 0 overlapping prompts
+    - BeaverTails 30k_test split: 0 overlapping prompts (all 9 overlapping prompt texts explicitly excluded)
+    - XSTest benchmark: 0 overlapping prompts
 - **Matching Metric:**
   $$\text{distance} = |\text{HarmfulRefusal}_A - \text{HarmfulRefusal}_B| + |\text{BenignRefusal}_A - \text{BenignRefusal}_B| \quad (\text{in pp})$$
 - **Tie-Breaking Hierarchy:**
@@ -156,12 +170,16 @@ Evaluation does not treat safety as a scalar refusal score. First-class behavior
    - Harmful Compliance Rate (assistant executes harmful intent)
    - Indeterminate Rate ($\text{NA} / \text{Total}$)
 2. **Benign Over-Refusal (XSTest 450 prompts):**
-   - 250 safe prompts spanning 10 sensitive categories (e.g. homonyms, figurative language, historical references).
-   - 200 contrast unsafe prompts.
-   - Measures true discrimination vs. keyword-triggered over-refusal.
+   - Pinned public mirror: `natolambert/xstest-v2-copy`
+   - Pinned commit SHA: `b71afe2a6d10e5a6254ea8bcb006c48b095a15d5`
+   - Parquet file: `data/prompts-00000-of-00001.parquet`
+   - SHA256: `322d4e89df9fb419c296d5b360067f3265845d40a561a37d9be77a078d219522`
+   - Canonical upstream reference: `walledai/XSTest` revision `f1d713187c61b6ae64e602d74f0b3d812cc2e8e8`
+   - Composition: **250 safe prompts** spanning 10 sensitive categories (e.g. homonyms, figurative language, historical references) and **200 contrast unsafe prompts**, total 450.
 3. **Independent Judge:**
    - Model: `meta-llama/Llama-Guard-3-8B` (revision `f516a7f5f9f68800ba8ea969a531e21b790d0b04`).
-   - Run deterministically with greedy decoding (`temperature=0.0`) on L40S GPU.
+   - Access verification status: `ACCESS_NOT_YET_EXECUTION_VERIFIED` (HF credentials valid; repo head `7327bd9f6efbbe6101dc6cc4736302b3cbb6e425`).
+   - Execution on L40S GPU with greedy decoding (`temperature=0.0`).
 4. **General Language Capability:**
    - Pre- and post-persistence cross-entropy validation loss and perplexity on the held-out FineWeb-Edu validation split.
 5. **Stratified Double-Blind Human Audit:**

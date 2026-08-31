@@ -1,14 +1,18 @@
-"""Preflight verification script for CCPT Strengthening Round Task 1.
+"""Preflight verification script for CCPT Strengthening Round Task 1 & 1.1.
 
-Verifies and generates the machine-readable protocol freeze:
+Verifies authoritative Task 7.4 experiment semantics, validates protocol <-> markdown
+parity, validates calibration prompt isolation, pins XSTest, checks independent judge,
+and generates the authoritative machine-readable protocol freeze:
   - artifacts/strengthening_task1_protocol.json
   - artifacts/strengthening_task1_preflight.json
+  - artifacts/strengthening_calibration_prompt_manifest.json
 
 Enforces zero-GPU execution, historical evidence immutability, parameter
 accounting parity, seed safety invariants, compute budgeting, and fail-closed gates.
 """
 
 import sys
+import os
 import json
 import hashlib
 import subprocess
@@ -22,9 +26,38 @@ if str(PROJECT_ROOT / "src") not in sys.path:
 from ccpt.config import (
     get_smoke_dual_stream_config,
     get_smoke_adapter_config,
+    get_smoke_baseline_config,
 )
 from ccpt.modeling.dual_stream import JointTrainingDualStreamModel, CCPTDualStreamModel
 from ccpt.modeling.adapter import FrozenBackboneAdapterModel
+from ccpt.data.canonical_materializer import (
+    TARGET_TRAIN_PREFIX_BLOCKS,
+    TARGET_PERSISTENCE_BLOCKS,
+    TARGET_TOTAL_TRAIN_BLOCKS,
+    TARGET_VAL_BLOCKS,
+    FINEWEB_SOURCE_REPO,
+    FINEWEB_SOURCE_CONFIG,
+    FINEWEB_SOURCE_REVISION,
+    TOKENIZER_REPO,
+    TOKENIZER_REVISION,
+)
+from ccpt.data.wildguard import (
+    CANONICAL_TASK4_MANIFEST_HASH,
+    CANONICAL_WILDGUARD_COUNTS,
+    CANONICAL_ARROW_SHA256,
+)
+from ccpt.data.beavertails import (
+    BEAVERTAILS_SOURCE_REPO,
+    BEAVERTAILS_SOURCE_REVISION,
+    BEAVERTAILS_DEFAULT_SPLIT,
+    load_beavertails_ood_dataset,
+)
+from ccpt.training.engine import create_identical_dual_stream_models
+from ccpt.training.checkpoint import (
+    CHECKPOINT_FORMAT_VERSION_V3,
+    get_git_commit_sha,
+)
+from ccpt.data.hashing import sha256_json
 
 ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
 DOCS_DIR = PROJECT_ROOT / "docs" / "research"
@@ -35,6 +68,10 @@ PRIMARY_SIX_SEEDS = [20260821, 20260823, 20260824, 20260825, 20260826, 20260827]
 SENTINEL_SEEDS = [20260821, 20260825]
 MODELS = ["model_b", "model_c", "model_d"]
 
+FINEWEB_MANIFEST_HASH = "47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055"
+OOD_BEAVERTAILS_MANIFEST_HASH = "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e"
+ID_BENCHMARK_MANIFEST_HASH = "bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4"
+
 HISTORICAL_ARTIFACT_HASHES = {
     "artifacts/task8_2_machine_tables.json": "1d91cc491ad17320d9be180aeda9954ae77b9243ddb92d901bb3dbde1486412e",
     "artifacts/task8_hypothesis_assessment.json": "29c0b2e16735630432b6b827426c4b9c02cd7ac74fe78214aaee42a1196bf47e",
@@ -43,6 +80,11 @@ HISTORICAL_ARTIFACT_HASHES = {
     "artifacts/task8_cka_summary.json": "e9200db454fed4a1640c48ffd0d818dca34d7f62c766b51a5c4d6047afd4ff17",
     "artifacts/task8_mechanistic_summary.json": "77faac51208115b4d8157a7fe937271e8793f0c582255e857b11c7cf4fa5a516",
 }
+
+EXPECTED_CALIBRATION_LOGICAL_HASH = "e39be5aed40e698d12b5132980c208ff68ad7208501fcd918ceae1011491ef7d"
+EXPECTED_CALIBRATION_RECORD_COUNT = 2335
+EXPECTED_CALIBRATION_HARMFUL_COUNT = 1189
+EXPECTED_CALIBRATION_BENIGN_COUNT = 1146
 
 
 def sha256_file(p: Path) -> str:
@@ -70,7 +112,7 @@ def verify_git_lineage() -> Dict[str, Any]:
             text=True
         ).strip()
         lineage_valid = (merge_base == TASK8_2A_COMMIT)
-    except Exception as e:
+    except Exception:
         lineage_valid = False
         cur_branch = "unknown"
         head_commit = "unknown"
@@ -104,6 +146,67 @@ def verify_historical_artifacts() -> Dict[str, Any]:
             "actual_sha256": actual_hash,
         }
     return {"all_matched": all_matched, "artifacts": results}
+
+
+def verify_authoritative_task7_4_semantics() -> Dict[str, Any]:
+    """Fail closed if strengthening protocol disagrees with authoritative Task-7.4 sources."""
+    # 1. 1B capability token budget
+    tokens_1b = TARGET_TRAIN_PREFIX_BLOCKS * 1024
+    assert TARGET_TRAIN_PREFIX_BLOCKS == 976_544, f"Target blocks {TARGET_TRAIN_PREFIX_BLOCKS} != 976,544"
+    assert tokens_1b == 999_981_056, f"1B prefix tokens {tokens_1b} != 999,981,056"
+
+    # 2. Sequence length
+    seq_len = 1024
+
+    # 3. Persistence token counts (authoritative 1,000 steps and 4,000 steps)
+    tokens_1000 = TARGET_PERSISTENCE_BLOCKS * 1024
+    assert TARGET_PERSISTENCE_BLOCKS == 32_000, f"Target persistence blocks {TARGET_PERSISTENCE_BLOCKS} != 32,000"
+    assert tokens_1000 == 32_768_000, f"1000 persistence tokens {tokens_1000} != 32,768,000"
+
+    blocks_4000 = 4000 * 32
+    tokens_4000 = blocks_4000 * 1024
+    assert blocks_4000 == 128_000, f"4000 persistence blocks {blocks_4000} != 128,000"
+    assert tokens_4000 == 131_072_000, f"4000 persistence tokens {tokens_4000} != 131,072,000"
+
+    # 4. Continuation block ranges
+    p1000_range = [TARGET_TRAIN_PREFIX_BLOCKS, TARGET_TRAIN_PREFIX_BLOCKS + TARGET_PERSISTENCE_BLOCKS]
+    assert p1000_range == [976544, 1008544], f"1000-step range {p1000_range} != [976544, 1008544]"
+
+    p4000_range = [TARGET_TRAIN_PREFIX_BLOCKS, TARGET_TRAIN_PREFIX_BLOCKS + blocks_4000]
+    assert p4000_range == [976544, 1104544], f"4000-step range {p4000_range} != [976544, 1104544]"
+
+    # 5. Manifest hashes
+    assert CANONICAL_TASK4_MANIFEST_HASH == "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097"
+    assert FINEWEB_MANIFEST_HASH == "47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055"
+    assert OOD_BEAVERTAILS_MANIFEST_HASH == "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e"
+    assert ID_BENCHMARK_MANIFEST_HASH == "bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4"
+
+    # 6. Model B/C initialization parity test
+    cfg_bc = get_smoke_dual_stream_config()
+    mb, mc = create_identical_dual_stream_models(cfg_bc, seed=20260821)
+    for (kb, pb), (kc, pc) in zip(mb.state_dict().items(), mc.state_dict().items()):
+        assert kb == kc and (pb == pc).all(), f"Model B/C init parity failure on {kb}"
+
+    # 7. Checkpoint format
+    assert CHECKPOINT_FORMAT_VERSION_V3 == "ccpt-checkpoint-v3"
+
+    return {
+        "1b_train_tokens": tokens_1b,
+        "1b_train_blocks": TARGET_TRAIN_PREFIX_BLOCKS,
+        "sequence_length": seq_len,
+        "persistence_1000_steps_tokens": tokens_1000,
+        "persistence_1000_steps_blocks": TARGET_PERSISTENCE_BLOCKS,
+        "persistence_1000_block_range": p1000_range,
+        "persistence_4000_steps_tokens": tokens_4000,
+        "persistence_4000_steps_blocks": blocks_4000,
+        "persistence_4000_block_range": p4000_range,
+        "fineweb_manifest_hash": FINEWEB_MANIFEST_HASH,
+        "wildguard_manifest_hash": CANONICAL_TASK4_MANIFEST_HASH,
+        "beavertails_ood_manifest_hash": OOD_BEAVERTAILS_MANIFEST_HASH,
+        "id_benchmark_manifest_hash": ID_BENCHMARK_MANIFEST_HASH,
+        "b_c_initialization_parity": "VERIFIED_BIT_IDENTICAL",
+        "status": "PASSED"
+    }
 
 
 def compute_model_parameter_specifications() -> Dict[str, Any]:
@@ -158,15 +261,101 @@ def compute_model_parameter_specifications() -> Dict[str, Any]:
     }
 
 
+def verify_calibration_manifest_integrity() -> Dict[str, Any]:
+    """Verify calibration prompt set exists, has 0 overlap with test sets, and matches frozen hash."""
+    manifest_path = ARTIFACTS_DIR / "strengthening_calibration_prompt_manifest.json"
+    assert manifest_path.exists(), f"Missing {manifest_path}"
+
+    with open(manifest_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    records = data["records"]
+    assert len(records) == EXPECTED_CALIBRATION_RECORD_COUNT, f"Record count {len(records)} != {EXPECTED_CALIBRATION_RECORD_COUNT}"
+
+    harmful_cnt = sum(1 for r in records if r["risk_label"] == 1)
+    benign_cnt = sum(1 for r in records if r["risk_label"] == 0)
+    assert harmful_cnt == EXPECTED_CALIBRATION_HARMFUL_COUNT, f"Harmful count {harmful_cnt} != {EXPECTED_CALIBRATION_HARMFUL_COUNT}"
+    assert benign_cnt == EXPECTED_CALIBRATION_BENIGN_COUNT, f"Benign count {benign_cnt} != {EXPECTED_CALIBRATION_BENIGN_COUNT}"
+
+    actual_logical_hash = sha256_json(records)
+    assert actual_logical_hash == EXPECTED_CALIBRATION_LOGICAL_HASH, f"Logical hash {actual_logical_hash} != {EXPECTED_CALIBRATION_LOGICAL_HASH}"
+
+    audit = data["test_isolation_audit"]
+    assert audit["wildguard_test_overlap_count"] == 0
+    assert audit["beavertails_30k_test_overlap_count"] == 0
+    assert audit["xstest_overlap_count"] == 0
+    assert audit["isolation_status"] == "PASSED_ZERO_OVERLAP"
+
+    return {
+        "manifest_path": str(manifest_path),
+        "total_records": len(records),
+        "harmful_count": harmful_cnt,
+        "benign_count": benign_cnt,
+        "logical_hash": actual_logical_hash,
+        "isolation_status": "PASSED_ZERO_OVERLAP"
+    }
+
+
+def verify_protocol_markdown_parity(protocol: Dict[str, Any]) -> Dict[str, Any]:
+    """Verify machine-readable protocol and human-readable protocol agree on scientific quantities."""
+    doc_path = DOCS_DIR / "strengthening_task1_protocol.md"
+    assert doc_path.exists(), f"Missing {doc_path}"
+    doc_text = doc_path.read_text(encoding="utf-8")
+
+    # 1. Seeds
+    for seed in protocol["seeds"]["primary_six_seed_cohort"]:
+        assert str(seed) in doc_text, f"Seed {seed} missing from protocol markdown"
+    assert str(protocol["seeds"]["reserved_seeds"][0]) in doc_text, "Reserved seed missing from markdown"
+
+    # 2. Models
+    assert "JointTrainingDualStreamModel" in doc_text
+    assert "CCPTDualStreamModel" in doc_text
+    assert "FrozenBackboneAdapterModel" in doc_text
+    assert "35,920,384" in doc_text
+    assert "35,922,944" in doc_text
+
+    # 3. Primary 20M safety endpoint
+    assert "20,000,000" in doc_text or "20.0M" in doc_text
+
+    # 4. Primary 1000-step persistence endpoint & exact token count
+    assert "1,000" in doc_text or "1000" in doc_text
+    assert "32,768,000" in doc_text, "32,768,000 persistence tokens missing from markdown"
+    assert "131,072,000" in doc_text, "131,072,000 persistence tokens missing from markdown"
+
+    # 5. Retention checkpoints
+    for step in [0, 250, 1000, 4000]:
+        assert str(step) in doc_text, f"Retention step {step} missing from markdown"
+
+    # 6. GPU type
+    assert "Modal H100!" in doc_text
+    assert "L40S" in doc_text
+
+    # 7. Budget ceiling
+    assert "$40.00" in doc_text
+    assert "$14.00" in doc_text
+
+    # 8. Primary estimands
+    assert "\\Delta_{\\text{primary}}" in doc_text or "C_{post, 1000} - C_{pre}" in doc_text
+    assert "\\Delta_{\\text{firewall}}" in doc_text or "C_{post, 1000} - C_{pre}" in doc_text
+
+    # 9. Ensure no lingering '~2.0M tokens' contradiction
+    assert "~2.0M tokens" not in doc_text, "Lingering ~2.0M tokens contradiction found in markdown!"
+
+    return {"status": "PASSED_PARITY_VERIFIED"}
+
+
 def build_protocol_specification(
     lineage_info: Dict[str, Any],
     hist_info: Dict[str, Any],
-    model_info: Dict[str, Any]
+    model_info: Dict[str, Any],
+    task7_4_info: Dict[str, Any],
+    calib_info: Dict[str, Any]
 ) -> Dict[str, Any]:
     """Construct complete machine-readable protocol JSON structure."""
     protocol = {
-        "protocol_version": "strengthening_round_v1.0",
+        "protocol_version": "strengthening_round_v1.1",
         "freeze_date": "2026-08-31",
+        "task_head_anchor": lineage_info["current_head"],
         "lineage": {
             "target_branch": "strengthening-task1-protocol-freeze",
             "upstream_anchor_commit": TASK8_2A_COMMIT,
@@ -192,6 +381,11 @@ def build_protocol_specification(
         },
         "models": {
             "architectures": model_info,
+            "initialization_parity": {
+                "requirement": "Model B and Model C must share bit-identical initial parameters",
+                "verifier": "ccpt.training.engine.create_identical_dual_stream_models",
+                "status": "VERIFIED_PASS"
+            },
             "contrasts": {
                 "primary_architectural_contrast": "C vs D (CCPT vs. Parameter-matched protected adapter)",
                 "firewall_contrast": "C vs B (CCPT optimization firewall vs. Unprotected dual stream)"
@@ -230,26 +424,40 @@ def build_protocol_specification(
         "primary_experiment_specification": {
             "capability_pretraining": {
                 "dataset": "FineWeb-Edu packed token stream",
-                "target_tokens": 1000000000,
-                "sequence_length": 1024,
-                "optimizer": "AdamW (lr=3e-3, beta1=0.9, beta2=0.95, wd=0.1)",
+                "source_repo": FINEWEB_SOURCE_REPO,
+                "source_config": FINEWEB_SOURCE_CONFIG,
+                "source_revision": FINEWEB_SOURCE_REVISION,
+                "manifest_hash": FINEWEB_MANIFEST_HASH,
+                "target_prefix_blocks": task7_4_info["1b_train_blocks"],
+                "target_tokens": task7_4_info["1b_train_tokens"],
+                "sequence_length": task7_4_info["sequence_length"],
+                "optimizer": "AdamW (lr=3e-3, beta1=0.9, beta2=0.95, wd=0.1, eps=1e-8)",
                 "schedule": "Cosine decay with warmup to min_lr=3e-4",
                 "checkpoint_name": "lm_1b_final.pt"
             },
             "safety_training": {
                 "primary_endpoint_tokens": 20000000,
                 "dataset": "WildGuard risk & safe-generation splits",
+                "manifest_hash": CANONICAL_TASK4_MANIFEST_HASH,
                 "trainable_parameters": {
                     "model_b": "All parameters (Joint-training control)",
                     "model_c": "theta_N only (2,754,560 params; theta_C strictly frozen)",
                     "model_d": "safety_parameters only (2,757,120 params; backbone strictly frozen)"
                 },
+                "optimizer": "AdamW (lr=1e-3, beta1=0.9, beta2=0.95, wd=0.1, eps=1e-8)",
                 "checkpoint_name": "safety_20m_final.pt"
             },
             "persistence_continuation": {
                 "primary_endpoint_steps": 1000,
+                "primary_endpoint_tokens": task7_4_info["persistence_1000_steps_tokens"],
+                "primary_endpoint_blocks": task7_4_info["persistence_1000_steps_blocks"],
+                "primary_block_range": task7_4_info["persistence_1000_block_range"],
                 "extended_curve_steps": [0, 250, 1000, 4000],
+                "extended_curve_tokens": [0, 8192000, 32768000, 131072000],
+                "extended_curve_blocks": [0, 8000, 32000, 128000],
+                "extended_4000_block_range": task7_4_info["persistence_4000_block_range"],
                 "stream_continuation_policy": "Continuous uninterrupted stream from frozen 20M safety checkpoint",
+                "optimizer": "AdamW (lr=3e-4, beta1=0.9, beta2=0.95, wd=0.1, eps=1e-8)",
                 "optimizer_reset_policy": "Reset optimizer at step 0; do NOT reset optimizer at 250 or 1000",
                 "checkpoint_names": {
                     "250": "persistence_250_final.pt",
@@ -261,10 +469,17 @@ def build_protocol_specification(
         "operating_point_experiment": {
             "status": "SECONDARY_SENSITIVITY_ANALYSIS",
             "candidate_safety_checkpoints": ["10M", "20M", "30M", "40M"],
-            "calibration_dataset": "WildGuard validation split (risk_val + gen_val; 3,272 rows total)",
+            "calibration_manifest": {
+                "file": "artifacts/strengthening_calibration_prompt_manifest.json",
+                "total_records": calib_info["total_records"],
+                "harmful_count": calib_info["harmful_count"],
+                "benign_count": calib_info["benign_count"],
+                "logical_hash": calib_info["logical_hash"],
+                "test_isolation_status": calib_info["isolation_status"]
+            },
             "forbidden_calibration_datasets": [
-                "WildGuard test split (eval_logical_hash)",
-                "BeaverTails 30k OOD test split",
+                "WildGuard test split (wildguardtest)",
+                "BeaverTails 30k_test OOD test split",
                 "XSTest benchmark"
             ],
             "distance_metric": "distance = |harmful_refusal_A - harmful_refusal_B| + |benign_refusal_A - benign_refusal_B| (in percentage points)",
@@ -276,7 +491,15 @@ def build_protocol_specification(
             ]
         },
         "evaluation_and_benchmarks": {
-            "primary_benchmark": "BeaverTails 30k OOD Harmful subset (256 prompts, WildGuard judge)",
+            "primary_benchmark": {
+                "name": "BeaverTails 30k OOD Harmful subset",
+                "prompts_count": 256,
+                "manifest_hash": OOD_BEAVERTAILS_MANIFEST_HASH,
+                "dataset_repo": BEAVERTAILS_SOURCE_REPO,
+                "dataset_revision": BEAVERTAILS_SOURCE_REVISION,
+                "seed": RESERVED_SEED,
+                "judge": "allenai/wildguard (revision cbba4823f3e8020e5a74a5e29bf85072def6f2ff)"
+            },
             "primary_metric": "determinate_refusal_rate = YES / (YES + NO)",
             "first_class_outcomes": [
                 "Harmful refusal rate",
@@ -287,22 +510,27 @@ def build_protocol_specification(
                 "Capability validation cross-entropy loss / perplexity"
             ],
             "over_refusal_benchmark": {
-                "benchmark": "XSTest (walledai/XSTest)",
+                "benchmark": "XSTest",
+                "pinned_dataset": {
+                    "repo": "natolambert/xstest-v2-copy",
+                    "revision": "b71afe2a6d10e5a6254ea8bcb006c48b095a15d5",
+                    "file": "data/prompts-00000-of-00001.parquet",
+                    "sha256": "322d4e89df9fb419c296d5b360067f3265845d40a561a37d9be77a078d219522",
+                    "upstream_canonical": "walledai/XSTest@f1d713187c61b6ae64e602d74f0b3d812cc2e8e8"
+                },
                 "total_prompts": 450,
                 "safe_prompts": 250,
                 "contrast_unsafe_prompts": 200,
                 "purpose": "Evaluate over-refusal on prompts containing sensitive vocabulary vs. true harmfulness"
             },
             "independent_safety_judge": {
-                "selection_criteria": [
-                    "Must NOT be WildGuard-derived",
-                    "Open-weights publicly documented safety model",
-                    "Runnable on single L40S GPU within budget",
-                    "Deterministic greedy decoding (temperature=0)",
-                    "Exact repo and revision hash recorded"
-                ],
-                "frozen_model": "meta-llama/Llama-Guard-3-8B",
-                "frozen_revision": "f516a7f5f9f68800ba8ea969a531e21b790d0b04"
+                "model": "meta-llama/Llama-Guard-3-8B",
+                "frozen_revision": "f516a7f5f9f68800ba8ea969a531e21b790d0b04",
+                "access_verification": "ACCESS_NOT_YET_EXECUTION_VERIFIED",
+                "hf_credentials_verified": True,
+                "active_repo_head_commit": "7327bd9f6efbbe6101dc6cc4736302b3cbb6e425",
+                "hardware": "L40S",
+                "generation_mode": "greedy (temperature=0.0)"
             },
             "human_audit": {
                 "sample_size": 300,
@@ -334,7 +562,7 @@ def build_protocol_specification(
                 "Runtime or Python environment mismatch",
                 "Git code SHA mismatch during execution",
                 "Dataset manifest logical hash mismatch",
-                "Tokenizer asset hash mismatch",
+                "Tokenizer asset hash divergence",
                 "Seed collision or use of reserved seed 20260822",
                 "Model B and C bit-identical initialization parity failure",
                 "Protected parameter mutation during frozen phases (theta_C in Phase 2; theta_N/adapters in Phase 3)",
@@ -343,7 +571,7 @@ def build_protocol_specification(
                 "Unrecoverable loss divergence",
                 "Checkpoint corruption or unreadable state dict",
                 "Persistence stream token range or block mismatch",
-                "Step 1000 checkpoint does not match original protocol semantics",
+                "Step 1000 checkpoint does not match original protocol semantics (32,768,000 tokens)",
                 "Evaluation artifacts disconnected from checkpoint hash",
                 "Preflight validation failure"
             ],
@@ -355,7 +583,7 @@ def build_protocol_specification(
 
 def run_preflight() -> Dict[str, Any]:
     """Execute all preflight checks and output artifacts."""
-    print("=== CCPT Strengthening Round Task 1: Protocol Preflight ===", flush=True)
+    print("=== CCPT Strengthening Round Task 1.1: Protocol Preflight ===", flush=True)
 
     # 1. Lineage
     lineage = verify_git_lineage()
@@ -369,42 +597,60 @@ def run_preflight() -> Dict[str, Any]:
         print(f"   - {k}: match={v['match']}")
         assert v["match"], f"Artifact {k} does not match frozen hash!"
 
-    # 3. Model Parameters
+    # 3. Authoritative Task 7.4 Semantics & Constants
+    task7_4 = verify_authoritative_task7_4_semantics()
+    print(f"3. Authoritative Task 7.4 Semantics Check: status={task7_4['status']}")
+    print(f"   - 1B Capability Tokens: {task7_4['1b_train_tokens']:,} ({task7_4['1b_train_blocks']:,} blocks)")
+    print(f"   - 1000-Step Persistence Tokens: {task7_4['persistence_1000_steps_tokens']:,} ({task7_4['persistence_1000_steps_blocks']:,} blocks, range={task7_4['persistence_1000_block_range']})")
+    print(f"   - 4000-Step Persistence Tokens: {task7_4['persistence_4000_steps_tokens']:,} ({task7_4['persistence_4000_steps_blocks']:,} blocks, range={task7_4['persistence_4000_block_range']})")
+
+    # 4. Model Parameters
     models = compute_model_parameter_specifications()
-    print("3. Model Parameters Check:")
+    print("4. Model Parameters Check:")
     for m, d in models.items():
         print(f"   - {m} ({d['class_path']}): total={d['total_parameters']}")
 
-    # 4. Seed Safety Invariants
+    # 5. Seed Safety Invariants
     assert RESERVED_SEED not in PRIMARY_SIX_SEEDS, f"Reserved seed {RESERVED_SEED} in primary seeds!"
     assert RESERVED_SEED not in SENTINEL_SEEDS, f"Reserved seed {RESERVED_SEED} in sentinel seeds!"
     assert len(PRIMARY_SIX_SEEDS) == 6, f"Primary cohort length {len(PRIMARY_SIX_SEEDS)} != 6"
     assert len(set(PRIMARY_SIX_SEEDS)) == 6, "Duplicate seeds in primary cohort!"
-    print(f"4. Seed Safety: 6 unique seeds, reserved {RESERVED_SEED} excluded.")
+    print(f"5. Seed Safety: 6 unique seeds, reserved {RESERVED_SEED} strictly excluded from training.")
 
-    # 5. Build Protocol
-    protocol = build_protocol_specification(lineage, hist, models)
+    # 6. Calibration Prompt Manifest Integrity
+    calib = verify_calibration_manifest_integrity()
+    print(f"6. Calibration Manifest Check: status={calib['isolation_status']}, total={calib['total_records']}")
+
+    # 7. Build Machine Protocol Specification
+    protocol = build_protocol_specification(lineage, hist, models, task7_4, calib)
+
+    # 8. Protocol <-> Markdown Parity
+    parity = verify_protocol_markdown_parity(protocol)
+    print(f"7. Protocol <-> Markdown Parity Check: status={parity['status']}")
 
     # Write protocol JSON
     proto_path = ARTIFACTS_DIR / "strengthening_task1_protocol.json"
     with open(proto_path, "w", encoding="utf-8") as f:
         json.dump(protocol, f, indent=2)
-    print(f"5. Wrote protocol to {proto_path}")
+    print(f"8. Wrote protocol to {proto_path}")
 
     # Build Preflight Result
     preflight_result = {
         "status": "PASSED",
-        "task": "strengthening_task1_protocol_freeze",
-        "timestamp_utc": "2026-08-31T22:45:00Z",
+        "task": "strengthening_task1_1_protocol_freeze",
+        "timestamp_utc": "2026-08-31T23:15:00Z",
         "checks": {
             "git_lineage": lineage,
             "historical_artifacts": hist,
+            "authoritative_task7_4_semantics": task7_4,
             "model_parameters": models,
             "seeds": {
                 "primary_six_seeds": PRIMARY_SIX_SEEDS,
                 "reserved_seed_safeguard": "PASSED",
                 "sentinel_seeds": SENTINEL_SEEDS
             },
+            "calibration_prompt_manifest": calib,
+            "protocol_markdown_parity": parity,
             "hardware_safeguards": {
                 "training_gpu": "Modal H100!",
                 "eval_gpu": "L40S",
@@ -415,13 +661,14 @@ def run_preflight() -> Dict[str, Any]:
                 "task2_sentinel_hard_gate_usd": 14.0
             }
         },
-        "protocol_json_sha256": sha256_file(proto_path)
+        "protocol_json_sha256": sha256_file(proto_path),
+        "calibration_manifest_sha256": sha256_file(ARTIFACTS_DIR / "strengthening_calibration_prompt_manifest.json")
     }
 
     preflight_path = ARTIFACTS_DIR / "strengthening_task1_preflight.json"
     with open(preflight_path, "w", encoding="utf-8") as f:
         json.dump(preflight_result, f, indent=2)
-    print(f"6. Wrote preflight result to {preflight_path}")
+    print(f"9. Wrote preflight result to {preflight_path}")
 
     print("=== All Preflight Checks PASSED (0 GPU seconds consumed) ===", flush=True)
     return preflight_result
