@@ -1,0 +1,102 @@
+{
+  "status": "PASSED",
+  "task": "strengthening_task1_protocol_freeze",
+  "timestamp_utc": "2026-08-31T22:45:00Z",
+  "checks": {
+    "git_lineage": {
+      "current_branch": "strengthening-task1-protocol-freeze",
+      "current_head": "75877602bbcb1411478c65230da437f96e1f9554",
+      "task8_2a_commit": "75877602bbcb1411478c65230da437f96e1f9554",
+      "lineage_valid": true
+    },
+    "historical_artifacts": {
+      "all_matched": true,
+      "artifacts": {
+        "artifacts/task8_2_machine_tables.json": {
+          "exists": true,
+          "match": true,
+          "expected_sha256": "1d91cc491ad17320d9be180aeda9954ae77b9243ddb92d901bb3dbde1486412e",
+          "actual_sha256": "1d91cc491ad17320d9be180aeda9954ae77b9243ddb92d901bb3dbde1486412e"
+        },
+        "artifacts/task8_hypothesis_assessment.json": {
+          "exists": true,
+          "match": true,
+          "expected_sha256": "29c0b2e16735630432b6b827426c4b9c02cd7ac74fe78214aaee42a1196bf47e",
+          "actual_sha256": "29c0b2e16735630432b6b827426c4b9c02cd7ac74fe78214aaee42a1196bf47e"
+        },
+        "artifacts/task7_3_1a_forensic_summary.json": {
+          "exists": true,
+          "match": true,
+          "expected_sha256": "89dcebe8c7317631f8ca1eb432e65a58dd2eb60fa72defcf13178a5322777f61",
+          "actual_sha256": "89dcebe8c7317631f8ca1eb432e65a58dd2eb60fa72defcf13178a5322777f61"
+        },
+        "artifacts/task7_4_multiseed_replication_summary.json": {
+          "exists": true,
+          "match": true,
+          "expected_sha256": "5a40b33a93b4334cae7e4037f637d3c88cbb865679b46072825cbf3f2ee2f377",
+          "actual_sha256": "5a40b33a93b4334cae7e4037f637d3c88cbb865679b46072825cbf3f2ee2f377"
+        },
+        "artifacts/task8_cka_summary.json": {
+          "exists": true,
+          "match": true,
+          "expected_sha256": "e9200db454fed4a1640c48ffd0d818dca34d7f62c766b51a5c4d6047afd4ff17",
+          "actual_sha256": "e9200db454fed4a1640c48ffd0d818dca34d7f62c766b51a5c4d6047afd4ff17"
+        },
+        "artifacts/task8_mechanistic_summary.json": {
+          "exists": true,
+          "match": true,
+          "expected_sha256": "77faac51208115b4d8157a7fe937271e8793f0c582255e857b11c7cf4fa5a516",
+          "actual_sha256": "77faac51208115b4d8157a7fe937271e8793f0c582255e857b11c7cf4fa5a516"
+        }
+      }
+    },
+    "model_parameters": {
+      "model_b": {
+        "class_path": "ccpt.modeling.dual_stream.JointTrainingDualStreamModel",
+        "role": "Unprotected dual-stream control (firewall contrast)",
+        "total_parameters": 35920384,
+        "capability_parameters": 33165824,
+        "normative_parameters": 2754560
+      },
+      "model_c": {
+        "class_path": "ccpt.modeling.dual_stream.CCPTDualStreamModel",
+        "role": "Protected CCPT dual-stream model (optimization firewall)",
+        "total_parameters": 35920384,
+        "capability_parameters": 33165824,
+        "normative_parameters": 2754560
+      },
+      "model_d": {
+        "class_path": "ccpt.modeling.adapter.FrozenBackboneAdapterModel",
+        "role": "Parameter-matched protected bottleneck adapter control",
+        "total_parameters": 35922944,
+        "backbone_parameters": 33165824,
+        "adapter_parameters": 2757120
+      }
+    },
+    "seeds": {
+      "primary_six_seeds": [
+        20260821,
+        20260823,
+        20260824,
+        20260825,
+        20260826,
+        20260827
+      ],
+      "reserved_seed_safeguard": "PASSED",
+      "sentinel_seeds": [
+        20260821,
+        20260825
+      ]
+    },
+    "hardware_safeguards": {
+      "training_gpu": "Modal H100!",
+      "eval_gpu": "L40S",
+      "preflight_gpu_seconds_used": 0
+    },
+    "budget_safeguards": {
+      "hard_ceiling_usd": 40.0,
+      "task2_sentinel_hard_gate_usd": 14.0
+    }
+  },
+  "protocol_json_sha256": "fce9d24d9e609a8a19e2cb858f3c59a2c34670282440b3d130a8b4172ca8493c"
+}

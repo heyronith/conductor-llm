@@ -1,0 +1,251 @@
+{
+  "protocol_version": "strengthening_round_v1.0",
+  "freeze_date": "2026-08-31",
+  "lineage": {
+    "target_branch": "strengthening-task1-protocol-freeze",
+    "upstream_anchor_commit": "75877602bbcb1411478c65230da437f96e1f9554",
+    "verified_lineage": true
+  },
+  "historical_evidence_provenance": {
+    "policy": "IMMUTABLE_HISTORICAL_RECORD",
+    "artifacts": {
+      "artifacts/task8_2_machine_tables.json": "1d91cc491ad17320d9be180aeda9954ae77b9243ddb92d901bb3dbde1486412e",
+      "artifacts/task8_hypothesis_assessment.json": "29c0b2e16735630432b6b827426c4b9c02cd7ac74fe78214aaee42a1196bf47e",
+      "artifacts/task7_3_1a_forensic_summary.json": "89dcebe8c7317631f8ca1eb432e65a58dd2eb60fa72defcf13178a5322777f61",
+      "artifacts/task7_4_multiseed_replication_summary.json": "5a40b33a93b4334cae7e4037f637d3c88cbb865679b46072825cbf3f2ee2f377",
+      "artifacts/task8_cka_summary.json": "e9200db454fed4a1640c48ffd0d818dca34d7f62c766b51a5c4d6047afd4ff17",
+      "artifacts/task8_mechanistic_summary.json": "77faac51208115b4d8157a7fe937271e8793f0c582255e857b11c7cf4fa5a516"
+    }
+  },
+  "seeds": {
+    "primary_six_seed_cohort": [
+      20260821,
+      20260823,
+      20260824,
+      20260825,
+      20260826,
+      20260827
+    ],
+    "reserved_seeds": [
+      20260822
+    ],
+    "reserved_seed_policy": "20260822 is strictly reserved for benchmark selection and MUST NEVER be used for training",
+    "sentinel_seeds": [
+      20260821,
+      20260825
+    ],
+    "seed_metadata": {
+      "20260821": "Seed 1 (Rerun under current hardened execution to complete primary cohort)",
+      "20260823": "Seed 2 (Authoritative Task 7.4 hardened run preserved)",
+      "20260824": "Seed 3 (Authoritative Task 7.4 hardened run preserved)",
+      "20260825": "Seed 4 (New replication seed / Sentinel)",
+      "20260826": "Seed 5 (New replication seed)",
+      "20260827": "Seed 6 (New replication seed)"
+    }
+  },
+  "models": {
+    "architectures": {
+      "model_b": {
+        "class_path": "ccpt.modeling.dual_stream.JointTrainingDualStreamModel",
+        "role": "Unprotected dual-stream control (firewall contrast)",
+        "total_parameters": 35920384,
+        "capability_parameters": 33165824,
+        "normative_parameters": 2754560
+      },
+      "model_c": {
+        "class_path": "ccpt.modeling.dual_stream.CCPTDualStreamModel",
+        "role": "Protected CCPT dual-stream model (optimization firewall)",
+        "total_parameters": 35920384,
+        "capability_parameters": 33165824,
+        "normative_parameters": 2754560
+      },
+      "model_d": {
+        "class_path": "ccpt.modeling.adapter.FrozenBackboneAdapterModel",
+        "role": "Parameter-matched protected bottleneck adapter control",
+        "total_parameters": 35922944,
+        "backbone_parameters": 33165824,
+        "adapter_parameters": 2757120
+      }
+    },
+    "contrasts": {
+      "primary_architectural_contrast": "C vs D (CCPT vs. Parameter-matched protected adapter)",
+      "firewall_contrast": "C vs B (CCPT optimization firewall vs. Unprotected dual stream)"
+    }
+  },
+  "hardware_matrix": {
+    "training_and_persistence": "Modal H100!",
+    "training_gpu_enforcement": "Must use 'H100!' with exclamation mark to forbid silent cloud substitution",
+    "evaluation_and_judging": "L40S",
+    "protocol_and_preflight": "CPU",
+    "unauthorized_hardware": [
+      "H200",
+      "A100",
+      "L4",
+      "consumer_gpus"
+    ]
+  },
+  "compute_budget": {
+    "hard_authorization_ceiling_usd": 40.0,
+    "target_spend_range_usd": [
+      25.0,
+      35.0
+    ],
+    "contingency_usd": 2.0,
+    "allocations": {
+      "task2_sentinel": {
+        "target_max_usd": 12.0,
+        "hard_stop_gate_usd": 14.0,
+        "expected_models": 6,
+        "expected_gpu_seconds_h100": 8400,
+        "max_permitted_gpu_seconds_h100": 10800,
+        "timeout_seconds": 12000
+      },
+      "task4_replication_and_calibration": {
+        "cumulative_target_max_usd": 32.0,
+        "hard_stop_gate_usd": 34.0
+      },
+      "task5_evaluation": {
+        "cumulative_target_max_usd": 38.0,
+        "hard_stop_gate_usd": 40.0
+      }
+    }
+  },
+  "primary_experiment_specification": {
+    "capability_pretraining": {
+      "dataset": "FineWeb-Edu packed token stream",
+      "target_tokens": 1000000000,
+      "sequence_length": 1024,
+      "optimizer": "AdamW (lr=3e-3, beta1=0.9, beta2=0.95, wd=0.1)",
+      "schedule": "Cosine decay with warmup to min_lr=3e-4",
+      "checkpoint_name": "lm_1b_final.pt"
+    },
+    "safety_training": {
+      "primary_endpoint_tokens": 20000000,
+      "dataset": "WildGuard risk & safe-generation splits",
+      "trainable_parameters": {
+        "model_b": "All parameters (Joint-training control)",
+        "model_c": "theta_N only (2,754,560 params; theta_C strictly frozen)",
+        "model_d": "safety_parameters only (2,757,120 params; backbone strictly frozen)"
+      },
+      "checkpoint_name": "safety_20m_final.pt"
+    },
+    "persistence_continuation": {
+      "primary_endpoint_steps": 1000,
+      "extended_curve_steps": [
+        0,
+        250,
+        1000,
+        4000
+      ],
+      "stream_continuation_policy": "Continuous uninterrupted stream from frozen 20M safety checkpoint",
+      "optimizer_reset_policy": "Reset optimizer at step 0; do NOT reset optimizer at 250 or 1000",
+      "checkpoint_names": {
+        "250": "persistence_250_final.pt",
+        "1000": "persistence_1000_final.pt",
+        "4000": "persistence_4000_final.pt"
+      }
+    }
+  },
+  "operating_point_experiment": {
+    "status": "SECONDARY_SENSITIVITY_ANALYSIS",
+    "candidate_safety_checkpoints": [
+      "10M",
+      "20M",
+      "30M",
+      "40M"
+    ],
+    "calibration_dataset": "WildGuard validation split (risk_val + gen_val; 3,272 rows total)",
+    "forbidden_calibration_datasets": [
+      "WildGuard test split (eval_logical_hash)",
+      "BeaverTails 30k OOD test split",
+      "XSTest benchmark"
+    ],
+    "distance_metric": "distance = |harmful_refusal_A - harmful_refusal_B| + |benign_refusal_A - benign_refusal_B| (in percentage points)",
+    "tie_breaking_order": [
+      "1. Smallest harmful refusal difference",
+      "2. Smallest benign refusal difference",
+      "3. Lower total safety-token budget",
+      "4. Earlier checkpoint step"
+    ]
+  },
+  "evaluation_and_benchmarks": {
+    "primary_benchmark": "BeaverTails 30k OOD Harmful subset (256 prompts, WildGuard judge)",
+    "primary_metric": "determinate_refusal_rate = YES / (YES + NO)",
+    "first_class_outcomes": [
+      "Harmful refusal rate",
+      "Harmful compliance rate",
+      "Harmful N/A indeterminate rate",
+      "Benign over-refusal rate",
+      "Benign non-refusal rate",
+      "Capability validation cross-entropy loss / perplexity"
+    ],
+    "over_refusal_benchmark": {
+      "benchmark": "XSTest (walledai/XSTest)",
+      "total_prompts": 450,
+      "safe_prompts": 250,
+      "contrast_unsafe_prompts": 200,
+      "purpose": "Evaluate over-refusal on prompts containing sensitive vocabulary vs. true harmfulness"
+    },
+    "independent_safety_judge": {
+      "selection_criteria": [
+        "Must NOT be WildGuard-derived",
+        "Open-weights publicly documented safety model",
+        "Runnable on single L40S GPU within budget",
+        "Deterministic greedy decoding (temperature=0)",
+        "Exact repo and revision hash recorded"
+      ],
+      "frozen_model": "meta-llama/Llama-Guard-3-8B",
+      "frozen_revision": "f516a7f5f9f68800ba8ea969a531e21b790d0b04"
+    },
+    "human_audit": {
+      "sample_size": 300,
+      "design": "Stratified double-blind rater audit",
+      "strata": [
+        "model (B/C/D)",
+        "seed",
+        "harmful vs benign",
+        "pre vs post persistence",
+        "judge agreement vs disagreement"
+      ],
+      "disagreement_handling": "Report both rater scores and inter-rater agreement (Cohen's Kappa); do not discard"
+    }
+  },
+  "statistical_estimands": {
+    "experimental_unit": "Seed (N=6 independent model pipelines)",
+    "prompt_aggregation": "Never treat individual prompt completions as independent replications",
+    "primary_persistence_effect": "(C_post_1000 - C_pre) - (D_post_1000 - D_pre)",
+    "firewall_contrast_effect": "(C_post_1000 - C_pre) - (B_post_1000 - B_pre)",
+    "required_summary_statistics": [
+      "Individual seed values",
+      "Mean effect across seeds",
+      "Median effect across seeds",
+      "Sample standard deviation (N-1=5 degrees of freedom)",
+      "95% Student-t confidence interval",
+      "Direction consistency count (e.g. k/6 seeds)",
+      "Raw judge determinate counts (YES, NO, NA)"
+    ]
+  },
+  "go_stop_policy": {
+    "purpose": "Technical and scientific identifiability gate; NOT a favorable-result selection gate",
+    "scientific_result_rule": "DO NOT STOP if C loses to B, C loses to D, effects are small, or seed reverses. Negative results must be reported.",
+    "automatic_stop_conditions": [
+      "Wrong GPU hardware (anything other than H100! for training or L40S for evaluation)",
+      "Runtime or Python environment mismatch",
+      "Git code SHA mismatch during execution",
+      "Dataset manifest logical hash mismatch",
+      "Tokenizer asset hash mismatch",
+      "Seed collision or use of reserved seed 20260822",
+      "Model B and C bit-identical initialization parity failure",
+      "Protected parameter mutation during frozen phases (theta_C in Phase 2; theta_N/adapters in Phase 3)",
+      "Optimizer parameter group partition violation",
+      "NaN or Inf loss during forward/backward pass",
+      "Unrecoverable loss divergence",
+      "Checkpoint corruption or unreadable state dict",
+      "Persistence stream token range or block mismatch",
+      "Step 1000 checkpoint does not match original protocol semantics",
+      "Evaluation artifacts disconnected from checkpoint hash",
+      "Preflight validation failure"
+    ],
+    "retry_policy": "Infrastructure/transient failures may be retried AT MOST ONCE from the latest verified checkpoint with bit-identical parameters and configurations."
+  }
+}
