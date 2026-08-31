@@ -1,6 +1,7 @@
 {
-  "protocol_version": "strengthening_round_v1.0",
+  "protocol_version": "strengthening_round_v1.1",
   "freeze_date": "2026-08-31",
+  "task_head_anchor": "67e37e4aebd5af99710a16431956c1823af7b7e0",
   "lineage": {
     "target_branch": "strengthening-task1-protocol-freeze",
     "upstream_anchor_commit": "75877602bbcb1411478c65230da437f96e1f9554",
@@ -67,6 +68,11 @@
         "adapter_parameters": 2757120
       }
     },
+    "initialization_parity": {
+      "requirement": "Model B and Model C must share bit-identical initial parameters",
+      "verifier": "ccpt.training.engine.create_identical_dual_stream_models",
+      "status": "VERIFIED_PASS"
+    },
     "contrasts": {
       "primary_architectural_contrast": "C vs D (CCPT vs. Parameter-matched protected adapter)",
       "firewall_contrast": "C vs B (CCPT optimization firewall vs. Unprotected dual stream)"
@@ -113,31 +119,61 @@
   "primary_experiment_specification": {
     "capability_pretraining": {
       "dataset": "FineWeb-Edu packed token stream",
-      "target_tokens": 1000000000,
+      "source_repo": "HuggingFaceFW/fineweb-edu",
+      "source_config": "sample-100BT",
+      "source_revision": "87f09149ef4734204d70ed1d046ddc9ca3f2b8f9",
+      "manifest_hash": "47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055",
+      "target_prefix_blocks": 976544,
+      "target_tokens": 999981056,
       "sequence_length": 1024,
-      "optimizer": "AdamW (lr=3e-3, beta1=0.9, beta2=0.95, wd=0.1)",
+      "optimizer": "AdamW (lr=3e-3, beta1=0.9, beta2=0.95, wd=0.1, eps=1e-8)",
       "schedule": "Cosine decay with warmup to min_lr=3e-4",
       "checkpoint_name": "lm_1b_final.pt"
     },
     "safety_training": {
       "primary_endpoint_tokens": 20000000,
       "dataset": "WildGuard risk & safe-generation splits",
+      "manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
       "trainable_parameters": {
         "model_b": "All parameters (Joint-training control)",
         "model_c": "theta_N only (2,754,560 params; theta_C strictly frozen)",
         "model_d": "safety_parameters only (2,757,120 params; backbone strictly frozen)"
       },
+      "optimizer": "AdamW (lr=1e-3, beta1=0.9, beta2=0.95, wd=0.1, eps=1e-8)",
       "checkpoint_name": "safety_20m_final.pt"
     },
     "persistence_continuation": {
       "primary_endpoint_steps": 1000,
+      "primary_endpoint_tokens": 32768000,
+      "primary_endpoint_blocks": 32000,
+      "primary_block_range": [
+        976544,
+        1008544
+      ],
       "extended_curve_steps": [
         0,
         250,
         1000,
         4000
       ],
+      "extended_curve_tokens": [
+        0,
+        8192000,
+        32768000,
+        131072000
+      ],
+      "extended_curve_blocks": [
+        0,
+        8000,
+        32000,
+        128000
+      ],
+      "extended_4000_block_range": [
+        976544,
+        1104544
+      ],
       "stream_continuation_policy": "Continuous uninterrupted stream from frozen 20M safety checkpoint",
+      "optimizer": "AdamW (lr=3e-4, beta1=0.9, beta2=0.95, wd=0.1, eps=1e-8)",
       "optimizer_reset_policy": "Reset optimizer at step 0; do NOT reset optimizer at 250 or 1000",
       "checkpoint_names": {
         "250": "persistence_250_final.pt",
@@ -154,10 +190,17 @@
       "30M",
       "40M"
     ],
-    "calibration_dataset": "WildGuard validation split (risk_val + gen_val; 3,272 rows total)",
+    "calibration_manifest": {
+      "file": "artifacts/strengthening_calibration_prompt_manifest.json",
+      "total_records": 2335,
+      "harmful_count": 1189,
+      "benign_count": 1146,
+      "logical_hash": "e39be5aed40e698d12b5132980c208ff68ad7208501fcd918ceae1011491ef7d",
+      "test_isolation_status": "PASSED_ZERO_OVERLAP"
+    },
     "forbidden_calibration_datasets": [
-      "WildGuard test split (eval_logical_hash)",
-      "BeaverTails 30k OOD test split",
+      "WildGuard test split (wildguardtest)",
+      "BeaverTails 30k_test OOD test split",
       "XSTest benchmark"
     ],
     "distance_metric": "distance = |harmful_refusal_A - harmful_refusal_B| + |benign_refusal_A - benign_refusal_B| (in percentage points)",
@@ -169,7 +212,15 @@
     ]
   },
   "evaluation_and_benchmarks": {
-    "primary_benchmark": "BeaverTails 30k OOD Harmful subset (256 prompts, WildGuard judge)",
+    "primary_benchmark": {
+      "name": "BeaverTails 30k OOD Harmful subset",
+      "prompts_count": 256,
+      "manifest_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e",
+      "dataset_repo": "PKU-Alignment/BeaverTails",
+      "dataset_revision": "8401fe609d288129cc684a9b3be6a93e41cfe678",
+      "seed": 20260822,
+      "judge": "allenai/wildguard (revision cbba4823f3e8020e5a74a5e29bf85072def6f2ff)"
+    },
     "primary_metric": "determinate_refusal_rate = YES / (YES + NO)",
     "first_class_outcomes": [
       "Harmful refusal rate",
@@ -180,22 +231,27 @@
       "Capability validation cross-entropy loss / perplexity"
     ],
     "over_refusal_benchmark": {
-      "benchmark": "XSTest (walledai/XSTest)",
+      "benchmark": "XSTest",
+      "pinned_dataset": {
+        "repo": "natolambert/xstest-v2-copy",
+        "revision": "b71afe2a6d10e5a6254ea8bcb006c48b095a15d5",
+        "file": "data/prompts-00000-of-00001.parquet",
+        "sha256": "322d4e89df9fb419c296d5b360067f3265845d40a561a37d9be77a078d219522",
+        "upstream_canonical": "walledai/XSTest@f1d713187c61b6ae64e602d74f0b3d812cc2e8e8"
+      },
       "total_prompts": 450,
       "safe_prompts": 250,
       "contrast_unsafe_prompts": 200,
       "purpose": "Evaluate over-refusal on prompts containing sensitive vocabulary vs. true harmfulness"
     },
     "independent_safety_judge": {
-      "selection_criteria": [
-        "Must NOT be WildGuard-derived",
-        "Open-weights publicly documented safety model",
-        "Runnable on single L40S GPU within budget",
-        "Deterministic greedy decoding (temperature=0)",
-        "Exact repo and revision hash recorded"
-      ],
-      "frozen_model": "meta-llama/Llama-Guard-3-8B",
-      "frozen_revision": "f516a7f5f9f68800ba8ea969a531e21b790d0b04"
+      "model": "meta-llama/Llama-Guard-3-8B",
+      "frozen_revision": "f516a7f5f9f68800ba8ea969a531e21b790d0b04",
+      "access_verification": "ACCESS_NOT_YET_EXECUTION_VERIFIED",
+      "hf_credentials_verified": true,
+      "active_repo_head_commit": "7327bd9f6efbbe6101dc6cc4736302b3cbb6e425",
+      "hardware": "L40S",
+      "generation_mode": "greedy (temperature=0.0)"
     },
     "human_audit": {
       "sample_size": 300,
@@ -233,7 +289,7 @@
       "Runtime or Python environment mismatch",
       "Git code SHA mismatch during execution",
       "Dataset manifest logical hash mismatch",
-      "Tokenizer asset hash mismatch",
+      "Tokenizer asset hash divergence",
       "Seed collision or use of reserved seed 20260822",
       "Model B and C bit-identical initialization parity failure",
       "Protected parameter mutation during frozen phases (theta_C in Phase 2; theta_N/adapters in Phase 3)",
@@ -242,7 +298,7 @@
       "Unrecoverable loss divergence",
       "Checkpoint corruption or unreadable state dict",
       "Persistence stream token range or block mismatch",
-      "Step 1000 checkpoint does not match original protocol semantics",
+      "Step 1000 checkpoint does not match original protocol semantics (32,768,000 tokens)",
       "Evaluation artifacts disconnected from checkpoint hash",
       "Preflight validation failure"
     ],

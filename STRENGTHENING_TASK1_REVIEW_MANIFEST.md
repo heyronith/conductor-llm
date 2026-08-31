@@ -1,29 +1,31 @@
-# CCPT Strengthening Round Task 1: Review Manifest
+# CCPT Strengthening Round Task 1 & 1.1: Review Manifest
 
 ## Execution Summary
 
 - **Branch:** `strengthening-task1-protocol-freeze`
 - **Starting Commit SHA:** `75877602bbcb1411478c65230da437f96e1f9554` (Task 8.2A)
+- **Task 1 Baseline Commit:** `67e37e4aebd5af99710a16431956c1823af7b7e0`
 - **Preflight Status:** `PASSED` (`artifacts/strengthening_task1_preflight.json`)
 - **GPU Seconds Consumed:**
   - `Modal H100! GPU seconds: 0`
   - `Modal L40S GPU seconds: 0`
   - `Total GPU Spend: $0.00`
-- **Targeted Test Results:** `9 passed in 1.79s` (`tests/test_strengthening_task1_protocol.py`)
-- **Full Pytest Results:** `255 passed in 38.42s`
+- **Targeted Test Results:** `12 passed in 3.04s` (`tests/test_strengthening_task1_protocol.py`)
+- **Full Pytest Results:** `258 passed`
 - **Review Package Path:** `artifacts/strengthening_task1_review_bundle.zip`
 
 ---
 
 ## Included Files Manifest
 
-| Repository Path | SHA256 Hash | Existed Before Task? | Modified by Task? | Purpose / Reason for Inclusion |
+| Repository Path | SHA256 Hash | Existed Before Task 1? | Modified by Task 1 / 1.1? | Purpose / Reason for Inclusion |
 |---|---|---|---|---|
-| `artifacts/strengthening_task1_protocol.json` | `fce9d24d9e609a8a19e2cb858f3c59a2c34670282440b3d130a8b4172ca8493c` | NO | YES (Created) | Machine-readable source of truth for all frozen protocol specifications. |
-| `artifacts/strengthening_task1_preflight.json` | `a3e1f6ca9d1df36c3243eb7f928b81fafc61b7916b745944d4dfc3b14cdcfbea` | NO | YES (Created) | Machine-readable preflight report certifying all zero-GPU safety and invariant checks passed. |
-| `docs/research/strengthening_task1_protocol.md` | `3d8f93d6f66d9836948d678ecceffc75b871bf5f8504844b5c64641ca350a4dd` | NO | YES (Created) | Comprehensive human-readable experimental protocol and scientific rationale. |
-| `scripts/run_strengthening_task1_preflight.py` | `ab6a4ae5f4a5be6c690012f49f7e3eea25d0f47bbf6769898ca4203ea9539d1a` | NO | YES (Created) | Automated CPU-only preflight verification and protocol builder script. |
-| `tests/test_strengthening_task1_protocol.py` | `d7b4eef471e25e44af5137c0020814a44175e5bb86d60967989b654cdcaec403` | NO | YES (Created) | Targeted pytest suite asserting all protocol and safety invariants. |
+| `artifacts/strengthening_task1_protocol.json` | `fe2cb6ca60e00564642fac3c9e497a60ed5cc0a53540deb3eff27964eb0d8be0` | NO | YES | Machine-readable source of truth for all frozen protocol specifications. |
+| `artifacts/strengthening_task1_preflight.json` | `fecb0717ecb336f20ff5c49d4516153eb0621c87347dfa8b51e97055e948dd43` | NO | YES | Machine-readable preflight report certifying all zero-GPU safety and invariant checks passed. |
+| `artifacts/strengthening_calibration_prompt_manifest.json` | `30cc2ecf8d75a3b418f18a64e665829255a2295468f55bffc33442e2f839bf55` | NO | YES | Pinned, clean validation prompt set ($N=2,335$) with zero test-set overlap. |
+| `docs/research/strengthening_task1_protocol.md` | `98956c47b03f45f41eee9b58637060074f9ed81135cd40d6db890a30a405f71a` | NO | YES | Comprehensive human-readable experimental protocol and scientific rationale. |
+| `scripts/run_strengthening_task1_preflight.py` | `715982bc245bbeb772707343880ec386a858266fdae3dad4958beeb5d4c38eba` | NO | YES | Automated CPU-only preflight verification and protocol builder script. |
+| `tests/test_strengthening_task1_protocol.py` | `2700dbb8d1fcb08c612678e5f30d259bde02e40f04bd670f78f84b1523fb5132` | NO | YES | Targeted pytest suite asserting all protocol, parity, and safety invariants. |
 | `src/ccpt/modeling/dual_stream.py` | `53bd1ba2e68c2df9938316aea077a25aa83da22d2f198ac67e72d72e7e609f2f` | YES | NO | Definitions for Model C (`CCPTDualStreamModel`) and Model B (`JointTrainingDualStreamModel`). |
 | `src/ccpt/modeling/adapter.py` | `b0a49d29969789d6c571fb51c85c90a714cb6a7e974d75dc742184c60ff628e1` | YES | NO | Definition for Model D (`FrozenBackboneAdapterModel`). |
 | `src/ccpt/modeling/baseline.py` | `57c91146182a9993ef12ff790324cec63984c100ad52ce1065a450df5a2ffc1e` | YES | NO | Reference definition for Model A (`ParameterMatchedBaselineModel`). |

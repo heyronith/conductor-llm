@@ -1,11 +1,11 @@
 {
   "status": "PASSED",
-  "task": "strengthening_task1_protocol_freeze",
-  "timestamp_utc": "2026-08-31T22:45:00Z",
+  "task": "strengthening_task1_1_protocol_freeze",
+  "timestamp_utc": "2026-08-31T23:15:00Z",
   "checks": {
     "git_lineage": {
       "current_branch": "strengthening-task1-protocol-freeze",
-      "current_head": "75877602bbcb1411478c65230da437f96e1f9554",
+      "current_head": "67e37e4aebd5af99710a16431956c1823af7b7e0",
       "task8_2a_commit": "75877602bbcb1411478c65230da437f96e1f9554",
       "lineage_valid": true
     },
@@ -50,6 +50,29 @@
         }
       }
     },
+    "authoritative_task7_4_semantics": {
+      "1b_train_tokens": 999981056,
+      "1b_train_blocks": 976544,
+      "sequence_length": 1024,
+      "persistence_1000_steps_tokens": 32768000,
+      "persistence_1000_steps_blocks": 32000,
+      "persistence_1000_block_range": [
+        976544,
+        1008544
+      ],
+      "persistence_4000_steps_tokens": 131072000,
+      "persistence_4000_steps_blocks": 128000,
+      "persistence_4000_block_range": [
+        976544,
+        1104544
+      ],
+      "fineweb_manifest_hash": "47c3424598d5878e54bf00dc0dd2df2af0217c10780d6c73d11a561220716055",
+      "wildguard_manifest_hash": "2cc225c756555e103a5508f4ed3c9eed6d303e6a5d7d9b6851f536edf5834097",
+      "beavertails_ood_manifest_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e",
+      "id_benchmark_manifest_hash": "bdfec7a39f5304144e55d5647b886ed9bd8c676b73131fcb414f8207232fbbc4",
+      "b_c_initialization_parity": "VERIFIED_BIT_IDENTICAL",
+      "status": "PASSED"
+    },
     "model_parameters": {
       "model_b": {
         "class_path": "ccpt.modeling.dual_stream.JointTrainingDualStreamModel",
@@ -88,6 +111,17 @@
         20260825
       ]
     },
+    "calibration_prompt_manifest": {
+      "manifest_path": "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/artifacts/strengthening_calibration_prompt_manifest.json",
+      "total_records": 2335,
+      "harmful_count": 1189,
+      "benign_count": 1146,
+      "logical_hash": "e39be5aed40e698d12b5132980c208ff68ad7208501fcd918ceae1011491ef7d",
+      "isolation_status": "PASSED_ZERO_OVERLAP"
+    },
+    "protocol_markdown_parity": {
+      "status": "PASSED_PARITY_VERIFIED"
+    },
     "hardware_safeguards": {
       "training_gpu": "Modal H100!",
       "eval_gpu": "L40S",
@@ -98,5 +132,6 @@
       "task2_sentinel_hard_gate_usd": 14.0
     }
   },
-  "protocol_json_sha256": "fce9d24d9e609a8a19e2cb858f3c59a2c34670282440b3d130a8b4172ca8493c"
+  "protocol_json_sha256": "fe2cb6ca60e00564642fac3c9e497a60ed5cc0a53540deb3eff27964eb0d8be0",
+  "calibration_manifest_sha256": "30cc2ecf8d75a3b418f18a64e665829255a2295468f55bffc33442e2f839bf55"
 }
