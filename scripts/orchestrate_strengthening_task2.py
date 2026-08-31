@@ -272,6 +272,9 @@ def main():
     print(f"=== Starting Task 2 Sentinel Execution with Code SHA: {code_sha} ===")
 
     # Run preflight verification first
+    project_root = Path(__file__).resolve().parents[1]
+    if str(project_root) not in sys.path:
+        sys.path.insert(0, str(project_root))
     from scripts.run_strengthening_task2_preflight import run_preflight
 
     pre_res = run_preflight()
