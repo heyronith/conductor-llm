@@ -22,7 +22,18 @@ from typing import Any, Dict, List
 
 import modal
 
-app = modal.App("strengthening-task2-orchestrator")
+project_root = Path(__file__).resolve().parents[1]
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
+sys.path.insert(0, str((project_root / "modal").resolve()))
+
+from strengthening_task2_sentinel import (
+    app,
+    run_strengthening_single_model_training,
+    run_strengthening_eval_smoke,
+    run_strengthening_evaluation_worker,
+    run_strengthening_centralized_judge,
+)
 
 
 def get_git_sha() -> str:
@@ -31,14 +42,6 @@ def get_git_sha() -> str:
 
 
 def run_staged_sentinel_experiment(code_sha: str) -> Dict[str, Any]:
-    sys.path.insert(0, str(Path("modal").resolve()))
-    from strengthening_task2_sentinel import (
-        run_strengthening_single_model_training,
-        run_strengthening_eval_smoke,
-        run_strengthening_evaluation_worker,
-        run_strengthening_centralized_judge,
-    )
-
     t0_sentinel = time.time()
     results = {
         "task_name": "CCPT_STRENGTHENING_TASK2_SENTINEL",
