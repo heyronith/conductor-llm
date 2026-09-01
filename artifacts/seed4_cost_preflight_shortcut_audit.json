@@ -1,0 +1,130 @@
+{
+  "task": "seed4_cost_preflight_shortcut_audit",
+  "decisions": [
+    {
+      "option": "shared_b_c_trained_trunk",
+      "decision": "NOT_ALLOWED",
+      "scientific_semantics_changed": "YES",
+      "notes": "B and C LM semantics differ; independent retrain required."
+    },
+    {
+      "option": "precision_change",
+      "decision": "NOT_ALLOWED",
+      "scientific_semantics_changed": "YES",
+      "notes": "Would alter frozen replication protocol."
+    },
+    {
+      "option": "gpu_type_change",
+      "decision": "NOT_ALLOWED",
+      "scientific_semantics_changed": "YES",
+      "notes": "Authoritative training requires H100!; evaluation uses L40S."
+    },
+    {
+      "option": "token_budget_reduction",
+      "decision": "NOT_ALLOWED",
+      "scientific_semantics_changed": "YES",
+      "notes": "Would change 1B LM / 20M safety budgets."
+    },
+    {
+      "option": "persistence_1000_early_stop",
+      "decision": "NOT_ALLOWED",
+      "scientific_semantics_changed": "YES",
+      "notes": "Seed-4 strengthening trajectory requires 4000 steps."
+    },
+    {
+      "option": "drop_model_b",
+      "decision": "NOT_ALLOWED",
+      "scientific_semantics_changed": "YES",
+      "notes": "Model B required for firewall identification."
+    },
+    {
+      "option": "eval_reduction",
+      "decision": "NOT_ALLOWED",
+      "scientific_semantics_changed": "YES",
+      "notes": "Full OOD harmful/benign evaluation set required."
+    },
+    {
+      "option": "invalid_unframed_eval",
+      "decision": "NOT_ALLOWED",
+      "scientific_semantics_changed": "YES",
+      "notes": "Must use canonical format_eval_prompt."
+    },
+    {
+      "option": "reuse_materialized_fineweb_shards",
+      "decision": "ALLOWED",
+      "scientific_semantics_changed": "NO",
+      "notes": "Infrastructure reuse only."
+    },
+    {
+      "option": "reuse_wildguard_arrow_records",
+      "decision": "ALLOWED",
+      "scientific_semantics_changed": "NO",
+      "notes": "Infrastructure reuse only."
+    },
+    {
+      "option": "reuse_modal_image_layers",
+      "decision": "ALLOWED",
+      "scientific_semantics_changed": "NO",
+      "notes": "Reduces cold-start overhead only."
+    },
+    {
+      "option": "prestage_data_before_h100",
+      "decision": "ALLOWED",
+      "scientific_semantics_changed": "NO",
+      "notes": "Avoids idle H100 during preprocessing."
+    },
+    {
+      "option": "centralized_wildguard_judge",
+      "decision": "ALLOWED",
+      "scientific_semantics_changed": "NO",
+      "notes": "Already used in Task 3.1; reduces cold starts."
+    },
+    {
+      "option": "fail_closed_duplicate_launch_guard",
+      "decision": "ALLOWED",
+      "scientific_semantics_changed": "NO",
+      "notes": "Prevents accidental double spend."
+    }
+  ],
+  "protocol_preserving_efficiencies": [
+    {
+      "name": "reuse_materialized_fineweb_shards",
+      "expected_cost_impact": "LOW_TO_MODERATE_REDUCTION",
+      "scientific_semantics_changed": false,
+      "notes": "Infrastructure reuse only."
+    },
+    {
+      "name": "reuse_wildguard_arrow_records",
+      "expected_cost_impact": "LOW_TO_MODERATE_REDUCTION",
+      "scientific_semantics_changed": false,
+      "notes": "Infrastructure reuse only."
+    },
+    {
+      "name": "reuse_modal_image_layers",
+      "expected_cost_impact": "LOW_TO_MODERATE_REDUCTION",
+      "scientific_semantics_changed": false,
+      "notes": "Reduces cold-start overhead only."
+    },
+    {
+      "name": "prestage_data_before_h100",
+      "expected_cost_impact": "LOW_TO_MODERATE_REDUCTION",
+      "scientific_semantics_changed": false,
+      "notes": "Avoids idle H100 during preprocessing."
+    },
+    {
+      "name": "centralized_wildguard_judge",
+      "expected_cost_impact": "LOW_TO_MODERATE_REDUCTION",
+      "scientific_semantics_changed": false,
+      "notes": "Already used in Task 3.1; reduces cold starts."
+    },
+    {
+      "name": "fail_closed_duplicate_launch_guard",
+      "expected_cost_impact": "LOW_TO_MODERATE_REDUCTION",
+      "scientific_semantics_changed": false,
+      "notes": "Prevents accidental double spend."
+    }
+  ],
+  "preflight_code_sha": "0030706ea1bb63ddefe778a01c9f87a7b60e0158",
+  "h100_gpu_seconds_used_by_preflight": 0,
+  "l40s_gpu_seconds_used_by_preflight": 0
+}

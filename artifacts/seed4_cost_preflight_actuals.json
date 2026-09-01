@@ -1,0 +1,88 @@
+{
+  "task": "seed4_cost_preflight_actuals",
+  "seed1": 20260821,
+  "billing_attribution_quality": "HIGH",
+  "billing_attribution_notes": [
+    "App-level attribution to strengthening-task2-sentinel and strengthening-task3-1-eval is exact.",
+    "Per-model H100 split is unavailable from Modal billing rows.",
+    "Task-2 L40S spend reflects the invalid unframed evaluation pass and is excluded from Seed-4 projection."
+  ],
+  "task2_seed1_training": {
+    "modal_app": "strengthening-task2-sentinel",
+    "h100_billed_cost_usd": 25.83683913,
+    "h100_billed_seconds_implied": 23547.498953924052,
+    "l40s_billed_cost_usd": 3.11469362,
+    "l40s_billed_seconds_implied": 5750.2036061538465,
+    "cpu_billed_cost_usd": 0.35600655,
+    "memory_billed_cost_usd": 0.10330622,
+    "total_billed_cost_usd": 29.41084552,
+    "evidence_class": "ACTUAL_BILLED",
+    "per_model_h100_billed_cost_usd": null,
+    "per_model_attribution": "Modal billing cannot uniquely attribute H100 spend to model_b/model_c/model_d within strengthening-task2-sentinel; aggregate app-level billing preserved.",
+    "clean_training_day_2026_09_01": {
+      "total_billed_cost_usd": 26.33076821,
+      "h100_billed_cost_usd": 22.80192289,
+      "h100_billed_seconds_implied": 20781.49934278481,
+      "evidence_class": "ACTUAL_BILLED"
+    }
+  },
+  "task3_1_corrected_evaluation": {
+    "modal_app": "strengthening-task3-1-eval",
+    "l40s_billed_cost_usd": 1.85250008,
+    "l40s_billed_seconds_implied": 3420.0001476923076,
+    "cpu_billed_cost_usd": 0.04278621,
+    "memory_billed_cost_usd": 0.0087142,
+    "total_billed_cost_usd": 1.90400049,
+    "evidence_class": "ACTUAL_BILLED",
+    "reported_runtime_seconds": {
+      "total_l40s_gpu_seconds": 3174.571534872055,
+      "evidence_class": "ACTUAL_RUNTIME",
+      "source_artifact": "artifacts/strengthening_task3_1_cost_summary.json"
+    },
+    "reported_cost_usd": {
+      "total_l40s_cost_usd": 1.720617771900654,
+      "evidence_class": "MODELED_OR_FALLBACK",
+      "rationale": "Computed as runtime_seconds \u00d7 hardcoded L40S_HOURLY_RATE=1.9512 in eval runner, not from Modal billing."
+    },
+    "billing_vs_reported_delta_usd": 0.1319
+  },
+  "timing_field_audit": {
+    "lm_pretrain_seconds_field": {
+      "value": 6000.0,
+      "evidence_class": "MODELED_OR_FALLBACK",
+      "rationale": "Hardcoded default 6000.0 in modal/strengthening_task2_sentinel.py and returned unchanged when persistence_4000.pt fast-return path is taken; not phase-measured for the Seed-1 orchestrator run (wall clock ~1001s << reported 21255 H100 seconds)."
+    },
+    "safety_train_seconds_field": {
+      "value": 305.0,
+      "evidence_class": "MODELED_OR_FALLBACK",
+      "rationale": "Same fast-return/default constant path as LM seconds (305.0)."
+    },
+    "persistence_train_seconds_field": {
+      "value": 780.0,
+      "evidence_class": "MODELED_OR_FALLBACK",
+      "rationale": "Same fast-return/default constant path as LM seconds (780.0)."
+    },
+    "per_model_total_h100_seconds_field": {
+      "value": 7085.0,
+      "evidence_class": "MODELED_OR_FALLBACK",
+      "rationale": "Sum of fallback phase constants (6000+305+780=7085) per model."
+    },
+    "aggregate_seed1_h100_seconds_field": {
+      "value": 21255.0,
+      "evidence_class": "MODELED_OR_FALLBACK",
+      "rationale": "3 \u00d7 7085 fallback seconds; differs from Modal billed implied seconds."
+    },
+    "orchestrator_wall_clock_seconds": {
+      "value": 1001.5761530399323,
+      "evidence_class": "ACTUAL_RUNTIME",
+      "rationale": "Measured orchestrator duration in sentinel summary."
+    },
+    "fast_return_likely": true
+  },
+  "total_relevant_seed1_billed_cost_usd": 28.2002,
+  "total_relevant_seed1_billed_cost_excludes_task2_l40s": true,
+  "excluded_task2_l40s_billed_cost_usd": 3.11469362,
+  "preflight_code_sha": "0030706ea1bb63ddefe778a01c9f87a7b60e0158",
+  "h100_gpu_seconds_used_by_preflight": 0,
+  "l40s_gpu_seconds_used_by_preflight": 0
+}

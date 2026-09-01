@@ -1,0 +1,29 @@
+{
+  "task": "seed4_cost_preflight_modal_rates",
+  "retrieved_at_utc": "2026-09-01T19:59:16.307843+00:00",
+  "modal_cli_version": "1.5.4",
+  "modal_profile": "ronithworks",
+  "rates": {
+    "cpu_hour_cost": "0.04730",
+    "cpu_hour_cost_sandbox": "0.141900",
+    "gpu_hour_cost_a100_40gb": "2.10000",
+    "gpu_hour_cost_a100_80gb": "2.50000",
+    "gpu_hour_cost_a10g": "1.10000",
+    "gpu_hour_cost_b200": "6.25000",
+    "gpu_hour_cost_b300": "7.10000",
+    "gpu_hour_cost_h100": "3.95000",
+    "gpu_hour_cost_h200": "4.54000",
+    "gpu_hour_cost_l4": "0.80000",
+    "gpu_hour_cost_l40s": "1.95000",
+    "gpu_hour_cost_rtx6000": "3.03000",
+    "gpu_hour_cost_t4": "0.59000",
+    "mem_gib_hour_cost": "0.00800",
+    "mem_gib_hour_cost_sandbox": "0.024000",
+    "volume_storage_gib_month_cost": "0.09000"
+  },
+  "workspace_h100_hourly_usd": 3.95,
+  "workspace_l40s_hourly_usd": 1.95,
+  "workspace_cpu_hourly_usd": 0.0473,
+  "workspace_mem_gib_hourly_usd": 0.008,
+  "evidence_class": "ACTUAL_BILLED"
+}

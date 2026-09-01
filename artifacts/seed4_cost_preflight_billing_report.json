@@ -1,0 +1,809 @@
+{
+  "task": "seed4_cost_preflight_billing_report",
+  "modal_profile": "ronithworks",
+  "modal_cli_version": "1.5.4",
+  "billing_report_date_range": {
+    "primary_window": "2026-08-31 to 2026-09-02",
+    "narrow_task2_window_utc": "2026-09-01T03:00:00 to 2026-09-01T05:00:00"
+  },
+  "raw_report_files": [
+    "artifacts/seed4_cost_preflight/task2_seed1_billing_raw.json",
+    "artifacts/seed4_cost_preflight/task2_seed1_narrow_billing_raw.json",
+    "artifacts/seed4_cost_preflight/task2_seed1_window_billing_raw.json",
+    "artifacts/seed4_cost_preflight/task3_1_billing_raw.json"
+  ],
+  "aggregates": {
+    "task2_seed1_billing_raw.json": {
+      "row_count": 2787,
+      "sha256": "062589a4e5e1fe23c302aa59ea71e8044e60ee2af1e9a310971097308361e52f",
+      "ccpt_apps": {
+        "apps": {
+          "strengthening-task3-1-eval": {
+            "total_cost_usd": 1.90400049,
+            "by_resource_usd": {
+              "A10G": 0.0,
+              "CPU": 0.04278621,
+              "L40S": 1.85250008,
+              "Memory": 0.0087142
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 1.90400049,
+                "by_resource_usd": {
+                  "A10G": 0.0,
+                  "CPU": 0.04278621,
+                  "L40S": 1.85250008,
+                  "Memory": 0.0087142
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-UVC7wM4gUteANOqqXIIhit": {
+                "total_cost_usd": 1.89732118,
+                "by_resource_usd": {
+                  "CPU": 0.03944472,
+                  "L40S": 1.84925008,
+                  "Memory": 0.00862638
+                }
+              },
+              "ap-sg5PeucdfdB496kvHoIR9p": {
+                "total_cost_usd": 0.00559191,
+                "by_resource_usd": {
+                  "A10G": 0.0,
+                  "CPU": 0.00333821,
+                  "L40S": 0.0021666,
+                  "Memory": 8.71e-05
+                }
+              },
+              "ap-0quJRg9WZhIjI1AdCjpPSK": {
+                "total_cost_usd": 0.0010874,
+                "by_resource_usd": {
+                  "CPU": 3.28e-06,
+                  "L40S": 0.0010834,
+                  "Memory": 7.2e-07
+                }
+              }
+            }
+          },
+          "strengthening-task3-forensic": {
+            "total_cost_usd": 0.01594088,
+            "by_resource_usd": {
+              "CPU": 0.01062502,
+              "Memory": 0.00531586
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 0.01594088,
+                "by_resource_usd": {
+                  "CPU": 0.01062502,
+                  "Memory": 0.00531586
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-8ewQYVSuJ0C1zwG3rKmj8Y": {
+                "total_cost_usd": 0.00634881,
+                "by_resource_usd": {
+                  "CPU": 0.00378687,
+                  "Memory": 0.00256194
+                }
+              },
+              "ap-UeeEVcVfzLvPANXA2rH4L8": {
+                "total_cost_usd": 0.00422937,
+                "by_resource_usd": {
+                  "CPU": 0.00252269,
+                  "Memory": 0.00170668
+                }
+              },
+              "ap-6F5M1kribmCcEklqirgtp4": {
+                "total_cost_usd": 0.00307177,
+                "by_resource_usd": {
+                  "CPU": 0.00294899,
+                  "Memory": 0.00012278
+                }
+              },
+              "ap-1aPhqChn8RyRxJ4T5ei6S5": {
+                "total_cost_usd": 0.00229093,
+                "by_resource_usd": {
+                  "CPU": 0.00136647,
+                  "Memory": 0.00092446
+                }
+              }
+            }
+          },
+          "strengthening-task2-sentinel": {
+            "total_cost_usd": 26.33076821,
+            "by_resource_usd": {
+              "CPU": 0.32098107,
+              "H100": 22.80192289,
+              "L40S": 3.11469362,
+              "Memory": 0.09317063
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 26.33076821,
+                "by_resource_usd": {
+                  "CPU": 0.32098107,
+                  "H100": 22.80192289,
+                  "L40S": 3.11469362,
+                  "Memory": 0.09317063
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-TaUUJJEc7NPvKK0oya8ClI": {
+                "total_cost_usd": 17.97572618,
+                "by_resource_usd": {
+                  "CPU": 0.20969068,
+                  "H100": 17.70422587,
+                  "Memory": 0.06180963
+                }
+              },
+              "ap-7BwZvJXfXhNf34YmxJZQ9T": {
+                "total_cost_usd": 2.97973657,
+                "by_resource_usd": {
+                  "CPU": 0.03298903,
+                  "H100": 2.93616662,
+                  "Memory": 0.01058092
+                }
+              },
+              "ap-cKSKLaV2osBZ75RHNo1zb0": {
+                "total_cost_usd": 2.72811389,
+                "by_resource_usd": {
+                  "CPU": 0.04784989,
+                  "H100": 0.30502877,
+                  "L40S": 2.36286135,
+                  "Memory": 0.01237388
+                }
+              },
+              "ap-JLcljKGGok1GtmlCRigRdw": {
+                "total_cost_usd": 1.07509652,
+                "by_resource_usd": {
+                  "CPU": 0.01129377,
+                  "H100": 1.05991648,
+                  "Memory": 0.00388627
+                }
+              },
+              "ap-5nKMP2j3evWrTZGWNFgdqd": {
+                "total_cost_usd": 0.85849935,
+                "by_resource_usd": {
+                  "CPU": 0.0136279,
+                  "H100": 0.29625131,
+                  "L40S": 0.54599917,
+                  "Memory": 0.00262097
+                }
+              },
+              "ap-ELJZiCTkakrIWg1bI0qkFM": {
+                "total_cost_usd": 0.5259458,
+                "by_resource_usd": {
+                  "CPU": 0.00468587,
+                  "H100": 0.31599955,
+                  "L40S": 0.20366637,
+                  "Memory": 0.00159401
+                }
+              },
+              "ap-kjZzGjjT5GmvBCeG6ShnSs": {
+                "total_cost_usd": 0.1876499,
+                "by_resource_usd": {
+                  "CPU": 0.00084393,
+                  "H100": 0.18433429,
+                  "L40S": 0.00216673,
+                  "Memory": 0.00030495
+                }
+              }
+            }
+          }
+        },
+        "filtered_total_cost_usd": 28.25070958
+      }
+    },
+    "task2_seed1_narrow_billing_raw.json": {
+      "row_count": 586,
+      "sha256": "50947da60945591f59c1acf27b349f401c425d4f78e10ffef6b3d1c6beef7f7c",
+      "ccpt_apps": {
+        "apps": {
+          "strengthening-task2-sentinel": {
+            "total_cost_usd": 0.99899568,
+            "by_resource_usd": {
+              "CPU": 0.01685886,
+              "H100": 0.29625131,
+              "L40S": 0.68250198,
+              "Memory": 0.00338353
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 0.99899568,
+                "by_resource_usd": {
+                  "CPU": 0.01685886,
+                  "H100": 0.29625131,
+                  "L40S": 0.68250198,
+                  "Memory": 0.00338353
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-5nKMP2j3evWrTZGWNFgdqd": {
+                "total_cost_usd": 0.85849934,
+                "by_resource_usd": {
+                  "CPU": 0.01362791,
+                  "H100": 0.29625131,
+                  "L40S": 0.54599916,
+                  "Memory": 0.00262096
+                }
+              },
+              "ap-cKSKLaV2osBZ75RHNo1zb0": {
+                "total_cost_usd": 0.14049634,
+                "by_resource_usd": {
+                  "CPU": 0.00323095,
+                  "L40S": 0.13650282,
+                  "Memory": 0.00076257
+                }
+              }
+            }
+          }
+        },
+        "filtered_total_cost_usd": 0.99899568
+      }
+    },
+    "task2_seed1_window_billing_raw.json": {
+      "row_count": 2785,
+      "sha256": "94f3b293131bf8a3c55d0256afeb8d3fa69bb55c6a65375f6b8e4bdd64d75d68",
+      "ccpt_apps": {
+        "apps": {
+          "strengthening-task3-1-eval": {
+            "total_cost_usd": 1.90400049,
+            "by_resource_usd": {
+              "A10G": 0.0,
+              "CPU": 0.04278621,
+              "L40S": 1.85250008,
+              "Memory": 0.0087142
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 1.90400049,
+                "by_resource_usd": {
+                  "A10G": 0.0,
+                  "CPU": 0.04278621,
+                  "L40S": 1.85250008,
+                  "Memory": 0.0087142
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-UVC7wM4gUteANOqqXIIhit": {
+                "total_cost_usd": 1.89732118,
+                "by_resource_usd": {
+                  "CPU": 0.03944472,
+                  "L40S": 1.84925008,
+                  "Memory": 0.00862638
+                }
+              },
+              "ap-sg5PeucdfdB496kvHoIR9p": {
+                "total_cost_usd": 0.00559191,
+                "by_resource_usd": {
+                  "A10G": 0.0,
+                  "CPU": 0.00333821,
+                  "L40S": 0.0021666,
+                  "Memory": 8.71e-05
+                }
+              },
+              "ap-0quJRg9WZhIjI1AdCjpPSK": {
+                "total_cost_usd": 0.0010874,
+                "by_resource_usd": {
+                  "CPU": 3.28e-06,
+                  "L40S": 0.0010834,
+                  "Memory": 7.2e-07
+                }
+              }
+            }
+          },
+          "strengthening-task3-forensic": {
+            "total_cost_usd": 0.01594088,
+            "by_resource_usd": {
+              "CPU": 0.01062502,
+              "Memory": 0.00531586
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 0.01594088,
+                "by_resource_usd": {
+                  "CPU": 0.01062502,
+                  "Memory": 0.00531586
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-8ewQYVSuJ0C1zwG3rKmj8Y": {
+                "total_cost_usd": 0.00634881,
+                "by_resource_usd": {
+                  "CPU": 0.00378687,
+                  "Memory": 0.00256194
+                }
+              },
+              "ap-UeeEVcVfzLvPANXA2rH4L8": {
+                "total_cost_usd": 0.00422937,
+                "by_resource_usd": {
+                  "CPU": 0.00252269,
+                  "Memory": 0.00170668
+                }
+              },
+              "ap-6F5M1kribmCcEklqirgtp4": {
+                "total_cost_usd": 0.00307177,
+                "by_resource_usd": {
+                  "CPU": 0.00294899,
+                  "Memory": 0.00012278
+                }
+              },
+              "ap-1aPhqChn8RyRxJ4T5ei6S5": {
+                "total_cost_usd": 0.00229093,
+                "by_resource_usd": {
+                  "CPU": 0.00136647,
+                  "Memory": 0.00092446
+                }
+              }
+            }
+          },
+          "strengthening-task2-sentinel": {
+            "total_cost_usd": 26.33076821,
+            "by_resource_usd": {
+              "CPU": 0.32098107,
+              "H100": 22.80192289,
+              "L40S": 3.11469362,
+              "Memory": 0.09317063
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 26.33076821,
+                "by_resource_usd": {
+                  "CPU": 0.32098107,
+                  "H100": 22.80192289,
+                  "L40S": 3.11469362,
+                  "Memory": 0.09317063
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-TaUUJJEc7NPvKK0oya8ClI": {
+                "total_cost_usd": 17.97572618,
+                "by_resource_usd": {
+                  "CPU": 0.20969068,
+                  "H100": 17.70422587,
+                  "Memory": 0.06180963
+                }
+              },
+              "ap-7BwZvJXfXhNf34YmxJZQ9T": {
+                "total_cost_usd": 2.97973657,
+                "by_resource_usd": {
+                  "CPU": 0.03298903,
+                  "H100": 2.93616662,
+                  "Memory": 0.01058092
+                }
+              },
+              "ap-cKSKLaV2osBZ75RHNo1zb0": {
+                "total_cost_usd": 2.72811389,
+                "by_resource_usd": {
+                  "CPU": 0.04784989,
+                  "H100": 0.30502877,
+                  "L40S": 2.36286135,
+                  "Memory": 0.01237388
+                }
+              },
+              "ap-JLcljKGGok1GtmlCRigRdw": {
+                "total_cost_usd": 1.07509652,
+                "by_resource_usd": {
+                  "CPU": 0.01129377,
+                  "H100": 1.05991648,
+                  "Memory": 0.00388627
+                }
+              },
+              "ap-5nKMP2j3evWrTZGWNFgdqd": {
+                "total_cost_usd": 0.85849935,
+                "by_resource_usd": {
+                  "CPU": 0.0136279,
+                  "H100": 0.29625131,
+                  "L40S": 0.54599917,
+                  "Memory": 0.00262097
+                }
+              },
+              "ap-ELJZiCTkakrIWg1bI0qkFM": {
+                "total_cost_usd": 0.5259458,
+                "by_resource_usd": {
+                  "CPU": 0.00468587,
+                  "H100": 0.31599955,
+                  "L40S": 0.20366637,
+                  "Memory": 0.00159401
+                }
+              },
+              "ap-kjZzGjjT5GmvBCeG6ShnSs": {
+                "total_cost_usd": 0.1876499,
+                "by_resource_usd": {
+                  "CPU": 0.00084393,
+                  "H100": 0.18433429,
+                  "L40S": 0.00216673,
+                  "Memory": 0.00030495
+                }
+              }
+            }
+          }
+        },
+        "filtered_total_cost_usd": 28.25070958
+      }
+    },
+    "task3_1_billing_raw.json": {
+      "row_count": 2787,
+      "sha256": "0c0f63dc402361c2661cbe9ec6238b22580ae0e84ad122310201adfac47ffe9e",
+      "ccpt_apps": {
+        "apps": {
+          "strengthening-task3-1-eval": {
+            "total_cost_usd": 1.90400049,
+            "by_resource_usd": {
+              "A10G": 0.0,
+              "CPU": 0.04278621,
+              "L40S": 1.85250008,
+              "Memory": 0.0087142
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 1.90400049,
+                "by_resource_usd": {
+                  "A10G": 0.0,
+                  "CPU": 0.04278621,
+                  "L40S": 1.85250008,
+                  "Memory": 0.0087142
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-UVC7wM4gUteANOqqXIIhit": {
+                "total_cost_usd": 1.89732118,
+                "by_resource_usd": {
+                  "CPU": 0.03944472,
+                  "L40S": 1.84925008,
+                  "Memory": 0.00862638
+                }
+              },
+              "ap-sg5PeucdfdB496kvHoIR9p": {
+                "total_cost_usd": 0.00559191,
+                "by_resource_usd": {
+                  "A10G": 0.0,
+                  "CPU": 0.00333821,
+                  "L40S": 0.0021666,
+                  "Memory": 8.71e-05
+                }
+              },
+              "ap-0quJRg9WZhIjI1AdCjpPSK": {
+                "total_cost_usd": 0.0010874,
+                "by_resource_usd": {
+                  "CPU": 3.28e-06,
+                  "L40S": 0.0010834,
+                  "Memory": 7.2e-07
+                }
+              }
+            }
+          },
+          "strengthening-task3-forensic": {
+            "total_cost_usd": 0.01594088,
+            "by_resource_usd": {
+              "CPU": 0.01062502,
+              "Memory": 0.00531586
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 0.01594088,
+                "by_resource_usd": {
+                  "CPU": 0.01062502,
+                  "Memory": 0.00531586
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-8ewQYVSuJ0C1zwG3rKmj8Y": {
+                "total_cost_usd": 0.00634881,
+                "by_resource_usd": {
+                  "CPU": 0.00378687,
+                  "Memory": 0.00256194
+                }
+              },
+              "ap-UeeEVcVfzLvPANXA2rH4L8": {
+                "total_cost_usd": 0.00422937,
+                "by_resource_usd": {
+                  "CPU": 0.00252269,
+                  "Memory": 0.00170668
+                }
+              },
+              "ap-6F5M1kribmCcEklqirgtp4": {
+                "total_cost_usd": 0.00307177,
+                "by_resource_usd": {
+                  "CPU": 0.00294899,
+                  "Memory": 0.00012278
+                }
+              },
+              "ap-1aPhqChn8RyRxJ4T5ei6S5": {
+                "total_cost_usd": 0.00229093,
+                "by_resource_usd": {
+                  "CPU": 0.00136647,
+                  "Memory": 0.00092446
+                }
+              }
+            }
+          },
+          "strengthening-task2-sentinel": {
+            "total_cost_usd": 26.33076821,
+            "by_resource_usd": {
+              "CPU": 0.32098107,
+              "H100": 22.80192289,
+              "L40S": 3.11469362,
+              "Memory": 0.09317063
+            },
+            "by_day": {
+              "2026-09-01": {
+                "total_cost_usd": 26.33076821,
+                "by_resource_usd": {
+                  "CPU": 0.32098107,
+                  "H100": 22.80192289,
+                  "L40S": 3.11469362,
+                  "Memory": 0.09317063
+                }
+              }
+            },
+            "by_object_id": {
+              "ap-TaUUJJEc7NPvKK0oya8ClI": {
+                "total_cost_usd": 17.97572618,
+                "by_resource_usd": {
+                  "CPU": 0.20969068,
+                  "H100": 17.70422587,
+                  "Memory": 0.06180963
+                }
+              },
+              "ap-7BwZvJXfXhNf34YmxJZQ9T": {
+                "total_cost_usd": 2.97973657,
+                "by_resource_usd": {
+                  "CPU": 0.03298903,
+                  "H100": 2.93616662,
+                  "Memory": 0.01058092
+                }
+              },
+              "ap-cKSKLaV2osBZ75RHNo1zb0": {
+                "total_cost_usd": 2.72811389,
+                "by_resource_usd": {
+                  "CPU": 0.04784989,
+                  "H100": 0.30502877,
+                  "L40S": 2.36286135,
+                  "Memory": 0.01237388
+                }
+              },
+              "ap-JLcljKGGok1GtmlCRigRdw": {
+                "total_cost_usd": 1.07509652,
+                "by_resource_usd": {
+                  "CPU": 0.01129377,
+                  "H100": 1.05991648,
+                  "Memory": 0.00388627
+                }
+              },
+              "ap-5nKMP2j3evWrTZGWNFgdqd": {
+                "total_cost_usd": 0.85849935,
+                "by_resource_usd": {
+                  "CPU": 0.0136279,
+                  "H100": 0.29625131,
+                  "L40S": 0.54599917,
+                  "Memory": 0.00262097
+                }
+              },
+              "ap-ELJZiCTkakrIWg1bI0qkFM": {
+                "total_cost_usd": 0.5259458,
+                "by_resource_usd": {
+                  "CPU": 0.00468587,
+                  "H100": 0.31599955,
+                  "L40S": 0.20366637,
+                  "Memory": 0.00159401
+                }
+              },
+              "ap-kjZzGjjT5GmvBCeG6ShnSs": {
+                "total_cost_usd": 0.1876499,
+                "by_resource_usd": {
+                  "CPU": 0.00084393,
+                  "H100": 0.18433429,
+                  "L40S": 0.00216673,
+                  "Memory": 0.00030495
+                }
+              }
+            }
+          }
+        },
+        "filtered_total_cost_usd": 28.25070958
+      }
+    }
+  },
+  "evidence_class": "ACTUAL_BILLED",
+  "summary": {
+    "apps": {
+      "strengthening-task3-1-eval": {
+        "total_cost_usd": 1.90400049,
+        "by_resource_usd": {
+          "A10G": 0.0,
+          "CPU": 0.04278621,
+          "L40S": 1.85250008,
+          "Memory": 0.0087142
+        },
+        "by_day": {
+          "2026-09-01": {
+            "total_cost_usd": 1.90400049,
+            "by_resource_usd": {
+              "A10G": 0.0,
+              "CPU": 0.04278621,
+              "L40S": 1.85250008,
+              "Memory": 0.0087142
+            }
+          }
+        },
+        "by_object_id": {
+          "ap-UVC7wM4gUteANOqqXIIhit": {
+            "total_cost_usd": 1.89732118,
+            "by_resource_usd": {
+              "CPU": 0.03944472,
+              "L40S": 1.84925008,
+              "Memory": 0.00862638
+            }
+          },
+          "ap-sg5PeucdfdB496kvHoIR9p": {
+            "total_cost_usd": 0.00559191,
+            "by_resource_usd": {
+              "A10G": 0.0,
+              "CPU": 0.00333821,
+              "L40S": 0.0021666,
+              "Memory": 8.71e-05
+            }
+          },
+          "ap-0quJRg9WZhIjI1AdCjpPSK": {
+            "total_cost_usd": 0.0010874,
+            "by_resource_usd": {
+              "CPU": 3.28e-06,
+              "L40S": 0.0010834,
+              "Memory": 7.2e-07
+            }
+          }
+        }
+      },
+      "strengthening-task3-forensic": {
+        "total_cost_usd": 0.01594088,
+        "by_resource_usd": {
+          "CPU": 0.01062502,
+          "Memory": 0.00531586
+        },
+        "by_day": {
+          "2026-09-01": {
+            "total_cost_usd": 0.01594088,
+            "by_resource_usd": {
+              "CPU": 0.01062502,
+              "Memory": 0.00531586
+            }
+          }
+        },
+        "by_object_id": {
+          "ap-8ewQYVSuJ0C1zwG3rKmj8Y": {
+            "total_cost_usd": 0.00634881,
+            "by_resource_usd": {
+              "CPU": 0.00378687,
+              "Memory": 0.00256194
+            }
+          },
+          "ap-UeeEVcVfzLvPANXA2rH4L8": {
+            "total_cost_usd": 0.00422937,
+            "by_resource_usd": {
+              "CPU": 0.00252269,
+              "Memory": 0.00170668
+            }
+          },
+          "ap-6F5M1kribmCcEklqirgtp4": {
+            "total_cost_usd": 0.00307177,
+            "by_resource_usd": {
+              "CPU": 0.00294899,
+              "Memory": 0.00012278
+            }
+          },
+          "ap-1aPhqChn8RyRxJ4T5ei6S5": {
+            "total_cost_usd": 0.00229093,
+            "by_resource_usd": {
+              "CPU": 0.00136647,
+              "Memory": 0.00092446
+            }
+          }
+        }
+      },
+      "strengthening-task2-sentinel": {
+        "total_cost_usd": 29.41084552,
+        "by_resource_usd": {
+          "CPU": 0.35600655,
+          "H100": 25.83683913,
+          "L40S": 3.11469362,
+          "Memory": 0.10330622
+        },
+        "by_day": {
+          "2026-08-31": {
+            "total_cost_usd": 3.08007731,
+            "by_resource_usd": {
+              "CPU": 0.03502548,
+              "H100": 3.03491624,
+              "Memory": 0.01013559
+            }
+          },
+          "2026-09-01": {
+            "total_cost_usd": 26.33076821,
+            "by_resource_usd": {
+              "CPU": 0.32098107,
+              "H100": 22.80192289,
+              "L40S": 3.11469362,
+              "Memory": 0.09317063
+            }
+          }
+        },
+        "by_object_id": {
+          "ap-TaUUJJEc7NPvKK0oya8ClI": {
+            "total_cost_usd": 21.05580349,
+            "by_resource_usd": {
+              "CPU": 0.24471616,
+              "H100": 20.73914211,
+              "Memory": 0.07194522
+            }
+          },
+          "ap-7BwZvJXfXhNf34YmxJZQ9T": {
+            "total_cost_usd": 2.97973657,
+            "by_resource_usd": {
+              "CPU": 0.03298903,
+              "H100": 2.93616662,
+              "Memory": 0.01058092
+            }
+          },
+          "ap-cKSKLaV2osBZ75RHNo1zb0": {
+            "total_cost_usd": 2.72811389,
+            "by_resource_usd": {
+              "CPU": 0.04784989,
+              "H100": 0.30502877,
+              "L40S": 2.36286135,
+              "Memory": 0.01237388
+            }
+          },
+          "ap-JLcljKGGok1GtmlCRigRdw": {
+            "total_cost_usd": 1.07509652,
+            "by_resource_usd": {
+              "CPU": 0.01129377,
+              "H100": 1.05991648,
+              "Memory": 0.00388627
+            }
+          },
+          "ap-5nKMP2j3evWrTZGWNFgdqd": {
+            "total_cost_usd": 0.85849935,
+            "by_resource_usd": {
+              "CPU": 0.0136279,
+              "H100": 0.29625131,
+              "L40S": 0.54599917,
+              "Memory": 0.00262097
+            }
+          },
+          "ap-ELJZiCTkakrIWg1bI0qkFM": {
+            "total_cost_usd": 0.5259458,
+            "by_resource_usd": {
+              "CPU": 0.00468587,
+              "H100": 0.31599955,
+              "L40S": 0.20366637,
+              "Memory": 0.00159401
+            }
+          },
+          "ap-kjZzGjjT5GmvBCeG6ShnSs": {
+            "total_cost_usd": 0.1876499,
+            "by_resource_usd": {
+              "CPU": 0.00084393,
+              "H100": 0.18433429,
+              "L40S": 0.00216673,
+              "Memory": 0.00030495
+            }
+          }
+        }
+      }
+    },
+    "filtered_total_cost_usd": 31.33078689
+  },
+  "preflight_code_sha": "0030706ea1bb63ddefe778a01c9f87a7b60e0158",
+  "h100_gpu_seconds_used_by_preflight": 0,
+  "l40s_gpu_seconds_used_by_preflight": 0
+}

@@ -1,0 +1,4690 @@
+[
+  {
+    "object_id": "ap-01aofCSSqITE1bErBmzJsW",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-01aofCSSqITE1bErBmzJsW",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-0Fm41vnxb0Aa1QFmyOPd59",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-0Fm41vnxb0Aa1QFmyOPd59",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-0Ljx8OPiJL9LPH8yoXNfX3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00020998"
+  },
+  {
+    "object_id": "ap-0Ljx8OPiJL9LPH8yoXNfX3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007103"
+  },
+  {
+    "object_id": "ap-0YYbdjI0T2Xrzlpq91JVNV",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-0YYbdjI0T2Xrzlpq91JVNV",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-0dwMM05ZWMb6C1AjpxTfnP",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-0dwMM05ZWMb6C1AjpxTfnP",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-10KfpPU6Mc77vmMCYa4hlD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-10KfpPU6Mc77vmMCYa4hlD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-14fhSlC12fzLh7iYidI5SE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021020"
+  },
+  {
+    "object_id": "ap-14fhSlC12fzLh7iYidI5SE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007110"
+  },
+  {
+    "object_id": "ap-192tSDXcnFJMqIECscx9B1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-192tSDXcnFJMqIECscx9B1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-1CwUHmsDRKcSrkRCuwTV1u",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021027"
+  },
+  {
+    "object_id": "ap-1CwUHmsDRKcSrkRCuwTV1u",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007113"
+  },
+  {
+    "object_id": "ap-1Du8imJTXrDJubA69gOpew",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-1Du8imJTXrDJubA69gOpew",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-1rqBjukc7JJJOojc1velr6",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-1rqBjukc7JJJOojc1velr6",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-1x4lu99SBVEeHOB67yAC1F",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-1x4lu99SBVEeHOB67yAC1F",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-2K1c6BczIpc3cfm3vvVygg",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-2K1c6BczIpc3cfm3vvVygg",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-2gSBfQozX6Hqg93DetLGqw",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-2gSBfQozX6Hqg93DetLGqw",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-33uJG8THEbceblTLu90if3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-33uJG8THEbceblTLu90if3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-36MmQfPExxWfse5NM2SGBS",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-36MmQfPExxWfse5NM2SGBS",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-3NX8vYfmFlxhbZTbqyqP3D",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-3NX8vYfmFlxhbZTbqyqP3D",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-3WrOQ2A40yZTpjPEk4t92E",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-3WrOQ2A40yZTpjPEk4t92E",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-3sZdbQZ3rbVObu172Lmmrm",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-3sZdbQZ3rbVObu172Lmmrm",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-4c4EP6RFrawEGNrHHi89l9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021020"
+  },
+  {
+    "object_id": "ap-4c4EP6RFrawEGNrHHi89l9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007110"
+  },
+  {
+    "object_id": "ap-4fLorYsbtRVD6Levn7DFDN",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-4fLorYsbtRVD6Levn7DFDN",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-4hEA4w4XXhNDKxbdsa1Mip",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-4hEA4w4XXhNDKxbdsa1Mip",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-4otpLsMKRpmlBaa0aPJ8D9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021021"
+  },
+  {
+    "object_id": "ap-4otpLsMKRpmlBaa0aPJ8D9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-4sfblmvTMlq4kUcSXqn6jm",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-4sfblmvTMlq4kUcSXqn6jm",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-55fTnYLeKVhX8N7R1HHu4h",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-55fTnYLeKVhX8N7R1HHu4h",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-5B1pLJRXYmTWOVgd6QM7cg",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-5B1pLJRXYmTWOVgd6QM7cg",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-5OtbFPv8Wi4KU9uEz0zXgb",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-5OtbFPv8Wi4KU9uEz0zXgb",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-5dvrtD1E11hoex6MbvDlxl",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-5dvrtD1E11hoex6MbvDlxl",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-5nKMP2j3evWrTZGWNFgdqd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00121438"
+  },
+  {
+    "object_id": "ap-5nKMP2j3evWrTZGWNFgdqd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "L40S",
+    "cost": "0.28599953"
+  },
+  {
+    "object_id": "ap-5nKMP2j3evWrTZGWNFgdqd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00572955"
+  },
+  {
+    "object_id": "ap-5nKMP2j3evWrTZGWNFgdqd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "H100",
+    "cost": "0.29625131"
+  },
+  {
+    "object_id": "ap-5nKMP2j3evWrTZGWNFgdqd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00789836"
+  },
+  {
+    "object_id": "ap-5nKMP2j3evWrTZGWNFgdqd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "L40S",
+    "cost": "0.25999963"
+  },
+  {
+    "object_id": "ap-5nKMP2j3evWrTZGWNFgdqd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00140658"
+  },
+  {
+    "object_id": "ap-5pKDJXZGB6zU53ekWqmxXL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-5pKDJXZGB6zU53ekWqmxXL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-5x7Xhwn9buxVoRoIKcWlno",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-5x7Xhwn9buxVoRoIKcWlno",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-61a32OG7GAZq6wVIQCqyTk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-61a32OG7GAZq6wVIQCqyTk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-6DJafi6xvvZzPOOl02KDtI",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-6DJafi6xvvZzPOOl02KDtI",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-6S7c3P7VpJAdYnkGFwWQEq",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-6S7c3P7VpJAdYnkGFwWQEq",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-72TT8fuGNHtrVuc4BgXImx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-72TT8fuGNHtrVuc4BgXImx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-73RfYSb3hi4rvjB7mucZ4G",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-73RfYSb3hi4rvjB7mucZ4G",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-7WADiUmdfeVNKSjeULPddB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-7WADiUmdfeVNKSjeULPddB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-84hKdpPgy5wO10rgHDipYI",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-84hKdpPgy5wO10rgHDipYI",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-8KUPboCMEU9PUb9tIYm1xj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-8KUPboCMEU9PUb9tIYm1xj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-94EKfWK3lJMk068QEYs7CX",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010517"
+  },
+  {
+    "object_id": "ap-94EKfWK3lJMk068QEYs7CX",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003558"
+  },
+  {
+    "object_id": "ap-9I1966vm740PrRfEAwS1zw",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-9I1966vm740PrRfEAwS1zw",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-9crqW8az2U0QmTg825M3ks",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-9crqW8az2U0QmTg825M3ks",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-A1tudIJ1CbvctlE2SENfDN",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-A1tudIJ1CbvctlE2SENfDN",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-A4s3NL0jN9nACjjE8Zlfn7",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-A4s3NL0jN9nACjjE8Zlfn7",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-AB0MacfUpQPSHNjQrF3NC2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-AB0MacfUpQPSHNjQrF3NC2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ADrcHVZMOOeMvBEIRuE0LE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ADrcHVZMOOeMvBEIRuE0LE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-AgeuYusl9qRIVqYP32ZEJi",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-AgeuYusl9qRIVqYP32ZEJi",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-AvkkZCRxBbNoRxXH8rE9jM",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-AvkkZCRxBbNoRxXH8rE9jM",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-B5luy8cYIxBUHUsfc5zCr0",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00025206"
+  },
+  {
+    "object_id": "ap-B5luy8cYIxBUHUsfc5zCr0",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00008526"
+  },
+  {
+    "object_id": "ap-B6qEtDDxhKdAiXYRVddCXZ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-B6qEtDDxhKdAiXYRVddCXZ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-BKV84ub7AtcJt0KzGW4fEH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021026"
+  },
+  {
+    "object_id": "ap-BKV84ub7AtcJt0KzGW4fEH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007112"
+  },
+  {
+    "object_id": "ap-C2GTlpIRV861iUowVHGYyq",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-C2GTlpIRV861iUowVHGYyq",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-CDwT1bxfQEX6t9A4NbI7jm",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-CDwT1bxfQEX6t9A4NbI7jm",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-CFcqAQR9KgP9mA17dvjgPD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00028915"
+  },
+  {
+    "object_id": "ap-CFcqAQR9KgP9mA17dvjgPD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00009781"
+  },
+  {
+    "object_id": "ap-CU533m8tXnZRu4JwfeGKI7",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-CU533m8tXnZRu4JwfeGKI7",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-Cg1LgERmLvBAEIXgZiiSwx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-Cg1LgERmLvBAEIXgZiiSwx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-CkJlZzvP1e9JKJCU3q7xMR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-CkJlZzvP1e9JKJCU3q7xMR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-DS5l9AxacgOCDK5wHVoWL1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-DS5l9AxacgOCDK5wHVoWL1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-DSZzgaorKoo4NDGabijxan",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-DSZzgaorKoo4NDGabijxan",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003554"
+  },
+  {
+    "object_id": "ap-Dm9Jh0MAP4IuqbrU36vEvO",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021021"
+  },
+  {
+    "object_id": "ap-Dm9Jh0MAP4IuqbrU36vEvO",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-EYXVjBYn5yGpu0eOjlAE9b",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-EYXVjBYn5yGpu0eOjlAE9b",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-ErDFcvVgDl6QbMnm3kywD8",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ErDFcvVgDl6QbMnm3kywD8",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-EsOQ7Snuzqxf6hRJOlBJMo",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00022565"
+  },
+  {
+    "object_id": "ap-EsOQ7Snuzqxf6hRJOlBJMo",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007633"
+  },
+  {
+    "object_id": "ap-FOrNAxebIt8PCgxzp2Ta2p",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-FOrNAxebIt8PCgxzp2Ta2p",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-FP1momcZZNPEaiiuZS5BmD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-FP1momcZZNPEaiiuZS5BmD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-FjDhO6xwZCzrIecwMJPkwh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-FjDhO6xwZCzrIecwMJPkwh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-FptKP4deSRUbRhjmGDVTuL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-FptKP4deSRUbRhjmGDVTuL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-FqfZ5H9FhLZxTChBPrQtpB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-FqfZ5H9FhLZxTChBPrQtpB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-Fw9oZrPoQoyN9176vuyGcK",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-Fw9oZrPoQoyN9176vuyGcK",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-Fzd2upLqM2buqSZcXeIaux",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010517"
+  },
+  {
+    "object_id": "ap-Fzd2upLqM2buqSZcXeIaux",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003558"
+  },
+  {
+    "object_id": "ap-GeYbxnO1AO2Cf9vOCs63Qs",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-GeYbxnO1AO2Cf9vOCs63Qs",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-GejDQHTIblmN9dmWJus2t5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-GejDQHTIblmN9dmWJus2t5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-H7NNonLfQWNZ1vx68rLQJk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-H7NNonLfQWNZ1vx68rLQJk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-HVsesTtXRMs4M7Gn48SlIQ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00021024"
+  },
+  {
+    "object_id": "ap-HVsesTtXRMs4M7Gn48SlIQ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00007112"
+  },
+  {
+    "object_id": "ap-HdbG1lNa81jyqkJb9iNRZC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021020"
+  },
+  {
+    "object_id": "ap-HdbG1lNa81jyqkJb9iNRZC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-HhI9LdVHvPeXnkzNJ4Si3E",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00025966"
+  },
+  {
+    "object_id": "ap-HhI9LdVHvPeXnkzNJ4Si3E",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00008783"
+  },
+  {
+    "object_id": "ap-I4AzHD3AzGJA09bzimBG8f",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010507"
+  },
+  {
+    "object_id": "ap-I4AzHD3AzGJA09bzimBG8f",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003554"
+  },
+  {
+    "object_id": "ap-IIDUKTxwRn8G9GaC5Jf7Lg",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-IIDUKTxwRn8G9GaC5Jf7Lg",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-IYs2fciNlPaewnchkGkAIQ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00073578"
+  },
+  {
+    "object_id": "ap-IYs2fciNlPaewnchkGkAIQ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00024889"
+  },
+  {
+    "object_id": "ap-IiAAV9Dqv3jr1ga8RycftQ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-IiAAV9Dqv3jr1ga8RycftQ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-InE2cx6qDma1FwLeANgKdP",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021024"
+  },
+  {
+    "object_id": "ap-InE2cx6qDma1FwLeANgKdP",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007112"
+  },
+  {
+    "object_id": "ap-Ipc68ZEeGKcnsj28TzmKcx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-Ipc68ZEeGKcnsj28TzmKcx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-J0CdEv0jnqsOCsrp9uQ0Uy",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-J0CdEv0jnqsOCsrp9uQ0Uy",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-JO2FFxYADNH7Hk6G6vYagO",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-JO2FFxYADNH7Hk6G6vYagO",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-JvtWvTA3BYaSABNBGZ491q",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-JvtWvTA3BYaSABNBGZ491q",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-KMFVCwCRb7ktGCIWuYApBH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-KMFVCwCRb7ktGCIWuYApBH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003554"
+  },
+  {
+    "object_id": "ap-KPKwnxgES4q0wrfd3ZeimZ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00023637"
+  },
+  {
+    "object_id": "ap-KPKwnxgES4q0wrfd3ZeimZ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00007996"
+  },
+  {
+    "object_id": "ap-KQHGG3rmahZVqvRoIJyiK1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-KQHGG3rmahZVqvRoIJyiK1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-KgEkWxptWkw1phbkTZAdK3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-KgEkWxptWkw1phbkTZAdK3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-KkbCvbbF8BoKiXDVtzDYax",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-KkbCvbbF8BoKiXDVtzDYax",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-L0yhNM25o3mIMtHXVUrhUT",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-L0yhNM25o3mIMtHXVUrhUT",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-LITiy9uKs4yUVTMq9PfIix",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-LITiy9uKs4yUVTMq9PfIix",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-LSuopIxcMd0L72f5cBgITt",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-LSuopIxcMd0L72f5cBgITt",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-LUmt8657JXzs2YQlHsS1AG",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-LUmt8657JXzs2YQlHsS1AG",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-LVOA6MMHiEFUdjhukPxccd",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-LVOA6MMHiEFUdjhukPxccd",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-LcJ5c7klL41BVEFPEM9wPG",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00022177"
+  },
+  {
+    "object_id": "ap-LcJ5c7klL41BVEFPEM9wPG",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007502"
+  },
+  {
+    "object_id": "ap-LdwIkFFmWIvGLcbrjqPaXu",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00024673"
+  },
+  {
+    "object_id": "ap-LdwIkFFmWIvGLcbrjqPaXu",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00008346"
+  },
+  {
+    "object_id": "ap-LfAbpHIEI5CIZwZtG8Xyui",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021020"
+  },
+  {
+    "object_id": "ap-LfAbpHIEI5CIZwZtG8Xyui",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007110"
+  },
+  {
+    "object_id": "ap-LiQN3MT20E9G4zjTs27uj3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-LiQN3MT20E9G4zjTs27uj3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-M80gS8D3y2be21qAyozXTR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-M80gS8D3y2be21qAyozXTR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-MeZHiRwvVhiZ6lymh4gMKf",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-MeZHiRwvVhiZ6lymh4gMKf",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-Mj5cJmeCVTd5hoDavTBA52",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-Mj5cJmeCVTd5hoDavTBA52",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-MkBXJOPPBhI6uMvQ6yjW82",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-MkBXJOPPBhI6uMvQ6yjW82",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-MxghD46WtNvxoA7ddpUAjw",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-MxghD46WtNvxoA7ddpUAjw",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-MxiKN3l8VgUcfPgJ7DPFRq",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-MxiKN3l8VgUcfPgJ7DPFRq",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-NCjXKKDylSiWkkaQKF38OX",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-NCjXKKDylSiWkkaQKF38OX",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-NJBbYVUrHHxgNcfhzZUJ6j",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-NJBbYVUrHHxgNcfhzZUJ6j",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-NTPdnaNqhkBnPz82mlAg8W",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-NTPdnaNqhkBnPz82mlAg8W",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-NVfYFfbq9qwDhdLXv4YocT",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-NVfYFfbq9qwDhdLXv4YocT",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-Nd69cYTEXqELFbDQu3LJul",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-Nd69cYTEXqELFbDQu3LJul",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-NdyCG87HAg48x6Toa8HciQ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00399420"
+  },
+  {
+    "object_id": "ap-NdyCG87HAg48x6Toa8HciQ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00135110"
+  },
+  {
+    "object_id": "ap-NjxCj4IAjKzRdbOfO8ss0L",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-NjxCj4IAjKzRdbOfO8ss0L",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-NkS44p72ho4hudxb6xY9DU",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-NkS44p72ho4hudxb6xY9DU",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-O6r8lGSa6TQxcodCh7QnMW",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-O6r8lGSa6TQxcodCh7QnMW",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-O8yrDsKSa6gSPh2g7jGei1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-O8yrDsKSa6gSPh2g7jGei1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-OD2DT8KmQyvpyxNLxWPlWc",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00378404"
+  },
+  {
+    "object_id": "ap-OD2DT8KmQyvpyxNLxWPlWc",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00128001"
+  },
+  {
+    "object_id": "ap-OFWAAOiLGtcMBEBcBrRyZd",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-OFWAAOiLGtcMBEBcBrRyZd",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-OOsEgE3xM0H53KP6IyTXPz",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-OOsEgE3xM0H53KP6IyTXPz",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ORJRw6q1GZdIA22WS1AiPR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ORJRw6q1GZdIA22WS1AiPR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-OmENim2bV171Lm6VPs4DUu",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-OmENim2bV171Lm6VPs4DUu",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-OttPapLBgEunNggxLpBvlA",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-OttPapLBgEunNggxLpBvlA",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-OyElVh44e8rdu41XMzWCZF",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-OyElVh44e8rdu41XMzWCZF",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-PZ8uiJHoRWcc2MExhkxVeE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021560"
+  },
+  {
+    "object_id": "ap-PZ8uiJHoRWcc2MExhkxVeE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007293"
+  },
+  {
+    "object_id": "ap-PiW3dlwaVCyxJrWpLC5FVp",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-PiW3dlwaVCyxJrWpLC5FVp",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-PwvKdori2BIDDoibyUiOaf",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-PwvKdori2BIDDoibyUiOaf",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-Q25n6cvy0XfpaK3Vz1Rkaj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-Q25n6cvy0XfpaK3Vz1Rkaj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-QG3BaOX6J7CgmTK2Ro2V0J",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-QG3BaOX6J7CgmTK2Ro2V0J",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003554"
+  },
+  {
+    "object_id": "ap-QaVtHneFZ39uRER8pn5O11",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-QaVtHneFZ39uRER8pn5O11",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-Qe85FgVKNTsfBxaKPo8a3Q",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-Qe85FgVKNTsfBxaKPo8a3Q",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-Qf49xUnnGSvRi57LQT5j6E",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-Qf49xUnnGSvRi57LQT5j6E",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-QkBpLarrA4lxbWhrTJ6X66",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-QkBpLarrA4lxbWhrTJ6X66",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-R5SpHxSiLi2um4DPJbRJWH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-R5SpHxSiLi2um4DPJbRJWH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-RLPFyBeZ61SxxGtU7uAjsv",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021022"
+  },
+  {
+    "object_id": "ap-RLPFyBeZ61SxxGtU7uAjsv",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-SAPZ9bQW5ueDRiUFZ51Ven",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-SAPZ9bQW5ueDRiUFZ51Ven",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-SNsnMuWD9DdDeUp3iGvNcB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-SNsnMuWD9DdDeUp3iGvNcB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-SWw4RiY9bvSZqaEqhVJkM2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-SWw4RiY9bvSZqaEqhVJkM2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-T4Q4wPchLWnZ2yOi1tEXq2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-T4Q4wPchLWnZ2yOi1tEXq2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-TZBc1GjkFswe421A6CRW3b",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-TZBc1GjkFswe421A6CRW3b",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-TedgugeEkCteadysjw4HNd",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021022"
+  },
+  {
+    "object_id": "ap-TedgugeEkCteadysjw4HNd",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-TfAm9QdAu6ru47PgSFpZFh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-TfAm9QdAu6ru47PgSFpZFh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-TtRKkbMv3dLbzEgv4BuBlE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010517"
+  },
+  {
+    "object_id": "ap-TtRKkbMv3dLbzEgv4BuBlE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-U1iGnmrAhX56os5w33pa5w",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-U1iGnmrAhX56os5w33pa5w",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-U3dvOUw1W7odkAUkEMG8cE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-U3dvOUw1W7odkAUkEMG8cE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-UBHa1QUA58gAKnjw0J5sEP",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-UBHa1QUA58gAKnjw0J5sEP",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-UdYgFmghtmNxBTCZd8JQWC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-UdYgFmghtmNxBTCZd8JQWC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-UiBarU2XcRVRU5fY5Vo4eL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-UiBarU2XcRVRU5fY5Vo4eL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-UryVhNfESHZrMuPiwT6xWk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-UryVhNfESHZrMuPiwT6xWk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-UtqnVOkWG4CYl1C4dDvDyy",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-UtqnVOkWG4CYl1C4dDvDyy",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-V9hBi5MPDDsrXg1HhFNqD9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-V9hBi5MPDDsrXg1HhFNqD9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-VHNUr5pbx4fPc9mmYcVTks",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-VHNUr5pbx4fPc9mmYcVTks",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-VQhdf1sGS0acgMboHgd1TA",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-VQhdf1sGS0acgMboHgd1TA",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-VUv7Dop685OQQUC9pRwZFM",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-VUv7Dop685OQQUC9pRwZFM",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-VWYqE5OaZr57LBuKsDOyrF",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00021025"
+  },
+  {
+    "object_id": "ap-VWYqE5OaZr57LBuKsDOyrF",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00007112"
+  },
+  {
+    "object_id": "ap-VxBqpmOOFVz6KTuFtMqutv",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-VxBqpmOOFVz6KTuFtMqutv",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-WDZqRqvW6DMUI49en1Qhny",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-WDZqRqvW6DMUI49en1Qhny",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-WIJOaWx2SAozbJB42SaDn9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-WIJOaWx2SAozbJB42SaDn9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-WJqOkDQ3VVRzsnQtCknhRH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-WJqOkDQ3VVRzsnQtCknhRH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-WOjHmkERk6S9RpCMcXjm6b",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-WOjHmkERk6S9RpCMcXjm6b",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-WSdcsNS200QnlDNSxiHnbL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-WSdcsNS200QnlDNSxiHnbL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-WcH5Mqwjp7kW9A9VXXZnFC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021018"
+  },
+  {
+    "object_id": "ap-WcH5Mqwjp7kW9A9VXXZnFC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007110"
+  },
+  {
+    "object_id": "ap-X826D482Si336ZzAidACC3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-X826D482Si336ZzAidACC3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-XCm5HCq1GaSiF7512uIFjS",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-XCm5HCq1GaSiF7512uIFjS",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-XaIoRMCNF5Y4rKGcRP9hIE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-XaIoRMCNF5Y4rKGcRP9hIE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-XepfOB4sSzmYsYC1wI0mJC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-XepfOB4sSzmYsYC1wI0mJC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-Y5wv9teoOjPixjNPLshFUN",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-Y5wv9teoOjPixjNPLshFUN",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-YUODtVnMFKzLUu2TL9ZMWj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-YUODtVnMFKzLUu2TL9ZMWj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-Z7R1EA85HNgmkwMGGQrMrk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-Z7R1EA85HNgmkwMGGQrMrk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-ZP5n3DFx8oKok7YWeXNYG1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-ZP5n3DFx8oKok7YWeXNYG1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-ZceM5hKPgbZ7c2lxfZfZp9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-ZceM5hKPgbZ7c2lxfZfZp9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-aBoa2JJB8GbsaIuCmL58Nz",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-aBoa2JJB8GbsaIuCmL58Nz",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-aX9R2qOuYDyWJk0GQiAFxT",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-aX9R2qOuYDyWJk0GQiAFxT",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-aXtpRyWk1FWvCdYAkUc5IF",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-aXtpRyWk1FWvCdYAkUc5IF",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-as2fLGd5IxOr6KUrn9g2pD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-as2fLGd5IxOr6KUrn9g2pD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-bMmFuGajUFMZtVrlkp7zBt",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-bMmFuGajUFMZtVrlkp7zBt",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-bS5mkQp2VGWCrXfYDjJQcb",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-bS5mkQp2VGWCrXfYDjJQcb",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-c0J9eULGBVWYvznnIiwtWf",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-c0J9eULGBVWYvznnIiwtWf",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-c3arJJDGWzK81JrGkeWuQp",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-c3arJJDGWzK81JrGkeWuQp",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-cBdTtzr0Dr6f44lsWo8Ecy",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-cBdTtzr0Dr6f44lsWo8Ecy",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-cC85aRdi1LCeYsuOqcmFyU",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021018"
+  },
+  {
+    "object_id": "ap-cC85aRdi1LCeYsuOqcmFyU",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007110"
+  },
+  {
+    "object_id": "ap-cGNKz3Cf1WZaz1nPIEgn6l",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021027"
+  },
+  {
+    "object_id": "ap-cGNKz3Cf1WZaz1nPIEgn6l",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007113"
+  },
+  {
+    "object_id": "ap-cKSKLaV2osBZ75RHNo1zb0",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00323095"
+  },
+  {
+    "object_id": "ap-cKSKLaV2osBZ75RHNo1zb0",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "L40S",
+    "cost": "0.13650282"
+  },
+  {
+    "object_id": "ap-cKSKLaV2osBZ75RHNo1zb0",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00076257"
+  },
+  {
+    "object_id": "ap-cPdmL7WuY9zzi0piFdIQvr",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-cPdmL7WuY9zzi0piFdIQvr",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-cf6XO1RNcDYs5XJrrkMBEh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-cf6XO1RNcDYs5XJrrkMBEh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-clnuurPBCUQ7MPoSIC9Ll5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-clnuurPBCUQ7MPoSIC9Ll5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-d2sVN5dfYgAjL5AGtNjrm2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00021742"
+  },
+  {
+    "object_id": "ap-d2sVN5dfYgAjL5AGtNjrm2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00007355"
+  },
+  {
+    "object_id": "ap-dDVdKVVHY4KmmbzKzpg0tx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-dDVdKVVHY4KmmbzKzpg0tx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-dDWBX6X36CkzHQYEVpsiAk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00021021"
+  },
+  {
+    "object_id": "ap-dDWBX6X36CkzHQYEVpsiAk",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-dEkkhYIgINDJJkwLCYwLnl",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-dEkkhYIgINDJJkwLCYwLnl",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-dMPC3MpG9hp1tqsrVAxJBX",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-dMPC3MpG9hp1tqsrVAxJBX",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-dPsoFU8umzj5HNuC4STnlH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-dPsoFU8umzj5HNuC4STnlH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-dW3X7225iYxTmzkv0Fboe0",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-dW3X7225iYxTmzkv0Fboe0",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-daDD75dXsC8BeHH6leLzIK",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021022"
+  },
+  {
+    "object_id": "ap-daDD75dXsC8BeHH6leLzIK",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-dlMdxXR90WQQ3CTSZmONEg",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-dlMdxXR90WQQ3CTSZmONEg",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-dzTJHe2r5UXczMEvthFkWG",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-dzTJHe2r5UXczMEvthFkWG",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-e2fyfDWPpYkA1NDWHL1iPA",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010513"
+  },
+  {
+    "object_id": "ap-e2fyfDWPpYkA1NDWHL1iPA",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-eMHHjrLXBZaIBy6WlGEhur",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-eMHHjrLXBZaIBy6WlGEhur",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-eS8kBK2scZKORsMvkuNlM2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-eS8kBK2scZKORsMvkuNlM2",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-el95KqAm0SUJPeYNTE5YJI",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-el95KqAm0SUJPeYNTE5YJI",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-epDPrKnnB2meatFmAkI3ZO",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-epDPrKnnB2meatFmAkI3ZO",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-epfibMrxWdqAJcBljRivVH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-epfibMrxWdqAJcBljRivVH",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-evhEzqla8YtFt7y1eyaVLs",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021021"
+  },
+  {
+    "object_id": "ap-evhEzqla8YtFt7y1eyaVLs",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-ezZH1OEDjwRPW6YeC5UZpv",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ezZH1OEDjwRPW6YeC5UZpv",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-fNaazvCCfJfDanvLdgdgaM",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-fNaazvCCfJfDanvLdgdgaM",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-fqLl5b7ker3zVk3kPEEqxf",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-fqLl5b7ker3zVk3kPEEqxf",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-gSsPzdfOX13EnrZcp1GS4i",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021021"
+  },
+  {
+    "object_id": "ap-gSsPzdfOX13EnrZcp1GS4i",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-geDJW7XpJo85XRLWS2RbfK",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-geDJW7XpJo85XRLWS2RbfK",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-goPofDMNZhvyytrdtQkWzh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-goPofDMNZhvyytrdtQkWzh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-h2qOZ98DO4D0lpkkJCgzvD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-h2qOZ98DO4D0lpkkJCgzvD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003554"
+  },
+  {
+    "object_id": "ap-hLlvzFWsTD7Di4qfllkU6N",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-hLlvzFWsTD7Di4qfllkU6N",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-hNNcSCKGabIWSI969suOk1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-hNNcSCKGabIWSI969suOk1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-hYdckFHLVJ50PiTk2GTO5r",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-hYdckFHLVJ50PiTk2GTO5r",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-hcICPlXj0LS0v5RkxQzp5E",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-hcICPlXj0LS0v5RkxQzp5E",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-iYAcbHxocMv0w8z75ll52s",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-iYAcbHxocMv0w8z75ll52s",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-ih2eBPUELwGvIlcHDyjyxi",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021020"
+  },
+  {
+    "object_id": "ap-ih2eBPUELwGvIlcHDyjyxi",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007110"
+  },
+  {
+    "object_id": "ap-jCFGRvSLmoigQ2Qk50XjmL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-jCFGRvSLmoigQ2Qk50XjmL",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-jrg1pgw8XLFo0XckPtsJRr",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-jrg1pgw8XLFo0XckPtsJRr",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-jtUn32pmxYYZT4ZV9qFyR5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-jtUn32pmxYYZT4ZV9qFyR5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-k5RGQFqMEQboKUsuIAFsRS",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-k5RGQFqMEQboKUsuIAFsRS",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-k7wYNC8XJxB84iobRYcEe0",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-k7wYNC8XJxB84iobRYcEe0",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-kAfBG3tasvrDgXV0TQADxV",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-kAfBG3tasvrDgXV0TQADxV",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-kKKuL5NxHpuWzADFLBfYER",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-kKKuL5NxHpuWzADFLBfYER",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-keOiev7XRj8bcR09SLHj2J",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-keOiev7XRj8bcR09SLHj2J",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-klolUixey0K7w9Pm1KkIYC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-klolUixey0K7w9Pm1KkIYC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-l1kRfSYS4H6qLNzQ6biXuh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-l1kRfSYS4H6qLNzQ6biXuh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-lYOs946YqPj6JMGSDsjwEE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-lYOs946YqPj6JMGSDsjwEE",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-loSCYoglH1Naa4IfYniTzA",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00021023"
+  },
+  {
+    "object_id": "ap-loSCYoglH1Naa4IfYniTzA",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-m4jDWbXe7CI169C1MBdzED",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-m4jDWbXe7CI169C1MBdzED",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-m9B4mFN5ETUBqOB44gBbFD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-m9B4mFN5ETUBqOB44gBbFD",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-mgTYhYGiJFCRgwtDTDRWAx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00031532"
+  },
+  {
+    "object_id": "ap-mgTYhYGiJFCRgwtDTDRWAx",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00010666"
+  },
+  {
+    "object_id": "ap-mhB1VM2IDU9c5r4etrr1vn",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-mhB1VM2IDU9c5r4etrr1vn",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-mjuH4XeqzDASLqXIr4b2Re",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00023513"
+  },
+  {
+    "object_id": "ap-mjuH4XeqzDASLqXIr4b2Re",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007954"
+  },
+  {
+    "object_id": "ap-nWDlpGOsu2Slx48KPZECpB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-nWDlpGOsu2Slx48KPZECpB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-njPrUqLcEq3jUTgYLo5lRa",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-njPrUqLcEq3jUTgYLo5lRa",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-nkKq9jTANCH9PXu2KRqXlb",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-nkKq9jTANCH9PXu2KRqXlb",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-nodAo4kshA7qDdkwRTLUtF",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-nodAo4kshA7qDdkwRTLUtF",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-nvkeOEDBrp1teqwEEhQSeO",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-nvkeOEDBrp1teqwEEhQSeO",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-nweSjYwu94WVYmEOFQhP5k",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-nweSjYwu94WVYmEOFQhP5k",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-oHV1PN1trli9OetwyGmTUl",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-oHV1PN1trli9OetwyGmTUl",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-oKZDV5A4aQkCHHvtWChn5Z",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-oKZDV5A4aQkCHHvtWChn5Z",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-oTMtucysDUrEYbGixLbDJr",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010512"
+  },
+  {
+    "object_id": "ap-oTMtucysDUrEYbGixLbDJr",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-ocWYPynlRma5ZK53YRgdmJ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ocWYPynlRma5ZK53YRgdmJ",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-p3S1zWC2CxYCvlQT3xpfh5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-p3S1zWC2CxYCvlQT3xpfh5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-pParrNezM9ZDYaDwiBWuPi",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-pParrNezM9ZDYaDwiBWuPi",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-pQrmtKdODRPii2NsYRmq07",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-pQrmtKdODRPii2NsYRmq07",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-poXZvf0YuxyhTaRgMGvWiU",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010506"
+  },
+  {
+    "object_id": "ap-poXZvf0YuxyhTaRgMGvWiU",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003554"
+  },
+  {
+    "object_id": "ap-pprMFMJbWmMX57oqijpuOd",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-pprMFMJbWmMX57oqijpuOd",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-q9RBUjTei75lHK8PRmgY2p",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-q9RBUjTei75lHK8PRmgY2p",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-qTwoBecEjjkapUSyM2Rz6q",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-qTwoBecEjjkapUSyM2Rz6q",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-qoeLp9eoQWCqaHNZeadNEB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-qoeLp9eoQWCqaHNZeadNEB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-qyhERVgi8ukwHvyA3JPSQv",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-qyhERVgi8ukwHvyA3JPSQv",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-rtNBRfxmYyojZ1aNtOZFYh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-rtNBRfxmYyojZ1aNtOZFYh",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-sQFZfvidUvf2mH9qv0Oh0A",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-sQFZfvidUvf2mH9qv0Oh0A",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-sYzx2cmkIOvYSlj6nsFAym",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010510"
+  },
+  {
+    "object_id": "ap-sYzx2cmkIOvYSlj6nsFAym",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-spRe22pwFb6rjx0QyaXR2B",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00021025"
+  },
+  {
+    "object_id": "ap-spRe22pwFb6rjx0QyaXR2B",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00007112"
+  },
+  {
+    "object_id": "ap-t0Ev03PzbmPVhqR9VGDNze",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-t0Ev03PzbmPVhqR9VGDNze",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-t6b7sVy2AbVu4g4azzAX14",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-t6b7sVy2AbVu4g4azzAX14",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-tdPJNAwfqiRFo62Ydr9oYB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-tdPJNAwfqiRFo62Ydr9oYB",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-tkwJxE5Xb7tv9fFof6XyOR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-tkwJxE5Xb7tv9fFof6XyOR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-tzil7AN50Vy2U2qUdEv4xN",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010507"
+  },
+  {
+    "object_id": "ap-tzil7AN50Vy2U2qUdEv4xN",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003554"
+  },
+  {
+    "object_id": "ap-uTsMxihLmH6ACzR0iV5Edy",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-uTsMxihLmH6ACzR0iV5Edy",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-urLUqKoz4Di6tzu6R8hR0L",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-urLUqKoz4Di6tzu6R8hR0L",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-v3o2UBY9cqyXiHIn6eUjYa",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010508"
+  },
+  {
+    "object_id": "ap-v3o2UBY9cqyXiHIn6eUjYa",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003554"
+  },
+  {
+    "object_id": "ap-vY7gJRBwWKUlPJkLIALVzY",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00022513"
+  },
+  {
+    "object_id": "ap-vY7gJRBwWKUlPJkLIALVzY",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007616"
+  },
+  {
+    "object_id": "ap-vZrfQ0hdhw9QtWvK66Nfr3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00026962"
+  },
+  {
+    "object_id": "ap-vZrfQ0hdhw9QtWvK66Nfr3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00009121"
+  },
+  {
+    "object_id": "ap-w18wI6lDL9ok4vLFBp3u5F",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-w18wI6lDL9ok4vLFBp3u5F",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-wUYjzLWKxYSnyORMNzss3v",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-wUYjzLWKxYSnyORMNzss3v",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-wgS1RUV6Ob6FAeETSGFzp5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-wgS1RUV6Ob6FAeETSGFzp5",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-wwqjEH10NHdVljATU75q4Y",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-wwqjEH10NHdVljATU75q4Y",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-wxEdpXzhdQgIrzkboQ8Av8",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010509"
+  },
+  {
+    "object_id": "ap-wxEdpXzhdQgIrzkboQ8Av8",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003555"
+  },
+  {
+    "object_id": "ap-x3gaA3NTnokUKvNZAJmJs0",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-x3gaA3NTnokUKvNZAJmJs0",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-xSkBkWAFBFtJ7Sf4gIC8Y3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-xSkBkWAFBFtJ7Sf4gIC8Y3",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-xdvw33JW49E0mBeIkYmJdV",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00023281"
+  },
+  {
+    "object_id": "ap-xdvw33JW49E0mBeIkYmJdV",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007875"
+  },
+  {
+    "object_id": "ap-xum6Nn5ucPRGkg2ElIvdC9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-xum6Nn5ucPRGkg2ElIvdC9",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-y0qi3i4iYCrkMcL7W5etPR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-y0qi3i4iYCrkMcL7W5etPR",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-y8zkeE2NlFyxcW06cPjSrU",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010514"
+  },
+  {
+    "object_id": "ap-y8zkeE2NlFyxcW06cPjSrU",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  },
+  {
+    "object_id": "ap-yBHmGgld5AouIOpB1pX5na",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00035074"
+  },
+  {
+    "object_id": "ap-yBHmGgld5AouIOpB1pX5na",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00011864"
+  },
+  {
+    "object_id": "ap-yBjw7qWXvmVMxH2bxgy87m",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-yBjw7qWXvmVMxH2bxgy87m",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-yQ0c7zSJkVuTLXnJYvcA31",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "CPU",
+    "cost": "0.00021026"
+  },
+  {
+    "object_id": "ap-yQ0c7zSJkVuTLXnJYvcA31",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T04:00:00",
+    "resource": "Memory",
+    "cost": "0.00007112"
+  },
+  {
+    "object_id": "ap-ySSsRZFv6kkmjYZKLePsk4",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ySSsRZFv6kkmjYZKLePsk4",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-yTPxGwGc2uiC0b1REmF7Kr",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021011"
+  },
+  {
+    "object_id": "ap-yTPxGwGc2uiC0b1REmF7Kr",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007107"
+  },
+  {
+    "object_id": "ap-yVJmRa3uHiKnBL6GUgVKJ1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-yVJmRa3uHiKnBL6GUgVKJ1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-yYMtcnyausbOA8P72eRtFC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00105110"
+  },
+  {
+    "object_id": "ap-yYMtcnyausbOA8P72eRtFC",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00035555"
+  },
+  {
+    "object_id": "ap-ycmLXYZ3ejTvDS1BccMene",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ycmLXYZ3ejTvDS1BccMene",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ygFLlXYWKxubnHOsols0Yj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ygFLlXYWKxubnHOsols0Yj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ygk6u5OVJLERbw6Xyexyxm",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-ygk6u5OVJLERbw6Xyexyxm",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-yxDX1AvvOMChcuB8IJfiCY",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00021021"
+  },
+  {
+    "object_id": "ap-yxDX1AvvOMChcuB8IJfiCY",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00007111"
+  },
+  {
+    "object_id": "ap-zAkiJr7oJock1mqAI4EUX7",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00023925"
+  },
+  {
+    "object_id": "ap-zAkiJr7oJock1mqAI4EUX7",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00008093"
+  },
+  {
+    "object_id": "ap-zVyIivMBgmUv4DsjyRNnJo",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-zVyIivMBgmUv4DsjyRNnJo",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-zeB2HyhwAPiZbKvI2jQ5Vj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-zeB2HyhwAPiZbKvI2jQ5Vj",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-zpn8iT4oQOlS14Lpl1Ajm1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "CPU",
+    "cost": "0.00010511"
+  },
+  {
+    "object_id": "ap-zpn8iT4oQOlS14Lpl1Ajm1",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-01T03:00:00",
+    "resource": "Memory",
+    "cost": "0.00003556"
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "task": "seed4_cost_preflight_projection",
+  "seed4": 20260825,
+  "protocol_scope": {
+    "models": [
+      "model_b",
+      "model_c",
+      "model_d"
+    ],
+    "lm_pretrain_1b": true,
+    "safety_tokens": 20010611,
+    "persistence_steps": [
+      0,
+      250,
+      1000,
+      4000
+    ],
+    "evaluation": "canonical format_eval_prompt, max_new_tokens=48, WildGuard judging"
+  },
+  "empirical_basis": {
+    "seed1_task2_h100_billed_usd_clean_day": 22.80192289,
+    "seed1_task2_h100_billed_usd_full_window": 25.83683913,
+    "seed1_task31_eval_billed_usd": 1.90400049,
+    "workspace_h100_hourly_usd": 3.95,
+    "workspace_l40s_hourly_usd": 1.95
+  },
+  "scenarios_usd": {
+    "low": {
+      "h100_usd": 22.80192289,
+      "l40s_usd": 1.90400049,
+      "other_incremental_usd": 0.3675,
+      "assumptions": [
+        "Single-day H100 training window without Aug-31 partial-run overhead.",
+        "Corrected Task-3.1-style framed evaluation billed cost reused.",
+        "Reuses materialized FineWeb shards, WildGuard arrows, tokenizer caches, and Modal image layers."
+      ],
+      "total_usd": 25.0734
+    },
+    "expected": {
+      "h100_usd": 24.3194,
+      "l40s_usd": 1.90400049,
+      "other_incremental_usd": 0.4593,
+      "assumptions": [
+        "Midpoint between clean Sep-1 H100 billing and full Aug31-Sep1 H100 billing window.",
+        "One corrected evaluation pass on L40S.",
+        "No protocol changes; independent Seed 20260825 retrain required."
+      ],
+      "total_usd": 26.6827
+    },
+    "high": {
+      "h100_usd": 25.83683913,
+      "l40s_usd": 2.0563,
+      "other_incremental_usd": 0.5282,
+      "assumptions": [
+        "Includes Aug-31 partial-run H100 overhead observed on Seed 1.",
+        "8% L40S buffer for judge/generation variance.",
+        "15% CPU/memory buffer; excludes second full training rerun."
+      ],
+      "total_usd": 28.4213
+    }
+  },
+  "seed4_full_protocol_within_10_usd": false,
+  "minimum_realistic_expected_budget_usd": 26.6827,
+  "p80_or_conservative_cost_usd": 28.4213,
+  "recommended_hard_authorization_usd": 32.02,
+  "incremental_storage_per_month_usd": {
+    "estimate": 0.0,
+    "evidence_class": "MODELED_OR_FALLBACK",
+    "rationale": "Seed-4 checkpoint volume growth is minor relative to execution cost; not included in one-run GPU authorization."
+  },
+  "runtime_budget_monitor": {
+    "track_h100_seconds_completed": true,
+    "track_l40s_seconds_completed": true,
+    "track_estimated_billed_cost_usd": true,
+    "use_workspace_rates_from": "artifacts/seed4_cost_preflight_modal_rates.json",
+    "pre_pipeline_gate": "Before launching each independent model pipeline, verify remaining authorization covers full historical per-model H100 envelope derived from Seed-1 billed aggregate / 3.",
+    "do_not_stop_mid_pipeline_for_estimate_miss": true,
+    "fail_closed_on_hard_authorization_breach": true
+  },
+  "preflight_code_sha": "0030706ea1bb63ddefe778a01c9f87a7b60e0158",
+  "h100_gpu_seconds_used_by_preflight": 0,
+  "l40s_gpu_seconds_used_by_preflight": 0
+}
