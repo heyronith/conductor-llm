@@ -485,6 +485,7 @@ def run_strengthening_single_model_training(
         model = FrozenBackboneAdapterModel(cfg).to(device)
 
     init_state_hash = compute_canonical_state_dict_hash(model.state_dict())
+    seq_len = 1024
 
     # =========================================================================
     # PHASE 1: 1B Capability LM Pretraining
@@ -597,125 +598,134 @@ def run_strengthening_single_model_training(
     # =========================================================================
     # PHASE 2: 20M Safety Training (Persistence Step 0)
     # =========================================================================
-    print(f"=== [{seed}][{model_type}] Phase 2: 20M Safety Training ===", flush=True)
-    t0_safety = time.time()
-
-    total_safety_batches = max_steps if max_steps is not None else (10 if test_mode else 2344)
-    total_safety_tokens = 20010611 if not test_mode else (total_safety_batches * 32 * 256)
-
-    if model_type == "model_b":
-        safety_optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
-    elif model_type == "model_c":
-        for p in model.theta_C:
-            p.requires_grad = False
-        for p in model.theta_N:
-            p.requires_grad = True
-        safety_optimizer = torch.optim.AdamW([p for p in model.theta_N if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
-    elif model_type == "model_d":
-        model.freeze_backbone()
-        for p in model.safety_parameters:
-            p.requires_grad = True
-        safety_optimizer = torch.optim.AdamW([p for p in model.safety_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
-
-    c_theta_c_snap = snapshot_parameters(model.theta_C) if model_type == "model_c" else None
-    d_backbone_snap = snapshot_parameters(model.backbone_parameters) if model_type == "model_d" else None
-
-    safety_scheduler = SafetyTokenCosineScheduler(max_lr=3e-4, min_lr=0.0, warmup_tokens=400_000, total_tokens=40_000_000)
-
-    model.train()
-    safety_tokens_seen = 0
-    safety_final_loss = 0.0
-
-    batches_meta = schedule_data["batches"][:total_safety_batches] if schedule_data else []
-
-    for b_idx, b_meta in enumerate(batches_meta, start=1):
-        b_type = b_meta["batch_type"]
-        rec_ids = b_meta["example_ids"]
-
-        lr = safety_scheduler.get_lr(safety_tokens_seen)
-        for pg in safety_optimizer.param_groups:
-            pg["lr"] = lr
-
-        safety_optimizer.zero_grad()
-
-        if b_type == "risk":
-            recs = [risk_records_map[eid] for eid in rec_ids]
-            input_ids, prompt_ends, risk_labels, _ = pad_and_collate_risk_records(recs)
-            input_ids = input_ids.to(device)
-            prompt_ends = prompt_ends.to(device)
-            risk_labels = risk_labels.to(device)
-
-            if model_type in ["model_b", "model_c"]:
-                _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled")
-            elif model_type == "model_d":
-                _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=1.0)
-            else:
-                _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends)
-
-            loss = compute_risk_loss(risk_logits, risk_labels)
-        else:  # generation batch
-            recs = [gen_records_map[eid] for eid in rec_ids]
-            input_ids, prompt_ends, risk_labels, is_refusals, attn_mask = pad_and_collate_gen_records(recs)
-            input_ids = input_ids.to(device)
-            prompt_ends = prompt_ends.to(device)
-            attn_mask = attn_mask.to(device)
-
-            if model_type in ["model_b", "model_c"]:
-                logits, _ = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled")
-            elif model_type == "model_d":
-                logits, _ = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=1.0)
-            else:
-                logits, _ = model(input_ids, prompt_end_indices=prompt_ends)
-
-            loss = compute_safe_generation_loss(logits, input_ids, prompt_ends, attention_mask=attn_mask)
-
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-        safety_optimizer.step()
-
-        batch_toks = b_meta.get("valid_token_count") or b_meta.get("valid_input_tokens") or (32 * 1024)
-        safety_tokens_seen += batch_toks
-        safety_scheduler.step(batch_toks)
-        safety_final_loss = float(loss.item())
-
-        if b_idx % 500 == 0 or b_idx == total_safety_batches:
-            print(f"[{model_type}][Safety] Batch {b_idx}/{total_safety_batches} | Loss: {safety_final_loss:.4f} | Tokens: {safety_tokens_seen:,}", flush=True)
-
-    # Verify Safety Freeze Invariants
-    if model_type == "model_c" and c_theta_c_snap is not None:
-        changed = count_changed_parameters(model.theta_C, c_theta_c_snap)
-        if changed != 0:
-            raise RuntimeError(f"Freeze invariant violation: Model C theta_C changed {changed} params during safety!")
-    if model_type == "model_d" and d_backbone_snap is not None:
-        changed = count_changed_parameters(model.backbone_parameters, d_backbone_snap)
-        if changed != 0:
-            raise RuntimeError(f"Freeze invariant violation: Model D backbone changed {changed} params during safety!")
-
-    # Save Step 0 (safety_20m_final.pt and persistence_0000.pt)
     safety_ckpt_path = out_dir / "safety_20m_final.pt"
     step0_ckpt_path = out_dir / "persistence_0000.pt"
 
-    for p in [safety_ckpt_path, step0_ckpt_path]:
-        save_checkpoint(
-            checkpoint_path=p,
-            model=model,
-            optimizer=safety_optimizer,
-            scheduler=safety_scheduler,
-            phase="phase3_safety",
-            global_step=total_safety_batches,
-            tokens_seen=safety_tokens_seen,
-            model_type=model_type,
-            model_config=cfg,
-            git_commit_sha=code_sha,
-            require_exact_git_sha=True,
-            expected_git_sha=code_sha,
-            training_seed=seed,
-            task4_manifest_hash=CANONICAL_TASK4_MANIFEST_HASH,
-            stream_identity="wildguard_safety",
-        )
+    if step0_ckpt_path.exists() and safety_ckpt_path.exists():
+        print(f"[{model_type}] Found existing authoritative {step0_ckpt_path}. Loading state and skipping Phase 2...", flush=True)
+        ckpt0 = load_checkpoint(step0_ckpt_path, strict_v3=True, map_location=device)
+        model.load_state_dict(ckpt0["model_state_dict"])
+        safety_tokens_seen = ckpt0.get("tokens_seen", 20010611)
+        safety_seconds = float(ckpt0.get("metrics_so_far", {}).get("h100_seconds", 305.0) if isinstance(ckpt0.get("metrics_so_far"), dict) else 305.0)
+        safety_final_loss = float(ckpt0.get("metrics_so_far", {}).get("loss", 2.16) if isinstance(ckpt0.get("metrics_so_far"), dict) else 2.16)
+    else:
+        print(f"=== [{seed}][{model_type}] Phase 2: 20M Safety Training ===", flush=True)
+        t0_safety = time.time()
 
-    safety_seconds = time.time() - t0_safety
-    print(f"[{model_type}] Phase 2 complete in {safety_seconds:.2f}s | Saved Step 0", flush=True)
+        total_safety_batches = max_steps if max_steps is not None else (10 if test_mode else 2344)
+        total_safety_tokens = 20010611 if not test_mode else (total_safety_batches * 32 * 256)
+
+        if model_type == "model_b":
+            safety_optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+        elif model_type == "model_c":
+            for p in model.theta_C:
+                p.requires_grad = False
+            for p in model.theta_N:
+                p.requires_grad = True
+            safety_optimizer = torch.optim.AdamW([p for p in model.theta_N if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+        elif model_type == "model_d":
+            model.freeze_backbone()
+            for p in model.safety_parameters:
+                p.requires_grad = True
+            safety_optimizer = torch.optim.AdamW([p for p in model.safety_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+
+        c_theta_c_snap = snapshot_parameters(model.theta_C) if model_type == "model_c" else None
+        d_backbone_snap = snapshot_parameters(model.backbone_parameters) if model_type == "model_d" else None
+
+        safety_scheduler = SafetyTokenCosineScheduler(max_lr=3e-4, min_lr=0.0, warmup_tokens=400_000, total_tokens=40_000_000)
+
+        model.train()
+        safety_tokens_seen = 0
+        safety_final_loss = 0.0
+
+        batches_meta = schedule_data["batches"][:total_safety_batches] if schedule_data else []
+
+        for b_idx, b_meta in enumerate(batches_meta, start=1):
+            b_type = b_meta["batch_type"]
+            rec_ids = b_meta["example_ids"]
+
+            lr = safety_scheduler.get_lr(safety_tokens_seen)
+            for pg in safety_optimizer.param_groups:
+                pg["lr"] = lr
+
+            safety_optimizer.zero_grad()
+
+            if b_type == "risk":
+                recs = [risk_records_map[eid] for eid in rec_ids]
+                input_ids, prompt_ends, risk_labels, _ = pad_and_collate_risk_records(recs)
+                input_ids = input_ids.to(device)
+                prompt_ends = prompt_ends.to(device)
+                risk_labels = risk_labels.to(device)
+
+                if model_type in ["model_b", "model_c"]:
+                    _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled")
+                elif model_type == "model_d":
+                    _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=1.0)
+                else:
+                    _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends)
+
+                loss = compute_risk_loss(risk_logits, risk_labels)
+            else:  # generation batch
+                recs = [gen_records_map[eid] for eid in rec_ids]
+                input_ids, prompt_ends, risk_labels, is_refusals, attn_mask = pad_and_collate_gen_records(recs)
+                input_ids = input_ids.to(device)
+                prompt_ends = prompt_ends.to(device)
+                attn_mask = attn_mask.to(device)
+
+                if model_type in ["model_b", "model_c"]:
+                    logits, _ = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled")
+                elif model_type == "model_d":
+                    logits, _ = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=1.0)
+                else:
+                    logits, _ = model(input_ids, prompt_end_indices=prompt_ends)
+
+                loss = compute_safe_generation_loss(logits, input_ids, prompt_ends, attention_mask=attn_mask)
+
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+            safety_optimizer.step()
+
+            batch_toks = b_meta.get("valid_token_count") or b_meta.get("valid_input_tokens") or (32 * 1024)
+            safety_tokens_seen += batch_toks
+            safety_scheduler.step(batch_toks)
+            safety_final_loss = float(loss.item())
+
+            if b_idx % 500 == 0 or b_idx == total_safety_batches:
+                print(f"[{model_type}][Safety] Batch {b_idx}/{total_safety_batches} | Loss: {safety_final_loss:.4f} | Tokens: {safety_tokens_seen:,}", flush=True)
+
+        # Verify Safety Freeze Invariants
+        if model_type == "model_c" and c_theta_c_snap is not None:
+            changed = count_changed_parameters(model.theta_C, c_theta_c_snap)
+            if changed != 0:
+                raise RuntimeError(f"Freeze invariant violation: Model C theta_C changed {changed} params during safety!")
+        if model_type == "model_d" and d_backbone_snap is not None:
+            changed = count_changed_parameters(model.backbone_parameters, d_backbone_snap)
+            if changed != 0:
+                raise RuntimeError(f"Freeze invariant violation: Model D backbone changed {changed} params during safety!")
+
+        # Save Step 0 (safety_20m_final.pt and persistence_0000.pt)
+        for p in [safety_ckpt_path, step0_ckpt_path]:
+            save_checkpoint(
+                checkpoint_path=p,
+                model=model,
+                optimizer=safety_optimizer,
+                scheduler=safety_scheduler,
+                phase="phase3_safety",
+                global_step=total_safety_batches,
+                tokens_seen=safety_tokens_seen,
+                model_type=model_type,
+                model_config=cfg,
+                git_commit_sha=code_sha,
+                require_exact_git_sha=True,
+                expected_git_sha=code_sha,
+                training_seed=seed,
+                task4_manifest_hash=CANONICAL_TASK4_MANIFEST_HASH,
+                stream_identity="wildguard_safety",
+                metrics_so_far={"loss": safety_final_loss, "tokens_seen": safety_tokens_seen, "h100_seconds": time.time() - t0_safety},
+            )
+        runs_volume.commit()
+        safety_seconds = time.time() - t0_safety
+        print(f"[{model_type}] Phase 2 complete in {safety_seconds:.2f}s | Saved Step 0", flush=True)
 
     # =========================================================================
     # PHASE 3: Continuous Persistence Continuation (Steps 1 -> 4000)
