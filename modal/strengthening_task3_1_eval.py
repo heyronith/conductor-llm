@@ -123,7 +123,8 @@ def run_task3_1_eval_worker(
     from ccpt.modeling.dual_stream import CCPTDualStreamModel, JointTrainingDualStreamModel
     from ccpt.modeling.adapter import FrozenBackboneAdapterModel
     from ccpt.config import get_smoke_dual_stream_config, get_smoke_adapter_config
-    from ccpt.training.checkpoint import load_checkpoint, compute_canonical_state_dict_hash
+    from ccpt.training.checkpoint import load_checkpoint
+    from ccpt.evaluation.forensics import compute_canonical_state_dict_hash
     sys.path.insert(0, "/root/modal_src")
     from task7_4_multiseed_replication import load_beavertails_ood_dataset
 
@@ -433,17 +434,20 @@ def run_full_corrected_evaluation(expected_code_sha: str = TASK3_1_EVAL_SHA):
     print("Hardware: NVIDIA L40S (Zero H100 GPU Seconds)", flush=True)
     print("=================================================================", flush=True)
 
-    # 1. Run generation workers for Model B, Model C, Model D
+    # 1. Run generation workers for Model B, Model C, Model D in parallel
     models = ["model_b", "model_c", "model_d"]
-    eval_results = {}
-    response_paths = []
-
+    eval_handles = {}
     for m in models:
-        res = run_task3_1_eval_worker.remote(
+        eval_handles[m] = run_task3_1_eval_worker.spawn(
             seed=SEED,
             model_type=m,
             expected_code_sha=expected_code_sha,
         )
+
+    eval_results = {}
+    response_paths = []
+    for m in models:
+        res = eval_handles[m].get()
         eval_results[m] = res
         response_paths.append(res["responses_path"])
         print(f"[{m}] Generated {res['total_responses_generated']} responses ({res['eval_seconds']:.1f}s)", flush=True)
