@@ -24,7 +24,7 @@ import torch
 # -----------------------------------------------------------------------------
 # Pinned Constants & Hashes
 # -----------------------------------------------------------------------------
-TASK3_1_EVAL_SHA = "c280bf2e71e1969b8f86e818b9c8ab55efa63d60"
+TASK3_1_EVAL_SHA = "fdb35a2229f6ee4831d2ab6379a5cc912d79fa61"
 SEED = 20260821
 RESERVED_SEED = 20260822
 OOD_BEAVERTAILS_MANIFEST_HASH = "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e"
