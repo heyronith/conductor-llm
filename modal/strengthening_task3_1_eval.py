@@ -122,7 +122,7 @@ def run_task3_1_eval_worker(
     from ccpt.evaluation.behavioral import format_eval_prompt
     from ccpt.modeling.dual_stream import CCPTDualStreamModel, JointTrainingDualStreamModel
     from ccpt.modeling.adapter import FrozenBackboneAdapterModel
-    from ccpt.configs.experiment import get_smoke_dual_stream_config, get_smoke_adapter_config
+    from ccpt.config import get_smoke_dual_stream_config, get_smoke_adapter_config
     from ccpt.training.checkpoint import load_checkpoint, compute_canonical_state_dict_hash
     sys.path.insert(0, "/root/modal_src")
     from task7_4_multiseed_replication import load_beavertails_ood_dataset
