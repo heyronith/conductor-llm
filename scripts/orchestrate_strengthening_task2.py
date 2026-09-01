@@ -41,7 +41,7 @@ def get_git_sha() -> str:
     return res.stdout.strip()
 
 
-def run_staged_sentinel_experiment(code_sha: str) -> Dict[str, Any]:
+def run_staged_sentinel_experiment(code_sha: str, override_budget: bool = False) -> Dict[str, Any]:
     t0_sentinel = time.time()
     results = {
         "task_name": "CCPT_STRENGTHENING_TASK2_SENTINEL",
@@ -130,33 +130,81 @@ def run_staged_sentinel_experiment(code_sha: str) -> Dict[str, Any]:
         "gate_status": "GO" if (gate_passed and budget_gate_passed) else "STOP",
     }
 
-    if not (gate_passed and budget_gate_passed):
-        raise RuntimeError(f"Technical Health Gate STOP: technical={gate_passed}, budget={budget_gate_passed}")
+    if not gate_passed:
+        raise RuntimeError(f"Technical Health Gate STOP: Technical verification failed on Seed 1 smoke: {smoke_results}")
+
+    # Launch Seed 1 full evaluation workers on L40S
+    print(f"\nExecuting full behavioral evaluation for Seed 1 ({seed_1}) on L40S...", flush=True)
+    s1_eval_handles = {
+        m: run_strengthening_evaluation_worker.spawn(
+            seed=seed_1,
+            model_type=m,
+            expected_code_sha=code_sha,
+        )
+        for m in models
+    }
+    s1_eval_results = {}
+    for m, handle in s1_eval_handles.items():
+        print(f"Waiting for Seed 1 {m} evaluation...")
+        res = handle.get()
+        s1_eval_results[m] = res
+        print(f"-> Seed 1 {m} evaluation completed! Total responses: {res['total_responses_generated']}")
+
+    s1_paths = [r["responses_path"] for r in s1_eval_results.values()]
+    print(f"Judging Seed 1 ({len(s1_paths)} response files)...")
+    s1_judge = run_strengthening_centralized_judge.remote(
+        seed=seed_1,
+        responses_jsonl_paths=s1_paths,
+        expected_code_sha=code_sha,
+    )
+    print(f"-> Seed 1 judging complete: {s1_judge['total_judged']} responses judged in {s1_judge['judge_seconds']:.1f}s")
+
+    results["evaluation"] = {"seed_1": s1_eval_results}
+    results["judging"] = {"seed_1": s1_judge}
+
+    if not budget_gate_passed and not override_budget:
+        print(f"\n==================================================", flush=True)
+        print(f"[TECHNICAL HEALTH GATE: STOP TRIGGERED] Projected total cost (${projected_total_cost:.2f}) exceeds $14.00 limit.", flush=True)
+        print(f"[TECHNICAL HEALTH GATE: STOP TRIGGERED] Halting before Seed 4 awaiting explicit operator override.", flush=True)
+        print(f"==================================================", flush=True)
+
+        # Reconcile exact Seed 1 cost accounting
+        total_h100_secs = s1_h100_secs
+        total_h100_cost = (total_h100_secs / 3600.0) * h100_hourly_rate
+        eval_l40s_secs = sum(r["eval_seconds"] for r in s1_eval_results.values())
+        judge_l40s_secs = s1_judge["judge_seconds"]
+        total_l40s_secs = eval_l40s_secs + judge_l40s_secs
+        l40s_hourly_rate = 1.95
+        total_l40s_cost = (total_l40s_secs / 3600.0) * l40s_hourly_rate
+        total_experiment_cost = total_h100_cost + total_l40s_cost
+
+        results["cost_accounting"] = {
+            "h100_gpu_seconds": total_h100_secs,
+            "h100_cost_usd": total_h100_cost,
+            "l40s_gpu_seconds": total_l40s_secs,
+            "l40s_cost_usd": total_l40s_cost,
+            "total_sentinel_cost_usd": total_experiment_cost,
+            "h100_budget_limit_usd": 14.00,
+            "within_budget": False,
+        }
+        results["end_time_utc"] = datetime.now(timezone.utc).isoformat()
+        results["total_wall_clock_seconds"] = time.time() - t0_sentinel
+        return results
 
     print(f"TECHNICAL HEALTH GATE: GO! Proceeding to Stage 3.", flush=True)
 
     # =========================================================================
-    # STAGE 3: Seed 4 Training (H100!) in parallel with Seed 1 Evaluation (L40S)
+    # STAGE 3: Seed 4 Training (H100!)
     # =========================================================================
     seed_4 = 20260825
     print(f"\n==================================================", flush=True)
-    print(f"STAGE 3: Launching Seed 4 ({seed_4}) Training & Seed 1 Evaluation in parallel", flush=True)
+    print(f"STAGE 3: Launching Seed 4 ({seed_4}) Training on H100!", flush=True)
     print(f"==================================================", flush=True)
 
     # Launch Seed 4 training
     s4_handles = {
         m: run_strengthening_single_model_training.spawn(
             seed=seed_4,
-            model_type=m,
-            expected_code_sha=code_sha,
-        )
-        for m in models
-    }
-
-    # Launch Seed 1 evaluation workers
-    s1_eval_handles = {
-        m: run_strengthening_evaluation_worker.spawn(
-            seed=seed_1,
             model_type=m,
             expected_code_sha=code_sha,
         )
@@ -172,14 +220,6 @@ def run_staged_sentinel_experiment(code_sha: str) -> Dict[str, Any]:
         print(f"-> Seed 4 {m} training completed! H100 GPU seconds: {res['timing']['total_h100_seconds']:.1f}")
 
     results["seed_4_training"] = s4_results
-
-    # Gather Seed 1 eval
-    s1_eval_results = {}
-    for m, handle in s1_eval_handles.items():
-        print(f"Waiting for Seed 1 {m} evaluation...")
-        res = handle.get()
-        s1_eval_results[m] = res
-        print(f"-> Seed 1 {m} evaluation completed! Total responses: {res['total_responses_generated']}")
 
     # =========================================================================
     # STAGE 4: Seed 4 Evaluation (L40S)
@@ -204,29 +244,16 @@ def run_staged_sentinel_experiment(code_sha: str) -> Dict[str, Any]:
         s4_eval_results[m] = res
         print(f"-> Seed 4 {m} evaluation completed! Total responses: {res['total_responses_generated']}")
 
-    results["evaluation"] = {
-        "seed_1": s1_eval_results,
-        "seed_4": s4_eval_results,
-    }
+    results["evaluation"]["seed_4"] = s4_eval_results
 
     # =========================================================================
     # STAGE 5: Centralized WildGuard Moderation Judging (L40S)
     # =========================================================================
     print(f"\n==================================================", flush=True)
-    print(f"STAGE 5: Launching Centralized WildGuard Moderation Judge", flush=True)
+    print(f"STAGE 5: Launching Centralized WildGuard Moderation Judge for Seed 4", flush=True)
     print(f"==================================================", flush=True)
 
-    s1_paths = [r["responses_path"] for r in s1_eval_results.values()]
     s4_paths = [r["responses_path"] for r in s4_eval_results.values()]
-
-    print(f"Judging Seed 1 ({len(s1_paths)} response files)...")
-    s1_judge = run_strengthening_centralized_judge.remote(
-        seed=seed_1,
-        responses_jsonl_paths=s1_paths,
-        expected_code_sha=code_sha,
-    )
-    print(f"-> Seed 1 judging complete: {s1_judge['total_judged']} responses judged in {s1_judge['judge_seconds']:.1f}s")
-
     print(f"Judging Seed 4 ({len(s4_paths)} response files)...")
     s4_judge = run_strengthening_centralized_judge.remote(
         seed=seed_4,
@@ -234,11 +261,7 @@ def run_staged_sentinel_experiment(code_sha: str) -> Dict[str, Any]:
         expected_code_sha=code_sha,
     )
     print(f"-> Seed 4 judging complete: {s4_judge['total_judged']} responses judged in {s4_judge['judge_seconds']:.1f}s")
-
-    results["judging"] = {
-        "seed_1": s1_judge,
-        "seed_4": s4_judge,
-    }
+    results["judging"]["seed_4"] = s4_judge
 
     # =========================================================================
     # STAGE 6: Final Cost Accounting & Artifact Packaging
@@ -271,6 +294,11 @@ def run_staged_sentinel_experiment(code_sha: str) -> Dict[str, Any]:
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="CCPT Strengthening Task 2 Sentinel Orchestrator")
+    parser.add_argument("--override-budget", action="store_true", help="Explicit operator override to proceed to Seed 4")
+    args = parser.parse_args()
+
     code_sha = get_git_sha()
     print(f"=== Starting Task 2 Sentinel Execution with Code SHA: {code_sha} ===")
 
@@ -285,7 +313,7 @@ def main():
         raise RuntimeError("Preflight audit did not pass. Aborting execution.")
 
     with app.run():
-        summary = run_staged_sentinel_experiment(code_sha=code_sha)
+        summary = run_staged_sentinel_experiment(code_sha=code_sha, override_budget=args.override_budget)
 
     # Save summary artifact
     out_p = Path("artifacts/strengthening_task2_sentinel_summary.json")

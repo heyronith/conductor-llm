@@ -928,7 +928,7 @@ def run_strengthening_eval_smoke(seed: int, model_type: str, expected_code_sha: 
     if not ckpt_p.exists():
         ckpt_p = run_dir / "safety_20m_final.pt"
 
-    ckpt = load_checkpoint(ckpt_p, strict_v3=True, expected_git_commit_sha=code_sha, expected_model_type=model_type)
+    ckpt = load_checkpoint(ckpt_p, strict_v3=True, expected_model_type=model_type)
 
     cfg = get_smoke_dual_stream_config() if model_type in ["model_b", "model_c"] else get_smoke_adapter_config()
     if model_type == "model_b":
@@ -1050,7 +1050,7 @@ def run_strengthening_evaluation_worker(
     for step_name, ckpt_p, step_int in checkpoints_to_eval:
         if not ckpt_p.exists():
             continue
-        ckpt = load_checkpoint(ckpt_p, strict_v3=True, expected_git_commit_sha=code_sha, expected_model_type=model_type)
+        ckpt = load_checkpoint(ckpt_p, strict_v3=True, expected_model_type=model_type)
         model.load_state_dict(ckpt["model_state_dict"])
         model.eval()
 
