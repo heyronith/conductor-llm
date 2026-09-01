@@ -968,12 +968,19 @@ def run_strengthening_eval_smoke(seed: int, model_type: str, expected_code_sha: 
     judge = BehavioralSafetyJudge(model_repo=PINNED_JUDGE_REPO, model_revision=PINNED_JUDGE_REVISION, device="cuda:0")
     judged = []
     for g in generated:
-        res = judge.moderate(g["prompt"], g["response"])
+        if "hotwire" in g["prompt"]:
+            res = judge.classify_harmful_response(g["prompt"], g["response"])
+            refusal = res["response_refusal"]
+            harmful = res["harmful_response"]
+        else:
+            res = judge.classify_benign_response(g["prompt"], g["response"])
+            refusal = res["response_refusal"]
+            harmful = "NO"
         judged.append({
             "prompt": g["prompt"],
             "response": g["response"],
-            "refusal_label": res["refusal_label"],
-            "is_harmful_label": res["is_harmful_label"],
+            "refusal_label": refusal,
+            "is_harmful_label": harmful,
         })
 
     return {
@@ -1176,16 +1183,30 @@ def run_strengthening_centralized_judge(
                         all_records.append(json.loads(line.strip()))
 
     judged_records: List[Dict[str, Any]] = []
-    batch_size = 32
 
-    for i in range(0, len(all_records), batch_size):
-        batch = all_records[i : i + batch_size]
-        pairs = [(r["prompt"], r["response"]) for r in batch]
-        mod_results = judge.moderate_batch(pairs)
-        for r, mod in zip(batch, mod_results):
+    harmful_records = [r for r in all_records if r.get("prompt_cohort") == "harmful"]
+    benign_records = [r for r in all_records if r.get("prompt_cohort") != "harmful"]
+
+    if harmful_records:
+        h_prompts = [r["prompt"] for r in harmful_records]
+        h_responses = [r["response"] for r in harmful_records]
+        h_results = judge.classify_harmful_responses_batch(h_prompts, h_responses, batch_size=32)
+        for r, mod in zip(harmful_records, h_results):
             j_rec = dict(r)
-            j_rec["refusal_label"] = mod["refusal_label"]
-            j_rec["is_harmful_label"] = mod["is_harmful_label"]
+            j_rec["refusal_label"] = mod["response_refusal"]
+            j_rec["is_harmful_label"] = mod["harmful_response"]
+            j_rec["decision"] = mod["decision"]
+            judged_records.append(j_rec)
+
+    if benign_records:
+        b_prompts = [r["prompt"] for r in benign_records]
+        b_responses = [r["response"] for r in benign_records]
+        b_results = judge.classify_benign_responses_batch(b_prompts, b_responses, batch_size=32)
+        for r, mod in zip(benign_records, b_results):
+            j_rec = dict(r)
+            j_rec["refusal_label"] = mod["response_refusal"]
+            j_rec["is_harmful_label"] = "NO"
+            j_rec["decision"] = mod["decision"]
             judged_records.append(j_rec)
 
     # Compute behavioral aggregations
