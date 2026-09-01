@@ -1,0 +1,48 @@
+{
+  "bundle_name": "strengthening_task3_review_bundle.zip",
+  "task": "CCPT Strengthening Task 3: Seed-1 Forensic Audit",
+  "created_at": "2026-09-01T09:27:00Z",
+  "git_branch": "strengthening-task3-seed1-forensic",
+  "contents": [
+    {
+      "path": "artifacts/strengthening_task3_frozen_input_manifest.json",
+      "description": "Cryptographic SHA256 hashes of all input code and artifacts frozen prior to forensic audit."
+    },
+    {
+      "path": "artifacts/strengthening_task3_execution_timeline.json",
+      "description": "Chronological audit of Git commits, execution SHAs, and fast-return commit impact analysis."
+    },
+    {
+      "path": "artifacts/strengthening_task3_checkpoint_comparison.json",
+      "description": "Exact tensor difference statistics (relative L2, cosine similarity, max diff) across historical vs new checkpoints."
+    },
+    {
+      "path": "artifacts/strengthening_task3_response_provenance.json",
+      "description": "Cryptographic linkage of all 10,752 response records to exact checkpoint state hashes and cache isolation validation."
+    },
+    {
+      "path": "artifacts/strengthening_task3_behavior_reconciliation.json",
+      "description": "Historical vs new behavioral metrics reconciliation, framed vs unframed empirical comparison, and NA sensitivity bounds."
+    },
+    {
+      "path": "artifacts/strengthening_task3_cost_forensics.json",
+      "description": "Zero-GPU accounting audit comparing frozen estimates vs actual telemetry, identifying budget underestimate root causes and providing corrected projections."
+    },
+    {
+      "path": "artifacts/strengthening_task3_root_cause.json",
+      "description": "Formal root-cause classification identifying D_EVALUATION_PROTOCOL_DIVERGENCE as the primary cause."
+    },
+    {
+      "path": "docs/research/strengthening_task3_seed1_forensic_report.md",
+      "description": "Authoritative human-readable forensic audit report detailing findings, divergence ladder, and next steps."
+    },
+    {
+      "path": "tests/test_strengthening_task3_forensics.py",
+      "description": "Targeted regression tests verifying forensic invariants, provenance linkage, and zero-GPU enforcement."
+    },
+    {
+      "path": "artifacts/raw_modal_forensic_output.json",
+      "description": "Complete raw telemetry and tensor difference diagnostics captured on Modal CPU (0 GPU seconds)."
+    }
+  ]
+}

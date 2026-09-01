@@ -1,0 +1,92 @@
+{
+  "task": "strengthening_task3_execution_timeline",
+  "git_commits": [
+    {
+      "commit": "94431272123ace87a0f11201b97542127cded01d",
+      "timestamp": "2026-08-31 18:43:19 -0500",
+      "subject": "Strengthening Task 2: Sentinel Infrastructure, FineWeb 128k Extension, and Preflight Freeze"
+    },
+    {
+      "commit": "50a933e8eb68d5d1c2a0334fe11f4964523f79fd",
+      "timestamp": "2026-08-31 18:43:41 -0500",
+      "subject": "Fix sys.path import in scripts/orchestrate_strengthening_task2.py"
+    },
+    {
+      "commit": "8d1d0a800ca8831bc26f264a7c5d80c7cc0100d3",
+      "timestamp": "2026-08-31 18:43:52 -0500",
+      "subject": "Update preflight artifact with HEAD execution SHA"
+    },
+    {
+      "commit": "9bd710ec2f67e6144fa0632c14afaec630f0ed20",
+      "timestamp": "2026-08-31 18:44:08 -0500",
+      "subject": "Commit preflight timestamp for exact execution SHA freeze"
+    },
+    {
+      "commit": "5227f1296db68b132c06b60de8286d4392317e20",
+      "timestamp": "2026-08-31 18:44:37 -0500",
+      "subject": "Use shared Modal App in orchestrator"
+    },
+    {
+      "commit": "e7c03068f3e756421ad9c273c0361fcf027de8f1",
+      "timestamp": "2026-08-31 18:44:47 -0500",
+      "subject": "Update preflight artifact for final execution SHA"
+    },
+    {
+      "commit": "5efd467395a8bb43d7808eabe7c2b2aa1c0d732d",
+      "timestamp": "2026-08-31 20:40:51 -0500",
+      "subject": "fix(sentinel): add 1B LM resume and canonical safety batch collation in Phase 2"
+    },
+    {
+      "commit": "4e198065aca63fcc7f00bb8ab4a71bd9d638d37a",
+      "timestamp": "2026-08-31 20:47:47 -0500",
+      "subject": "fix(sentinel): define seq_len in outer scope and add Step 0 resume"
+    },
+    {
+      "commit": "7b4a69f52bfd491d934380e1357cc76b2f9d53db",
+      "timestamp": "2026-08-31 21:03:43 -0500",
+      "subject": "fix(sentinel): add persistence_4000 fast return and initialize default loss variables"
+    },
+    {
+      "commit": "631729a52243376c27126348ccc6a41354efa6c8",
+      "timestamp": "2026-08-31 21:06:45 -0500",
+      "subject": "fix(sentinel): omit expected_git_commit_sha in eval/judge and complete Seed 1 audit before health gate stop"
+    },
+    {
+      "commit": "af80060ffb0152754ae41efa136f1ac3e77da0ae",
+      "timestamp": "2026-08-31 21:16:14 -0500",
+      "subject": "fix(sentinel): use canonical classify_harmful_response and batch methods on BehavioralSafetyJudge"
+    },
+    {
+      "commit": "6152ca7f82c893b1bd7f9a9f1e84f30ae8525917",
+      "timestamp": "2026-08-31 22:51:04 -0500",
+      "subject": "fix(sentinel): add fast returns for validated smoke and evaluation responses"
+    },
+    {
+      "commit": "7aa2fa056b14e955d15663fa28f150595458715b",
+      "timestamp": "2026-08-31 23:08:51 -0500",
+      "subject": "feat(sentinel): save Seed 1 Technical Health Gate and WildGuard judging summary"
+    }
+  ],
+  "training_execution_shas": {
+    "seed1_model_b": "4e198065aca63fcc7f00bb8ab4a71bd9d638d37a",
+    "seed1_model_c": "4e198065aca63fcc7f00bb8ab4a71bd9d638d37a",
+    "seed1_model_d": "4e198065aca63fcc7f00bb8ab4a71bd9d638d37a"
+  },
+  "response_generation_sha": "af80060ffb0152754ae41efa136f1ac3e77da0ae",
+  "judging_sha": "6152ca7f82c893b1bd7f9a9f1e84f30ae8525917",
+  "fast_return_commit_audit": {
+    "commit_sha": "6152ca7f82c893b1bd7f9a9f1e84f30ae8525917",
+    "affected_lm_training": "NO",
+    "affected_safety_training": "NO",
+    "affected_persistence": "NO",
+    "affected_response_generation": "NO",
+    "affected_ablation_generation": "NO",
+    "affected_judging": "NO",
+    "affected_aggregation_only": "YES",
+    "analysis": "Commit 6152ca7 added short-circuit returns to run_strengthening_eval_smoke and run_strengthening_evaluation_worker when existing authoritative response files with >= 3584 records were already written on the volume. It did not alter model generation code or judging classification logic."
+  },
+  "code_modification_flags": {
+    "training_code_modified_after_training": "NO",
+    "evaluation_code_modified_after_training": "YES"
+  }
+}

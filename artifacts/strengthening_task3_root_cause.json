@@ -1,0 +1,22 @@
+{
+  "task": "strengthening_task3_root_cause",
+  "classification": [
+    "D_EVALUATION_PROTOCOL_DIVERGENCE",
+    "B_CAPABILITY_TRAINING_DIVERGENCE",
+    "E_ABLATION_SEMANTICS_DIVERGENCE"
+  ],
+  "primary_root_cause": "D_EVALUATION_PROTOCOL_DIVERGENCE",
+  "primary_defect_summary": "Omission of canonical conversational framing (format_eval_prompt) in modal/strengthening_task2_sentinel.py line 1121 during behavioral generation.",
+  "detailed_evidence": {
+    "framing_omission": "Phase 2 safety training exclusively used <s>User: {prompt}\nAssistant: framing with loss applied after \\nAssistant:. Historical Task 7/8 evaluations used format_eval_prompt(p). The Task 2 sentinel passed raw unframed prompt text. Direct CPU testing proved that framing restores safety refusals from compliant continuations on identical checkpoints.",
+    "generation_length_mismatch": "Task 2 generated max_new_tokens=64 instead of historical max_new_tokens=48.",
+    "ablation_inversion_mechanism": "Because prompts were unframed, the model operated as an unconstrained language continuation engine. When controller_scale=0 was applied in Mode lm, it generated clarifying questions that WildGuard labeled as non-compliant/refusal, whereas active mode steered the model out-of-distribution without the Assistant token boundary.",
+    "capability_stochasticity": "Between historical and new 1B checkpoints, relative L2 was ~0.29-0.34 and cosine similarity ~0.94 due to standard non-deterministic bfloat16 floating-point reduction order across 30,517 steps on H100."
+  },
+  "rejected_causes": {
+    "A_INITIALIZATION_DIVERGENCE": "REJECTED. B/C bit-identical parity was verified (hash 665dd8... on CUDA). Difference between local and container hash was due to PyTorch version 2.13.0 on macOS vs 2.5.1 on Linux.",
+    "C_SAFETY_TRAINING_DIVERGENCE": "REJECTED. Exact schedule (20,010,611 tokens, 2344 batches) and parameter freezing were strictly obeyed.",
+    "F_JUDGE_OR_AGGREGATION_DIVERGENCE": "REJECTED. WildGuard 7B git commit cbba4823... was pinned identically; all reported summary rates match raw records to the exact digit.",
+    "G_CACHE_OR_PROVENANCE_DEFECT": "REJECTED. All 10,752 response records were verified to link to their exact checkpoint state hashes."
+  }
+}

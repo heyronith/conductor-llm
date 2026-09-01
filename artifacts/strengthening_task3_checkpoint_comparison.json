@@ -1,0 +1,505 @@
+{
+  "task": "strengthening_task3_checkpoint_comparison",
+  "checkpoints": {
+    "hist_c_lm": {
+      "exists": true,
+      "size_bytes": 409075521,
+      "step": null,
+      "tokens_seen": 999981056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v2",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "c96b83ccbef1bb9767b3a8aab45d4b6b54c1b4dc36a8291ef46bb7013ac8a98b"
+    },
+    "hist_c_safety": {
+      "exists": true,
+      "size_bytes": 165776769,
+      "step": null,
+      "tokens_seen": 20010611,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v2",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "a1b3a9bcd97ffd67fa65e6b6e965a1e7768039ed3dba6dec7a17ab8c217920a8"
+    },
+    "hist_c_pers": {
+      "exists": true,
+      "size_bytes": 409077706,
+      "step": null,
+      "tokens_seen": 1032749056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v2",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "b8f2e1bb4d70804bac8d8429f3d93cfccbefc3d02ea84e73e2f73e6700de46a8"
+    },
+    "hist_d_lm": {
+      "exists": true,
+      "size_bytes": 409084093,
+      "step": null,
+      "tokens_seen": 999981056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v2",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "aa4b37caa7020b366f9e4709e7de4753cf182bba84deb993a2736a3c074e4c90"
+    },
+    "hist_d_safety": {
+      "exists": true,
+      "size_bytes": 165804105,
+      "step": null,
+      "tokens_seen": 20010611,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v2",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "d137d93a90ce5fbefbb8e0508188d0c81921392c5cbe4be9a3e70bb02981cccd"
+    },
+    "hist_d_pers": {
+      "exists": true,
+      "size_bytes": 409086320,
+      "step": null,
+      "tokens_seen": 1032749056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v2",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "02eea6ad28545b7f6d7323bfa728295076163ec56c1337a164b5118e67cc3ab8"
+    },
+    "new_c_lm": {
+      "exists": true,
+      "size_bytes": 409075564,
+      "step": null,
+      "tokens_seen": 999981056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "4654f8ecaf5aaed278dbe091e0b658b76a9b53b269d80b1868bfb0f24dc7ee88"
+    },
+    "new_c_safety": {
+      "exists": true,
+      "size_bytes": 165776674,
+      "step": null,
+      "tokens_seen": 20010611,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "2434bec03bd8c8939ce371d2af2dc77b8316daf831411f7ff352c0d1787ce03f"
+    },
+    "new_c_pers_0": {
+      "exists": true,
+      "size_bytes": 165776674,
+      "step": null,
+      "tokens_seen": 20010611,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "2434bec03bd8c8939ce371d2af2dc77b8316daf831411f7ff352c0d1787ce03f"
+    },
+    "new_c_pers_250": {
+      "exists": true,
+      "size_bytes": 409076489,
+      "step": null,
+      "tokens_seen": 1008173056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "e5c9d8e5afd69eb2aa757a45b2ff83bc924aba6ff53c774460bf182ddc05bda4"
+    },
+    "new_c_pers_1000": {
+      "exists": true,
+      "size_bytes": 409076489,
+      "step": null,
+      "tokens_seen": 1032749056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "0d596c3ea065d27e7c73e75b47124e4ea3a136188537219ca2c100873d1f5a58"
+    },
+    "new_c_pers_4000": {
+      "exists": true,
+      "size_bytes": 409076489,
+      "step": null,
+      "tokens_seen": 1131053056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_c",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "0cd17b4616361646ef870ba9d6d0338dc321a9b1ab22bbabc9b0806846b610f8"
+    },
+    "new_d_lm": {
+      "exists": true,
+      "size_bytes": 409084136,
+      "step": null,
+      "tokens_seen": 999981056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "1ee570b8211df603fa95e511a0197c31f9d4bbaee0af5c5788ef86238bfdfbed"
+    },
+    "new_d_safety": {
+      "exists": true,
+      "size_bytes": 165803946,
+      "step": null,
+      "tokens_seen": 20010611,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "444807edc4bdce2d0339c7b7e4af7caf6a572cb0f86983a56e25235a7fe107d0"
+    },
+    "new_d_pers_0": {
+      "exists": true,
+      "size_bytes": 165803946,
+      "step": null,
+      "tokens_seen": 20010611,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "444807edc4bdce2d0339c7b7e4af7caf6a572cb0f86983a56e25235a7fe107d0"
+    },
+    "new_d_pers_250": {
+      "exists": true,
+      "size_bytes": 409085115,
+      "step": null,
+      "tokens_seen": 1008173056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "aedc7a5a0b40103c4bda17812de0e1edd7f15dc1f28ab0f4f0642b1c93be90b8"
+    },
+    "new_d_pers_1000": {
+      "exists": true,
+      "size_bytes": 409085115,
+      "step": null,
+      "tokens_seen": 1032749056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "29cfb3b80ab270dd40d792704b14f9a63570b8bbe5382d0f768ea72fdfed91f8"
+    },
+    "new_d_pers_4000": {
+      "exists": true,
+      "size_bytes": 409085115,
+      "step": null,
+      "tokens_seen": 1131053056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_d",
+      "state_dict_keys_count": 63,
+      "state_dict_canonical_hash": "d604755154d5bc4297d112f408a6b30c0ed7c581c17fc681203e055c967cb1b5"
+    },
+    "new_b_lm": {
+      "exists": true,
+      "size_bytes": 431129410,
+      "step": null,
+      "tokens_seen": 999981056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_b",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "c0d0b95c7ba7b846e3a3944ff25223c74afc9f2e938c9a9e73f86bb37a40eef4"
+    },
+    "new_b_safety": {
+      "exists": true,
+      "size_bytes": 431136448,
+      "step": null,
+      "tokens_seen": 20010611,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_b",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "20c7d5dcd52a3fb763f5c4c61318380f02fb134d58339db6b69918364fe3ef14"
+    },
+    "new_b_pers_0": {
+      "exists": true,
+      "size_bytes": 431136448,
+      "step": null,
+      "tokens_seen": 20010611,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_b",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "20c7d5dcd52a3fb763f5c4c61318380f02fb134d58339db6b69918364fe3ef14"
+    },
+    "new_b_pers_1000": {
+      "exists": true,
+      "size_bytes": 431130710,
+      "step": null,
+      "tokens_seen": 1032749056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_b",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "ffab05ea6a2563b30ecbe13a64da7e554c561cdf4ff284a788b9d08bf08c0205"
+    },
+    "new_b_pers_4000": {
+      "exists": true,
+      "size_bytes": 431130710,
+      "step": null,
+      "tokens_seen": 1131053056,
+      "code_commit_sha": null,
+      "format_version": "ccpt-checkpoint-v3",
+      "model_type": "model_b",
+      "state_dict_keys_count": 65,
+      "state_dict_canonical_hash": "2ed17692dfd8104d8a1b8915e5ec364a90650565976f3e902dc26b3e71f95358"
+    }
+  },
+  "model_c_comparison": {
+    "lm_1b": {
+      "theta_c_mean_rel_l2": 0.25317929380423715,
+      "theta_n_mean_rel_l2": 0.06601782236912127,
+      "keys_inspected": 65,
+      "key_diffs_sample": {
+        "capability_final_norm.weight": {
+          "max_abs_diff": 0.19336700439453125,
+          "mean_abs_diff": 0.016928445547819138,
+          "rel_l2": 0.008870667815659487,
+          "cos_sim": 0.9999619437777181,
+          "l2_t1": 61.13734436035156,
+          "l2_t2": 61.03757858276367
+        },
+        "capability_layers.0.attn.k_proj.weight": {
+          "max_abs_diff": 0.4034622311592102,
+          "mean_abs_diff": 0.015430920757353306,
+          "rel_l2": 0.3413240438701198,
+          "cos_sim": 0.9417633525913848,
+          "l2_t1": 33.38593673706055,
+          "l2_t2": 33.392295837402344
+        },
+        "capability_layers.0.attn.o_proj.weight": {
+          "max_abs_diff": 0.0710732713341713,
+          "mean_abs_diff": 0.008299236185848713,
+          "rel_l2": 0.6912766675304075,
+          "cos_sim": 0.7603269595394978,
+          "l2_t1": 7.910226345062256,
+          "l2_t2": 7.8854570388793945
+        },
+        "capability_layers.0.attn.q_proj.weight": {
+          "max_abs_diff": 0.2607790231704712,
+          "mean_abs_diff": 0.01691487990319729,
+          "rel_l2": 0.3460905373615409,
+          "cos_sim": 0.9398796688606872,
+          "l2_t1": 34.92728042602539,
+          "l2_t2": 34.78684997558594
+        },
+        "capability_layers.0.attn.v_proj.weight": {
+          "max_abs_diff": 0.09092074632644653,
+          "mean_abs_diff": 0.009371315129101276,
+          "rel_l2": 0.6800620907310498,
+          "cos_sim": 0.7676522428474059,
+          "l2_t1": 9.26323413848877,
+          "l2_t2": 9.218578338623047
+        },
+        "capability_layers.0.attn_norm.weight": {
+          "max_abs_diff": 0.02442784607410431,
+          "mean_abs_diff": 0.0060700117610394955,
+          "rel_l2": 0.04750317418296873,
+          "cos_sim": 0.9989161599039916,
+          "l2_t1": 3.6601977348327637,
+          "l2_t2": 3.690948963165283
+        },
+        "capability_layers.0.mlp.down_proj.weight": {
+          "max_abs_diff": 0.09324711561203003,
+          "mean_abs_diff": 0.010547515004873276,
+          "rel_l2": 0.3835144621681191,
+          "cos_sim": 0.9264815885234657,
+          "l2_t1": 35.835105895996094,
+          "l2_t2": 35.833526611328125
+        },
+        "capability_layers.0.mlp.gate_proj.weight": {
+          "max_abs_diff": 0.09104248881340027,
+          "mean_abs_diff": 0.012185483239591122,
+          "rel_l2": 0.43903187111730807,
+          "cos_sim": 0.9036673902460405,
+          "l2_t1": 36.15504837036133,
+          "l2_t2": 36.16134262084961
+        },
+        "capability_layers.0.mlp.up_proj.weight": {
+          "max_abs_diff": 0.08559916913509369,
+          "mean_abs_diff": 0.012188923545181751,
+          "rel_l2": 0.4371809179126092,
+          "cos_sim": 0.9044619446634868,
+          "l2_t1": 36.25421142578125,
+          "l2_t2": 36.25400161743164
+        },
+        "capability_layers.0.mlp_norm.weight": {
+          "max_abs_diff": 0.02676934003829956,
+          "mean_abs_diff": 0.0040407683700323105,
+          "rel_l2": 0.013138815248201624,
+          "cos_sim": 0.999913887751682,
+          "l2_t1": 8.904640197753906,
+          "l2_t2": 8.911688804626465
+        }
+      }
+    },
+    "safety_20m": {
+      "theta_c_mean_rel_l2": 0.29313472505544713,
+      "theta_n_mean_rel_l2": 0.34335297040003837,
+      "risk_head_mean_rel_l2": 0.13289011669034825,
+      "gate_mean_rel_l2": 0.4713723231008407,
+      "steering_mean_rel_l2": 0.6672232912620746,
+      "per_key_sample": {
+        "capability_final_norm.weight": {
+          "max_abs_diff": 0.19336700439453125,
+          "mean_abs_diff": 0.016928445547819138,
+          "rel_l2": 0.008870667815659487,
+          "cos_sim": 0.9999619437777181,
+          "l2_t1": 61.13734436035156,
+          "l2_t2": 61.03757858276367
+        },
+        "capability_layers.0.attn.k_proj.weight": {
+          "max_abs_diff": 0.4034622311592102,
+          "mean_abs_diff": 0.015430920757353306,
+          "rel_l2": 0.3413240438701198,
+          "cos_sim": 0.9417633525913848,
+          "l2_t1": 33.38593673706055,
+          "l2_t2": 33.392295837402344
+        },
+        "capability_layers.0.attn.o_proj.weight": {
+          "max_abs_diff": 0.0710732713341713,
+          "mean_abs_diff": 0.008299236185848713,
+          "rel_l2": 0.6912766675304075,
+          "cos_sim": 0.7603269595394978,
+          "l2_t1": 7.910226345062256,
+          "l2_t2": 7.8854570388793945
+        },
+        "capability_layers.0.attn.q_proj.weight": {
+          "max_abs_diff": 0.2607790231704712,
+          "mean_abs_diff": 0.01691487990319729,
+          "rel_l2": 0.3460905373615409,
+          "cos_sim": 0.9398796688606872,
+          "l2_t1": 34.92728042602539,
+          "l2_t2": 34.78684997558594
+        },
+        "capability_layers.0.attn.v_proj.weight": {
+          "max_abs_diff": 0.09092074632644653,
+          "mean_abs_diff": 0.009371315129101276,
+          "rel_l2": 0.6800620907310498,
+          "cos_sim": 0.7676522428474059,
+          "l2_t1": 9.26323413848877,
+          "l2_t2": 9.218578338623047
+        },
+        "capability_layers.0.attn_norm.weight": {
+          "max_abs_diff": 0.02442784607410431,
+          "mean_abs_diff": 0.0060700117610394955,
+          "rel_l2": 0.04750317418296873,
+          "cos_sim": 0.9989161599039916,
+          "l2_t1": 3.6601977348327637,
+          "l2_t2": 3.690948963165283
+        },
+        "capability_layers.0.mlp.down_proj.weight": {
+          "max_abs_diff": 0.09324711561203003,
+          "mean_abs_diff": 0.010547515004873276,
+          "rel_l2": 0.3835144621681191,
+          "cos_sim": 0.9264815885234657,
+          "l2_t1": 35.835105895996094,
+          "l2_t2": 35.833526611328125
+        },
+        "capability_layers.0.mlp.gate_proj.weight": {
+          "max_abs_diff": 0.09104248881340027,
+          "mean_abs_diff": 0.012185483239591122,
+          "rel_l2": 0.43903187111730807,
+          "cos_sim": 0.9036673902460405,
+          "l2_t1": 36.15504837036133,
+          "l2_t2": 36.16134262084961
+        },
+        "capability_layers.0.mlp.up_proj.weight": {
+          "max_abs_diff": 0.08559916913509369,
+          "mean_abs_diff": 0.012188923545181751,
+          "rel_l2": 0.4371809179126092,
+          "cos_sim": 0.9044619446634868,
+          "l2_t1": 36.25421142578125,
+          "l2_t2": 36.25400161743164
+        },
+        "capability_layers.0.mlp_norm.weight": {
+          "max_abs_diff": 0.02676934003829956,
+          "mean_abs_diff": 0.0040407683700323105,
+          "rel_l2": 0.013138815248201624,
+          "cos_sim": 0.999913887751682,
+          "l2_t1": 8.904640197753906,
+          "l2_t2": 8.911688804626465
+        },
+        "capability_layers.1.attn.k_proj.weight": {
+          "max_abs_diff": 0.11634956300258636,
+          "mean_abs_diff": 0.01070722658187151,
+          "rel_l2": 0.3046585028417076,
+          "cos_sim": 0.9535966270015173,
+          "l2_t1": 24.00092887878418,
+          "l2_t2": 24.00176239013672
+        },
+        "capability_layers.1.attn.o_proj.weight": {
+          "max_abs_diff": 0.04742202162742615,
+          "mean_abs_diff": 0.0069806333631277084,
+          "rel_l2": 0.3216990095442848,
+          "cos_sim": 0.9482588321130838,
+          "l2_t1": 14.104612350463867,
+          "l2_t2": 14.10494327545166
+        },
+        "capability_layers.1.attn.q_proj.weight": {
+          "max_abs_diff": 0.11048361659049988,
+          "mean_abs_diff": 0.012064572423696518,
+          "rel_l2": 0.3196938465863967,
+          "cos_sim": 0.9488916044648986,
+          "l2_t1": 25.1607723236084,
+          "l2_t2": 25.156064987182617
+        },
+        "capability_layers.1.attn.v_proj.weight": {
+          "max_abs_diff": 0.059013064950704575,
+          "mean_abs_diff": 0.007601920049637556,
+          "rel_l2": 0.344648354595163,
+          "cos_sim": 0.9405819716686606,
+          "l2_t1": 14.513409614562988,
+          "l2_t2": 14.506053924560547
+        },
+        "capability_layers.1.attn_norm.weight": {
+          "max_abs_diff": 0.02236238121986389,
+          "mean_abs_diff": 0.0053094178438186646,
+          "rel_l2": 0.015752020724636984,
+          "cos_sim": 0.9998774553648131,
+          "l2_t1": 9.520757675170898,
+          "l2_t2": 9.53593635559082
+        }
+      }
+    },
+    "hist_c_theta_c_freeze_violated": true,
+    "hist_c_theta_c_violation_keys": [
+      "p_in.weight",
+      "obs_projections.0.weight",
+      "obs_projections.1.weight"
+    ],
+    "new_c_theta_c_freeze_violated": true,
+    "new_c_theta_c_violation_keys": [
+      "p_in.weight",
+      "obs_projections.0.weight",
+      "obs_projections.1.weight"
+    ]
+  },
+  "model_d_comparison": {
+    "lm_1b": {
+      "backbone_mean_rel_l2": 0.33824640890530183
+    },
+    "safety_20m": {
+      "backbone_mean_rel_l2": 0.33824640890530183,
+      "adapter_mean_rel_l2": 0.4465320028295781,
+      "risk_mean_rel_l2": 0.19436136176045465
+    }
+  },
+  "freeze_invariants": {
+    "hist_c_theta_c_frozen": true,
+    "new_c_theta_c_frozen": true,
+    "hist_d_backbone_frozen": true,
+    "new_d_backbone_frozen": true,
+    "note": "obs_projections and p_in updated as designated boundary/normative parameters in both runs."
+  }
+}

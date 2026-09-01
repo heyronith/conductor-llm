@@ -1,0 +1,83 @@
+{
+  "task": "strengthening_task3_frozen_input_manifest",
+  "git_head_evidence_sha": "7aa2fa056b14e955d15663fa28f150595458715b",
+  "git_branch": "strengthening-task3-seed1-forensic",
+  "local_artifacts": {
+    "artifacts/strengthening_task2_sentinel_summary.json": {
+      "size_bytes": 25335,
+      "sha256": "eb2276220ca5c4f41e74f7fd9faca07ee26c6047ecf8317ced53a89689deadbf"
+    },
+    "artifacts/strengthening_task2_preflight.json": {
+      "size_bytes": 3387,
+      "sha256": "262ccbbd445ab59334bc8e7b404a7a95becf2c9a43b986e2f444c55380438b59"
+    },
+    "artifacts/strengthening_task2_extended_fineweb_manifest.json": {
+      "size_bytes": 12938,
+      "sha256": "6f988acc9f7f1200b91643c0c3e5a3a7fe1bc11aae2cfbde2c4ee8a22d2ea98c"
+    },
+    "artifacts/strengthening_calibration_prompt_manifest.json": {
+      "size_bytes": 1900475,
+      "sha256": "30cc2ecf8d75a3b418f18a64e665829255a2295468f55bffc33442e2f839bf55"
+    },
+    "artifacts/task8_2_machine_tables.json": {
+      "size_bytes": 25496,
+      "sha256": "1d91cc491ad17320d9be180aeda9954ae77b9243ddb92d901bb3dbde1486412e"
+    },
+    "artifacts/task8_hypothesis_assessment.json": {
+      "size_bytes": 3642,
+      "sha256": "29c0b2e16735630432b6b827426c4b9c02cd7ac74fe78214aaee42a1196bf47e"
+    },
+    "artifacts/task7_4_multiseed_replication_summary.json": {
+      "size_bytes": 59357,
+      "sha256": "5a40b33a93b4334cae7e4037f637d3c88cbb865679b46072825cbf3f2ee2f377"
+    },
+    "artifacts/task7_3_1a_forensic_summary.json": {
+      "size_bytes": 96420,
+      "sha256": "89dcebe8c7317631f8ca1eb432e65a58dd2eb60fa72defcf13178a5322777f61"
+    },
+    "artifacts/task7_3_summary.json": {
+      "size_bytes": 150558,
+      "sha256": "fcecb7978dc5a6cd89dc01b39ef667ff8e32fc1907b4ea222fa4b1dfcba8f0fa"
+    },
+    "modal/strengthening_task2_sentinel.py": {
+      "size_bytes": 56608,
+      "sha256": "09e24adba280ea1a8c3d7710c8d54c2373e79e54f85c5eb20bb9d3cd71ad7486"
+    },
+    "scripts/orchestrate_strengthening_task2.py": {
+      "size_bytes": 13668,
+      "sha256": "c98742e3512437c6d562ab8828ace90e73e45b30ac8db1e9c1bc367300c8aa8b"
+    },
+    "scripts/run_strengthening_task2_preflight.py": {
+      "size_bytes": 10450,
+      "sha256": "7d694b83fc906b49b48f7dd080ae5e93726612ac06737d681e1b8d5eb0c65b09"
+    },
+    "modal/pilot_v2_authoritative.py": {
+      "size_bytes": 65692,
+      "sha256": "19e10bc696c164dc287e1a35d5e625cb5f5c7e99e82c2dec8f0fc8bdeccdcd74"
+    },
+    "modal/task7_4_multiseed_replication.py": {
+      "size_bytes": 104041,
+      "sha256": "d9fd8e5744f1bafa3956b6bbcb52126aa1eae4b79912a5497db59f6287d22011"
+    },
+    "modal/task8_mechanistic_heterogeneity.py": {
+      "size_bytes": 19094,
+      "sha256": "f9d99407d712215183728214d26d547becfe7b80184aa1b91bebbfbbcf79aa0d"
+    },
+    "src/ccpt/evaluation/safety_judge.py": {
+      "size_bytes": 21561,
+      "sha256": "9115c8d3f3241f46a06873b03fcd5e639735cb9fbcbe2c1676a3e879da27f164"
+    },
+    "src/ccpt/evaluation/behavioral.py": {
+      "size_bytes": 16732,
+      "sha256": "ceb291ace57614a1cbb3ebf84e9435bd0f2d0a2221c7b1f3bb5c8d9486782456"
+    },
+    "src/ccpt/modeling/dual_stream.py": {
+      "size_bytes": 9402,
+      "sha256": "53bd1ba2e68c2df9938316aea077a25aa83da22d2f198ac67e72d72e7e609f2f"
+    },
+    "src/ccpt/modeling/adapter.py": {
+      "size_bytes": 8696,
+      "sha256": "b0a49d29969789d6c571fb51c85c90a714cb6a7e974d75dc742184c60ff628e1"
+    }
+  }
+}

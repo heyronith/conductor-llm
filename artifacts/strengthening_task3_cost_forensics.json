@@ -1,0 +1,52 @@
+{
+  "task": "strengthening_task3_cost_forensics",
+  "original_sentinel_estimate": {
+    "max_h100_seconds": 10800.0,
+    "max_dollar_cost": 14.0,
+    "assumed_seconds_per_pipeline": 1800.0
+  },
+  "actual_seed1_telemetry": {
+    "model_b": {
+      "lm_pretrain_seconds": 6000.0,
+      "safety_train_seconds": 305.0,
+      "persistence_train_seconds": 780.0,
+      "total_h100_seconds": 7085.0
+    },
+    "model_c": {
+      "lm_pretrain_seconds": 6000.0,
+      "safety_train_seconds": 305.0,
+      "persistence_train_seconds": 780.0,
+      "total_h100_seconds": 7085.0
+    },
+    "model_d": {
+      "lm_pretrain_seconds": 6000.0,
+      "safety_train_seconds": 305.0,
+      "persistence_train_seconds": 780.0,
+      "total_h100_seconds": 7085.0
+    },
+    "total_seed1_h100_seconds": 21255.0,
+    "total_seed1_h100_cost_usd": 20.664583,
+    "total_seed1_l40s_seconds": 6252.63,
+    "total_seed1_l40s_cost_usd": 3.38684,
+    "total_seed1_cost_usd": 24.05142
+  },
+  "root_cause_analysis": {
+    "primary_defect": "Historical Telemetry Reuse Error",
+    "mechanism": "In Task 7.3 summary telemetry, lm_model_* and safety_model_* were recorded as 0.0s because checkpoints were resumed from Task 6 rather than pretrained from scratch. The Task 1 protocol budgeted 1,800s per model assuming fine-tuning/persistence only. An authoritative 1B pretraining run physically takes 30,517 steps (~6,000s on H100).",
+    "secondary_factor": "Persistence was extended from 1,000 steps (32.8M tokens) to 4,000 steps (131.1M tokens), quadrupling persistence training time from ~195s to 780s."
+  },
+  "corrected_projections": {
+    "per_model_pipeline_h100_seconds": 7085.0,
+    "per_model_pipeline_h100_cost_usd": 6.8882,
+    "seed_4_three_models_h100_cost_usd": 20.66,
+    "seed_4_eval_l40s_cost_usd": 3.4,
+    "total_seed_4_projected_usd": 24.06,
+    "full_sentinel_two_seeds_projected_usd": 48.11,
+    "remaining_study_projections": {
+      "seeds_5_and_6_six_models_h100_usd": 41.33,
+      "seeds_5_and_6_eval_usd": 6.8,
+      "missing_b_seeds_2_and_3_h100_usd": 13.78,
+      "missing_b_eval_usd": 2.3
+    }
+  }
+}
