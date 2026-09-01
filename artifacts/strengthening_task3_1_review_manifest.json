@@ -1,0 +1,67 @@
+{
+  "task": "strengthening_task3_1_review_bundle",
+  "evaluation_sha": "751c7b7e52572501cf4fdfe728afc9ff9b0db7a7",
+  "seed": 20260821,
+  "files": [
+    {
+      "path": "artifacts/strengthening_task3_1_preflight.json",
+      "size_bytes": 2118,
+      "description": "Preflight execution confirmation and environment verification"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_generation_manifest.json",
+      "size_bytes": 1841,
+      "description": "Generation config manifest with SHA256 hashes"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_summary.json",
+      "size_bytes": 24196,
+      "description": "Full raw evaluation and judging summary output from Modal"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_behavior_summary.json",
+      "size_bytes": 24737,
+      "description": "Detailed behavioral metrics across all conditions and steps"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_reproducibility_summary.json",
+      "size_bytes": 5466,
+      "description": "Historical reproducibility comparison table and verdict"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_cost_summary.json",
+      "size_bytes": 859,
+      "description": "Hardware accounting and Zero-H100 invariant verification"
+    },
+    {
+      "path": "docs/research/strengthening_task3_1_corrected_evaluation_report.md",
+      "size_bytes": 15547,
+      "description": "Authoritative scientific research report"
+    },
+    {
+      "path": "modal/strengthening_task3_1_eval.py",
+      "size_bytes": 20702,
+      "description": "Dedicated L40S Modal runner for evaluation replay and judging"
+    },
+    {
+      "path": "tests/test_strengthening_task3_1_preflight.py",
+      "size_bytes": 3519,
+      "description": "Preflight test suite verifying canonical prompt framing and hashes"
+    },
+    {
+      "path": "tests/test_strengthening_task3_1_regression.py",
+      "size_bytes": 4496,
+      "description": "Regression test suite verifying reproducibility, causality, and cost"
+    },
+    {
+      "path": "scripts/generate_task3_1_preflight_artifacts.py",
+      "size_bytes": 5392,
+      "description": "Artifact generator for preflight verification"
+    },
+    {
+      "path": "scripts/generate_task3_1_post_eval_artifacts.py",
+      "size_bytes": 12535,
+      "description": "Artifact generator for post-evaluation summaries"
+    }
+  ]
+}

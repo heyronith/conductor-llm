@@ -1,0 +1,28 @@
+{
+  "task": "strengthening_task3_1_cost_summary",
+  "evaluation_sha": "751c7b7e52572501cf4fdfe728afc9ff9b0db7a7",
+  "seed": 20260821,
+  "hardware_accounting": {
+    "h100_gpu_seconds": 0.0,
+    "h100_hourly_rate_usd": 3.85,
+    "h100_cost_usd": 0.0,
+    "zero_h100_invariant_met": true,
+    "l40s_eval_generation_seconds": 2093.654529809952,
+    "l40s_eval_generation_by_model": {
+      "model_b": 718.0664703845978,
+      "model_c": 702.2553458213806,
+      "model_d": 673.3327136039734
+    },
+    "l40s_judge_seconds": 1080.9170050621033,
+    "total_l40s_gpu_seconds": 3174.571534872055,
+    "l40s_hourly_rate_usd": 1.9512,
+    "total_l40s_cost_usd": 1.720617771900654
+  },
+  "cost_compliance": {
+    "target_cost_limit_usd": 3.0,
+    "hard_cost_cap_usd": 5.0,
+    "actual_spend_usd": 1.720617771900654,
+    "under_target": true,
+    "under_cap": true
+  }
+}

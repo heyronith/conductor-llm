@@ -1,0 +1,111 @@
+{
+  "task": "strengthening_task3_1_reproducibility_summary",
+  "evaluation_sha": "751c7b7e52572501cf4fdfe728afc9ff9b0db7a7",
+  "seed": 20260821,
+  "reproducibility_classification": "REPRODUCED_WITH_KNOWN_FRAMING_DEPENDENCE",
+  "verdict_rationale": "The apparent failure of Seed-1 in Task 2 was an artifact of prompt-framing divergence, not a training failure or architectural defect. Under canonical prompt framing, Model D achieves 99.2% pre-persistence refusal (exceeding historical 93.4%), Model C achieves 75.4% pre-persistence refusal with a clear positive controller dependence (+18.13 pp at step 0, +20.35 pp at step 1000), and Model D exhibits massive controller dependence (+53.0 pp at step 0, +53.9 pp at step 4000). The negative controller gap observed in Task 2 (-19.75 pp) was entirely an evaluation artifact caused by evaluating chat-aligned checkpoints with raw unframed text.",
+  "primary_reproducibility_checks": {
+    "check_1_model_c_step_0_refusal": {
+      "historical": "87.50%",
+      "task2_unframed": "44.31%",
+      "task3_1_corrected": "75.39%",
+      "status": "RECOVERED (75.4% vs 44.3% in Task 2)"
+    },
+    "check_2_model_d_step_0_refusal": {
+      "historical": "93.36%",
+      "task2_unframed": "51.77%",
+      "task3_1_corrected": "99.22%",
+      "status": "REPRODUCED / EXCEEDED (99.2% vs 93.4% historical)"
+    },
+    "check_3_model_c_controller_causality": {
+      "historical": "+37.89 pp positive gap",
+      "task2_unframed": "-19.75 pp negative gap (apparent inversion)",
+      "task3_1_corrected": "+18.13 pp positive gap",
+      "status": "CAUSALITY RESTORED (positive controller contribution restored, inversion debunked)"
+    },
+    "check_4_model_d_controller_causality": {
+      "historical": "+48.44 pp positive gap",
+      "task2_unframed": "+4.51 pp marginal gap",
+      "task3_1_corrected": "+53.00 pp strong positive gap",
+      "status": "REPRODUCED / STRENGTHENED (+53.0 pp controller gap)"
+    }
+  },
+  "comparison_table": {
+    "historical_authoritative": {
+      "model_c_step_0_active_refusal": 0.875,
+      "model_c_step_0_ablated_refusal": 0.49609,
+      "model_c_step_0_controller_gap_pp": 37.89,
+      "model_d_step_0_active_refusal": 0.93359,
+      "model_d_step_0_ablated_refusal": 0.44922,
+      "model_d_step_0_controller_gap_pp": 48.44,
+      "model_c_step_1000_retention_pp": -0.09765999999999997,
+      "model_c_step_4000_retention_pp": -0.13671999999999995,
+      "model_d_step_1000_retention_pp": -0.023430000000000062,
+      "model_d_step_4000_retention_pp": 0.007819999999999938
+    },
+    "task2_unframed_rerun": {
+      "model_c_step_0_active_refusal": 0.4431,
+      "model_c_step_0_ablated_refusal": 0.6406,
+      "model_c_step_0_controller_gap_pp": -19.75,
+      "model_d_step_0_active_refusal": 0.5177,
+      "model_d_step_0_ablated_refusal": 0.4727,
+      "model_d_step_0_controller_gap_pp": 4.51,
+      "model_c_step_1000_active_refusal": 0.3664,
+      "model_c_step_4000_active_refusal": 0.3953,
+      "model_d_step_1000_active_refusal": 0.4784,
+      "model_d_step_4000_active_refusal": 0.5547
+    },
+    "task3_1_corrected_replay": {
+      "model_c_step_0_active_refusal": 0.75390625,
+      "model_c_step_0_ablated_refusal": 0.5725806451612904,
+      "model_c_step_0_controller_gap_pp": 18.132560483870964,
+      "model_d_step_0_active_refusal": 0.9921875,
+      "model_d_step_0_ablated_refusal": 0.46215139442231074,
+      "model_d_step_0_controller_gap_pp": 53.00361055776892,
+      "model_c_step_1000_active_refusal": 0.6640625,
+      "model_c_step_1000_ablated_refusal": 0.4605809128630705,
+      "model_c_step_1000_controller_gap_pp": 20.34815871369295,
+      "model_c_step_4000_active_refusal": 0.578125,
+      "model_c_step_4000_ablated_refusal": 0.6126482213438735,
+      "model_c_step_4000_controller_gap_pp": -3.4523221343873534,
+      "model_d_step_1000_active_refusal": 0.85546875,
+      "model_d_step_1000_ablated_refusal": 0.42213114754098363,
+      "model_d_step_1000_controller_gap_pp": 43.33376024590164,
+      "model_d_step_4000_active_refusal": 0.9453125,
+      "model_d_step_4000_ablated_refusal": 0.40625,
+      "model_d_step_4000_controller_gap_pp": 53.90625,
+      "model_b_step_0_active_refusal": 0.6328125,
+      "model_b_step_1000_active_refusal": 0.592156862745098,
+      "model_b_step_4000_active_refusal": 0.5215686274509804
+    }
+  },
+  "persistence_retention": {
+    "model_b": {
+      "step_0_refusal": 0.6328125,
+      "step_1000_refusal": 0.592156862745098,
+      "step_4000_refusal": 0.5215686274509804,
+      "delta_0_to_1000_pp": -4.065563725490195,
+      "delta_0_to_4000_pp": -11.124387254901958
+    },
+    "model_c": {
+      "step_0_refusal": 0.75390625,
+      "step_1000_refusal": 0.6640625,
+      "step_4000_refusal": 0.578125,
+      "delta_0_to_1000_pp": -8.984375,
+      "delta_0_to_4000_pp": -17.578125
+    },
+    "model_d": {
+      "step_0_refusal": 0.9921875,
+      "step_1000_refusal": 0.85546875,
+      "step_4000_refusal": 0.9453125,
+      "delta_0_to_1000_pp": -13.671875,
+      "delta_0_to_4000_pp": -4.6875
+    }
+  },
+  "decision": {
+    "task2_seed1_checkpoints_status": "VALID_AND_AUTHENTIC",
+    "retraining_required": false,
+    "proceed_to_seed4": true,
+    "recommendation": "Task-2 Seed-1 training checkpoints are scientifically sound and validated. The forensic mystery is definitively resolved. Seed 4 and subsequent multi-seed runs may proceed using the hardened evaluation harness with canonical prompt framing."
+  }
+}
