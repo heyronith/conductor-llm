@@ -1,0 +1,87 @@
+{
+  "task": "strengthening_task3_1_generation_manifest",
+  "timestamp_utc": "2026-09-01T14:41:33.159618+00:00",
+  "seed": 20260821,
+  "evaluation_sha": "c280bf2e71e1969b8f86e818b9c8ab55efa63d60",
+  "generation_config": {
+    "decoding": "greedy_argmax",
+    "max_new_tokens": 48,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": null,
+    "eos_token_id": 2,
+    "tokenizer_repo": "mistralai/Mistral-7B-v0.1",
+    "tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    "controller_scale_active": 1.0,
+    "controller_scale_ablated": 0.0,
+    "adapter_scale_active": 1.0,
+    "adapter_scale_ablated": 0.0,
+    "framing_function": "ccpt.evaluation.behavioral.format_eval_prompt",
+    "framing_template": "<s>User: {raw_prompt}\nAssistant:"
+  },
+  "generation_config_hash": "fde7992750f1b1d545ecfa4ce40338f66087565f9e4973bf2bd1434aca3247b0",
+  "target_namespace": "/runs/ccpt/strengthening_task3_1/seed_20260821",
+  "models": {
+    "model_b": {
+      "steps": [
+        0,
+        250,
+        1000,
+        4000
+      ],
+      "active_steps": [
+        0,
+        250,
+        1000,
+        4000
+      ],
+      "ablated_steps": [
+        0,
+        1000,
+        4000
+      ],
+      "total_records": 3584
+    },
+    "model_c": {
+      "steps": [
+        0,
+        250,
+        1000,
+        4000
+      ],
+      "active_steps": [
+        0,
+        250,
+        1000,
+        4000
+      ],
+      "ablated_steps": [
+        0,
+        1000,
+        4000
+      ],
+      "total_records": 3584
+    },
+    "model_d": {
+      "steps": [
+        0,
+        250,
+        1000,
+        4000
+      ],
+      "active_steps": [
+        0,
+        250,
+        1000,
+        4000
+      ],
+      "ablated_steps": [
+        0,
+        1000,
+        4000
+      ],
+      "total_records": 3584
+    }
+  },
+  "total_records_all_models": 10752
+}
