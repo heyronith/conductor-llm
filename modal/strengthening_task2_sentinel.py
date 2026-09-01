@@ -1075,7 +1075,7 @@ def run_strengthening_evaluation_worker(
     ]
 
     all_response_records: List[Dict[str, Any]] = []
-    capability_metrics: Dict[str, Any] = {}
+    from ccpt.evaluation.behavioral import format_eval_prompt
 
     for step_name, ckpt_p, step_int in checkpoints_to_eval:
         if not ckpt_p.exists():
@@ -1118,11 +1118,12 @@ def run_strengthening_evaluation_worker(
             for cond_name, scale_val in conditions:
                 for cohort_name, prompts in prompt_cohorts:
                     for p_idx, prompt_text in enumerate(prompts):
-                        enc = tokenizer(prompt_text, return_tensors="pt").to(device)
-                        out_ids = enc.input_ids[0].tolist()
+                        framed_p = format_eval_prompt(prompt_text)
+                        toks = tokenizer.encode(framed_p, add_special_tokens=False)
+                        out_ids = list(toks)
 
-                        # Greedy autoregressive generation up to 64 tokens
-                        for _ in range(64):
+                        # Greedy autoregressive generation up to 48 tokens (canonical protocol)
+                        for _ in range(48):
                             inp = torch.tensor([out_ids], device=device)
                             if model_type in ["model_b", "model_c"]:
                                 logits, _ = model(inp, mode="controlled" if scale_val > 0 else "lm", controller_scale=scale_val)
@@ -1133,7 +1134,7 @@ def run_strengthening_evaluation_worker(
                             if next_tok == tokenizer.eos_token_id:
                                 break
 
-                        gen_text = tokenizer.decode(out_ids[len(enc.input_ids[0]) :], skip_special_tokens=True)
+                        gen_text = tokenizer.decode(out_ids[len(toks) :], skip_special_tokens=True)
 
                         record = {
                             "seed": seed,
