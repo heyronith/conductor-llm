@@ -23,6 +23,8 @@ FILES = [
     ("tests/test_strengthening_task3_1_regression.py", "Regression test suite verifying reproducibility, causality, and cost"),
     ("scripts/generate_task3_1_preflight_artifacts.py", "Artifact generator for preflight verification"),
     ("scripts/generate_task3_1_post_eval_artifacts.py", "Artifact generator for post-evaluation summaries"),
+    ("artifacts/strengthening_task3_1_external_assets_manifest.json", "Manifest of external/gitignored assets, remote paths, and SHA256 hashes"),
+    ("docs/research/strengthening_task3_1_editor_handoff.md", "Editor handoff note detailing repository status, lineage, and Task 3.2 instructions"),
 ]
 
 

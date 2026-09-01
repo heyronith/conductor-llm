@@ -62,6 +62,16 @@
       "path": "scripts/generate_task3_1_post_eval_artifacts.py",
       "size_bytes": 12535,
       "description": "Artifact generator for post-evaluation summaries"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_external_assets_manifest.json",
+      "size_bytes": 5327,
+      "description": "Manifest of external/gitignored assets, remote paths, and SHA256 hashes"
+    },
+    {
+      "path": "docs/research/strengthening_task3_1_editor_handoff.md",
+      "size_bytes": 7074,
+      "description": "Editor handoff note detailing repository status, lineage, and Task 3.2 instructions"
     }
   ]
 }

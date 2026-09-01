@@ -1,0 +1,117 @@
+{
+  "manifest_name": "strengthening_task3_1_external_assets_manifest",
+  "created_at_utc": "2026-09-01T19:02:00+00:00",
+  "evaluation_execution_sha": "751c7b7e52572501cf4fdfe728afc9ff9b0db7a7",
+  "seed": 20260821,
+  "volume_name": "ccpt-authoritative-runs",
+  "external_response_files": {
+    "task3_1_corrected_judged_responses": {
+      "local_path": "artifacts/strengthening_task3_1_judged_responses.jsonl",
+      "remote_volume_path": "/runs/ccpt/strengthening_task3_1/seed_20260821/judged_responses.jsonl",
+      "sha256": "94435ad45410661a56e0bc0ab53b66c7fc997ef2f22f62a7807be9799204c8fc",
+      "records_count": 10752,
+      "producing_code_sha": "751c7b7e52572501cf4fdfe728afc9ff9b0db7a7",
+      "role": "Authoritative canonical-framed responses and WildGuard judgments for Task 3.1",
+      "in_git": false,
+      "reason_omitted_from_git": "Large binary/JSONL dataset file (>5MB) gitignored to prevent repository bloat"
+    },
+    "task2_unframed_judged_responses": {
+      "local_path": "artifacts/judged_responses_seed1.jsonl",
+      "remote_volume_path": "/runs/ccpt/strengthening_task2/seed_20260821/judged_responses.jsonl",
+      "sha256": "02de8b2655dbf6ec5f26bf2c50598ffdf212a2c7c5251936089112f5c7d92f15",
+      "records_count": 10752,
+      "producing_code_sha": "7aa2fa00b37060ca91fa68c8b212f45ea3d6fcf4",
+      "role": "Forensic evidence of unframed evaluation responses used in Task 3 audit",
+      "in_git": false,
+      "reason_omitted_from_git": "Large binary/JSONL dataset file (>5MB) gitignored to prevent repository bloat"
+    }
+  },
+  "immutable_training_checkpoints": {
+    "storage_location": "Modal volume 'ccpt-authoritative-runs' under /runs/ccpt/strengthening_task2/seed_20260821/",
+    "producing_code_sha": "7aa2fa00b37060ca91fa68c8b212f45ea3d6fcf4",
+    "checkpoints": [
+      {
+        "model": "model_b",
+        "step": 0,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_b/checkpoints/step_0.pt",
+        "canonical_state_dict_hash": "20c7d5dcd52a3fb763f5c4c61318380f02fb134d58339db6b69918364fe3ef14"
+      },
+      {
+        "model": "model_b",
+        "step": 1000,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_b/checkpoints/step_1000.pt",
+        "canonical_state_dict_hash": "ffab05ea6a2563b30ecbe13a64da7e554c561cdf4ff284a788b9d08bf08c0205"
+      },
+      {
+        "model": "model_b",
+        "step": 4000,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_b/checkpoints/step_4000.pt",
+        "canonical_state_dict_hash": "2ed17692dfd8104d8a1b8915e5ec364a90650565976f3e902dc26b3e71f95358"
+      },
+      {
+        "model": "model_c",
+        "step": 0,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_c/checkpoints/step_0.pt",
+        "canonical_state_dict_hash": "2434bec03bd8c8939ce371d2af2dc77b8316daf831411f7ff352c0d1787ce03f"
+      },
+      {
+        "model": "model_c",
+        "step": 250,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_c/checkpoints/step_250.pt",
+        "canonical_state_dict_hash": "e5c9d8e5afd69eb2aa757a45b2ff83bc924aba6ff53c774460bf182ddc05bda4"
+      },
+      {
+        "model": "model_c",
+        "step": 1000,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_c/checkpoints/step_1000.pt",
+        "canonical_state_dict_hash": "0d596c3ea065d27e7c73e75b47124e4ea3a136188537219ca2c100873d1f5a58"
+      },
+      {
+        "model": "model_c",
+        "step": 4000,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_c/checkpoints/step_4000.pt",
+        "canonical_state_dict_hash": "0cd17b4616361646ef870ba9d6d0338dc321a9b1ab22bbabc9b0806846b610f8"
+      },
+      {
+        "model": "model_d",
+        "step": 0,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_d/checkpoints/step_0.pt",
+        "canonical_state_dict_hash": "444807edc4bdce2d0339c7b7e4af7caf6a572cb0f86983a56e25235a7fe107d0"
+      },
+      {
+        "model": "model_d",
+        "step": 250,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_d/checkpoints/step_250.pt",
+        "canonical_state_dict_hash": "aedc7a5a0b40103c4bda17812de0e1edd7f15dc1f28ab0f4f0642b1c93be90b8"
+      },
+      {
+        "model": "model_d",
+        "step": 1000,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_d/checkpoints/step_1000.pt",
+        "canonical_state_dict_hash": "29cfb3b80ab270dd40d792704b14f9a63570b8bbe5382d0f768ea72fdfed91f8"
+      },
+      {
+        "model": "model_d",
+        "step": 4000,
+        "remote_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_d/checkpoints/step_4000.pt",
+        "canonical_state_dict_hash": "d604755154d5bc4297d112f408a6b30c0ed7c581c17fc681203e055c967cb1b5"
+      }
+    ]
+  },
+  "external_hf_dependencies": {
+    "tokenizer": {
+      "repo_id": "mistralai/Mistral-7B-v0.1",
+      "revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da"
+    },
+    "judge": {
+      "repo_id": "allenai/wildguard",
+      "revision": "cbba4823f3e8020e5a74a5e29bf85072def6f2ff"
+    },
+    "eval_dataset": {
+      "repo_id": "PKU-Alignment/BeaverTails",
+      "split": "30k_test",
+      "seed": 20260822,
+      "manifest_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e"
+    }
+  }
+}
