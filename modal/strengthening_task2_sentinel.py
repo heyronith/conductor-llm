@@ -47,6 +47,10 @@ from ccpt.data.wildguard import (
     load_wildguard_records_arrow,
     sample_wildguard_id_behavior_prompts,
 )
+from ccpt.data.collators import (
+    pad_and_collate_gen_records,
+    pad_and_collate_risk_records,
+)
 from ccpt.evaluation.safety_judge import BehavioralSafetyJudge
 from ccpt.modeling.adapter import FrozenBackboneAdapterModel
 from ccpt.modeling.baseline import ParameterMatchedBaselineModel
@@ -58,6 +62,7 @@ from ccpt.training.checkpoint import (
     save_checkpoint,
 )
 from ccpt.training.engine import create_identical_dual_stream_models
+from ccpt.training.losses import compute_risk_loss, compute_safe_generation_loss
 
 # Pinned Constants & Hashes
 CANONICAL_FINEWEB_PREFIX_HASH = "a13410b63d9c1533211784c2a08fa5a918e29cc446448470395aa93919712585"
@@ -484,101 +489,110 @@ def run_strengthening_single_model_training(
     # =========================================================================
     # PHASE 1: 1B Capability LM Pretraining
     # =========================================================================
-    print(f"=== [{seed}][{model_type}] Phase 1: 1B LM Pretraining ===", flush=True)
-    t0_lm = time.time()
-
-    total_lm_steps = max_steps if max_steps is not None else (10 if test_mode else 30517)
-    seq_len = 1024
-    total_lm_tokens = total_lm_steps * 32 * seq_len
-
-    if model_type == "model_b":
-        lm_optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
-    elif model_type == "model_c":
-        for p in model.theta_N:
-            p.requires_grad = False
-        for p in model.theta_C:
-            p.requires_grad = True
-        lm_optimizer = torch.optim.AdamW([p for p in model.theta_C if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
-    elif model_type == "model_d":
-        for p in model.safety_parameters:
-            p.requires_grad = False
-        for p in model.backbone_parameters:
-            p.requires_grad = True
-        lm_optimizer = torch.optim.AdamW([p for p in model.backbone_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
-
-    c_theta_n_snap = snapshot_parameters(model.theta_N) if model_type == "model_c" else None
-    d_safety_snap = snapshot_parameters(model.safety_parameters) if model_type == "model_d" else None
-
-    lm_scheduler = TokenCosineScheduler(max_lr=3e-4, min_lr=0.0, warmup_tokens=100_000_000, total_tokens=10_000_000_000)
-
-    model.train()
-    lm_tokens_seen = 0
-    lm_final_loss = 0.0
-
-    for step in range(1, total_lm_steps + 1):
-        if lm_reader is not None:
-            batch_np = lm_reader.get_batch(batch_size=32)
-            batch = torch.from_numpy(batch_np.astype(np.int64)).to(device)
-        else:
-            batch = torch.randint(0, getattr(model.config, "vocab_size", 32000), (32, seq_len), device=device)
-
-        batch_tokens = 32 * seq_len
-        lr = lm_scheduler.get_lr(lm_tokens_seen)
-        for pg in lm_optimizer.param_groups:
-            pg["lr"] = lr
-
-        lm_optimizer.zero_grad()
-        if model_type == "model_c":
-            logits, _ = model(batch, mode="lm")
-        elif model_type == "model_d":
-            logits, _ = model(batch, adapter_scale=0.0)
-        elif model_type == "model_b":
-            logits, _ = model(batch, mode="controlled")
-
-        loss = compute_causal_lm_loss(logits, batch)
-        loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-        lm_optimizer.step()
-
-        lm_tokens_seen += batch_tokens
-        lm_scheduler.step(batch_tokens)
-        lm_final_loss = float(loss.item())
-
-        if step % 5000 == 0 or step == total_lm_steps:
-            print(f"[{model_type}][LM] Step {step}/{total_lm_steps} | Loss: {lm_final_loss:.4f} | Tokens: {lm_tokens_seen:,}", flush=True)
-
-    # Verify LM Freeze Invariants
-    if model_type == "model_c" and c_theta_n_snap is not None:
-        changed = count_changed_parameters(model.theta_N, c_theta_n_snap)
-        if changed != 0:
-            raise RuntimeError(f"Freeze invariant violation: Model C theta_N changed {changed} params during LM!")
-    if model_type == "model_d" and d_safety_snap is not None:
-        changed = count_changed_parameters(model.safety_parameters, d_safety_snap)
-        if changed != 0:
-            raise RuntimeError(f"Freeze invariant violation: Model D safety parameters changed {changed} during LM!")
-
     lm_ckpt_path = out_dir / "lm_1b_final.pt"
-    save_checkpoint(
-        checkpoint_path=lm_ckpt_path,
-        model=model,
-        optimizer=lm_optimizer,
-        scheduler=lm_scheduler,
-        phase="phase1_pretrain_1b",
-        global_step=total_lm_steps,
-        tokens_seen=lm_tokens_seen,
-        model_type=model_type,
-        model_config=cfg,
-        git_commit_sha=code_sha,
-        require_exact_git_sha=True,
-        expected_git_sha=code_sha,
-        training_seed=seed,
-        task4_manifest_hash=CANONICAL_TASK4_MANIFEST_HASH,
-        data_manifest_hash=CANONICAL_FINEWEB_PREFIX_HASH,
-        stream_identity="fineweb-edu-100BT",
-        data_cursor=976544 if not test_mode else total_lm_steps * 32,
-    )
-    lm_seconds = time.time() - t0_lm
-    print(f"[{model_type}] Phase 1 complete in {lm_seconds:.2f}s | Saved {lm_ckpt_path}", flush=True)
+    if lm_ckpt_path.exists():
+        print(f"[{model_type}] Found existing authoritative {lm_ckpt_path}. Loading state and skipping Phase 1...", flush=True)
+        ckpt = load_checkpoint(lm_ckpt_path, strict_v3=True, map_location=device)
+        model.load_state_dict(ckpt["model_state_dict"])
+        lm_tokens_seen = ckpt["tokens_seen"]
+        lm_seconds = float(ckpt.get("metrics_so_far", {}).get("h100_seconds", 6000.0) if isinstance(ckpt.get("metrics_so_far"), dict) else 6000.0)
+    else:
+        print(f"=== [{seed}][{model_type}] Phase 1: 1B LM Pretraining ===", flush=True)
+        t0_lm = time.time()
+
+        total_lm_steps = max_steps if max_steps is not None else (10 if test_mode else 30517)
+        seq_len = 1024
+        total_lm_tokens = total_lm_steps * 32 * seq_len
+
+        if model_type == "model_b":
+            lm_optimizer = torch.optim.AdamW(model.parameters(), lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+        elif model_type == "model_c":
+            for p in model.theta_N:
+                p.requires_grad = False
+            for p in model.theta_C:
+                p.requires_grad = True
+            lm_optimizer = torch.optim.AdamW([p for p in model.theta_C if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+        elif model_type == "model_d":
+            for p in model.safety_parameters:
+                p.requires_grad = False
+            for p in model.backbone_parameters:
+                p.requires_grad = True
+            lm_optimizer = torch.optim.AdamW([p for p in model.backbone_parameters if p.requires_grad], lr=3e-4, betas=(0.9, 0.95), eps=1e-8, weight_decay=0.1)
+
+        c_theta_n_snap = snapshot_parameters(model.theta_N) if model_type == "model_c" else None
+        d_safety_snap = snapshot_parameters(model.safety_parameters) if model_type == "model_d" else None
+
+        lm_scheduler = TokenCosineScheduler(max_lr=3e-4, min_lr=0.0, warmup_tokens=100_000_000, total_tokens=10_000_000_000)
+
+        model.train()
+        lm_tokens_seen = 0
+        lm_final_loss = 0.0
+
+        for step in range(1, total_lm_steps + 1):
+            if lm_reader is not None:
+                batch_np = lm_reader.get_batch(batch_size=32)
+                batch = torch.from_numpy(batch_np.astype(np.int64)).to(device)
+            else:
+                batch = torch.randint(0, getattr(model.config, "vocab_size", 32000), (32, seq_len), device=device)
+
+            batch_tokens = 32 * seq_len
+            lr = lm_scheduler.get_lr(lm_tokens_seen)
+            for pg in lm_optimizer.param_groups:
+                pg["lr"] = lr
+
+            lm_optimizer.zero_grad()
+            if model_type == "model_c":
+                logits, _ = model(batch, mode="lm")
+            elif model_type == "model_d":
+                logits, _ = model(batch, adapter_scale=0.0)
+            elif model_type == "model_b":
+                logits, _ = model(batch, mode="controlled")
+
+            loss = compute_causal_lm_loss(logits, batch)
+            loss.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+            lm_optimizer.step()
+
+            lm_tokens_seen += batch_tokens
+            lm_scheduler.step(batch_tokens)
+            lm_final_loss = float(loss.item())
+
+            if step % 5000 == 0 or step == total_lm_steps:
+                print(f"[{model_type}][LM] Step {step}/{total_lm_steps} | Loss: {lm_final_loss:.4f} | Tokens: {lm_tokens_seen:,}", flush=True)
+
+        # Verify LM Freeze Invariants
+        if model_type == "model_c" and c_theta_n_snap is not None:
+            changed = count_changed_parameters(model.theta_N, c_theta_n_snap)
+            if changed != 0:
+                raise RuntimeError(f"Freeze invariant violation: Model C theta_N changed {changed} params during LM!")
+        if model_type == "model_d" and d_safety_snap is not None:
+            changed = count_changed_parameters(model.safety_parameters, d_safety_snap)
+            if changed != 0:
+                raise RuntimeError(f"Freeze invariant violation: Model D safety parameters changed {changed} during LM!")
+
+        lm_seconds = time.time() - t0_lm
+        save_checkpoint(
+            checkpoint_path=lm_ckpt_path,
+            model=model,
+            optimizer=lm_optimizer,
+            scheduler=lm_scheduler,
+            phase="phase1_pretrain_1b",
+            global_step=total_lm_steps,
+            tokens_seen=lm_tokens_seen,
+            model_type=model_type,
+            model_config=cfg,
+            git_commit_sha=code_sha,
+            require_exact_git_sha=True,
+            expected_git_sha=code_sha,
+            training_seed=seed,
+            task4_manifest_hash=CANONICAL_TASK4_MANIFEST_HASH,
+            data_manifest_hash=CANONICAL_FINEWEB_PREFIX_HASH,
+            stream_identity="fineweb-edu-100BT",
+            data_cursor=976544 if not test_mode else total_lm_steps * 32,
+            metrics_so_far={"loss": lm_final_loss, "tokens_seen": lm_tokens_seen, "h100_seconds": lm_seconds},
+        )
+        runs_volume.commit()
+        print(f"[{model_type}] Phase 1 complete in {lm_seconds:.2f}s | Saved {lm_ckpt_path}", flush=True)
 
     # =========================================================================
     # PHASE 2: 20M Safety Training (Persistence Step 0)
@@ -615,45 +629,51 @@ def run_strengthening_single_model_training(
     batches_meta = schedule_data["batches"][:total_safety_batches] if schedule_data else []
 
     for b_idx, b_meta in enumerate(batches_meta, start=1):
-        # Assemble batch from Arrow records
+        b_type = b_meta["batch_type"]
         rec_ids = b_meta["example_ids"]
-        records = [all_train_map[rid] for rid in rec_ids]
 
-        input_ids_list = [r.token_ids[:1024] for r in records]
-        padded_ids = np.zeros((len(input_ids_list), 1024), dtype=np.int64)
-        for i, ids in enumerate(input_ids_list):
-            padded_ids[i, : len(ids)] = ids
-        batch_ids = torch.from_numpy(padded_ids).to(device)
-
-        batch_type = b_meta["batch_type"]
         lr = safety_scheduler.get_lr(safety_tokens_seen)
         for pg in safety_optimizer.param_groups:
             pg["lr"] = lr
 
         safety_optimizer.zero_grad()
 
-        if batch_type == "risk":
-            prompt_ends = torch.tensor([min(r.prompt_end_index, 1023) for r in records], dtype=torch.long, device=device)
-            labels = torch.tensor([1.0 if r.is_harmful else 0.0 for r in records], dtype=torch.float32, device=device)
+        if b_type == "risk":
+            recs = [risk_records_map[eid] for eid in rec_ids]
+            input_ids, prompt_ends, risk_labels, _ = pad_and_collate_risk_records(recs)
+            input_ids = input_ids.to(device)
+            prompt_ends = prompt_ends.to(device)
+            risk_labels = risk_labels.to(device)
 
             if model_type in ["model_b", "model_c"]:
-                _, risk_logits = model(batch_ids, prompt_end_indices=prompt_ends, mode="controlled")
-                loss = F.binary_cross_entropy_with_logits(risk_logits, labels)
+                _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled")
             elif model_type == "model_d":
-                _, risk_logits = model(batch_ids, prompt_end_indices=prompt_ends)
-                loss = F.binary_cross_entropy_with_logits(risk_logits, labels)
+                _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=1.0)
+            else:
+                _, risk_logits = model(input_ids, prompt_end_indices=prompt_ends)
+
+            loss = compute_risk_loss(risk_logits, risk_labels)
         else:  # generation batch
+            recs = [gen_records_map[eid] for eid in rec_ids]
+            input_ids, prompt_ends, risk_labels, is_refusals, attn_mask = pad_and_collate_gen_records(recs)
+            input_ids = input_ids.to(device)
+            prompt_ends = prompt_ends.to(device)
+            attn_mask = attn_mask.to(device)
+
             if model_type in ["model_b", "model_c"]:
-                logits, _ = model(batch_ids, mode="controlled")
+                logits, _ = model(input_ids, prompt_end_indices=prompt_ends, mode="controlled")
             elif model_type == "model_d":
-                logits, _ = model(batch_ids, adapter_scale=1.0)
-            loss = compute_causal_lm_loss(logits, batch_ids)
+                logits, _ = model(input_ids, prompt_end_indices=prompt_ends, adapter_scale=1.0)
+            else:
+                logits, _ = model(input_ids, prompt_end_indices=prompt_ends)
+
+            loss = compute_safe_generation_loss(logits, input_ids, prompt_ends, attention_mask=attn_mask)
 
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         safety_optimizer.step()
 
-        batch_toks = b_meta["valid_token_count"]
+        batch_toks = b_meta.get("valid_token_count") or b_meta.get("valid_input_tokens") or (32 * 1024)
         safety_tokens_seen += batch_toks
         safety_scheduler.step(batch_toks)
         safety_final_loss = float(loss.item())
@@ -823,7 +843,7 @@ def run_strengthening_single_model_training(
             "lm_pretrain_seconds": lm_seconds,
             "safety_train_seconds": safety_seconds,
             "persistence_train_seconds": persistence_seconds,
-            "total_h100_seconds": total_pipeline_seconds,
+            "total_h100_seconds": lm_seconds + safety_seconds + persistence_seconds,
         },
         "tokens": {
             "lm_tokens_seen": lm_tokens_seen,
