@@ -1,0 +1,72 @@
+{
+  "task": "strengthening_task3_2_review_bundle",
+  "supersedes": "artifacts/strengthening_task3_1_reproducibility_summary.json",
+  "relationship": "Task 3.2 reconciliation supersedes Task 3.1 historical persistence synthesis only; Task 3.1 raw evaluation evidence remains immutable.",
+  "files": [
+    {
+      "path": "src/ccpt/analysis/strengthening_task3_2_reconciliation.py",
+      "size_bytes": 17628,
+      "description": "Authoritative historical resolver and reconciliation builder"
+    },
+    {
+      "path": "scripts/generate_task3_2_reconciliation_artifacts.py",
+      "size_bytes": 12912,
+      "description": "Generator for reconciliation artifact and report"
+    },
+    {
+      "path": "tests/test_strengthening_task3_2_reconciliation.py",
+      "size_bytes": 9645,
+      "description": "Task 3.2 reconciliation regression tests"
+    },
+    {
+      "path": "artifacts/strengthening_task3_2_reconciliation.json",
+      "size_bytes": 12813,
+      "description": "Superseding machine reconciliation artifact"
+    },
+    {
+      "path": "docs/research/strengthening_task3_2_historical_reconciliation.md",
+      "size_bytes": 5973,
+      "description": "Task 3.2 research report derived from reconciliation artifact"
+    },
+    {
+      "path": "docs/research/strengthening_task3_2_onboarding_audit.md",
+      "size_bytes": 979,
+      "description": "New-editor onboarding audit note"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_behavior_summary.json",
+      "size_bytes": 24737,
+      "description": "Task 3.1 corrected behavioral machine summary (unchanged evidence)"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_summary.json",
+      "size_bytes": 24196,
+      "description": "Task 3.1 corrected evaluation summary (unchanged evidence)"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_reproducibility_summary.json",
+      "size_bytes": 5466,
+      "description": "Task 3.1 synthesis layer preserved for audit comparison"
+    },
+    {
+      "path": "artifacts/task7_3_1a_forensic_summary.json",
+      "size_bytes": 96420,
+      "description": "Authoritative historical Seed-1 behavioral source"
+    },
+    {
+      "path": "artifacts/task7_4_multiseed_replication_summary.json",
+      "size_bytes": 59357,
+      "description": "Task 7.4 Seed-1 forensic cross-check reference"
+    },
+    {
+      "path": "docs/research/strengthening_task3_1_editor_handoff.md",
+      "size_bytes": 7074,
+      "description": "Task 3.1 editor handoff note"
+    },
+    {
+      "path": "artifacts/strengthening_task3_1_external_assets_manifest.json",
+      "size_bytes": 5327,
+      "description": "External assets provenance manifest"
+    }
+  ]
+}
