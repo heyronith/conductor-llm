@@ -1,0 +1,66 @@
+{
+  "task": "seed4_cost_reduction_waste_analysis",
+  "observed_issues": [
+    {
+      "issue": "multiple_modal_app_deployments_for_same_task2_app_name",
+      "status": "OBSERVED",
+      "evidence": "Seven distinct ap-* object IDs billed under strengthening-task2-sentinel for Seed-1 window.",
+      "seed4_mitigation": "Single controlled launch; fail-closed identity guard; no parallel redeploys.",
+      "proven_dollar_savings": "partial \u2014 MEDIUM objects not counted in expected"
+    },
+    {
+      "issue": "invalid_unframed_task2_evaluation_l40s",
+      "status": "OBSERVED",
+      "evidence": "Task-3 forensic root cause + Task-2 L40S billed $3.11 under sentinel app.",
+      "seed4_mitigation": "Use corrected framed Task-3.1-style evaluation only.",
+      "proven_dollar_savings": 3.11469362
+    },
+    {
+      "issue": "post_checkpoint_h100_allocation_during_fast_return_orchestrator",
+      "status": "OBSERVED",
+      "evidence": "Checkpoints completed ~02:02 UTC Sep1; orchestrator at 03:51 UTC still billed residual H100 on mixed apps.",
+      "seed4_mitigation": "Do not spawn H100 training functions when authoritative persistence_4000 exists; CPU preflight first.",
+      "proven_dollar_savings": "included in HIGH avoidable H100"
+    },
+    {
+      "issue": "data_manifest_loads_inside_h100_function",
+      "status": "OBSERVED",
+      "evidence": "modal/strengthening_task2_sentinel.py loads FineWeb/WildGuard manifests after H100 allocation.",
+      "seed4_mitigation": "CPU pre-stage/validate manifests before H100 spawn.",
+      "proven_dollar_savings": "not quantified \u2014 POSSIBLE only"
+    },
+    {
+      "issue": "synchronous_volume_commit_after_checkpoints",
+      "status": "OBSERVED",
+      "evidence": "runs_volume.commit() after LM/safety/persistence saves inside H100 function.",
+      "seed4_mitigation": "Keep commits; consider reducing frequency only if scientifically transparent. No proven savings claimed.",
+      "proven_dollar_savings": 0.0
+    }
+  ],
+  "possible_issues": [
+    {
+      "issue": "torch_compile_or_cuda_graphs",
+      "status": "POSSIBLE",
+      "note": "Requires separate parity benchmark; excluded from expected budget."
+    },
+    {
+      "issue": "async_checkpoint_writes",
+      "status": "POSSIBLE",
+      "note": "May alter crash-consistency; not claimed as Seed-4 savings."
+    }
+  ],
+  "guaranteed_high_confidence_savings_usd": {
+    "h100": 1.10161392,
+    "l40s_task2_invalid_eval": 3.11469362,
+    "total": 4.2163
+  },
+  "medium_confidence_not_in_expected_budget_usd": {
+    "h100": 3.9960831
+  },
+  "audit_code_sha": "2b05b6b25beb293751fc62b4542e488a8a79439e",
+  "base_billing_preflight_sha": "feca09c00438f323c3903d1439dfee91ef728cd1",
+  "h100_gpu_seconds_used_by_audit": 0,
+  "l40s_gpu_seconds_used_by_audit": 0,
+  "remaining_modal_credits_usd": 0.0,
+  "generated_at_utc": "2026-09-02T19:57:57.265255+00:00"
+}

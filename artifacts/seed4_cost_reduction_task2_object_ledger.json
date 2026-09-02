@@ -1,0 +1,283 @@
+{
+  "task": "seed4_cost_reduction_task2_object_ledger",
+  "remaining_modal_credits_usd": 0.0,
+  "workspace_h100_hourly_usd": 3.95,
+  "source_billing_files": [
+    "artifacts/seed4_cost_preflight/relevant_workspace_window_raw.json",
+    "artifacts/seed4_cost_preflight/task2_seed1_billing_raw.json"
+  ],
+  "checkpoint_timeline": {
+    "timezone": "America/Chicago (CDT as reported by modal volume ls)",
+    "source": "uv run modal volume ls --json ccpt-authoritative-runs /ccpt/strengthening_task2/seed_20260821/{model}/",
+    "models": {
+      "model_b": {
+        "lm_1b_final.pt": "2026-08-31 20:37 CDT",
+        "safety_20m_final.pt": "2026-08-31 20:46 CDT",
+        "persistence_4000.pt": "2026-08-31 21:02 CDT",
+        "responses.jsonl": "2026-08-31 21:37 CDT"
+      },
+      "model_c": {
+        "lm_1b_final.pt": "2026-08-31 20:25 CDT",
+        "safety_20m_final.pt": "2026-08-31 20:45 CDT",
+        "persistence_4000.pt": "2026-08-31 21:01 CDT",
+        "responses.jsonl": "2026-08-31 21:43 CDT"
+      },
+      "model_d": {
+        "lm_1b_final.pt": "2026-08-31 20:25 CDT",
+        "safety_20m_final.pt": "2026-08-31 20:45 CDT",
+        "persistence_4000.pt": "2026-08-31 21:01 CDT",
+        "responses.jsonl": "2026-08-31 21:46 CDT"
+      }
+    },
+    "authoritative_training_window_cdt": "approx 2026-08-31 18:45\u201321:02 CDT",
+    "authoritative_training_window_utc": "approx 2026-08-31 23:45 UTC \u2013 2026-09-01 02:02 UTC",
+    "final_orchestrator_utc": "2026-09-01T03:51:20+00:00 (sentinel summary; post-checkpoint fast-return)"
+  },
+  "objects": [
+    {
+      "object_id": "ap-TaUUJJEc7NPvKK0oya8ClI",
+      "app_description": "strengthening-task2-sentinel",
+      "environment": "main",
+      "billing_intervals": [
+        "2026-08-31T00:00:00",
+        "2026-09-01T00:00:00"
+      ],
+      "first_timestamp": "2026-08-31T00:00:00",
+      "last_timestamp": "2026-09-01T00:00:00",
+      "h100_cost_usd": 20.73914211,
+      "h100_seconds_implied": 18901.496606582277,
+      "sep1_utc_h100_cost_usd": 17.70422587,
+      "l40s_cost_usd": 0.0,
+      "cpu_cost_usd": 0.24471616,
+      "memory_cost_usd": 0.07194522,
+      "total_cost_usd": 21.05580349,
+      "classification": {
+        "primary_classification": "REQUIRED_SUCCESSFUL_SCIENTIFIC_WORK",
+        "confidence": "HIGH",
+        "avoidable_in_seed4": false,
+        "avoided_cost_usd_if_avoidable": 0.0,
+        "model_identity": "aggregate_B_C_D_concurrent_unknown_split",
+        "evidence": [
+          "Largest H100 object ($20.74); spans Aug31\u2013Sep1 UTC.",
+          "Surviving Seed-1 lm/safety/persistence checkpoints were written 20:25\u201321:02 CDT Aug 31, which maps into Sep1 UTC and the overnight edge of Aug31 UTC.",
+          "Aug31 UTC H100 on this object ($3.0349 \u2248 2766s) matches ~15 minutes of 3\u00d7H100 concurrent work before 00:00 UTC Sep1 \u2014 consistent with successful LM start crossing midnight, not a discarded failed app.",
+          "No Seed-4 path exists; this spend produced Seed-1 authoritative state only."
+        ],
+        "notes": "Treat full object as irreducible successful concurrent B/C/D training envelope."
+      }
+    },
+    {
+      "object_id": "ap-7BwZvJXfXhNf34YmxJZQ9T",
+      "app_description": "strengthening-task2-sentinel",
+      "environment": "main",
+      "billing_intervals": [
+        "2026-09-01T00:00:00"
+      ],
+      "first_timestamp": "2026-09-01T00:00:00",
+      "last_timestamp": "2026-09-01T00:00:00",
+      "h100_cost_usd": 2.93616662,
+      "h100_seconds_implied": 2675.9999574683543,
+      "sep1_utc_h100_cost_usd": 2.93616662,
+      "l40s_cost_usd": 0.0,
+      "cpu_cost_usd": 0.03298903,
+      "memory_cost_usd": 0.01058092,
+      "total_cost_usd": 2.97973657,
+      "classification": {
+        "primary_classification": "FAILED_OR_ABORTED_EXECUTION",
+        "confidence": "MEDIUM",
+        "avoidable_in_seed4": true,
+        "avoided_cost_usd_if_avoidable": 0.0,
+        "model_identity": "unknown",
+        "evidence": [
+          "H100-only object ($2.936) on Sep1 UTC with no L40S.",
+          "No surviving checkpoint timestamps uniquely bind to this object ID.",
+          "Authoritative checkpoints already explained by ap-TaUU concurrent envelope.",
+          "Consistent with a separate modal run / aborted training launch."
+        ],
+        "notes": "MEDIUM confidence \u2014 excluded from HIGH proven savings."
+      }
+    },
+    {
+      "object_id": "ap-JLcljKGGok1GtmlCRigRdw",
+      "app_description": "strengthening-task2-sentinel",
+      "environment": "main",
+      "billing_intervals": [
+        "2026-09-01T00:00:00"
+      ],
+      "first_timestamp": "2026-09-01T00:00:00",
+      "last_timestamp": "2026-09-01T00:00:00",
+      "h100_cost_usd": 1.05991648,
+      "h100_seconds_implied": 965.9998298734178,
+      "sep1_utc_h100_cost_usd": 1.05991648,
+      "l40s_cost_usd": 0.0,
+      "cpu_cost_usd": 0.01129377,
+      "memory_cost_usd": 0.00388627,
+      "total_cost_usd": 1.07509652,
+      "classification": {
+        "primary_classification": "FAILED_OR_ABORTED_EXECUTION",
+        "confidence": "MEDIUM",
+        "avoidable_in_seed4": true,
+        "avoided_cost_usd_if_avoidable": 0.0,
+        "model_identity": "unknown",
+        "evidence": [
+          "H100-only object ($1.060) on Sep1 UTC.",
+          "No checkpoint/app-log binding; excess beyond TaUU successful envelope."
+        ],
+        "notes": "MEDIUM confidence \u2014 excluded from HIGH proven savings."
+      }
+    },
+    {
+      "object_id": "ap-ELJZiCTkakrIWg1bI0qkFM",
+      "app_description": "strengthening-task2-sentinel",
+      "environment": "main",
+      "billing_intervals": [
+        "2026-09-01T00:00:00"
+      ],
+      "first_timestamp": "2026-09-01T00:00:00",
+      "last_timestamp": "2026-09-01T00:00:00",
+      "h100_cost_usd": 0.31599955,
+      "h100_seconds_implied": 287.99958987341773,
+      "sep1_utc_h100_cost_usd": 0.31599955,
+      "l40s_cost_usd": 0.20366637,
+      "cpu_cost_usd": 0.00468587,
+      "memory_cost_usd": 0.00159401,
+      "total_cost_usd": 0.5259458,
+      "classification": {
+        "primary_classification": "DUPLICATE_EXECUTION",
+        "confidence": "HIGH",
+        "avoidable_in_seed4": true,
+        "avoided_cost_usd_if_avoidable": 0.51966592,
+        "model_identity": "unknown_mixed_h100_l40s",
+        "evidence": [
+          "Mixed H100 ($0.316) + L40S ($0.204) on Sep1 UTC after authoritative checkpoints existed.",
+          "Final sentinel orchestrator fast-returned training when persistence_4000.pt existed; residual H100 allocation is duplicate relative to completed scientific state."
+        ],
+        "notes": "H100 portion avoidable; L40S portion part of invalid Task-2 eval spend."
+      }
+    },
+    {
+      "object_id": "ap-cKSKLaV2osBZ75RHNo1zb0",
+      "app_description": "strengthening-task2-sentinel",
+      "environment": "main",
+      "billing_intervals": [
+        "2026-09-01T00:00:00"
+      ],
+      "first_timestamp": "2026-09-01T00:00:00",
+      "last_timestamp": "2026-09-01T00:00:00",
+      "h100_cost_usd": 0.30502877,
+      "h100_seconds_implied": 278.0009043037975,
+      "sep1_utc_h100_cost_usd": 0.30502877,
+      "l40s_cost_usd": 2.36286135,
+      "cpu_cost_usd": 0.04784989,
+      "memory_cost_usd": 0.01237388,
+      "total_cost_usd": 2.72811389,
+      "classification": {
+        "primary_classification": "VALID_BUT_NOT_SEED4_REQUIRED",
+        "confidence": "HIGH",
+        "avoidable_in_seed4": true,
+        "avoided_cost_usd_if_avoidable": 2.66789012,
+        "model_identity": "n/a_evaluation",
+        "evidence": [
+          "Dominated by L40S ($2.363) with small H100 ($0.305).",
+          "Present in post-checkpoint orchestrator hourly window 03:00\u201305:00 UTC Sep1.",
+          "Task-2 behavioral evaluation used unframed prompts (Task-3 root cause); Seed-4 must use corrected framed eval instead."
+        ],
+        "notes": "L40S is valid Task-2 work but not required for Seed-4 corrected protocol."
+      }
+    },
+    {
+      "object_id": "ap-5nKMP2j3evWrTZGWNFgdqd",
+      "app_description": "strengthening-task2-sentinel",
+      "environment": "main",
+      "billing_intervals": [
+        "2026-09-01T00:00:00"
+      ],
+      "first_timestamp": "2026-09-01T00:00:00",
+      "last_timestamp": "2026-09-01T00:00:00",
+      "h100_cost_usd": 0.29625131,
+      "h100_seconds_implied": 270.00119392405065,
+      "sep1_utc_h100_cost_usd": 0.29625131,
+      "l40s_cost_usd": 0.54599917,
+      "cpu_cost_usd": 0.0136279,
+      "memory_cost_usd": 0.00262097,
+      "total_cost_usd": 0.85849935,
+      "classification": {
+        "primary_classification": "DUPLICATE_EXECUTION",
+        "confidence": "HIGH",
+        "avoidable_in_seed4": true,
+        "avoided_cost_usd_if_avoidable": 0.84225048,
+        "model_identity": "unknown_mixed_h100_l40s",
+        "evidence": [
+          "Hourly billing 03:00 UTC Sep1 shows H100+L40S during final sentinel orchestrator after checkpoints completed.",
+          "Training path would fast-return; H100 seconds are duplicate/idle relative to scientific need."
+        ],
+        "notes": "H100 portion HIGH avoidable; L40S tied to invalid Task-2 eval."
+      }
+    },
+    {
+      "object_id": "ap-kjZzGjjT5GmvBCeG6ShnSs",
+      "app_description": "strengthening-task2-sentinel",
+      "environment": "main",
+      "billing_intervals": [
+        "2026-09-01T00:00:00"
+      ],
+      "first_timestamp": "2026-09-01T00:00:00",
+      "last_timestamp": "2026-09-01T00:00:00",
+      "h100_cost_usd": 0.18433429,
+      "h100_seconds_implied": 168.00087189873418,
+      "sep1_utc_h100_cost_usd": 0.18433429,
+      "l40s_cost_usd": 0.00216673,
+      "cpu_cost_usd": 0.00084393,
+      "memory_cost_usd": 0.00030495,
+      "total_cost_usd": 0.1876499,
+      "classification": {
+        "primary_classification": "GPU_IDLE_OR_SETUP",
+        "confidence": "HIGH",
+        "avoidable_in_seed4": true,
+        "avoided_cost_usd_if_avoidable": 0.18650102,
+        "model_identity": "unknown",
+        "evidence": [
+          "Small H100 ($0.184) with tiny L40S on Sep1 UTC; no unique checkpoint binding.",
+          "Scale consistent with short-lived GPU allocation / setup rather than a full phase."
+        ],
+        "notes": "HIGH avoidable for Seed-4 clean launch discipline."
+      }
+    }
+  ],
+  "totals": {
+    "full_window_h100_cost_usd": 25.83683913,
+    "sep1_utc_h100_cost_usd": 22.80192289,
+    "h100_by_classification_usd": {
+      "DUPLICATE_EXECUTION": 0.61225086,
+      "FAILED_OR_ABORTED_EXECUTION": 3.9960831,
+      "GPU_IDLE_OR_SETUP": 0.18433429,
+      "REQUIRED_SUCCESSFUL_SCIENTIFIC_WORK": 20.73914211,
+      "VALID_BUT_NOT_SEED4_REQUIRED": 0.30502877
+    },
+    "proven_high_confidence_avoidable_h100_usd": 1.10161392,
+    "medium_confidence_avoidable_h100_usd": 3.9960831,
+    "proven_high_confidence_avoidable_l40s_usd": 3.11469362
+  },
+  "reconciliation": {
+    "expected_full_window_h100_usd": 25.83683913,
+    "observed_full_window_h100_usd": 25.83683913,
+    "full_window_match": true,
+    "expected_sep1_h100_usd": 22.80192289,
+    "observed_sep1_h100_usd": 22.80192289,
+    "sep1_match": true,
+    "ledger_reconciliation": "PASS",
+    "every_h100_object_classified": true,
+    "unresolved_h100_usd": 0.0
+  },
+  "hypothesis_5plus_avoidable": {
+    "statement": "Non-TaUU H100 (~$5.10) is avoidable infrastructure waste",
+    "non_tauu_h100_usd": 5.09769702,
+    "verdict": "PARTIALLY_SUPPORTED",
+    "explanation": "HIGH-confidence avoidable H100 among non-TaUU objects is ~$1.10 (duplicate/idle residual on mixed eval apps). Remaining ~$4.00 (ap-7Bw + ap-JL) is MEDIUM-confidence failed/aborted and is NOT subtracted from the Seed-4 expected budget."
+  },
+  "audit_code_sha": "2b05b6b25beb293751fc62b4542e488a8a79439e",
+  "base_billing_preflight_sha": "feca09c00438f323c3903d1439dfee91ef728cd1",
+  "h100_gpu_seconds_used_by_audit": 0,
+  "l40s_gpu_seconds_used_by_audit": 0,
+  "generated_at_utc": "2026-09-02T19:57:57.265255+00:00"
+}

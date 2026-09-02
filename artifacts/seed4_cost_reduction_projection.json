@@ -1,0 +1,61 @@
+{
+  "task": "seed4_cost_reduction_projection",
+  "seed4": 20260825,
+  "remaining_modal_credits_usd": 0.0,
+  "rates": {
+    "h100_hourly_usd": 3.95,
+    "l40s_hourly_usd": 1.95
+  },
+  "scenarios_usd": {
+    "A_historical_repeat": {
+      "h100_usd": 25.83683913,
+      "l40s_usd": 1.90400049,
+      "other_incremental_usd": 0.4593,
+      "assumptions": [
+        "Repeat Seed-1 H100 inefficiencies including MEDIUM failed/aborted apps.",
+        "Use corrected framed evaluation cost (Task-3.1 billed), not invalid Task-2 L40S."
+      ],
+      "total_usd": 28.2001
+    },
+    "B_clean_protocol_preserving": {
+      "h100_usd": 20.73914211,
+      "l40s_usd": 1.90400049,
+      "other_incremental_usd": 0.3687,
+      "assumptions": [
+        "Only ap-TaUU successful concurrent B/C/D H100 envelope.",
+        "Exclude HIGH proven residual/duplicate H100 and MEDIUM failed apps.",
+        "Corrected Task-3.1-style L40S evaluation.",
+        "Speculative CUDA Graph/compile savings excluded."
+      ],
+      "total_usd": 23.0118
+    },
+    "C_conservative": {
+      "h100_usd": 22.3983,
+      "l40s_usd": 2.0563,
+      "other_incremental_usd": 0.424,
+      "assumptions": [
+        "8% H100 runtime variance buffer on irreducible envelope.",
+        "8% L40S buffer; 15% CPU/memory buffer.",
+        "Does not include a second full training rerun.",
+        "Does not include MEDIUM $4 failed-app risk as expected, but hard auth covers it."
+      ],
+      "total_usd": 24.8786
+    }
+  },
+  "proven_avoidable_h100_cost_usd": 1.10161392,
+  "proven_avoidable_non_h100_cost_usd": 3.11469362,
+  "proven_avoidable_total_cost_usd": 4.2163,
+  "new_expected_out_of_pocket_usd": 23.0118,
+  "new_conservative_out_of_pocket_usd": 24.8786,
+  "recommended_hard_authorization_usd": 27.37,
+  "scientifically_irreducible_h100_cost_floor_usd": 20.73914211,
+  "scientifically_irreducible_full_protocol_cost_floor_usd": 23.0118,
+  "irreducible_evidence_quality": "HIGH_AGGREGATE_MEDIUM_PER_MODEL",
+  "irreducible_uncertainty": "Per-model H100 split unavailable from Modal billing; floor is aggregate successful app object ap-TaUUJJEc7NPvKK0oya8ClI plus corrected eval. Going materially below this would require changing the experiment or a cheaper external rate.",
+  "medium_confidence_excluded_from_expected_h100_usd": 3.9960831,
+  "audit_code_sha": "2b05b6b25beb293751fc62b4542e488a8a79439e",
+  "base_billing_preflight_sha": "feca09c00438f323c3903d1439dfee91ef728cd1",
+  "h100_gpu_seconds_used_by_audit": 0,
+  "l40s_gpu_seconds_used_by_audit": 0,
+  "generated_at_utc": "2026-09-02T19:57:57.265255+00:00"
+}

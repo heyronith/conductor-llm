@@ -1,0 +1,111 @@
+{
+  "task": "seed4_cost_reduction_execution_plan",
+  "seed": 20260825,
+  "remaining_modal_credits_usd": 0.0,
+  "out_of_pocket_equals_metered": true,
+  "scientific_invariants": {
+    "seed": 20260825,
+    "models_required": [
+      "model_b",
+      "model_c",
+      "model_d"
+    ],
+    "lm_1b_required": true,
+    "safety_tokens_required": 20010611,
+    "persistence_steps_required": [
+      0,
+      250,
+      1000,
+      4000
+    ],
+    "h100_required": true,
+    "precision_unchanged": true,
+    "corrected_framed_evaluation_required": true,
+    "scientific_semantics_changed": false
+  },
+  "checkpoint_reuse": {
+    "any_valid_reusable": false,
+    "savings_usd": 0.0
+  },
+  "protocol_preserving_optimizations": [
+    {
+      "name": "cpu_preflight_before_h100",
+      "evidence": "Manifest/tokenizer/path checks currently can occur after GPU allocation.",
+      "expected_savings": "reduces GPU_IDLE_OR_SETUP; not separately dollarized beyond proven residual H100",
+      "scientific_semantics_changed": false
+    },
+    {
+      "name": "single_controlled_deployment",
+      "evidence": "Seven ap-* IDs under same app name in Seed-1 window.",
+      "expected_savings": "avoids MEDIUM failed/aborted launches if discipline holds",
+      "scientific_semantics_changed": false
+    },
+    {
+      "name": "no_h100_spawn_when_persistence_4000_exists",
+      "evidence": "Fast-return path still incurred residual H100 in final orchestrator.",
+      "expected_savings": "$1.10 HIGH proven H100 class",
+      "scientific_semantics_changed": false
+    },
+    {
+      "name": "corrected_framed_eval_only",
+      "evidence": "Task-2 L40S invalid framing billed; Task-3.1 corrected eval ~$1.90 billed.",
+      "expected_savings": "avoid repeating Task-2 L40S $3.11; pay corrected ~$1.90 instead",
+      "scientific_semantics_changed": false
+    },
+    {
+      "name": "sequential_model_pipelines_with_cash_gate",
+      "evidence": "Concurrent 3\u00d7H100 makes mid-flight cash ceiling hard to enforce.",
+      "expected_savings": "financial risk control; may increase wall clock, not GPU-seconds",
+      "scientific_semantics_changed": false,
+      "recommended_order": [
+        "model_d",
+        "model_b",
+        "model_c"
+      ],
+      "order_rationale": "Technical/cost only: run one full pipeline first to measure realized H100 seconds before committing remaining cash; D first as independent architecture (no B/C init coupling)."
+    },
+    {
+      "name": "reuse_materialized_data_and_image_layers",
+      "evidence": "FineWeb/WildGuard already on volumes; prior shortcut audit ALLOWED.",
+      "expected_savings": "cold-start/setup only",
+      "scientific_semantics_changed": false
+    }
+  ],
+  "live_budget_monitor": {
+    "cash_remaining_authorization": "hard_authorization_usd",
+    "before_each_model_pipeline": [
+      "estimate full-pipeline H100 envelope from Seed-1 TaUU aggregate / 3",
+      "verify remaining authorization covers that envelope + remaining eval share",
+      "otherwise do not start the pipeline"
+    ],
+    "during_pipeline": [
+      "track H100 wall seconds",
+      "accrue estimated dollars using workspace H100 rate",
+      "record phase/model/checkpoint completed"
+    ],
+    "do_not_stop_healthy_mid_pipeline_for_estimate_miss": true,
+    "fail_closed_on_hard_authorization_breach": true,
+    "after_each_model": [
+      "refresh Modal billing if available",
+      "recompute remaining authorization",
+      "decide next model launch"
+    ],
+    "per_model_h100_envelope_usd": 6.913,
+    "irreducible_aggregate_h100_usd": 20.73914211
+  },
+  "forbidden_shortcuts": [
+    "shared_b_c_trained_trunk",
+    "precision_change",
+    "gpu_type_change",
+    "token_budget_reduction",
+    "persistence_1000_early_stop",
+    "drop_model_b",
+    "eval_reduction",
+    "invalid_unframed_eval"
+  ],
+  "audit_code_sha": "2b05b6b25beb293751fc62b4542e488a8a79439e",
+  "base_billing_preflight_sha": "feca09c00438f323c3903d1439dfee91ef728cd1",
+  "h100_gpu_seconds_used_by_audit": 0,
+  "l40s_gpu_seconds_used_by_audit": 0,
+  "generated_at_utc": "2026-09-02T19:57:57.265255+00:00"
+}

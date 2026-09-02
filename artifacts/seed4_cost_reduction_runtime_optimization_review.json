@@ -1,0 +1,43 @@
+{
+  "task": "seed4_cost_reduction_runtime_optimization_review",
+  "cuda_graphs": {
+    "classification": "REJECT_FOR_SEED4",
+    "rationale": "Training loop uses dynamic Python control, per-step scheduler mutation, clip_grad_norm_, and model-type branches; CUDA Graphs risk changing execution order/RNG/reproducibility without a parity gate.",
+    "scientific_risk": "HIGH"
+  },
+  "torch_compile": {
+    "classification": "SAFE_CANDIDATE_FOR_SEPARATE_PARITY_BENCHMARK",
+    "rationale": "Could be tested on a short fixed-step H100 benchmark with identical seed, batches, optimizer state, and precision; not authorized for Seed-4 without parity.",
+    "scientific_risk": "MEDIUM"
+  },
+  "prefetch_staging": {
+    "classification": "SAFE_CANDIDATE_FOR_SEPARATE_PARITY_BENCHMARK",
+    "rationale": "CPU pre-stage of immutable manifests/shards before H100 allocation is scientifically transparent if token order and reader cursors remain identical.",
+    "scientific_risk": "LOW"
+  },
+  "paid_parity_benchmark_worthwhile": true,
+  "maximum_proposed_benchmark_cost_usd": 0.3,
+  "benchmark_design": {
+    "execute_now": false,
+    "hardware": "H100!",
+    "compare": [
+      "eager_path",
+      "candidate_optimized_path"
+    ],
+    "requirements": [
+      "same seed",
+      "same input batches",
+      "same initial checkpoint",
+      "same optimizer state",
+      "same precision",
+      "short fixed step count",
+      "compare per-step loss, gradients where practical, model/optimizer/RNG state, next-step continuation"
+    ]
+  },
+  "audit_code_sha": "2b05b6b25beb293751fc62b4542e488a8a79439e",
+  "base_billing_preflight_sha": "feca09c00438f323c3903d1439dfee91ef728cd1",
+  "h100_gpu_seconds_used_by_audit": 0,
+  "l40s_gpu_seconds_used_by_audit": 0,
+  "remaining_modal_credits_usd": 0.0,
+  "generated_at_utc": "2026-09-02T19:57:57.265255+00:00"
+}

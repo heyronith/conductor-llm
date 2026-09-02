@@ -1,0 +1,44 @@
+{
+  "task": "seed4_cost_reduction_checkpoint_reuse_audit",
+  "seed": 20260825,
+  "volume_inspection": {
+    "volume": "ccpt-authoritative-runs",
+    "seed4_path": "/ccpt/strengthening_task2/seed_20260825",
+    "exists": false,
+    "listing_error": "No such file or directory",
+    "inspection_method": "uv run modal volume ls (CPU/CLI only; no GPU allocated)"
+  },
+  "models": {
+    "model_b": {
+      "path": "/ccpt/strengthening_task2/seed_20260825/model_b",
+      "status": "NOT_PRESENT",
+      "classification": "NOT_PRESENT",
+      "reusable": false,
+      "estimated_savings_usd": 0.0
+    },
+    "model_c": {
+      "path": "/ccpt/strengthening_task2/seed_20260825/model_c",
+      "status": "NOT_PRESENT",
+      "classification": "NOT_PRESENT",
+      "reusable": false,
+      "estimated_savings_usd": 0.0
+    },
+    "model_d": {
+      "path": "/ccpt/strengthening_task2/seed_20260825/model_d",
+      "status": "NOT_PRESENT",
+      "classification": "NOT_PRESENT",
+      "reusable": false,
+      "estimated_savings_usd": 0.0
+    }
+  },
+  "any_valid_reusable_seed4_checkpoint": false,
+  "estimated_savings_from_existing_valid_state_usd": 0.0,
+  "seed1_authoritative_state_present": true,
+  "seed1_note": "Seed-1 B/C/D checkpoints exist and are complete; they must not be reused for Seed-4 scientific identity.",
+  "audit_code_sha": "2b05b6b25beb293751fc62b4542e488a8a79439e",
+  "base_billing_preflight_sha": "feca09c00438f323c3903d1439dfee91ef728cd1",
+  "h100_gpu_seconds_used_by_audit": 0,
+  "l40s_gpu_seconds_used_by_audit": 0,
+  "remaining_modal_credits_usd": 0.0,
+  "generated_at_utc": "2026-09-02T19:57:57.265255+00:00"
+}
