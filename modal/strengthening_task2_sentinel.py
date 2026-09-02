@@ -502,6 +502,8 @@ def run_strengthening_single_model_training(
         print(f"[{model_type}] Found existing authoritative {ckpt_4000_p}. Entire pipeline already complete! Returning results...", flush=True)
         ckpt4000 = load_checkpoint(ckpt_4000_p, strict_v3=True, map_location=device)
         model.load_state_dict(ckpt4000["model_state_dict"])
+        # Do NOT report fallback 6000/305/780 as measured spend. Orchestrator should
+        # avoid spawning H100 when persistence_4000 already exists (volume pre-check).
         return {
             "seed": seed,
             "model_type": model_type,
@@ -509,10 +511,11 @@ def run_strengthening_single_model_training(
             "initial_state_hash": init_state_hash,
             "final_state_hash": compute_canonical_state_dict_hash(model.state_dict()),
             "timing": {
-                "lm_pretrain_seconds": lm_seconds,
-                "safety_train_seconds": safety_seconds,
-                "persistence_train_seconds": persistence_seconds,
-                "total_h100_seconds": lm_seconds + safety_seconds + persistence_seconds,
+                "lm_pretrain_seconds": 0.0,
+                "safety_train_seconds": 0.0,
+                "persistence_train_seconds": 0.0,
+                "total_h100_seconds": 0.0,
+                "already_complete_no_new_work": True,
             },
             "tokens": {
                 "lm_tokens_seen": lm_tokens_seen,
@@ -524,7 +527,7 @@ def run_strengthening_single_model_training(
                 "safety": safety_final_loss,
                 "persistence": persistence_final_loss,
             },
-            "status": "SUCCESS",
+            "status": "ALREADY_COMPLETE",
         }
 
     # =========================================================================
@@ -1298,3 +1301,26 @@ def run_strengthening_centralized_judge(
         "judged_jsonl_path": str(judged_p),
         "judge_seconds": judge_seconds,
     }
+
+
+@app.local_entrypoint()
+def run_seed4_single_model_training(model_type: str, expected_code_sha: str, seed: int = 20260825):
+    """Cash-controlled Seed-4 training entry: one model, H100!, frozen Task-2 semantics."""
+    if seed != 20260825:
+        raise ValueError(f"Seed-4 entrypoint rejects seed={seed}; required 20260825")
+    if model_type not in ("model_b", "model_c", "model_d"):
+        raise ValueError(f"Invalid model_type: {model_type}")
+    print(f"Seed-4 training launch: seed={seed} model={model_type} sha={expected_code_sha}", flush=True)
+    result = run_strengthening_single_model_training.remote(
+        seed=seed,
+        model_type=model_type,
+        expected_code_sha=expected_code_sha,
+        test_mode=False,
+    )
+    Path("artifacts").mkdir(exist_ok=True)
+    out_p = Path(f"artifacts/strengthening_seed4_training_{model_type}.json")
+    with open(out_p, "w", encoding="utf-8") as f:
+        json.dump(result, f, indent=2)
+        f.write("\n")
+    print(f"Wrote {out_p}", flush=True)
+    return result

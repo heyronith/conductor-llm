@@ -94,7 +94,48 @@ eval_image = (
 )
 
 runs_volume = modal.Volume.from_name("ccpt-authoritative-runs", create_if_missing=True)
+data_volume = modal.Volume.from_name("ccpt-authoritative-data", create_if_missing=True)
 hf_secrets = [modal.Secret.from_name("huggingface")]
+
+
+def _compute_capability_metrics(model, model_type: str, device: torch.device) -> Dict[str, float]:
+    """Frozen Task-2 validation CE/PPL metric (1024 FineWeb val blocks, 32-block batches)."""
+    manifest_p = Path("/data/fineweb_authoritative/manifest.json")
+    if not manifest_p.exists():
+        return {}
+    with open(manifest_p, "r", encoding="utf-8") as f:
+        manifest = json.load(f)
+    val_shards = manifest["validation"]["shards"]
+    val_blocks = []
+    for s in val_shards:
+        s_path = Path("/data/fineweb_authoritative") / s["path"]
+        raw = np.fromfile(str(s_path), dtype=np.uint16)
+        val_blocks.append(raw.reshape(-1, 1024))
+    val_tensor = torch.from_numpy(np.concatenate(val_blocks, axis=0).astype(np.int64))
+
+    def compute_causal_lm_loss(logits: torch.Tensor, input_ids: torch.Tensor) -> torch.Tensor:
+        shift_logits = logits[:, :-1, :].contiguous()
+        shift_labels = input_ids[:, 1:].contiguous()
+        return torch.nn.functional.cross_entropy(
+            shift_logits.view(-1, shift_logits.size(-1)),
+            shift_labels.view(-1),
+            reduction="mean",
+        )
+
+    nll_sum, tok_count = 0.0, 0
+    with torch.no_grad():
+        for b_i in range(min(32, val_tensor.shape[0] // 32)):
+            batch = val_tensor[b_i * 32 : (b_i + 1) * 32].to(device)
+            if model_type in ["model_b", "model_c"]:
+                logits, _ = model(batch, mode="controlled", controller_scale=1.0)
+            else:
+                logits, _ = model(batch, adapter_scale=1.0)
+            loss = compute_causal_lm_loss(logits, batch)
+            nll_sum += float(loss.item()) * (32 * 1023)
+            tok_count += 32 * 1023
+    mean_nll = nll_sum / max(1, tok_count)
+    ppl = float(np.exp(min(20.0, mean_nll)))
+    return {"cross_entropy": mean_nll, "perplexity": ppl}
 
 
 # -----------------------------------------------------------------------------
@@ -103,7 +144,7 @@ hf_secrets = [modal.Secret.from_name("huggingface")]
 
 @app.function(
     image=eval_image,
-    volumes={"/runs": runs_volume},
+    volumes={"/runs": runs_volume, "/data": data_volume},
     secrets=hf_secrets,
     gpu="L40S",
     timeout=3600,
@@ -112,8 +153,15 @@ def run_task3_1_eval_worker(
     seed: int,
     model_type: str,
     expected_code_sha: str,
+    enforce_expected_hashes: bool = True,
+    compute_capability: bool = False,
 ) -> Dict[str, Any]:
-    """Evaluates all checkpoints for a single model on L40S with canonical framing."""
+    """Evaluates all checkpoints for a single model on L40S with canonical framing.
+
+    enforce_expected_hashes: when True (default), asserts Task-3.1 Seed-1 frozen checkpoint
+    hashes. Seed-4 orchestration must pass False because Seed-4 state hashes are not Seed-1.
+    compute_capability: when True, also compute frozen FineWeb validation CE/PPL per checkpoint.
+    """
     t0_eval = time.time()
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"[{model_type}] Starting Task 3.1 evaluation on {device} (L40S)...", flush=True)
@@ -132,6 +180,7 @@ def run_task3_1_eval_worker(
     out_dir = Path(f"/runs/ccpt/strengthening_task3_1/seed_{seed}/{model_type}")
     out_dir.mkdir(parents=True, exist_ok=True)
     responses_p = out_dir / "responses.jsonl"
+    capability_p = out_dir / "capability_metrics.json"
 
     # Fast-return validation (strictly for Task 3.1 namespace)
     if responses_p.exists():
@@ -141,12 +190,18 @@ def run_task3_1_eval_worker(
                 count += 1
         if count >= 3584:
             print(f"[{model_type}] Found existing authoritative Task 3.1 {responses_p} ({count} records). Fast return!", flush=True)
+            capability_metrics = {}
+            if capability_p.exists():
+                with open(capability_p, "r", encoding="utf-8") as f:
+                    capability_metrics = json.load(f)
             return {
                 "seed": seed,
                 "model_type": model_type,
                 "responses_path": str(responses_p),
                 "total_responses_generated": count,
-                "eval_seconds": 600.0,
+                "eval_seconds": 0.0,
+                "capability_metrics": capability_metrics,
+                "status": "ALREADY_COMPLETE",
             }
 
     tokenizer = AutoTokenizer.from_pretrained(
@@ -181,6 +236,7 @@ def run_task3_1_eval_worker(
     ]
 
     all_response_records: List[Dict[str, Any]] = []
+    capability_metrics: Dict[str, Any] = {}
 
     for step_name, ckpt_p, step_int in checkpoints_to_eval:
         if not ckpt_p.exists():
@@ -193,10 +249,13 @@ def run_task3_1_eval_worker(
 
         ckpt_state_hash = compute_canonical_state_dict_hash(ckpt["model_state_dict"])
         expected_hash = EXPECTED_CHECKPOINT_HASHES.get(model_type, {}).get(step_int)
-        if expected_hash:
+        if enforce_expected_hashes and expected_hash:
             assert ckpt_state_hash == expected_hash, (
                 f"[{model_type}] Hash mismatch at step {step_int}: found {ckpt_state_hash} vs expected {expected_hash}"
             )
+
+        if compute_capability:
+            capability_metrics[step_name] = _compute_capability_metrics(model, model_type, device)
 
         # Conditions: active on all 4 steps; ablated on steps 0, 1000, 4000
         conditions = [("active", 1.0)]
@@ -261,6 +320,10 @@ def run_task3_1_eval_worker(
         for r in all_response_records:
             f.write(json.dumps(r) + "\n")
 
+    if compute_capability:
+        with open(capability_p, "w", encoding="utf-8") as f:
+            json.dump(capability_metrics, f, indent=2)
+
     runs_volume.commit()
     eval_seconds = time.time() - t0_eval
     print(f"[{model_type}] Evaluation complete: {len(all_response_records)} records saved to {responses_p} in {eval_seconds:.1f}s", flush=True)
@@ -271,6 +334,8 @@ def run_task3_1_eval_worker(
         "responses_path": str(responses_p),
         "total_responses_generated": len(all_response_records),
         "eval_seconds": eval_seconds,
+        "capability_metrics": capability_metrics,
+        "status": "SUCCESS",
     }
 
 
@@ -488,3 +553,77 @@ def run_full_corrected_evaluation(expected_code_sha: str = TASK3_1_EVAL_SHA):
     with open("artifacts/strengthening_task3_1_summary.json", "w") as f:
         json.dump(judge_res, f, indent=2)
     print("Local summary saved to artifacts/strengthening_task3_1_summary.json", flush=True)
+
+
+@app.local_entrypoint()
+def run_seed4_corrected_evaluation(
+    expected_code_sha: str,
+    model_types: str = "model_d,model_b,model_c",
+):
+    """Seed-4 corrected framed evaluation (Task-3.1 semantics; no Seed-1 hash asserts)."""
+    seed = 20260825
+    models = [m.strip() for m in model_types.split(",") if m.strip()]
+    if not models:
+        raise ValueError("model_types must be a non-empty comma-separated list")
+    for m in models:
+        if m not in ("model_b", "model_c", "model_d"):
+            raise ValueError(f"Invalid model_type: {m}")
+
+    print("=================================================================", flush=True)
+    print("CCPT Seed-4 Corrected Evaluation (Task-3.1 framing)", flush=True)
+    print(f"Seed: {seed}", flush=True)
+    print(f"Models: {models}", flush=True)
+    print(f"Evaluation SHA: {expected_code_sha}", flush=True)
+    print("Hardware: NVIDIA L40S | enforce_expected_hashes=False", flush=True)
+    print("=================================================================", flush=True)
+
+    eval_handles = {}
+    for m in models:
+        eval_handles[m] = run_task3_1_eval_worker.spawn(
+            seed=seed,
+            model_type=m,
+            expected_code_sha=expected_code_sha,
+            enforce_expected_hashes=False,
+            compute_capability=True,
+        )
+
+    eval_results = {}
+    response_paths = []
+    for m in models:
+        res = eval_handles[m].get()
+        eval_results[m] = res
+        response_paths.append(res["responses_path"])
+        print(
+            f"[{m}] Generated {res['total_responses_generated']} responses "
+            f"({res['eval_seconds']:.1f}s) status={res.get('status')}",
+            flush=True,
+        )
+
+    judge_res = run_task3_1_judge_worker.remote(
+        seed=seed,
+        responses_jsonl_paths=response_paths,
+        expected_code_sha=expected_code_sha,
+    )
+
+    total_eval_l40s_secs = sum(float(r["eval_seconds"]) for r in eval_results.values())
+    total_judge_l40s_secs = float(judge_res["judge_seconds"])
+    total_l40s_secs = total_eval_l40s_secs + total_judge_l40s_secs
+    total_cost = (total_l40s_secs / 3600.0) * L40S_HOURLY_RATE
+
+    Path("artifacts").mkdir(exist_ok=True)
+    payload = dict(judge_res)
+    payload["timing"] = {
+        "eval_seconds_by_model": {m: eval_results[m]["eval_seconds"] for m in models},
+        "capability_by_model": {m: eval_results[m].get("capability_metrics", {}) for m in models},
+        "total_eval_l40s_seconds": total_eval_l40s_secs,
+        "judge_l40s_seconds": total_judge_l40s_secs,
+        "total_l40s_seconds": total_l40s_secs,
+        "h100_gpu_seconds": 0.0,
+        "l40s_hourly_rate": L40S_HOURLY_RATE,
+        "total_cost_usd": total_cost,
+    }
+    with open("artifacts/strengthening_seed4_task3_1_summary.json", "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
+        f.write("\n")
+    print("Local Seed-4 eval summary saved to artifacts/strengthening_seed4_task3_1_summary.json", flush=True)
+    return payload
