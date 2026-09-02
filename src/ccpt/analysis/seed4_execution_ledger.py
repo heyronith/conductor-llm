@@ -159,7 +159,7 @@ def pre_evaluation_gate(ledger: dict[str, Any]) -> dict[str, Any]:
         "eval_reserve_usd": eval_reserve,
         "projected_final_total_usd": projected,
         "allowed": ok,
-        "reason": "OK" if ok else "Evaluation would breach $27.00 hard ceiling",
+        "reason": "OK" if ok else f"Evaluation would breach ${HARD_AUTHORIZATION_USD:.2f} hard ceiling",
     }
 
 

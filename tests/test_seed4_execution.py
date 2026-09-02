@@ -49,6 +49,17 @@ def test_pre_pipeline_gate_allows_fresh_start():
     assert gate["projected_final_total_usd"] <= 27.0 + 1e-6
 
 
+def test_parallel_orchestrator_module_exists():
+    src = (PROJECT_ROOT / "scripts" / "orchestrate_strengthening_seed4_parallel.py").read_text(
+        encoding="utf-8"
+    )
+    assert "SCIENTIFIC_EXECUTION_SHA" in src
+    assert "B_C_PARALLEL_LAUNCH_BLOCKED_BY_CASH_GATE" in src
+    assert "model_b" in src and "model_c" in src
+    assert "run_strengthening_single_model_training" in src
+    assert "SCIENTIFIC_SOURCE_CHANGED=NO" in src
+
+
 def test_retention_arithmetic():
     from ccpt.analysis.seed4_execution_summaries import build_behavior_summary, build_retention_summary
 
