@@ -1,0 +1,868 @@
+{
+  "task": "strengthening_seed4_cost_summary",
+  "seed": 20260825,
+  "execution_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+  "hard_authorization_usd": 27.0,
+  "ceiling_breached": false,
+  "accrued": {
+    "h100_seconds_measured": 0.0,
+    "h100_cost_estimated_usd": 0.0,
+    "l40s_seconds_measured": 2923.9074988365173,
+    "l40s_cost_estimated_usd": 1.5837832285364468,
+    "cpu_memory_cost_estimated_usd": 0.0,
+    "total_estimated_usd": 22.6306402,
+    "total_billed_usd_when_available": 22.6306402
+  },
+  "rates": {
+    "h100_hourly_usd": 3.95,
+    "l40s_hourly_usd": 1.95,
+    "cpu_hourly_usd": 0.0473,
+    "mem_gib_hourly_usd": 0.008
+  },
+  "stages": [
+    {
+      "stage": "preflight_complete",
+      "reserved_for_full_protocol_from_d_usd": 23.0118426,
+      "allowed": true
+    },
+    {
+      "stage": "training_model_d_failed",
+      "error": "Training for model_d failed without artifact. rc=1\nstdout_tail=\u2713 Initialized. View run at \nhttps://modal.com/apps/ronithworks/main/ap-b86xRW7l8ZiyqLMKibSOE7\n\u2713 Created objects.\n\u251c\u2500\u2500 \ud83d\udd28 Created mount /Users/ronny/Desktop/Research/AI \n\u2502   ALIGNMENT/CCPT/modal/strengthening_task2_sentinel.py\n\u251c\u2500\u2500 \ud83d\udd28 Created mount /Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/modal\n\u251c\u2500\u2500 \ud83d\udd28 Created mount PythonPackage:ccpt\n\u251c\u2500\u2500 \ud83d\udd28 Created function run_strengthening_single_model_training.\n\u251c\u2500\u2500 \ud83d\udd28 Created function run_strengthening_eval_smoke.\n\u251c\u2500\u2500 \ud83d\udd28 Created function run_strengthening_evaluation_worker.\n\u2514\u2500\u2500 \ud83d\udd28 Created function run_strengthening_centralized_judge.\nSeed-4 training launch: seed=20260825 model=model_d \nsha=e062271628c3c4434fde6310aa5e0b9024c3dadf\n=== [20260825][model_d] Phase 1: 1B LM Pretraining ===\n[model_d][LM] Step 5000/30517 | Loss: 3.8945 | Tokens: 163,840,000\n[model_d][LM] Step 10000/30517 | Loss: 3.8072 | Tokens: 327,680,000\n[model_d][LM] Step 15000/30517 | Loss: 3.0837 | Tokens: 491,520,000\n[model_d][LM] Step 20000/30517 | Loss: 3.5995 | Tokens: 655,360,000\n[model_d][LM] Step 25000/30517 | Loss: 3.8262 | Tokens: 819,200,000\n[modal-client] 2026-09-02T22:11:43+0000 Received a cancellation signal while processing input ('in-01M1HXQGQJTYH5CNA96A6WZXH6:1788381741811-0',)\n[modal-client] 2026-09-02T22:11:43+0000 Successfully canceled input ('in-01M1HXQGQJTYH5CNA96A6WZXH6:1788381741811-0',)\nStopping app - local client disconnected. Use `modal run --detach` to keep apps running even if your local client disconnects.\n\nstderr_tail= (most recent call last) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502 /Users/ronny/Desktop/Research/AI                                             \u2502\n\u2502 ALIGNMENT/CCPT/modal/strengthening_task2_sentinel.py:1314 in                 \u2502\n\u2502 run_seed4_single_model_training                                              \u2502\n\u2502                                                                              \u2502\n\u2502   1313 \u2502   print(f\"Seed-4 training launch: seed={seed} model={model_type} sh \u2502\n\u2502 \u2771 1314 \u2502   result = run_strengthening_single_model_training.remote(          \u2502\n\u2502   1315 \u2502   \u2502   seed=seed,                                                    \u2502\n\u2502                                                                              \u2502\n\u2502 /Users/ronny/Desktop/Research/AI                                             \u2502\n\u2502 ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_object.py:46 in     \u2502\n\u2502 wrapped                                                                      \u2502\n\u2502                                                                              \u2502\n\u2502    45 \u2502   \u2502   await self.hydrate()                                           \u2502\n\u2502 \u2771  46 \u2502   \u2502   return await method(self, *args, **kwargs)                     \u2502\n\u2502    47                                                                        \u2502\n\u2502                                                                              \u2502\n\u2502 /Users/ronny/Desktop/Research/AI                                             \u2502\n\u2502 ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:1841   \u2502\n\u2502 in remote                                                                    \u2502\n\u2502                                                                              \u2502\n\u2502   1840 \u2502   \u2502                                                                 \u2502\n\u2502 \u2771 1841 \u2502   \u2502   return await self._call_function(args, kwargs)                \u2502\n\u2502   1842                                                                       \u2502\n\u2502                                                                              \u2502\n\u2502 /Users/ronny/Desktop/Research/AI                                             \u2502\n\u2502 ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:1778   \u2502\n\u2502 in _call_function                                                            \u2502\n\u2502                                                                              \u2502\n\u2502   1777 \u2502   \u2502                                                                 \u2502\n\u2502 \u2771 1778 \u2502   \u2502   return await invocation.run_function()                        \u2502\n\u2502   1779                                                                       \u2502\n\u2502                                                                              \u2502\n\u2502 /Users/ronny/Desktop/Research/AI                                             \u2502\n\u2502 ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:483 in \u2502\n\u2502 run_function                                                                 \u2502\n\u2502                                                                              \u2502\n\u2502    482 \u2502   \u2502   \u2502   if await_response.output.result.status in TERMINAL_STATUS \u2502\n\u2502 \u2771  483 \u2502   \u2502   \u2502   \u2502   return await _process_result(                         \u2502\n\u2502    484 \u2502   \u2502   \u2502   \u2502   \u2502   await_response.output.result, await_response.outp \u2502\n\u2502                                                                              \u2502\n\u2502 /Users/ronny/Desktop/Research/AI                                             \u2502\n\u2502 ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_utils/function_util \u2502\n\u2502 s.py:574 in _process_result                                                  \u2502\n\u2502                                                                              \u2502\n\u2502   573 \u2502   \u2502                                                                  \u2502\n\u2502 \u2771 574 \u2502   \u2502   raise RemoteError(result.exception)                            \u2502\n\u2502   575                                                                        \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\nRemoteError: Function call was cancelled by user or a failure.\n",
+      "recorded_at_utc": "2026-09-02T22:13:51.307881+00:00"
+    },
+    {
+      "stage": "billing_sync",
+      "billing": {
+        "status": "OK",
+        "matched": [
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.07061972,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "CPU",
+              "cost": "0.07061972"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 5.94036143,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "H100",
+              "cost": "5.94036143"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.01983157,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "Memory",
+              "cost": "0.01983157"
+            }
+          }
+        ],
+        "total_usd": 6.03081272,
+        "queried_at_utc": "2026-09-02T22:21:25.982280+00:00"
+      }
+    },
+    {
+      "stage": "billing_sync",
+      "billing": {
+        "status": "OK",
+        "matched": [
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.07061972,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "CPU",
+              "cost": "0.07061972"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 5.94036143,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "H100",
+              "cost": "5.94036143"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.01983157,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "Memory",
+              "cost": "0.01983157"
+            }
+          }
+        ],
+        "total_usd": 6.03081272,
+        "queried_at_utc": "2026-09-02T22:21:39.026492+00:00"
+      }
+    },
+    {
+      "stage": "resume_after_abort",
+      "reason": "Prior model_d run cancelled by local client disconnect (~LM 25k/30517).",
+      "prior_waste_usd": 6.03081272,
+      "recorded_at_utc": "2026-09-02T22:21:39.026689+00:00"
+    },
+    {
+      "stage": "authorization_raised",
+      "from_usd": 27.0,
+      "to_usd": 35.0
+    },
+    {
+      "stage": "billing_sync",
+      "billing": {
+        "status": "OK",
+        "matched": [
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.00194207,
+            "raw": {
+              "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "Memory",
+              "cost": "0.00194207"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.59908326,
+            "raw": {
+              "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "H100",
+              "cost": "0.59908326"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.00718663,
+            "raw": {
+              "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "CPU",
+              "cost": "0.00718663"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.01983157,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "Memory",
+              "cost": "0.01983157"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 5.94036143,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "H100",
+              "cost": "5.94036143"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.07061972,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "CPU",
+              "cost": "0.07061972"
+            }
+          }
+        ],
+        "total_usd": 6.63902468,
+        "queried_at_utc": "2026-09-02T22:31:51.514315+00:00"
+      }
+    },
+    {
+      "stage": "resume_after_abort",
+      "reason": "Prior model_d run cancelled by local client disconnect (~LM 25k/30517).",
+      "prior_waste_usd": 6.63902468,
+      "recorded_at_utc": "2026-09-02T22:31:51.514514+00:00"
+    },
+    {
+      "stage": "billing_sync",
+      "billing": {
+        "status": "OK",
+        "matched": [
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.00965288,
+            "raw": {
+              "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "CPU",
+              "cost": "0.00965288"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.00271941,
+            "raw": {
+              "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "Memory",
+              "cost": "0.00271941"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.84705502,
+            "raw": {
+              "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "H100",
+              "cost": "0.84705502"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.07061972,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "CPU",
+              "cost": "0.07061972"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.01983157,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "Memory",
+              "cost": "0.01983157"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 5.94036143,
+            "raw": {
+              "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-02T00:00:00",
+              "resource": "H100",
+              "cost": "5.94036143"
+            }
+          }
+        ],
+        "total_usd": 6.89024003,
+        "queried_at_utc": "2026-09-02T23:05:19.477960+00:00"
+      }
+    },
+    {
+      "stage": "resume_after_abort",
+      "reason": "Prior model_d run cancelled by local client disconnect (~LM 25k/30517).",
+      "prior_waste_usd": 6.89024003,
+      "recorded_at_utc": "2026-09-02T23:05:19.478177+00:00"
+    },
+    {
+      "stage": "orchestration_correction",
+      "original_policy": "D \u2192 B \u2192 C sequential",
+      "corrected_policy": "D \u2192 [B || C] \u2192 eval",
+      "reason": "Wall-clock reduction; GPU-seconds unchanged",
+      "d_modal_app_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+      "sequential_orchestrator_auto_advance_disabled": true,
+      "orchestration_correction_sha": "b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef",
+      "scientific_execution_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+      "recorded_at_utc": "2026-09-02T23:21:39.053811+00:00"
+    },
+    {
+      "stage": "billing_sync",
+      "billing": {
+        "status": "OK",
+        "matched": [
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.01552396,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.01552396"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.0490467,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.04904670"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 4.10361111,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "4.10361111"
+            }
+          }
+        ],
+        "total_usd": 4.16818177,
+        "queried_at_utc": "2026-09-03T01:03:29.231956+00:00"
+      }
+    },
+    {
+      "stage": "billing_sync",
+      "billing": {
+        "status": "OK",
+        "matched": [
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.01552396,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.01552396"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 4.10361111,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "4.10361111"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.0490467,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.04904670"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.0282176,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.02821760"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 7.65861142,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "7.65861142"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.091539,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.09153900"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.02848118,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.02848118"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 7.90438424,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "7.90438424"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.09490504,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.09490504"
+            }
+          }
+        ],
+        "total_usd": 19.974320249999998,
+        "queried_at_utc": "2026-09-03T03:53:20.773631+00:00"
+      }
+    },
+    {
+      "stage": "model_b_infrastructure_resume",
+      "from_checkpoint": "persistence_1000.pt",
+      "to_checkpoint": "persistence_4000.pt",
+      "prior_failure": "FunctionTimeoutError 7200s",
+      "scientific_execution_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+      "recorded_at_utc": "2026-09-03T03:53:21.890648+00:00"
+    },
+    {
+      "stage": "training_model_b",
+      "model_type": "model_b",
+      "status": "SUCCESS",
+      "h100_seconds_measured": 0.0,
+      "h100_cost_estimated_usd": 0.0,
+      "timing": {
+        "total_h100_seconds": 0.0,
+        "infrastructure_resume_from_1000": true
+      },
+      "final_state_hash": null,
+      "initial_state_hash": null,
+      "recorded_at_utc": "2026-09-03T04:06:13.956285+00:00"
+    },
+    {
+      "stage": "billing_sync",
+      "billing": {
+        "status": "OK",
+        "matched": [
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.0490467,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.04904670"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 4.10361111,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "4.10361111"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.01552396,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.01552396"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.091539,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.09153900"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 7.65861142,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "7.65861142"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.0282176,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.02821760"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.00870503,
+            "raw": {
+              "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.00870503"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.75708328,
+            "raw": {
+              "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "0.75708328"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.00303947,
+            "raw": {
+              "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.00303947"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.09490504,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.09490504"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 7.90438424,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "7.90438424"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.02848118,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.02848118"
+            }
+          }
+        ],
+        "total_usd": 20.74314803,
+        "queried_at_utc": "2026-09-03T04:06:14.669617+00:00"
+      }
+    },
+    {
+      "stage": "evaluation_complete",
+      "eval_seconds_by_model": {
+        "model_b": 752.689551115036,
+        "model_c": 695.9094586372375,
+        "model_d": 760.5138554573059
+      },
+      "judge_seconds": 714.7946336269379,
+      "l40s_seconds_measured": 2923.9074988365173,
+      "l40s_cost_estimated_usd": 1.5837832285364468,
+      "recorded_at_utc": "2026-09-03T04:32:16.663615+00:00"
+    },
+    {
+      "stage": "billing_sync",
+      "billing": {
+        "status": "OK",
+        "matched": [
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.0490467,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.04904670"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 4.10361111,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "4.10361111"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.01552396,
+            "raw": {
+              "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.01552396"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.091539,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.09153900"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 7.65861142,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "7.65861142"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.0282176,
+            "raw": {
+              "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.02821760"
+            }
+          },
+          {
+            "name": "strengthening-task3-1-eval",
+            "cost": 1.71925688,
+            "raw": {
+              "object_id": "ap-IVE2czu8bXOb5vY3TAOUca",
+              "description": "strengthening-task3-1-eval",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "L40S",
+              "cost": "1.71925688"
+            }
+          },
+          {
+            "name": "strengthening-task3-1-eval",
+            "cost": 0.04031059,
+            "raw": {
+              "object_id": "ap-IVE2czu8bXOb5vY3TAOUca",
+              "description": "strengthening-task3-1-eval",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.04031059"
+            }
+          },
+          {
+            "name": "strengthening-task3-1-eval",
+            "cost": 0.00860967,
+            "raw": {
+              "object_id": "ap-IVE2czu8bXOb5vY3TAOUca",
+              "description": "strengthening-task3-1-eval",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.00860967"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.0091051,
+            "raw": {
+              "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.00910510"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.87558309,
+            "raw": {
+              "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "0.87558309"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.00345462,
+            "raw": {
+              "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.00345462"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.09490504,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "CPU",
+              "cost": "0.09490504"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 7.90438424,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "H100",
+              "cost": "7.90438424"
+            }
+          },
+          {
+            "name": "strengthening-task2-sentinel",
+            "cost": 0.02848118,
+            "raw": {
+              "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+              "description": "strengthening-task2-sentinel",
+              "environment": "main",
+              "interval_start": "2026-09-03T00:00:00",
+              "resource": "Memory",
+              "cost": "0.02848118"
+            }
+          }
+        ],
+        "total_usd": 22.6306402,
+        "queried_at_utc": "2026-09-03T04:32:17.503400+00:00"
+      }
+    }
+  ],
+  "remaining_authorization_usd": 4.369359800000002,
+  "final_status": "SEED 4 AUTHORITATIVE EXECUTION COMPLETE \u2014 READY FOR SCIENTIFIC REVIEW"
+}

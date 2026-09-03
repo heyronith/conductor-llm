@@ -1,0 +1,18 @@
+{
+  "task": "strengthening_seed4_execution_manifest",
+  "seed": 20260825,
+  "execution_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+  "model_order": [
+    "model_d",
+    "model_b",
+    "model_c"
+  ],
+  "completed_models": [
+    "model_d",
+    "model_b",
+    "model_c"
+  ],
+  "final_status": "SEED 4 AUTHORITATIVE EXECUTION COMPLETE \u2014 READY FOR SCIENTIFIC REVIEW",
+  "hard_authorization_usd": 27.0,
+  "updated_at_utc": "2026-09-03T04:32:17.503702+00:00"
+}

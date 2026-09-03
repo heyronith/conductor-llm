@@ -1,0 +1,29 @@
+
+--- launch 2026-09-03T03:53:21.894960+00:00 ---
+Note that running a local entrypoint in detached mode only keeps the last triggered Modal function alive after the parent process has been killed or disconnected.
+✓ Initialized. View run at 
+https://modal.com/apps/ronithworks/main/ap-UzEWsDC987CLWk85xZTexg
+✓ Created objects.
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI 
+│   ALIGNMENT/CCPT/modal/strengthening_task2_sentinel.py
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/modal
+├── 🔨 Created mount PythonPackage:ccpt
+├── 🔨 Created function run_strengthening_single_model_training.
+├── 🔨 Created function run_strengthening_eval_smoke.
+├── 🔨 Created function run_strengthening_evaluation_worker.
+└── 🔨 Created function run_strengthening_centralized_judge.
+Seed-4 training launch: seed=20260825 model=model_b 
+sha=e062271628c3c4434fde6310aa5e0b9024c3dadf
+[model_b] Found existing authoritative /runs/ccpt/strengthening_task2/seed_20260825/model_b/lm_1b_final.pt. Loading state and skipping Phase 1...
+[model_b] Found existing authoritative /runs/ccpt/strengthening_task2/seed_20260825/model_b/persistence_0000.pt. Loading state and skipping Phase 2...
+=== [20260825][model_b] Phase 3: Continuous Persistence Continuation ===
+[model_b] INFRASTRUCTURE RESUME: loading /runs/ccpt/strengthening_task2/seed_20260825/model_b/persistence_1000.pt and continuing persistence from step 1001 → 4000
+[model_b] Resume cursor=1008544 persistence_tokens_seen=32,768,000
+[model_b][Persistence] Progress: 2000/4000 | Loss: 3.5287
+[model_b][Persistence] Progress: 3000/4000 | Loss: 3.3557
+[model_b][Persistence] Saved Step 4000 -> /runs/ccpt/strengthening_task2/seed_20260825/model_b/persistence_4000.pt | Tokens: 131,072,000
+[model_b][Persistence] Progress: 4000/4000 | Loss: 3.4892
+Wrote artifacts/strengthening_seed4_training_model_b.json
+[modal-client] 2026-09-02T23:05:45-0500 Timed out waiting for final app logs.
+✓ App completed. View run at 
+https://modal.com/apps/ronithworks/main/ap-UzEWsDC987CLWk85xZTexg

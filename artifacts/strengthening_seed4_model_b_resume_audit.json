@@ -1,0 +1,134 @@
+{
+  "task": "strengthening_seed4_model_b_resume_audit",
+  "created_at_utc": "2026-09-03T13:06:47.286381+00:00",
+  "scientific_execution_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+  "source_checkpoint": {
+    "path": "/runs/ccpt/strengthening_task2/seed_20260825/model_b/persistence_1000.pt",
+    "model_type": "model_b",
+    "training_seed": 20260825,
+    "git_commit_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+    "global_step": 1000,
+    "tokens_seen": 1032749056,
+    "data_cursor": 1008544,
+    "file_sha256": "bf82bc47ff123f0192c46429d9814009dc11bc7db39a32fe9d5955dc30e9ae3a",
+    "optimizer_state_present": true,
+    "scheduler_state_present": true,
+    "torch_rng_present": true,
+    "cuda_rng_present": true
+  },
+  "final_checkpoint": {
+    "path": "/runs/ccpt/strengthening_task2/seed_20260825/model_b/persistence_4000.pt",
+    "model_type": "model_b",
+    "training_seed": 20260825,
+    "git_commit_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+    "global_step": 4000,
+    "tokens_seen": 1131053056,
+    "data_cursor": 1104544,
+    "file_sha256": "1f4dbe364a0dd310dbacba789f8d0b94759c6f03bba1ad358a191f99fc4a1184"
+  },
+  "exact_outer_launch_command": "uv run python scripts/resume_seed4_model_b_and_eval.py",
+  "exact_modal_launch_command": "uv run modal run -d modal/strengthening_task2_sentinel.py::run_seed4_single_model_training --model-type model_b --expected-code-sha e062271628c3c4434fde6310aa5e0b9024c3dadf --seed 20260825",
+  "modal_app_id_from_log": "ap-UzEWsDC987CLWk85xZTexg",
+  "implementation_files": [
+    "modal/strengthening_task2_sentinel.py",
+    "scripts/resume_seed4_model_b_and_eval.py"
+  ],
+  "resume_block_rng_restore_present": false,
+  "claims": {
+    "source_checkpoint_model_model_b": {
+      "claim": true,
+      "evidence": "persistence_1000.pt model_type=model_b"
+    },
+    "seed_20260825": {
+      "claim": true,
+      "evidence": "training_seed=20260825; launch --seed 20260825"
+    },
+    "checkpoint_code_sha_e062271": {
+      "claim": true,
+      "evidence": "git_commit_sha=e062271628c3c4434fde6310aa5e0b9024c3dadf"
+    },
+    "source_global_step_1000": {
+      "claim": true,
+      "evidence": "global_step=1000"
+    },
+    "source_global_tokens_1032749056": {
+      "claim": true,
+      "evidence": "tokens_seen=1032749056"
+    },
+    "source_data_cursor_1008544": {
+      "claim": true,
+      "evidence": "data_cursor=1008544"
+    },
+    "resumed_start_step_1001": {
+      "claim": true,
+      "evidence": "log: continuing persistence from step 1001 \u2192 4000; code range(resume_step+1, ...)"
+    },
+    "final_step_4000": {
+      "claim": true,
+      "evidence": "persistence_4000 global_step=4000; log Saved Step 4000"
+    },
+    "final_global_tokens_1131053056": {
+      "claim": true,
+      "evidence": "tokens_seen=1131053056"
+    },
+    "final_data_cursor_1104544": {
+      "claim": true,
+      "evidence": "data_cursor=1104544"
+    },
+    "optimizer_state_restored_not_reinitialized": {
+      "claim": true,
+      "evidence": "Checkpoint contains optimizer_state_dict; resume path calls persistence_optimizer.load_state_dict(...). Fresh AdamW is constructed then immediately overwritten by load_state_dict when present.",
+      "note": "PASS: restored. (A fresh AdamW object is allocated first, then state is loaded \u2014 not left as reinitialized moments.)"
+    },
+    "scheduler_state_restored": {
+      "claim": true,
+      "evidence": "Checkpoint contains scheduler_state; resume path calls persistence_scheduler.load_state_dict(...)."
+    },
+    "torch_rng_state_restored": {
+      "claim": false,
+      "evidence": "persistence_1000.pt CONTAINS torch_rng_state, but infrastructure resume block does NOT call torch.set_rng_state(...). RNG restore UNPROVEN / NOT PERFORMED."
+    },
+    "cuda_rng_state_restored": {
+      "claim": false,
+      "evidence": "persistence_1000.pt CONTAINS cuda_rng_state, but infrastructure resume block does NOT restore CUDA RNG. RNG restore UNPROVEN / NOT PERFORMED."
+    },
+    "fineweb_reader_seeked_to_saved_cursor": {
+      "claim": true,
+      "evidence": "code: persistence_reader.seek(976544 + resume_step * 32); log: Resume cursor=1008544"
+    },
+    "no_optimizer_reset_at_step_1000": {
+      "claim": true,
+      "evidence": "After constructing AdamW, resume loads optimizer_state_dict from step-1000 checkpoint before first resumed batch."
+    },
+    "no_scheduler_reset_at_step_1000": {
+      "claim": true,
+      "evidence": "After constructing TokenCosineScheduler, resume loads scheduler_state from step-1000 checkpoint before first resumed batch."
+    },
+    "persistence_data_976544_1008544_not_replayed": {
+      "claim": true,
+      "evidence": "seek to 1008544 before loop starting at step 1001; interval [976544,1008544) corresponds to steps 1..1000 already consumed."
+    },
+    "first_resumed_batch_continuation_cursor_1008544": {
+      "claim": true,
+      "evidence": "log Resume cursor=1008544; first loop iteration calls get_batch after seek."
+    },
+    "frozen_model_b_scientific_semantics_unchanged": {
+      "claim": true,
+      "evidence": "expected_code_sha pinned to e062271; model_b controlled mode; same LR/schedule/seed; checkpoint git_commit_sha remains e062271 at step 4000.",
+      "caveat": "Bit-exact stochastic continuation is NOT guaranteed because Torch/CUDA RNG were not restored."
+    }
+  },
+  "false_or_unproven_claims": [
+    "torch_rng_state_restored",
+    "cuda_rng_state_restored"
+  ],
+  "overall": {
+    "optimizer_restored": true,
+    "scheduler_restored": true,
+    "rng_restored": false,
+    "data_cursor_continuity": true,
+    "scientifically_exact_bit_continuation": false,
+    "scientifically_exact_recipe_and_cursor": true,
+    "verdict": "PARTIAL \u2014 optimizer/scheduler/cursor proven; Torch/CUDA RNG NOT restored"
+  }
+}

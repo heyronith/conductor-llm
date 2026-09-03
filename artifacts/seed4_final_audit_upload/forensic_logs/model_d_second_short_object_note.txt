@@ -1,0 +1,6 @@
+Seed-4 billing window object ap-5ES39Xb7BxYBW0jioMg90N (strengthening-task2-sentinel)
+H100≈$0.847 + CPU/Mem ≈ total $0.859 on 2026-09-02.
+No dedicated local Modal log file was retained for this object.
+Treated as a failed/partial/aborted sentinel H100 object in-window (second abort/partial candidate).
+Successful Model D completion is ap-7GuG5S7ZgfLoJQ5jblKaSd (strengthening_seed4_modal_model_d.log).
+First clear abort is ap-b86xRW7l8ZiyqLMKibSOE7 (client disconnect; captured in cost_summary stage training_model_d_failed).

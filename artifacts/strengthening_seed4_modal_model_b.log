@@ -1,0 +1,90 @@
+
+--- launch 2026-09-03T01:03:31.037253+00:00 ---
+Note that running a local entrypoint in detached mode only keeps the last triggered Modal function alive after the parent process has been killed or disconnected.
+✓ Initialized. View run at 
+https://modal.com/apps/ronithworks/main/ap-d70OjGWdjRP9UJP1JuEw67
+✓ Created objects.
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI 
+│   ALIGNMENT/CCPT/modal/strengthening_task2_sentinel.py
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/modal
+├── 🔨 Created mount PythonPackage:ccpt
+├── 🔨 Created function run_strengthening_single_model_training.
+├── 🔨 Created function run_strengthening_eval_smoke.
+├── 🔨 Created function run_strengthening_evaluation_worker.
+└── 🔨 Created function run_strengthening_centralized_judge.
+Seed-4 training launch: seed=20260825 model=model_b 
+sha=e062271628c3c4434fde6310aa5e0b9024c3dadf
+=== [20260825][model_b] Phase 1: 1B LM Pretraining ===
+[model_b][LM] Step 5000/30517 | Loss: 3.8933 | Tokens: 163,840,000
+[model_b][LM] Step 10000/30517 | Loss: 3.8189 | Tokens: 327,680,000
+[model_b][LM] Step 15000/30517 | Loss: 3.0874 | Tokens: 491,520,000
+[model_b][LM] Step 20000/30517 | Loss: 3.6148 | Tokens: 655,360,000
+[model_b][LM] Step 25000/30517 | Loss: 3.8433 | Tokens: 819,200,000
+[model_b][LM] Step 30000/30517 | Loss: 3.4734 | Tokens: 983,040,000
+[model_b][LM] Step 30517/30517 | Loss: 3.1528 | Tokens: 999,981,056
+[model_b] Phase 1 complete in 6641.65s | Saved /runs/ccpt/strengthening_task2/seed_20260825/model_b/lm_1b_final.pt
+=== [20260825][model_b] Phase 2: 20M Safety Training ===
+[model_b][Safety] Batch 500/2344 | Loss: 2.6491 | Tokens: 4,290,166
+[model_b][Safety] Batch 1000/2344 | Loss: 2.8710 | Tokens: 8,561,729
+[model_b][Safety] Batch 1500/2344 | Loss: 2.2443 | Tokens: 12,774,590
+[model_b][Safety] Batch 2000/2344 | Loss: 2.2995 | Tokens: 17,053,718
+[model_b][Safety] Batch 2344/2344 | Loss: 2.1604 | Tokens: 20,010,611
+[model_b] Phase 2 complete in 307.65s | Saved Step 0
+=== [20260825][model_b] Phase 3: Continuous Persistence Continuation ===
+[model_b][Persistence] Saved Step 250 -> /runs/ccpt/strengthening_task2/seed_20260825/model_b/persistence_0250.pt | Tokens: 8,192,000
+[model_b][Persistence] Saved Step 1000 -> /runs/ccpt/strengthening_task2/seed_20260825/model_b/persistence_1000.pt | Tokens: 32,768,000
+[model_b][Persistence] Progress: 1000/4000 | Loss: 3.4265
+Task's current input(s) ["in-01M1JCNTJPWTCAPQV0FV503ZCG:1788397414998-0"] cancelled because: Task's current input in-01M1JCNTJPWTCAPQV0FV503ZCG:1788397414998-0 hit its timeout of 7200s
+[modal-client] 2026-09-03T03:03:43+0000 Received a cancellation signal while processing input ('in-01M1JCNTJPWTCAPQV0FV503ZCG:1788397414998-0',)
+[modal-client] 2026-09-03T03:03:43+0000 Successfully canceled input ('in-01M1JCNTJPWTCAPQV0FV503ZCG:1788397414998-0',)
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/modal/strengthening_task2_sentinel.py:1314 in                 │
+│ run_seed4_single_model_training                                              │
+│                                                                              │
+│   1313 │   print(f"Seed-4 training launch: seed={seed} model={model_type} sh │
+│ ❱ 1314 │   result = run_strengthening_single_model_training.remote(          │
+│   1315 │   │   seed=seed,                                                    │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_object.py:46 in     │
+│ wrapped                                                                      │
+│                                                                              │
+│    45 │   │   await self.hydrate()                                           │
+│ ❱  46 │   │   return await method(self, *args, **kwargs)                     │
+│    47                                                                        │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:1841   │
+│ in remote                                                                    │
+│                                                                              │
+│   1840 │   │                                                                 │
+│ ❱ 1841 │   │   return await self._call_function(args, kwargs)                │
+│   1842                                                                       │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:1778   │
+│ in _call_function                                                            │
+│                                                                              │
+│   1777 │   │                                                                 │
+│ ❱ 1778 │   │   return await invocation.run_function()                        │
+│   1779                                                                       │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:502 in │
+│ run_function                                                                 │
+│                                                                              │
+│    501 │   │   │   # No more retries left.                                   │
+│ ❱  502 │   │   │   return await _process_result(                             │
+│    503 │   │   │   │   await_response.output.result, await_response.output.d │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_utils/function_util │
+│ s.py:534 in _process_result                                                  │
+│                                                                              │
+│   533 │   if result.status == api_pb2.GenericResult.GENERIC_STATUS_TIMEOUT:  │
+│ ❱ 534 │   │   raise FunctionTimeoutError(result.exception)                   │
+│   535 │   elif result.status == api_pb2.GenericResult.GENERIC_STATUS_INTERNA │
+╰──────────────────────────────────────────────────────────────────────────────╯
+FunctionTimeoutError: Task's current input 
+in-01M1JCNTJPWTCAPQV0FV503ZCG:1788397414998-0 hit its timeout of 7200s

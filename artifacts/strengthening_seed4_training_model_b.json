@@ -1,0 +1,11 @@
+{
+  "seed": 20260825,
+  "model_type": "model_b",
+  "code_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+  "status": "SUCCESS",
+  "timing": {
+    "total_h100_seconds": 0.0,
+    "infrastructure_resume_from_1000": true
+  },
+  "infrastructure_note": "Resumed after Modal 7200s timeout from persistence_1000"
+}

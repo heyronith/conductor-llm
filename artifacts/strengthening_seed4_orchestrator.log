@@ -1,0 +1,30 @@
+SEED4_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+=== Launching model_d (H100!) ===
+$ uv run modal run modal/strengthening_task2_sentinel.py::run_seed4_single_model_training --model-type model_d --expected-code-sha e062271628c3c4434fde6310aa5e0b9024c3dadf --seed 20260825
+SEED 4 EXECUTION INVALID — DO NOT USE RESULTS
+SEED4_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+$ uv run modal billing report --for today --show-resources --json
+=== Launching model_d (H100!, detached) ===
+$ uv run modal run -d modal/strengthening_task2_sentinel.py::run_seed4_single_model_training --model-type model_d --expected-code-sha e062271628c3c4434fde6310aa5e0b9024c3dadf --seed 20260825
+SEED4_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+$ uv run modal billing report --for today --show-resources --json
+=== Launching model_d (H100!, detached) ===
+[model_d] Detached strengthening-task2-sentinel already running — polling Volume only.
+SEED4_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+$ uv run modal billing report --for today --show-resources --json
+=== Launching model_d (H100!, detached) ===
+Orphaned Modal client pid=76908 log=/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/artifacts/strengthening_seed4_modal_model_d.log
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$6.8902
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$7.1265
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$7.1933
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$7.3271
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$7.5277
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$7.6480
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$7.7283

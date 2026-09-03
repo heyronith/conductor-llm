@@ -56,7 +56,7 @@ def test_parallel_orchestrator_module_exists():
     assert "SCIENTIFIC_EXECUTION_SHA" in src
     assert "B_C_PARALLEL_LAUNCH_BLOCKED_BY_CASH_GATE" in src
     assert "model_b" in src and "model_c" in src
-    assert "run_strengthening_single_model_training" in src
+    assert "run_seed4_single_model_training" in src
     assert "SCIENTIFIC_SOURCE_CHANGED=NO" in src
 
 

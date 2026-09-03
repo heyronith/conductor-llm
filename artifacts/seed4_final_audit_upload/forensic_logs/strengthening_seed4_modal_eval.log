@@ -1,0 +1,132 @@
+
+--- launch 2026-09-03T04:06:16.497890+00:00 ---
+Note that running a local entrypoint in detached mode only keeps the last triggered Modal function alive after the parent process has been killed or disconnected.
+✓ Initialized. View run at 
+https://modal.com/apps/ronithworks/main/ap-IVE2czu8bXOb5vY3TAOUca
+✓ Created objects.
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI 
+│   ALIGNMENT/CCPT/modal/strengthening_task3_1_eval.py
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/modal
+├── 🔨 Created mount PythonPackage:ccpt
+├── 🔨 Created function run_task3_1_eval_worker.
+└── 🔨 Created function run_task3_1_judge_worker.
+=================================================================
+CCPT Seed-4 Corrected Evaluation (Task-3.1 framing)
+Seed: 20260825
+Models: ['model_b', 'model_c', 'model_d']
+Evaluation SHA: e062271628c3c4434fde6310aa5e0b9024c3dadf
+Hardware: NVIDIA L40S | enforce_expected_hashes=False
+=================================================================
+[model_b] Starting Task 3.1 evaluation on cuda:0 (L40S)...
+
+[1AGenerating 330k_train split: 0 examples [00:00, ? examples/s]
+[1AGenerating 330k_train split: 10683 examples [00:00, 101428.70 examples/s]
+[1AGenerating 330k_train split: 31947 examples [00:00, 110337.28 examples/s]
+[1AGenerating 330k_train split: 53199 examples [00:00, 113873.71 examples/s]
+[1AGenerating 330k_train split: 74471 examples [00:00, 115243.12 examples/s]
+[1AGenerating 330k_train split: 95777 examples [00:00, 116975.66 examples/s]
+[1AGenerating 330k_train split: 117058 examples [00:01, 118017.99 examples/s]
+[1AGenerating 330k_train split: 138387 examples [00:01, 119784.51 examples/s]
+[1AGenerating 330k_train split: 159668 examples [00:01, 120511.14 examples/s]
+[1AGenerating 330k_train split: 180935 examples [00:01, 120494.14 examples/s]
+[1AGenerating 330k_train split: 202152 examples [00:01, 121688.22 examples/s]
+[1AGenerating 330k_train split: 223456 examples [00:01, 122703.39 examples/s]
+[1AGenerating 330k_train split: 244741 examples [00:02, 121233.09 examples/s]
+[1AGenerating 330k_train split: 266066 examples [00:02, 121989.08 examples/s]
+[1AGenerating 330k_train split: 287372 examples [00:02, 122446.25 examples/s]
+[1AGenerating 330k_train split: 300567 examples [00:02, 120976.48 examples/s]
+[1AGenerating 330k_train split: 300567 examples [00:02, 119576.23 examples/s]
+
+[1AGenerating 330k_test split: 0 examples [00:00, ? examples/s]
+[1AGenerating 330k_test split: 21331 examples [00:00, 132488.12 examples/s]
+[1AGenerating 330k_test split: 33396 examples [00:00, 137650.06 examples/s]
+
+[1AGenerating 30k_train split: 0 examples [00:00, ? examples/s]
+[1AGenerating 30k_train split: 21132 examples [00:00, 147376.81 examples/s]
+[1AGenerating 30k_train split: 27186 examples [00:00, 148248.08 examples/s]
+
+[1AGenerating 30k_test split: 0 examples [00:00, ? examples/s]
+[1AGenerating 30k_test split: 3021 examples [00:00, 129380.33 examples/s]
+[model_c] Starting Task 3.1 evaluation on cuda:0 (L40S)...
+[model_d] Starting Task 3.1 evaluation on cuda:0 (L40S)...
+
+[1AGenerating 330k_train split: 0 examples [00:00, ? examples/s]
+[1AGenerating 330k_train split: 10683 examples [00:00, 39502.14 examples/s]
+[1AGenerating 330k_train split: 21333 examples [00:00, 53754.10 examples/s]
+[1AGenerating 330k_train split: 31947 examples [00:00, 67472.18 examples/s]
+[1AGenerating 330k_train split: 42574 examples [00:00, 78141.61 examples/s]
+[1AGenerating 330k_train split: 63839 examples [00:00, 92410.75 examples/s]
+[1AGenerating 330k_train split: 74471 examples [00:00, 95080.21 examples/s]
+[1AGenerating 330k_train split: 85134 examples [00:01, 97204.72 examples/s]
+[1AGenerating 330k_train split: 95777 examples [00:01, 99197.94 examples/s]
+[1AGenerating 330k_train split: 117058 examples [00:01, 103486.41 examples/s]
+[1AGenerating 330k_train split: 138387 examples [00:01, 106440.45 examples/s]
+[1AGenerating 330k_train split: 149012 examples [00:01, 106032.02 examples/s]
+[1AGenerating 330k_train split: 159668 examples [00:01, 105761.65 examples/s]
+[1AGenerating 330k_train split: 170271 examples [00:01, 105724.43 examples/s]
+[1AGenerating 330k_train split: 191535 examples [00:02, 106871.09 examples/s]
+[1AGenerating 330k_train split: 212812 examples [00:02, 106715.88 examples/s]
+[1AGenerating 330k_train split: 234106 examples [00:02, 108205.78 examples/s]
+[1AGenerating 330k_train split: 255377 examples [00:02, 107492.61 examples/s]
+[1AGenerating 330k_train split: 0 examples [00:00, ? examples/s]
+[1AGenerating 330k_train split: 276729 examples [00:02, 109698.91 examples/s]
+[1AGenerating 330k_train split: 10683 examples [00:00, 90703.58 examples/s]
+[1AGenerating 330k_train split: 297990 examples [00:02, 109985.88 examples/s]Generating 330k_train split: 300567 examples [00:03, 99786.98 examples/s] 
+
+[1AGenerating 330k_test split: 0 examples [00:00, ? examples/s]
+[1AGenerating 330k_train split: 21333 examples [00:00, 97973.93 examples/s]
+[1AGenerating 330k_train split: 42574 examples [00:00, 106183.29 examples/s]
+[1AGenerating 330k_test split: 21331 examples [00:00, 140691.09 examples/s]
+[1AGenerating 330k_test split: 33396 examples [00:00, 142880.14 examples/s]
+
+[1AGenerating 30k_train split: 0 examples [00:00, ? examples/s]
+[1AGenerating 330k_train split: 63839 examples [00:00, 111745.05 examples/s]
+[1AGenerating 30k_train split: 21132 examples [00:00, 139538.52 examples/s]Generating 30k_train split: 27186 examples [00:00, 138931.99 examples/s]
+
+[1AGenerating 30k_test split: 0 examples [00:00, ? examples/s]
+[1AGenerating 30k_test split: 3021 examples [00:00, 119143.14 examples/s]
+
+[1AGenerating 330k_train split: 85134 examples [00:00, 110392.32 examples/s]
+[1AGenerating 330k_train split: 106416 examples [00:00, 109518.79 examples/s]
+[1AGenerating 330k_train split: 127724 examples [00:01, 110196.03 examples/s]
+[1AGenerating 330k_train split: 149012 examples [00:01, 113292.90 examples/s]
+[1AGenerating 330k_train split: 170271 examples [00:01, 114678.90 examples/s]
+[1AGenerating 330k_train split: 191535 examples [00:01, 114047.70 examples/s]
+[1AGenerating 330k_train split: 212812 examples [00:01, 114916.11 examples/s]
+[1AGenerating 330k_train split: 234106 examples [00:02, 115867.65 examples/s]
+[1AGenerating 330k_train split: 255377 examples [00:02, 115754.53 examples/s]
+[1AGenerating 330k_train split: 276729 examples [00:02, 117175.70 examples/s]
+[1AGenerating 330k_train split: 297990 examples [00:02, 114826.77 examples/s]
+[1AGenerating 330k_train split: 300567 examples [00:02, 112835.22 examples/s]
+
+[1AGenerating 330k_test split: 0 examples [00:00, ? examples/s]
+[1AGenerating 330k_test split: 21331 examples [00:00, 124778.18 examples/s]
+[1AGenerating 330k_test split: 33396 examples [00:00, 126007.74 examples/s]
+
+[1AGenerating 30k_train split: 0 examples [00:00, ? examples/s]
+[1AGenerating 30k_train split: 21132 examples [00:00, 126537.25 examples/s]Generating 30k_train split: 27186 examples [00:00, 126117.76 examples/s]
+
+[1AGenerating 30k_test split: 0 examples [00:00, ? examples/s]Generating 30k_test split: 3021 examples [00:00, 125600.87 examples/s]
+[model_c] Evaluation complete: 3584 records saved to /runs/ccpt/strengthening_task3_1/seed_20260825/model_c/responses.jsonl in 695.9s
+[model_b] Evaluation complete: 3584 records saved to /runs/ccpt/strengthening_task3_1/seed_20260825/model_b/responses.jsonl in 752.7s
+[model_b] Generated 3584 responses (752.7s) status=SUCCESS
+[model_c] Generated 3584 responses (695.9s) status=SUCCESS
+[model_d] Evaluation complete: 3584 records saved to /runs/ccpt/strengthening_task3_1/seed_20260825/model_d/responses.jsonl in 760.5s
+[model_d] Generated 3584 responses (760.5s) status=SUCCESS
+Starting centralized WildGuard judge on cuda:0 (L40S)...
+
+[1ADownloading shards:   0%|          | 0/2 [00:00<?, ?it/s]
+[1ADownloading shards:  50%|█████     | 1/2 [02:07<02:07, 127.76s/it]
+[1ADownloading shards: 100%|██████████| 2/2 [03:03<00:00, 85.44s/it] Downloading shards: 100%|██████████| 2/2 [03:03<00:00, 91.79s/it]
+
+[1ALoading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]
+[1ALoading checkpoint shards:  50%|█████     | 1/2 [00:05<00:05,  5.43s/it]
+[1ALoading checkpoint shards: 100%|██████████| 2/2 [00:07<00:00,  3.66s/it]
+[1ALoading checkpoint shards: 100%|██████████| 2/2 [00:07<00:00,  3.92s/it]
+Loaded 10752 responses to judge...
+Judging complete: 10752 records judged in 714.8s
+Local Seed-4 eval summary saved to 
+artifacts/strengthening_seed4_task3_1_summary.json
+[modal-client] 2026-09-02T23:31:36-0500 Timed out waiting for final app logs.
+✓ App completed. View run at 
+https://modal.com/apps/ronithworks/main/ap-IVE2czu8bXOb5vY3TAOUca

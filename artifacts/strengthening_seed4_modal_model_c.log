@@ -1,0 +1,43 @@
+
+--- launch 2026-09-03T01:03:31.639464+00:00 ---
+Note that running a local entrypoint in detached mode only keeps the last triggered Modal function alive after the parent process has been killed or disconnected.
+✓ Initialized. View run at 
+https://modal.com/apps/ronithworks/main/ap-GFdlGDVfdLa2WWrzMxnEU7
+✓ Created objects.
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI 
+│   ALIGNMENT/CCPT/modal/strengthening_task2_sentinel.py
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/modal
+├── 🔨 Created mount PythonPackage:ccpt
+├── 🔨 Created function run_strengthening_single_model_training.
+├── 🔨 Created function run_strengthening_eval_smoke.
+├── 🔨 Created function run_strengthening_evaluation_worker.
+└── 🔨 Created function run_strengthening_centralized_judge.
+Seed-4 training launch: seed=20260825 model=model_c 
+sha=e062271628c3c4434fde6310aa5e0b9024c3dadf
+=== [20260825][model_c] Phase 1: 1B LM Pretraining ===
+[model_c][LM] Step 5000/30517 | Loss: 3.8946 | Tokens: 163,840,000
+[model_c][LM] Step 10000/30517 | Loss: 3.8084 | Tokens: 327,680,000
+[model_c][LM] Step 15000/30517 | Loss: 3.0775 | Tokens: 491,520,000
+[model_c][LM] Step 20000/30517 | Loss: 3.5981 | Tokens: 655,360,000
+[model_c][LM] Step 25000/30517 | Loss: 3.8153 | Tokens: 819,200,000
+[model_c][LM] Step 30000/30517 | Loss: 3.4430 | Tokens: 983,040,000
+[model_c][LM] Step 30517/30517 | Loss: 3.1487 | Tokens: 999,981,056
+[model_c] Phase 1 complete in 5928.27s | Saved /runs/ccpt/strengthening_task2/seed_20260825/model_c/lm_1b_final.pt
+=== [20260825][model_c] Phase 2: 20M Safety Training ===
+[model_c][Safety] Batch 500/2344 | Loss: 2.8692 | Tokens: 4,290,166
+[model_c][Safety] Batch 1000/2344 | Loss: 3.0271 | Tokens: 8,561,729
+[model_c][Safety] Batch 1500/2344 | Loss: 2.7755 | Tokens: 12,774,590
+[model_c][Safety] Batch 2000/2344 | Loss: 2.6406 | Tokens: 17,053,718
+[model_c][Safety] Batch 2344/2344 | Loss: 2.8155 | Tokens: 20,010,611
+[model_c] Phase 2 complete in 231.97s | Saved Step 0
+=== [20260825][model_c] Phase 3: Continuous Persistence Continuation ===
+[model_c][Persistence] Saved Step 250 -> /runs/ccpt/strengthening_task2/seed_20260825/model_c/persistence_0250.pt | Tokens: 8,192,000
+[model_c][Persistence] Saved Step 1000 -> /runs/ccpt/strengthening_task2/seed_20260825/model_c/persistence_1000.pt | Tokens: 32,768,000
+[model_c][Persistence] Progress: 1000/4000 | Loss: 3.3788
+[model_c][Persistence] Progress: 2000/4000 | Loss: 3.4859
+[model_c][Persistence] Progress: 3000/4000 | Loss: 3.3318
+[model_c][Persistence] Saved Step 4000 -> /runs/ccpt/strengthening_task2/seed_20260825/model_c/persistence_4000.pt | Tokens: 131,072,000
+[model_c][Persistence] Progress: 4000/4000 | Loss: 3.4541
+Wrote artifacts/strengthening_seed4_training_model_c.json
+✓ App completed. View run at 
+https://modal.com/apps/ronithworks/main/ap-GFdlGDVfdLa2WWrzMxnEU7

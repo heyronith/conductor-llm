@@ -1,0 +1,10 @@
+{
+  "next_model": "model_d",
+  "accrued_usd": 6.89024003,
+  "remaining_authorization_usd": 28.10975997,
+  "reserved_for_remaining_mandatory_usd": 23.0118426,
+  "projected_final_total_usd": 29.902082630000002,
+  "hard_authorization_usd": 35.0,
+  "allowed": true,
+  "reason": "OK"
+}

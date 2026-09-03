@@ -1,0 +1,76 @@
+2026-09-03T03:51:53.279842+00:00 === Seed-4 Model B persistence resume + eval ===
+2026-09-03T03:51:53.279842+00:00 === Seed-4 Model B persistence resume + eval ===
+2026-09-03T03:51:53.280131+00:00 SCIENTIFIC_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+2026-09-03T03:51:53.280131+00:00 SCIENTIFIC_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+2026-09-03T03:51:53.280163+00:00 ORCHESTRATION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef
+2026-09-03T03:51:53.280163+00:00 ORCHESTRATION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef
+2026-09-03T03:51:53.280193+00:00 REASON=Modal FunctionTimeoutError at 7200s after persistence_1000; resume 1001→4000
+2026-09-03T03:51:53.280193+00:00 REASON=Modal FunctionTimeoutError at 7200s after persistence_1000; resume 1001→4000
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:51:55.393704+00:00 {"accrued_usd": 19.974320249999998, "remaining_authorization_usd": 7.025679750000002, "resume_plus_eval_reserve_usd": 7.82900049, "projected_final_usd": 27.803320739999997, "hard_authorization_usd": 27.0, "allowed": false}
+2026-09-03T03:51:55.393704+00:00 {"accrued_usd": 19.974320249999998, "remaining_authorization_usd": 7.025679750000002, "resume_plus_eval_reserve_usd": 7.82900049, "projected_final_usd": 27.803320739999997, "hard_authorization_usd": 27.0, "allowed": false}
+2026-09-03T03:51:55.393783+00:00 B_RESUME_BLOCKED_BY_CASH_GATE
+2026-09-03T03:51:55.393783+00:00 B_RESUME_BLOCKED_BY_CASH_GATE
+2026-09-03T03:52:45.094125+00:00 === Seed-4 Model B persistence resume + eval ===
+2026-09-03T03:52:45.094125+00:00 === Seed-4 Model B persistence resume + eval ===
+2026-09-03T03:52:45.094503+00:00 SCIENTIFIC_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+2026-09-03T03:52:45.094503+00:00 SCIENTIFIC_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+2026-09-03T03:52:45.094539+00:00 ORCHESTRATION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef
+2026-09-03T03:52:45.094539+00:00 ORCHESTRATION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef
+2026-09-03T03:52:45.094569+00:00 REASON=Modal FunctionTimeoutError at 7200s after persistence_1000; resume 1001→4000
+2026-09-03T03:52:45.094569+00:00 REASON=Modal FunctionTimeoutError at 7200s after persistence_1000; resume 1001→4000
+$ uv run modal billing report --for today --show-resources --json
+Traceback (most recent call last):
+  File "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/scripts/resume_seed4_model_b_and_eval.py", line 216, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/scripts/resume_seed4_model_b_and_eval.py", line 71, in main
+    resume_reserve = (1.1 * float(rates["h100_hourly_usd"])) + float(
+                                  ^^^^^
+NameError: name 'rates' is not defined. Did you mean: 'gate'?
+2026-09-03T03:53:18.967552+00:00 === Seed-4 Model B persistence resume + eval ===
+2026-09-03T03:53:18.967552+00:00 === Seed-4 Model B persistence resume + eval ===
+2026-09-03T03:53:18.967893+00:00 SCIENTIFIC_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+2026-09-03T03:53:18.967893+00:00 SCIENTIFIC_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+2026-09-03T03:53:18.967930+00:00 ORCHESTRATION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef
+2026-09-03T03:53:18.967930+00:00 ORCHESTRATION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef
+2026-09-03T03:53:18.967959+00:00 REASON=Modal FunctionTimeoutError at 7200s after persistence_1000; resume 1001→4000
+2026-09-03T03:53:18.967959+00:00 REASON=Modal FunctionTimeoutError at 7200s after persistence_1000; resume 1001→4000
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:53:20.774184+00:00 {"accrued_usd": 19.974320249999998, "remaining_authorization_usd": 7.025679750000002, "resume_plus_eval_reserve_usd": 6.24900049, "projected_final_usd": 26.22332074, "hard_authorization_usd": 27.0, "allowed": true}
+2026-09-03T03:53:20.774184+00:00 {"accrued_usd": 19.974320249999998, "remaining_authorization_usd": 7.025679750000002, "resume_plus_eval_reserve_usd": 6.24900049, "projected_final_usd": 26.22332074, "hard_authorization_usd": 27.0, "allowed": true}
+Orphaned Modal client pid=66337 log=/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/artifacts/strengthening_seed4_modal_model_b_resume.log
+2026-09-03T03:53:21.899309+00:00 Launched Model B resume H100 job; waiting 90s for Modal spin-up
+2026-09-03T03:53:21.899309+00:00 Launched Model B resume H100 job; waiting 90s for Modal spin-up
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.0075
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.1256
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.1947
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.2594
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.3218
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.3865
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.4087
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.4756
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.5425
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.6094
+$ uv run modal billing report --for today --show-resources --json
+[model_b] Modal training active; billed_strengthening=$20.7387
+[model_b] persistence_4000.pt found on Volume.
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T04:06:14.669657+00:00 Model B resume complete. Accrued=$20.7431
+2026-09-03T04:06:14.669657+00:00 Model B resume complete. Accrued=$20.7431
+2026-09-03T04:06:16.497762+00:00 Launching corrected L40S evaluation for B/C/D...
+2026-09-03T04:06:16.497762+00:00 Launching corrected L40S evaluation for B/C/D...
+Orphaned Modal client pid=74754 log=/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/artifacts/strengthening_seed4_modal_eval.log
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T04:32:29.026727+00:00 SEED 4 AUTHORITATIVE EXECUTION COMPLETE — READY FOR SCIENTIFIC REVIEW
+2026-09-03T04:32:29.026727+00:00 SEED 4 AUTHORITATIVE EXECUTION COMPLETE — READY FOR SCIENTIFIC REVIEW

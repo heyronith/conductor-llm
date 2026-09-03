@@ -1,0 +1,74 @@
+Training for model_d failed without artifact. rc=1
+stdout_tail=✓ Initialized. View run at 
+https://modal.com/apps/ronithworks/main/ap-b86xRW7l8ZiyqLMKibSOE7
+✓ Created objects.
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI 
+│   ALIGNMENT/CCPT/modal/strengthening_task2_sentinel.py
+├── 🔨 Created mount /Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/modal
+├── 🔨 Created mount PythonPackage:ccpt
+├── 🔨 Created function run_strengthening_single_model_training.
+├── 🔨 Created function run_strengthening_eval_smoke.
+├── 🔨 Created function run_strengthening_evaluation_worker.
+└── 🔨 Created function run_strengthening_centralized_judge.
+Seed-4 training launch: seed=20260825 model=model_d 
+sha=e062271628c3c4434fde6310aa5e0b9024c3dadf
+=== [20260825][model_d] Phase 1: 1B LM Pretraining ===
+[model_d][LM] Step 5000/30517 | Loss: 3.8945 | Tokens: 163,840,000
+[model_d][LM] Step 10000/30517 | Loss: 3.8072 | Tokens: 327,680,000
+[model_d][LM] Step 15000/30517 | Loss: 3.0837 | Tokens: 491,520,000
+[model_d][LM] Step 20000/30517 | Loss: 3.5995 | Tokens: 655,360,000
+[model_d][LM] Step 25000/30517 | Loss: 3.8262 | Tokens: 819,200,000
+[modal-client] 2026-09-02T22:11:43+0000 Received a cancellation signal while processing input ('in-01M1HXQGQJTYH5CNA96A6WZXH6:1788381741811-0',)
+[modal-client] 2026-09-02T22:11:43+0000 Successfully canceled input ('in-01M1HXQGQJTYH5CNA96A6WZXH6:1788381741811-0',)
+Stopping app - local client disconnected. Use `modal run --detach` to keep apps running even if your local client disconnects.
+
+stderr_tail= (most recent call last) ──────────────────────╮
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/modal/strengthening_task2_sentinel.py:1314 in                 │
+│ run_seed4_single_model_training                                              │
+│                                                                              │
+│   1313 │   print(f"Seed-4 training launch: seed={seed} model={model_type} sh │
+│ ❱ 1314 │   result = run_strengthening_single_model_training.remote(          │
+│   1315 │   │   seed=seed,                                                    │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_object.py:46 in     │
+│ wrapped                                                                      │
+│                                                                              │
+│    45 │   │   await self.hydrate()                                           │
+│ ❱  46 │   │   return await method(self, *args, **kwargs)                     │
+│    47                                                                        │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:1841   │
+│ in remote                                                                    │
+│                                                                              │
+│   1840 │   │                                                                 │
+│ ❱ 1841 │   │   return await self._call_function(args, kwargs)                │
+│   1842                                                                       │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:1778   │
+│ in _call_function                                                            │
+│                                                                              │
+│   1777 │   │                                                                 │
+│ ❱ 1778 │   │   return await invocation.run_function()                        │
+│   1779                                                                       │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:483 in │
+│ run_function                                                                 │
+│                                                                              │
+│    482 │   │   │   if await_response.output.result.status in TERMINAL_STATUS │
+│ ❱  483 │   │   │   │   return await _process_result(                         │
+│    484 │   │   │   │   │   await_response.output.result, await_response.outp │
+│                                                                              │
+│ /Users/ronny/Desktop/Research/AI                                             │
+│ ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_utils/function_util │
+│ s.py:574 in _process_result                                                  │
+│                                                                              │
+│   573 │   │                                                                  │
+│ ❱ 574 │   │   raise RemoteError(result.exception)                            │
+│   575                                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RemoteError: Function call was cancelled by user or a failure.

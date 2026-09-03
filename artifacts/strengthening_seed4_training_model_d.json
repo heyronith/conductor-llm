@@ -1,0 +1,24 @@
+{
+  "seed": 20260825,
+  "model_type": "model_d",
+  "code_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+  "initial_state_hash": "746ae1f1bce94c3050cb320ba522755fc852c1f71edc0eb4c317471d53ffe102",
+  "final_state_hash": "01c1a003de13b154adcb579c4e350edebc4608a563fc04737c3c2c4050645b0c",
+  "timing": {
+    "lm_pretrain_seconds": 5931.829715490341,
+    "safety_train_seconds": 267.4104058742523,
+    "persistence_train_seconds": 785.066068649292,
+    "total_h100_seconds": 6984.3061900138855
+  },
+  "tokens": {
+    "lm_tokens_seen": 999981056,
+    "safety_tokens_seen": 20010611,
+    "persistence_tokens_seen": 131072000
+  },
+  "final_losses": {
+    "lm": 3.1518235206604004,
+    "safety": 2.731928586959839,
+    "persistence": 3.456759214401245
+  },
+  "status": "SUCCESS"
+}

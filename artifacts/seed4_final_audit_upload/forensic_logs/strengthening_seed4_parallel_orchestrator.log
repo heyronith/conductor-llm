@@ -1,0 +1,380 @@
+2026-09-02T23:21:38.462548+00:00 ORCHESTRATION_CORRECTION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef (scientific frozen e062271628c3c4434fde6310aa5e0b9024c3dadf)
+2026-09-02T23:21:38.462548+00:00 ORCHESTRATION_CORRECTION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef (scientific frozen e062271628c3c4434fde6310aa5e0b9024c3dadf)
+2026-09-02T23:21:38.462787+00:00 === Seed-4 parallel orchestrator start ===
+2026-09-02T23:21:38.462787+00:00 === Seed-4 parallel orchestrator start ===
+2026-09-02T23:21:38.462824+00:00 SCIENTIFIC_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+2026-09-02T23:21:38.462824+00:00 SCIENTIFIC_EXECUTION_SHA=e062271628c3c4434fde6310aa5e0b9024c3dadf
+2026-09-02T23:21:38.462855+00:00 ORCHESTRATION_CORRECTION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef
+2026-09-02T23:21:38.462855+00:00 ORCHESTRATION_CORRECTION_SHA=b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef
+2026-09-02T23:21:38.462885+00:00 SCIENTIFIC_SOURCE_CHANGED=NO ORCHESTRATION_POLICY_CHANGED=YES
+2026-09-02T23:21:38.462885+00:00 SCIENTIFIC_SOURCE_CHANGED=NO ORCHESTRATION_POLICY_CHANGED=YES
+2026-09-02T23:21:39.053376+00:00 MODEL D REMOTE: {"status": "RUNNING", "app_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd", "state": "ephemeral (detached)", "tasks": "1"}
+2026-09-02T23:21:39.053376+00:00 MODEL D REMOTE: {"status": "RUNNING", "app_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd", "state": "ephemeral (detached)", "tasks": "1"}
+2026-09-02T23:21:39.556301+00:00 Polling Model D (Modal app ap-7GuG5S7ZgfLoJQ5jblKaSd); will NOT launch D.
+2026-09-02T23:21:39.556301+00:00 Polling Model D (Modal app ap-7GuG5S7ZgfLoJQ5jblKaSd); will NOT launch D.
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$7.9289
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$8.0626
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$8.1963
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$8.3300
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$8.4638
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$8.5306
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$8.7290
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$8.8650
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$8.9987
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$9.1324
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$9.2661
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$9.4556
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$9.5336
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$9.6673
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$9.8011
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$9.9348
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$10.0685
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$10.2535
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$10.3360
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.0000
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.1337
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.2006
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.3967
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.4680
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.6686
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.7934
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.9361
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.9361
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.9361
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$0.9361
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$1.3373
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$1.6047
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$1.7340
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$1.8722
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$2.0059
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$2.1396
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$2.2734
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$2.4071
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$2.5854
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$2.6745
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$2.8082
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$3.0043
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$3.0757
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$3.2585
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$3.3432
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$3.3432
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$3.3432
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$3.4101
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$3.9297
+$ uv run modal billing report --for today --show-resources --json
+[model_d] Modal training active; billed_strengthening=$4.0746
+[model_d] persistence_4000.pt found on Volume.
+2026-09-03T01:03:24.923211+00:00 Model D terminal checkpoint observed on Volume.
+2026-09-03T01:03:24.923211+00:00 Model D terminal checkpoint observed on Volume.
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:03:29.233274+00:00 Model D verified. ACCRUED=$4.1682
+2026-09-03T01:03:29.233274+00:00 Model D verified. ACCRUED=$4.1682
+2026-09-03T01:03:30.389325+00:00 B/C init parity OK hash=ca0f0651ac9f4249ccae1745b80f361efaf9a22f78fcae42581a5614f17d8af7
+2026-09-03T01:03:30.389325+00:00 B/C init parity OK hash=ca0f0651ac9f4249ccae1745b80f361efaf9a22f78fcae42581a5614f17d8af7
+Orphaned Modal client pid=60933 log=/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/artifacts/strengthening_seed4_modal_model_b.log
+2026-09-03T01:03:31.042999+00:00 [model_b] orphaned Modal launch issued.
+2026-09-03T01:03:31.042999+00:00 [model_b] orphaned Modal launch issued.
+Orphaned Modal client pid=60938 log=/Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/artifacts/strengthening_seed4_modal_model_c.log
+2026-09-03T01:03:31.644255+00:00 [model_c] orphaned Modal launch issued.
+2026-09-03T01:03:31.644255+00:00 [model_c] orphaned Modal launch issued.
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:03:33.663696+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$4.1682
+2026-09-03T01:03:33.663696+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$4.1682
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:05:36.082019+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$4.3462
+2026-09-03T01:05:36.082019+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$4.3462
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:07:38.178897+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$4.6137
+2026-09-03T01:07:38.178897+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$4.6137
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:09:40.498725+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$4.8811
+2026-09-03T01:09:40.498725+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$4.8811
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:11:42.505558+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$5.1374
+2026-09-03T01:11:42.505558+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$5.1374
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:13:44.683730+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$5.3781
+2026-09-03T01:13:44.683730+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$5.3781
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:15:46.859889+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$5.5497
+2026-09-03T01:15:46.859889+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$5.5497
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:17:49.010928+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$5.8172
+2026-09-03T01:17:49.010928+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$5.8172
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:19:51.298856+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$6.2183
+2026-09-03T01:19:51.298856+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$6.2183
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:21:53.487245+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$6.4858
+2026-09-03T01:21:53.487245+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$6.4858
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:23:55.498597+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$6.6195
+2026-09-03T01:23:55.498597+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$6.6195
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:25:57.527944+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$7.0207
+2026-09-03T01:25:57.527944+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$7.0207
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:27:59.638640+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$7.2881
+2026-09-03T01:27:59.638640+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$7.2881
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:30:01.757350+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$7.5511
+2026-09-03T01:30:01.757350+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$7.5511
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:32:03.782551+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$7.9345
+2026-09-03T01:32:03.782551+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$7.9345
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:34:05.868541+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$8.0905
+2026-09-03T01:34:05.868541+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$8.0905
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:36:07.952674+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$8.4404
+2026-09-03T01:36:07.952674+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$8.4404
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:38:10.066976+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$8.6009
+2026-09-03T01:38:10.066976+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$8.6009
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:40:12.482422+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$9.0266
+2026-09-03T01:40:12.482422+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$9.0266
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:42:14.707802+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$9.1603
+2026-09-03T01:42:14.707802+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$9.1603
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:44:16.697085+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$9.4277
+2026-09-03T01:44:16.697085+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$9.4277
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:46:18.849134+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$9.7799
+2026-09-03T01:46:18.849134+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$9.7799
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:48:20.757649+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$10.0964
+2026-09-03T01:48:20.757649+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$10.0964
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:50:23.569208+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$10.3638
+2026-09-03T01:50:23.569208+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$10.3638
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:52:25.534782+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$10.5934
+2026-09-03T01:52:25.534782+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$10.5934
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:54:27.495935+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$10.7650
+2026-09-03T01:54:27.495935+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$10.7650
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:56:29.461828+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$11.1661
+2026-09-03T01:56:29.461828+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$11.1661
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T01:58:31.504448+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$11.1661
+2026-09-03T01:58:31.504448+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$11.1661
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:00:33.503620+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$11.7010
+2026-09-03T02:00:33.503620+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$11.7010
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:02:35.487653+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$11.9685
+2026-09-03T02:02:35.487653+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$11.9685
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:04:37.422687+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.2359
+2026-09-03T02:04:37.422687+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.2359
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:06:39.488089+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.2359
+2026-09-03T02:06:39.488089+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.2359
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:08:41.507123+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.2359
+2026-09-03T02:08:41.507123+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.2359
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:10:43.519793+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.2359
+2026-09-03T02:10:43.519793+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.2359
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:12:45.672213+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.9714
+2026-09-03T02:12:45.672213+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$12.9714
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:14:47.598961+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$13.5732
+2026-09-03T02:14:47.598961+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$13.5732
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:16:49.574174+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$13.8406
+2026-09-03T02:16:49.574174+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$13.8406
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:18:51.584121+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$14.1081
+2026-09-03T02:18:51.584121+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$14.1081
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:20:53.626817+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$14.3755
+2026-09-03T02:20:53.626817+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$14.3755
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:22:55.603711+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$14.6430
+2026-09-03T02:22:55.603711+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$14.6430
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:24:58.847219+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$14.9104
+2026-09-03T02:24:58.847219+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$14.9104
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:27:00.878558+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.2224
+2026-09-03T02:27:00.878558+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.2224
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:29:02.853199+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.4453
+2026-09-03T02:29:02.853199+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.4453
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:31:04.879352+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.4453
+2026-09-03T02:31:04.879352+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.4453
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:33:06.910341+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.4453
+2026-09-03T02:33:06.910341+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.4453
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:35:08.901296+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.4453
+2026-09-03T02:35:08.901296+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.4453
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:37:10.881583+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.5790
+2026-09-03T02:37:10.881583+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$15.5790
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:39:13.292401+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$16.7825
+2026-09-03T02:39:13.292401+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$16.7825
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:41:15.240024+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$17.1481
+2026-09-03T02:41:15.240024+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$17.1481
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:43:17.605637+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$17.4489
+2026-09-03T02:43:17.605637+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$17.4489
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:45:20.027052+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$17.5848
+2026-09-03T02:45:20.027052+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$17.5848
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:47:24.995121+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$17.9859
+2026-09-03T02:47:24.995121+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$17.9859
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:49:27.179064+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$18.2535
+2026-09-03T02:49:27.179064+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$18.2535
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:51:29.606770+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$18.5054
+2026-09-03T02:51:29.606770+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$18.5054
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:53:31.808368+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$18.7885
+2026-09-03T02:53:31.808368+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$18.7885
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:55:34.032910+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$19.0337
+2026-09-03T02:55:34.032910+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$19.0337
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:57:36.112806+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$19.3235
+2026-09-03T02:57:36.112806+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$19.3235
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T02:59:38.214922+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$19.5911
+2026-09-03T02:59:38.214922+00:00 Waiting for ['model_b', 'model_c']; billed_strengthening=$19.5911
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:01:41.253011+00:00 model_c complete.
+2026-09-03T03:01:41.253011+00:00 model_c complete.
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:01:41.757864+00:00 Waiting for ['model_b'].
+2026-09-03T03:01:41.757864+00:00 Waiting for ['model_b'].
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:03:43.368545+00:00 Waiting for ['model_b']; billed_strengthening=$19.9253
+2026-09-03T03:03:43.368545+00:00 Waiting for ['model_b']; billed_strengthening=$19.9253
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:05:45.009786+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:05:45.009786+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:07:46.861013+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:07:46.861013+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:09:48.447333+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:09:48.447333+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:11:50.111804+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:11:50.111804+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:13:51.594708+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:13:51.594708+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:15:53.079261+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:15:53.079261+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:17:54.574012+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:17:54.574012+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:19:56.137465+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:19:56.137465+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:21:57.610120+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:21:57.610120+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:23:59.039524+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:23:59.039524+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:26:00.662041+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:26:00.662041+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:28:02.083851+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:28:02.083851+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:30:03.667457+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:30:03.667457+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:32:05.337987+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:32:05.337987+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:34:07.001064+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:34:07.001064+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:36:08.480036+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:36:08.480036+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:38:09.923969+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:38:09.923969+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:40:11.381084+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:40:11.381084+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:42:12.792821+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:42:12.792821+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:44:14.364496+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:44:14.364496+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:46:17.793391+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:46:17.793391+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:48:18.976482+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:48:18.976482+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+$ uv run modal billing report --for today --show-resources --json
+2026-09-03T03:50:21.455472+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743
+2026-09-03T03:50:21.455472+00:00 Waiting for ['model_b']; billed_strengthening=$19.9743

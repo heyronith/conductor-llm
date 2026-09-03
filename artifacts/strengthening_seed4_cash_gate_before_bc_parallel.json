@@ -1,0 +1,10 @@
+{
+  "accrued_after_d_usd": 4.16818177,
+  "remaining_authorization_usd": 22.83181823,
+  "reserved_bc_eval_overhead_usd": 15.975895229999999,
+  "projected_total_final_usd": 20.144077,
+  "hard_authorization_usd": 27.0,
+  "allowed": true,
+  "reason": "OK",
+  "mode": "parallel_bc_joint"
+}

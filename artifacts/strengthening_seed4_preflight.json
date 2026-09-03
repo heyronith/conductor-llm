@@ -1,0 +1,75 @@
+{
+  "task": "strengthening_seed4_preflight",
+  "seed": 20260825,
+  "timestamp_utc": "2026-09-02T20:42:12.501134+00:00",
+  "execution_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+  "branch": "strengthening-seed4-authoritative-execution",
+  "h100_gpu_seconds_used_by_preflight": 0,
+  "l40s_gpu_seconds_used_by_preflight": 0,
+  "overall_status": "PASSED",
+  "checks": {
+    "git": {
+      "head_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+      "branch": "strengthening-seed4-authoritative-execution",
+      "remote_head": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+      "remote_parity": true,
+      "working_tree_porcelain": "?? artifacts/test_runs/",
+      "cost_reduction_head_match_or_descendant": true,
+      "billing_preflight_ancestor": true,
+      "task32_ancestor": true,
+      "status": "PASSED"
+    },
+    "seed": {
+      "required": 20260825,
+      "reserved_excluded": 20260822,
+      "task2_allowed_includes_seed4": true,
+      "status": "PASSED"
+    },
+    "hardware_and_eval": {
+      "h100_bang_training": true,
+      "l40s_eval": true,
+      "format_eval_prompt": true,
+      "max_new_tokens_48": true,
+      "enforce_expected_hashes_adapter": true,
+      "seed4_eval_entrypoint": true,
+      "seed4_train_entrypoint": true,
+      "status": "PASSED"
+    },
+    "fineweb": {
+      "prefix_hash": "a13410b63d9c1533211784c2a08fa5a918e29cc446448470395aa93919712585",
+      "first_32k_parity": "BIT_IDENTICAL",
+      "extended_128k_hash": "26829ec5297e61e8ed91b89a64d6522c58c0123ac3c7aeab23801ee101510fa3",
+      "status": "PASSED"
+    },
+    "ood_beavertails": {
+      "expected_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e",
+      "pinned_in_eval_source": true,
+      "status": "PASSED"
+    },
+    "bc_initialization_parity": {
+      "seed": 20260825,
+      "hash_b": "ca0f0651ac9f4249ccae1745b80f361efaf9a22f78fcae42581a5614f17d8af7",
+      "hash_c": "ca0f0651ac9f4249ccae1745b80f361efaf9a22f78fcae42581a5614f17d8af7",
+      "parity": true,
+      "status": "PASSED"
+    },
+    "volume_seed4": {
+      "seed4_dir_present": false,
+      "existing_terminal_checkpoints": [],
+      "overwrite_forbidden": true,
+      "status": "PASSED"
+    },
+    "cash_gate_pre_first_h100": {
+      "hard_authorization_usd": 27.0,
+      "current_h100_rate": 3.95,
+      "current_l40s_rate": 1.95,
+      "projected_clean_usd": 23.0118426,
+      "projected_conservative_usd": 24.8786,
+      "historical_clean_usd": 23.0118,
+      "historical_conservative_usd": 24.8786,
+      "allowed_to_launch_first_h100": true,
+      "status": "PASSED"
+    }
+  },
+  "non_test_dirty_paths": []
+}
