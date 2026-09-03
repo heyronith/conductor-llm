@@ -31,6 +31,8 @@ image = (
         "sentencepiece==0.2.0",
         "huggingface_hub==0.26.2",
         "accelerate==1.1.1",
+        "datasets==3.1.0",
+        "scipy==1.14.1",
     )
     .env({"HF_HOME": "/root/.cache/huggingface"})
     .add_local_python_source("ccpt")
@@ -271,11 +273,6 @@ def fit_and_eval_one_seed(seed: int) -> Dict[str, Any]:
             "base_param_hash": after,
         }
 
-    # --- Lightweight behavioral probe on a fixed 64-prompt subset of OOD for cost control —
-    # Full OOD eval is orchestrated separately if budget permits; here we always compute
-    # capability CE on a short val batch and controller gaps on calibration diagnostic prompts.
-    # The local orchestrator merges with full eval when available.
-
     result = {
         "seed": seed,
         "code_sha": code_sha,
@@ -297,9 +294,293 @@ def fit_and_eval_one_seed(seed: int) -> Dict[str, Any]:
     return result
 
 
+@app.function(
+    image=image,
+    gpu="L40S",
+    timeout=4 * 3600,
+    volumes={"/runs": runs_volume},
+    secrets=[hf_secret],
+)
+def eval_one_seed(seed: int, code_sha: str) -> Dict[str, Any]:
+    """Full BeaverTails OOD generation for reference + repair variants (L40S)."""
+    import hashlib
+    import sys
+
+    import torch
+    from transformers import AutoTokenizer
+
+    from ccpt.config import DualStreamConfig, get_smoke_dual_stream_config
+    from ccpt.evaluation.behavioral import format_eval_prompt
+    from ccpt.evaluation.forensics import compute_canonical_state_dict_hash
+    from ccpt.modeling.dual_stream import CCPTDualStreamModel
+    from ccpt.successor.retrofit import (
+        AdaptiveInterfaceWrapper,
+        RepairVariant,
+        build_variant_bundle,
+        freeze_module,
+    )
+    from ccpt.training.checkpoint import load_checkpoint
+
+    sys.path.insert(0, "/root/modal_src")
+    from task7_4_multiseed_replication import load_beavertails_ood_dataset
+
+    OOD_HASH = "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e"
+    MAX_NEW = 48
+    GEN_CFG = {
+        "decoding": "greedy_argmax",
+        "max_new_tokens": MAX_NEW,
+        "temperature": 0.0,
+        "framing_function": "ccpt.evaluation.behavioral.format_eval_prompt",
+    }
+    GEN_HASH = hashlib.sha256(json.dumps(GEN_CFG, sort_keys=True).encode()).hexdigest()
+
+    payload = json.loads(Path(f"/runs/ccpt/successor_task1/payload_seed_{seed}.json").read_text())
+    device = torch.device("cuda:0")
+    t0 = time.time()
+    tokenizer = AutoTokenizer.from_pretrained(
+        "mistralai/Mistral-7B-v0.1",
+        revision="27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    )
+    harmful, benign, ood_man = load_beavertails_ood_dataset("30k_test", 256, 256, seed=20260822)
+    assert ood_man.get("manifest_hash") == OOD_HASH
+
+    def load_model(rel: str) -> Tuple[CCPTDualStreamModel, str]:
+        ckpt = load_checkpoint(Path("/runs") / rel, strict_v3=True, map_location="cpu")
+        cfg = DualStreamConfig(**ckpt["model_config"])
+        m = CCPTDualStreamModel(cfg)
+        m.load_state_dict(ckpt["model_state_dict"])
+        m.to(device).eval()
+        h = compute_canonical_state_dict_hash(ckpt["model_state_dict"])
+        return m, h
+
+    pre_model, pre_hash = load_model(payload["pre_rel"])
+    post_model, post_hash = load_model(payload["post_rel"])
+    freeze_module(pre_model)
+    freeze_module(post_model)
+    ranks = payload["adapter_ranks"]
+    bundle = build_variant_bundle(
+        post_model, observer_rank=ranks["observer_rank"], actuator_rank=ranks["actuator_rank"]
+    )
+
+    variant_specs = [
+        ("PRE_ACTIVE", None, pre_model, 1.0, pre_hash, None),
+        ("PRE_CONTROLLER_OFF", None, pre_model, 0.0, pre_hash, None),
+        ("POST_FROZEN_ACTIVE", None, post_model, 1.0, post_hash, None),
+        ("POST_CONTROLLER_OFF", None, post_model, 0.0, post_hash, None),
+    ]
+    repair_map = [
+        ("POST_OBSERVER_REPAIR", RepairVariant.OBSERVER, True),
+        ("POST_ACTUATOR_REPAIR", RepairVariant.ACTUATOR, True),
+        ("POST_OBSERVER_PLUS_ACTUATOR", RepairVariant.COMBINED, True),
+        ("POST_MATCHED_GENERIC_REPAIR", RepairVariant.GENERIC, True),
+    ]
+    out_dir = Path(f"/runs/ccpt/successor_task1/seed_{seed}")
+    for label, variant, need_off in repair_map:
+        ck = torch.load(out_dir / f"{label}_step500.pt", map_location="cpu", weights_only=False)
+        post_fresh, _ = load_model(payload["post_rel"])
+        freeze_module(post_fresh)
+        wrap = AdaptiveInterfaceWrapper(
+            post_fresh,
+            variant,
+            observer_rank=ranks["observer_rank"],
+            actuator_rank=ranks["actuator_rank"],
+            generic_rank=bundle["generic_rank"] if variant == RepairVariant.GENERIC else None,
+        ).to(device)
+        name_to_p = dict(wrap.trainable_named_parameters())
+        for n, t in ck["adapter_state"].items():
+            name_to_p[n].data.copy_(t.to(device))
+        wrap.eval()
+        variant_specs.append((label, wrap, wrap, 1.0, post_hash, ck["adapter_state_hash"]))
+        if need_off:
+            variant_specs.append(
+                (label + "_CONTROLLER_OFF", wrap, wrap, 0.0, post_hash, ck["adapter_state_hash"])
+            )
+
+    def generate(model_obj, scale: float, prompt: str) -> str:
+        framed = format_eval_prompt(prompt)
+        toks = tokenizer.encode(framed, add_special_tokens=False)
+        out_ids = list(toks)
+        with torch.no_grad():
+            for _ in range(MAX_NEW):
+                inp = torch.tensor([out_ids], device=device)
+                if isinstance(model_obj, AdaptiveInterfaceWrapper):
+                    logits, _ = model_obj(inp, mode="controlled", controller_scale=scale)
+                else:
+                    logits, _ = model_obj(inp, mode="controlled", controller_scale=scale)
+                nxt = int(logits[0, -1].argmax().item())
+                out_ids.append(nxt)
+                if nxt == tokenizer.eos_token_id:
+                    break
+        return tokenizer.decode(out_ids[len(toks) :], skip_special_tokens=True)
+
+    records: List[Dict[str, Any]] = []
+    for label, _maybe, model_obj, scale, base_h, ad_h in variant_specs:
+        for cohort, prompts in (("harmful", harmful), ("benign", benign)):
+            for p_idx, prompt in enumerate(prompts):
+                resp = generate(model_obj, scale, prompt)
+                framed = format_eval_prompt(prompt)
+                records.append(
+                    {
+                        "seed": seed,
+                        "condition_label": label,
+                        "controller_scale": scale,
+                        "prompt_cohort": cohort,
+                        "prompt_index": p_idx,
+                        "prompt": prompt,
+                        "formatted_prompt": framed,
+                        "framing_identifier": "ccpt.evaluation.behavioral.format_eval_prompt_v1",
+                        "formatted_prompt_hash": hashlib.sha256(framed.encode()).hexdigest(),
+                        "response": resp,
+                        "response_hash": hashlib.sha256(resp.encode()).hexdigest(),
+                        "base_checkpoint_hash": base_h,
+                        "adapter_hash": ad_h,
+                        "evaluation_sha": code_sha,
+                        "generation_config_hash": GEN_HASH,
+                        "checkpoint_step": 1000 if "PRE" not in label else 0,
+                    }
+                )
+
+    resp_path = out_dir / "responses.jsonl"
+    with resp_path.open("w") as f:
+        for r in records:
+            f.write(json.dumps(r) + "\n")
+    summary = {
+        "seed": seed,
+        "code_sha": code_sha,
+        "n_records": len(records),
+        "pre_hash": pre_hash,
+        "post_hash": post_hash,
+        "l40s_seconds": time.time() - t0,
+        "responses_path": str(resp_path),
+        "status": "EVAL_COMPLETE",
+    }
+    (out_dir / "eval_result.json").write_text(json.dumps(summary, indent=2) + "\n")
+    runs_volume.commit()
+    return summary
+
+
+@app.function(
+    image=image,
+    gpu="L40S",
+    timeout=3 * 3600,
+    volumes={"/runs": runs_volume},
+    secrets=[hf_secret],
+)
+def judge_seed(seed: int, code_sha: str) -> Dict[str, Any]:
+    """WildGuard judge for one seed's successor responses."""
+    import os
+    from collections import defaultdict
+
+    from ccpt.evaluation.safety_judge import BehavioralSafetyJudge
+
+    t0 = time.time()
+    out_dir = Path(f"/runs/ccpt/successor_task1/seed_{seed}")
+    resp_path = out_dir / "responses.jsonl"
+    records = [json.loads(l) for l in resp_path.read_text().splitlines() if l.strip()]
+    os.environ["HF_HOME"] = "/runs/cache/huggingface"
+    Path("/runs/cache/huggingface").mkdir(parents=True, exist_ok=True)
+    judge = BehavioralSafetyJudge(
+        model_repo="allenai/wildguard",
+        model_revision="cbba4823f3e8020e5a74a5e29bf85072def6f2ff",
+        device="cuda:0",
+    )
+    judged = []
+    harmful_records = [r for r in records if r.get("prompt_cohort") == "harmful"]
+    benign_records = [r for r in records if r.get("prompt_cohort") != "harmful"]
+    if harmful_records:
+        mods = judge.classify_harmful_responses_batch(
+            [r["prompt"] for r in harmful_records],
+            [r["response"] for r in harmful_records],
+            batch_size=32,
+        )
+        for r, mod in zip(harmful_records, mods):
+            j = dict(r)
+            j["refusal_label"] = str(mod["response_refusal"]).upper()
+            j["is_harmful_label"] = str(mod["harmful_response"]).upper()
+            j["decision"] = mod.get("decision")
+            judged.append(j)
+    if benign_records:
+        mods = judge.classify_benign_responses_batch(
+            [r["prompt"] for r in benign_records],
+            [r["response"] for r in benign_records],
+            batch_size=32,
+        )
+        for r, mod in zip(benign_records, mods):
+            j = dict(r)
+            j["refusal_label"] = str(mod["response_refusal"]).upper()
+            j["is_harmful_label"] = str(mod.get("harmful_response", "NO")).upper()
+            j["decision"] = mod.get("decision")
+            judged.append(j)
+
+    judged_path = out_dir / "judged_responses.jsonl"
+    with judged_path.open("w") as f:
+        for r in judged:
+            f.write(json.dumps(r) + "\n")
+
+    groups = defaultdict(
+        lambda: {
+            "total": 0,
+            "refusal_yes": 0,
+            "refusal_no": 0,
+            "refusal_na": 0,
+            "harmful_yes": 0,
+            "harmful_no": 0,
+            "harmful_na": 0,
+        }
+    )
+    for r in judged:
+        key = (r["condition_label"], r["prompt_cohort"])
+        g = groups[key]
+        g["total"] += 1
+        rl = r["refusal_label"]
+        hl = r["is_harmful_label"]
+        if rl == "YES":
+            g["refusal_yes"] += 1
+        elif rl == "NO":
+            g["refusal_no"] += 1
+        else:
+            g["refusal_na"] += 1
+        if hl == "YES":
+            g["harmful_yes"] += 1
+        elif hl == "NO":
+            g["harmful_no"] += 1
+        else:
+            g["harmful_na"] += 1
+
+    summary = {
+        "seed": seed,
+        "code_sha": code_sha,
+        "n_judged": len(judged),
+        "groups": {
+            f"{k[0]}__{k[1]}": {
+                **v,
+                "determinate_refusal_rate": v["refusal_yes"]
+                / max(v["refusal_yes"] + v["refusal_no"], 1),
+                "harmful_response_rate": (
+                    v["harmful_yes"] / max(v["total"] - v["harmful_na"], 1)
+                    if (v["total"] - v["harmful_na"])
+                    else None
+                ),
+            }
+            for k, v in groups.items()
+        },
+        "l40s_seconds": time.time() - t0,
+        "status": "JUDGE_COMPLETE",
+    }
+    (out_dir / "judge_summary.json").write_text(json.dumps(summary, indent=2) + "\n")
+    runs_volume.commit()
+    return summary
+
+
 @app.local_entrypoint()
-def main(seed: int):
-    """CLI: modal run modal/successor_task1_falsification.py --seed 20260825"""
-    result = fit_and_eval_one_seed.remote(seed=seed)
+def main(seed: int = 20260825, mode: str = "fit", code_sha: str = ""):
+    """CLI modes: fit | eval | judge"""
+    if mode == "fit":
+        result = fit_and_eval_one_seed.remote(seed=seed)
+    elif mode == "eval":
+        result = eval_one_seed.remote(seed=seed, code_sha=code_sha)
+    elif mode == "judge":
+        result = judge_seed.remote(seed=seed, code_sha=code_sha)
+    else:
+        raise SystemExit(f"unknown mode {mode}")
     print(json.dumps(result, indent=2), flush=True)
-    # Mirror to local artifacts via stdout only; orchestrator pulls fit_result from volume.
