@@ -1,0 +1,129 @@
+{
+  "task": "successor_task1_checkpoint_cohort",
+  "primary_post_horizon": 1000,
+  "required_primary_pairs": 4,
+  "primary_valid_pairs": 4,
+  "primary_seeds": [
+    20260821,
+    20260823,
+    20260824,
+    20260825
+  ],
+  "primary_pairs": [
+    {
+      "seed": 20260821,
+      "model_class": "CCPTDualStreamModel",
+      "model_type": "model_c",
+      "source_lineage": "strengthening_task2",
+      "notes": "Strengthening Seed-1 corrected lineage; PRE=persistence_0000 post-safety.",
+      "pre": {
+        "role": "PRE",
+        "persistence_step": 0,
+        "volume_path": "ccpt/strengthening_task2/seed_20260821/model_c/persistence_0000.pt",
+        "runs_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_c/persistence_0000.pt",
+        "exists_on_volume": true
+      },
+      "post_1000": {
+        "role": "POST_1000",
+        "persistence_step": 1000,
+        "persistence_tokens": 32768000,
+        "volume_path": "ccpt/strengthening_task2/seed_20260821/model_c/persistence_1000.pt",
+        "runs_path": "/runs/ccpt/strengthening_task2/seed_20260821/model_c/persistence_1000.pt",
+        "exists_on_volume": true
+      },
+      "pair_valid": true
+    },
+    {
+      "seed": 20260823,
+      "model_class": "CCPTDualStreamModel",
+      "model_type": "model_c",
+      "source_lineage": "task7_4_multiseed_replication_v1",
+      "notes": "Task-7.4 Seed-2; PRE=safety_20m_final (post-safety / persistence step 0 equivalent).",
+      "pre": {
+        "role": "PRE",
+        "persistence_step": 0,
+        "volume_path": "ccpt/task7_4/multiseed_replication_v1/seed_20260823/model_c/safety_20m_final.pt",
+        "runs_path": "/runs/ccpt/task7_4/multiseed_replication_v1/seed_20260823/model_c/safety_20m_final.pt",
+        "exists_on_volume": true
+      },
+      "post_1000": {
+        "role": "POST_1000",
+        "persistence_step": 1000,
+        "persistence_tokens": 32768000,
+        "volume_path": "ccpt/task7_4/multiseed_replication_v1/seed_20260823/model_c/persistence_1000_final.pt",
+        "runs_path": "/runs/ccpt/task7_4/multiseed_replication_v1/seed_20260823/model_c/persistence_1000_final.pt",
+        "exists_on_volume": true
+      },
+      "pair_valid": true
+    },
+    {
+      "seed": 20260824,
+      "model_class": "CCPTDualStreamModel",
+      "model_type": "model_c",
+      "source_lineage": "task7_4_multiseed_replication_v1",
+      "notes": "Task-7.4 Seed-3; PRE=safety_20m_final.",
+      "pre": {
+        "role": "PRE",
+        "persistence_step": 0,
+        "volume_path": "ccpt/task7_4/multiseed_replication_v1/seed_20260824/model_c/safety_20m_final.pt",
+        "runs_path": "/runs/ccpt/task7_4/multiseed_replication_v1/seed_20260824/model_c/safety_20m_final.pt",
+        "exists_on_volume": true
+      },
+      "post_1000": {
+        "role": "POST_1000",
+        "persistence_step": 1000,
+        "persistence_tokens": 32768000,
+        "volume_path": "ccpt/task7_4/multiseed_replication_v1/seed_20260824/model_c/persistence_1000_final.pt",
+        "runs_path": "/runs/ccpt/task7_4/multiseed_replication_v1/seed_20260824/model_c/persistence_1000_final.pt",
+        "exists_on_volume": true
+      },
+      "pair_valid": true
+    },
+    {
+      "seed": 20260825,
+      "model_class": "CCPTDualStreamModel",
+      "model_type": "model_c",
+      "source_lineage": "strengthening_task2_seed4",
+      "notes": "Strengthening Seed-4; PRE=persistence_0000.",
+      "pre": {
+        "role": "PRE",
+        "persistence_step": 0,
+        "volume_path": "ccpt/strengthening_task2/seed_20260825/model_c/persistence_0000.pt",
+        "runs_path": "/runs/ccpt/strengthening_task2/seed_20260825/model_c/persistence_0000.pt",
+        "exists_on_volume": true
+      },
+      "post_1000": {
+        "role": "POST_1000",
+        "persistence_step": 1000,
+        "persistence_tokens": 32768000,
+        "volume_path": "ccpt/strengthening_task2/seed_20260825/model_c/persistence_1000.pt",
+        "runs_path": "/runs/ccpt/strengthening_task2/seed_20260825/model_c/persistence_1000.pt",
+        "exists_on_volume": true
+      },
+      "pair_valid": true
+    }
+  ],
+  "exploratory_4000_pairs": [
+    {
+      "seed": 20260821,
+      "pre_volume_path": "ccpt/strengthening_task2/seed_20260821/model_c/persistence_0000.pt",
+      "post_4000_volume_path": "ccpt/strengthening_task2/seed_20260821/model_c/persistence_4000.pt",
+      "persistence_step": 4000,
+      "persistence_tokens": 131072000,
+      "exists_on_volume": true,
+      "label": "EXPLORATORY_4000"
+    },
+    {
+      "seed": 20260825,
+      "pre_volume_path": "ccpt/strengthening_task2/seed_20260825/model_c/persistence_0000.pt",
+      "post_4000_volume_path": "ccpt/strengthening_task2/seed_20260825/model_c/persistence_4000.pt",
+      "persistence_step": 4000,
+      "persistence_tokens": 131072000,
+      "exists_on_volume": true,
+      "label": "EXPLORATORY_4000"
+    }
+  ],
+  "missing_paths": [],
+  "gpu_allowed": true,
+  "stop_reason": null
+}

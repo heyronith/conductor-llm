@@ -1,0 +1,25 @@
+{
+  "task": "successor_task1_preflight",
+  "created_at_utc": "2026-09-03T21:06:59.241560+00:00",
+  "SUCCESSOR_BASE_SHA_hint": "a7bb050cfa38c8f8a037e019f967b214a05993c3",
+  "primary_valid_pairs": 4,
+  "primary_seeds": [
+    20260821,
+    20260823,
+    20260824,
+    20260825
+  ],
+  "gpu_allowed_by_cohort": true,
+  "calibration_overlap": 0,
+  "combined_percent_of_base": 0.4185255925994555,
+  "generic_match_error_percent": 0.1277139208173691,
+  "hard_authorization_usd": 5.0,
+  "target_usd": 3.0,
+  "l40s_hourly_usd": 1.95,
+  "projected_l40s_hours_conservative": 1.4,
+  "projected_usd_conservative": 2.73,
+  "h100_authorized": false,
+  "within_hard_authorization": true,
+  "within_target": true,
+  "stop_before_gpu": false
+}

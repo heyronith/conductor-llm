@@ -1,0 +1,91 @@
+{
+  "task": "successor_task1_parameter_partition",
+  "model_class": "CCPTDualStreamModel",
+  "buckets": {
+    "CAPABILITY": [
+      "capability_final_norm.weight",
+      "capability_layers.0.attn.k_proj.weight",
+      "capability_layers.0.attn.o_proj.weight",
+      "capability_layers.0.attn.q_proj.weight",
+      "capability_layers.0.attn.v_proj.weight",
+      "capability_layers.0.attn_norm.weight",
+      "capability_layers.0.mlp.down_proj.weight",
+      "capability_layers.0.mlp.gate_proj.weight",
+      "capability_layers.0.mlp.up_proj.weight",
+      "capability_layers.0.mlp_norm.weight",
+      "capability_layers.1.attn.k_proj.weight",
+      "capability_layers.1.attn.o_proj.weight",
+      "capability_layers.1.attn.q_proj.weight",
+      "capability_layers.1.attn.v_proj.weight",
+      "capability_layers.1.attn_norm.weight",
+      "capability_layers.1.mlp.down_proj.weight",
+      "capability_layers.1.mlp.gate_proj.weight",
+      "capability_layers.1.mlp.up_proj.weight",
+      "capability_layers.1.mlp_norm.weight",
+      "capability_layers.2.attn.k_proj.weight",
+      "capability_layers.2.attn.o_proj.weight",
+      "capability_layers.2.attn.q_proj.weight",
+      "capability_layers.2.attn.v_proj.weight",
+      "capability_layers.2.attn_norm.weight",
+      "capability_layers.2.mlp.down_proj.weight",
+      "capability_layers.2.mlp.gate_proj.weight",
+      "capability_layers.2.mlp.up_proj.weight",
+      "capability_layers.2.mlp_norm.weight",
+      "capability_layers.3.attn.k_proj.weight",
+      "capability_layers.3.attn.o_proj.weight",
+      "capability_layers.3.attn.q_proj.weight",
+      "capability_layers.3.attn.v_proj.weight",
+      "capability_layers.3.attn_norm.weight",
+      "capability_layers.3.mlp.down_proj.weight",
+      "capability_layers.3.mlp.gate_proj.weight",
+      "capability_layers.3.mlp.up_proj.weight",
+      "capability_layers.3.mlp_norm.weight",
+      "embedding.weight"
+    ],
+    "OLD_OBSERVER_INTERFACE": [
+      "obs_projections.0.weight",
+      "obs_projections.1.weight",
+      "p_in.weight"
+    ],
+    "NORMATIVE_SEMANTIC_CORE": [
+      "normative_final_norm.weight",
+      "normative_layers.0.attn.k_proj.weight",
+      "normative_layers.0.attn.o_proj.weight",
+      "normative_layers.0.attn.q_proj.weight",
+      "normative_layers.0.attn.v_proj.weight",
+      "normative_layers.0.attn_norm.weight",
+      "normative_layers.0.mlp.down_proj.weight",
+      "normative_layers.0.mlp.gate_proj.weight",
+      "normative_layers.0.mlp.up_proj.weight",
+      "normative_layers.0.mlp_norm.weight",
+      "normative_layers.1.attn.k_proj.weight",
+      "normative_layers.1.attn.o_proj.weight",
+      "normative_layers.1.attn.q_proj.weight",
+      "normative_layers.1.attn.v_proj.weight",
+      "normative_layers.1.attn_norm.weight",
+      "normative_layers.1.mlp.down_proj.weight",
+      "normative_layers.1.mlp.gate_proj.weight",
+      "normative_layers.1.mlp.up_proj.weight",
+      "normative_layers.1.mlp_norm.weight"
+    ],
+    "OLD_ACTUATOR_INTERFACE": [
+      "gate_projections.0.weight",
+      "gate_projections.1.weight",
+      "steering_projections.0.weight",
+      "steering_projections.1.weight"
+    ],
+    "RISK_READOUT": [
+      "risk_head.weight"
+    ]
+  },
+  "counts": {
+    "CAPABILITY": 38,
+    "OLD_OBSERVER_INTERFACE": 3,
+    "NORMATIVE_SEMANTIC_CORE": 19,
+    "OLD_ACTUATOR_INTERFACE": 4,
+    "RISK_READOUT": 1
+  },
+  "total_named_parameters": 65,
+  "retrofit_policy": "EVERY_EXISTING_PARAMETER_FROZEN",
+  "trainable_in_this_experiment": "NEW_REPAIR_MODULES_ONLY"
+}
