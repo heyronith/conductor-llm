@@ -1,0 +1,18 @@
+{
+  "task": "strengthening_seed4_per_prompt_decisions_accessibility",
+  "created_at_utc": "2026-09-03T18:34:33.122431+00:00",
+  "source_gzip": "artifacts/strengthening_seed4_per_prompt_decisions.jsonl.gz",
+  "plain_text_export": "artifacts/strengthening_seed4_per_prompt_decisions.jsonl",
+  "split": false,
+  "record_count": 10752,
+  "expected_record_count": 10752,
+  "record_count_match": true,
+  "gzip_sha256": "6064ed5ffaf3dbc6edddfc57305b1c7beddf0c937e901abd5d54efc151b7fc48",
+  "plain_sha256": "4f1562d70cfc80fd380e51ec5bc8b19e3cb6a2ab15182e225cd1a27df431fd7f",
+  "plain_bytes": 7809272,
+  "gzip_bytes": 1347920,
+  "decompress_equals_plain_bytes": true,
+  "line_stream_sha256_over_raw_lines": "4f1562d70cfc80fd380e51ec5bc8b19e3cb6a2ab15182e225cd1a27df431fd7f",
+  "note": "Plain JSONL is the exact gunzip payload of the committed .jsonl.gz; no re-judging or regeneration of decisions.",
+  "git_note": "Force-added despite artifacts/*.jsonl gitignore so GitHub reviewers can read plain-text decisions without decompressing."
+}

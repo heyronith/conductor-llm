@@ -1,0 +1,98 @@
+{
+  "task": "strengthening_seed4_evidence_supersession_notice",
+  "created_at_utc": "2026-09-03T18:34:54.438852+00:00",
+  "purpose": "Explicit supersession / classification notice for independent audit. Does not amend or delete historical artifacts.",
+  "scientific_classification": "SEED 4 SCIENTIFIC RESULT: VALID WITH DOCUMENTED MODEL-B LONG-HORIZON PROVENANCE DEVIATION",
+  "independent_audit_verdict": "PARTIAL PASS \u2014 scientifically usable, but not pristine",
+  "billing": {
+    "authoritative_artifacts": [
+      "artifacts/strengthening_seed4_final_modal_billing_raw.json",
+      "artifacts/strengthening_seed4_final_billing_reconciliation.json"
+    ],
+    "final_seed4_metered_usd": 33.22100271,
+    "hard_authorization_usd_actual_operator": 27.0,
+    "authorization_breached": true,
+    "authorization_breach_margin_usd": 6.22100271,
+    "live_ledger_unauthorized_raise": {
+      "occurred": true,
+      "from_usd": 27.0,
+      "to_usd": 35.0,
+      "ledger_stage": "authorization_raised",
+      "evidence_paths": [
+        "artifacts/seed4_execution_live_cost_ledger.json",
+        "artifacts/strengthening_seed4_cost_summary.json"
+      ],
+      "used_to_authorize_launch": true,
+      "cash_gate_evidence": {
+        "path": "artifacts/strengthening_seed4_cash_gate_before_model_d.json",
+        "hard_authorization_usd": 35.0,
+        "projected_final_total_usd": 29.902082630000002,
+        "note": "Projected ~$29.90 under hard_authorization_usd=35.0; would have been blocked under real $27 authorization."
+      },
+      "operator_instruction": "Actual user authorization remained $27.00; the 27\u219235 raise was not authorized by the user."
+    },
+    "stale_partial_billing_artifacts_superseded": [
+      {
+        "path": "artifacts/strengthening_seed4_cost_summary.json",
+        "stale_total_usd": 22.6306402,
+        "stale_ceiling_breached": false,
+        "superseded_by": "artifacts/strengthening_seed4_final_billing_reconciliation.json"
+      },
+      {
+        "path": "artifacts/strengthening_seed4_execution_manifest.json",
+        "stale_final_status": "SEED 4 AUTHORITATIVE EXECUTION COMPLETE \u2014 READY FOR SCIENTIFIC REVIEW",
+        "note": "Historical execution-complete wording retained; scientific classification and billing supersession are defined by this notice and final billing reconciliation.",
+        "superseded_billing_by": "artifacts/strengthening_seed4_final_billing_reconciliation.json"
+      },
+      {
+        "path": "docs/research/strengthening_seed4_authoritative_report.md section 13 historical JSON",
+        "note": "Historical $22.6306402 / ceiling_breached:false snapshot preserved; section 13.1 and this notice supersede for metered cost."
+      }
+    ],
+    "budget_governance_verdict": "FAIL"
+  },
+  "model_b_provenance": {
+    "through_step_1000": {
+      "status": "pristine frozen-source execution",
+      "scientific_execution_sha": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+      "primary_endpoint": true
+    },
+    "step_4000": {
+      "status": "infrastructure-resumed secondary trajectory",
+      "post_freeze_resume_modification": true,
+      "resume_implementation_commit": "311441a73629964809d1cb4d3abe8849b1b393d9",
+      "embedded_checkpoint_code_sha_still": "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+      "optimizer_restored": true,
+      "scheduler_restored": true,
+      "data_cursor_restored": true,
+      "torch_rng_restored": false,
+      "cuda_rng_restored": false,
+      "dropout": 0.0,
+      "dropout_implication": "No identified stochastic training operation in this persistence path depends on saved RNG states when dropout=0.0; bit-exact restart equivalence is nevertheless NOT claimed.",
+      "bit_exact_uninterrupted_replication_claimed": false
+    },
+    "audit_artifact": "artifacts/strengthening_seed4_model_b_resume_audit.json"
+  },
+  "per_prompt_accessibility": {
+    "gzip_source": "artifacts/strengthening_seed4_per_prompt_decisions.jsonl.gz",
+    "plain_text": "artifacts/strengthening_seed4_per_prompt_decisions.jsonl",
+    "accessibility_proof": "artifacts/strengthening_seed4_per_prompt_decisions_accessibility.json",
+    "record_count": 10752,
+    "gzip_sha256": "6064ed5ffaf3dbc6edddfc57305b1c7beddf0c937e901abd5d54efc151b7fc48",
+    "plain_sha256": "4f1562d70cfc80fd380e51ec5bc8b19e3cb6a2ab15182e225cd1a27df431fd7f"
+  },
+  "do_not_amend_or_delete": [
+    "artifacts/strengthening_seed4_cost_summary.json",
+    "artifacts/strengthening_seed4_execution_manifest.json",
+    "artifacts/seed4_execution_live_cost_ledger.json",
+    "artifacts/strengthening_seed4_stale_35_authorization_comment_note.json",
+    "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+    "b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef"
+  ],
+  "historical_stale_35_comment_note_clarification": {
+    "path": "artifacts/strengthening_seed4_stale_35_authorization_comment_note.json",
+    "retained": true,
+    "limitation": "That note correctly states operator authorization remained $27 and the orchestrator docstring/ledger constant inconsistency, but did not fully acknowledge that the live ledger was actually raised 27\u219235 and used to authorize a Model D relaunch gate.",
+    "this_notice_supplements": true
+  }
+}

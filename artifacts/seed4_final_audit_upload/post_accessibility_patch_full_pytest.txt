@@ -1,0 +1,16 @@
+........................................................................ [ 22%]
+........................................................................ [ 44%]
+........................................................................ [ 66%]
+........................................................................ [ 88%]
+.....................................                                    [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.11/site-packages/accelerate/utils/other.py:220
+  /Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/accelerate/utils/other.py:220: DeprecationWarning: numpy.core is deprecated and has been renamed to numpy._core. The numpy._core namespace contains private NumPy internals and its use is discouraged, as NumPy internals can change without warning in any release. In practice, most real-world usage of numpy.core is to access functionality in the public NumPy API. If that is the case, use the public NumPy API. If not, you are using NumPy internals. If you would still like to access an internal attribute, use numpy._core.multiarray.
+    np.core.multiarray._reconstruct,
+
+tests/test_task7_4_replication_hardening.py::test_cpu_micro_production_integration
+  /Users/ronny/Desktop/Research/AI ALIGNMENT/CCPT/.venv/lib/python3.11/site-packages/modal/_functions.py:1913: UserWarning: The run_single_model_replication_pipeline function is executing locally and will not have access to the mounted Volume or NetworkFileSystem data
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+325 passed, 2 warnings in 44.77s

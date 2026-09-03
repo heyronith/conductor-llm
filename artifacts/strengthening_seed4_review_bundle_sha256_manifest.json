@@ -1,7 +1,8 @@
 {
   "task": "strengthening_seed4_review_bundle_sha256_manifest",
   "root": "artifacts/strengthening_seed4_review_bundle/",
-  "file_count": 32,
+  "updated_for": "evidence accessibility patch + supersession notice",
+  "file_count": 35,
   "files": [
     {
       "path": "artifacts/seed4_cost_reduction_projection.json",
@@ -44,6 +45,11 @@
       "bytes": 1054
     },
     {
+      "path": "artifacts/strengthening_seed4_evidence_supersession_notice.json",
+      "sha256": "61715a291863deb110ea925f5379db4f4b79d8ac2a58fb709065b496a0316408",
+      "bytes": 5197
+    },
+    {
       "path": "artifacts/strengthening_seed4_execution_manifest.json",
       "sha256": "237b2339da24da8c7f1b9ad77d4fc6c9541413a4957782168daa0b9e84c4d432",
       "bytes": 465
@@ -64,9 +70,19 @@
       "bytes": 5799
     },
     {
+      "path": "artifacts/strengthening_seed4_per_prompt_decisions.jsonl",
+      "sha256": "4f1562d70cfc80fd380e51ec5bc8b19e3cb6a2ab15182e225cd1a27df431fd7f",
+      "bytes": 7809272
+    },
+    {
       "path": "artifacts/strengthening_seed4_per_prompt_decisions.jsonl.gz",
       "sha256": "6064ed5ffaf3dbc6edddfc57305b1c7beddf0c937e901abd5d54efc151b7fc48",
       "bytes": 1347920
+    },
+    {
+      "path": "artifacts/strengthening_seed4_per_prompt_decisions_accessibility.json",
+      "sha256": "7328ade37c0e046793d1de9638044f0f88553b710944892ada7586046bcc08da",
+      "bytes": 892
     },
     {
       "path": "artifacts/strengthening_seed4_per_prompt_reconciliation.json",
