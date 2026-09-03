@@ -1,0 +1,115 @@
+{
+  "task": "strengthening_seed4_review_bundle_manifest",
+  "files": [
+    {
+      "path": "modal/strengthening_task2_sentinel.py",
+      "sha256": "e5ab6354a3a745a1aa2ba66556e9cc04662f1b951c70a2f37bd667fc86c969d6",
+      "bytes": 59801
+    },
+    {
+      "path": "modal/strengthening_task3_1_eval.py",
+      "sha256": "22b5fcffc1b152ec592476f26640afa4cd70754a3c2ea86d3c0ab0d6b72d8d58",
+      "bytes": 26810
+    },
+    {
+      "path": "src/ccpt/analysis/seed4_execution_ledger.py",
+      "sha256": "004452210b712e37a343a353854b7fb6b0df010545ed1c664fe1be78504208d7",
+      "bytes": 9931
+    },
+    {
+      "path": "src/ccpt/analysis/seed4_execution_summaries.py",
+      "sha256": "acc14d2cd6db544ad3363d76ad0f81083d720bb8ee1734f702597e3a57e9e0fe",
+      "bytes": 6389
+    },
+    {
+      "path": "scripts/run_strengthening_seed4_preflight.py",
+      "sha256": "521f98ef00cf0280f493e49aaf55d1df5aa1b22c62329e73112f38b1ee4a3c34",
+      "bytes": 11093
+    },
+    {
+      "path": "scripts/orchestrate_strengthening_seed4.py",
+      "sha256": "fa89479713e9b5671642f51d7b198a516052a7d5d1b03d27d106d4e973925f25",
+      "bytes": 25118
+    },
+    {
+      "path": "scripts/generate_strengthening_seed4_report_bundle.py",
+      "sha256": "4838b978514ddeb70d2fef3b346e7c4b18818cb0a2a4529252bdd71b09d83ba1",
+      "bytes": 6383
+    },
+    {
+      "path": "tests/test_seed4_execution.py",
+      "sha256": "266427d24880846dadff42a1e4d26b2e1700fe79c5aaa5a956b45a68c241ff4a",
+      "bytes": 5403
+    },
+    {
+      "path": "artifacts/strengthening_seed4_preflight.json",
+      "sha256": "65c4f8fe7e9071497de6dffd60d8e662e56f0fc45a79c5c9440867cb2397354a",
+      "bytes": 2613
+    },
+    {
+      "path": "artifacts/seed4_execution_live_cost_ledger.json",
+      "sha256": "e72bee85cef5c3789d451feedb88d5a678f9cf8616f0dcc6e2225205e02775ff",
+      "bytes": 37158
+    },
+    {
+      "path": "artifacts/seed4_cost_reduction_projection.json",
+      "sha256": "859a3b2a05e9b1fc0bd122b695819f61d47688f8f8b0c9cd3256841a174fcd4d",
+      "bytes": 2584
+    },
+    {
+      "path": "artifacts/strengthening_task3_2_reconciliation.json",
+      "sha256": "a069426d55de36567820a7b6d86e103ce1de25da6b071d73dc0cebc2d474140c",
+      "bytes": 12813
+    },
+    {
+      "path": "artifacts/strengthening_seed4_execution_manifest.json",
+      "sha256": "237b2339da24da8c7f1b9ad77d4fc6c9541413a4957782168daa0b9e84c4d432",
+      "bytes": 465
+    },
+    {
+      "path": "artifacts/strengthening_seed4_training_summary.json",
+      "sha256": "49dfa06a2e341e139184e9f6f4bd5b49554e313321d7dfead2408240d4205358",
+      "bytes": 1761
+    },
+    {
+      "path": "artifacts/strengthening_seed4_checkpoint_manifest.json",
+      "sha256": "8b9c98b9e4494ba93eb7dbe6c4aaf5e009e919c19f3236e4ed00743ffd93aea4",
+      "bytes": 841
+    },
+    {
+      "path": "artifacts/strengthening_seed4_behavior_summary.json",
+      "sha256": "63669650945912da8b29ddc5a17c2e30413e788e21fbc88fc7623cb0410a233a",
+      "bytes": 15988
+    },
+    {
+      "path": "artifacts/strengthening_seed4_ablation_summary.json",
+      "sha256": "7940ba8a30ad971c9eef95e1f263ebfffa54febe5503dd2ceb90325815baec0d",
+      "bytes": 12566
+    },
+    {
+      "path": "artifacts/strengthening_seed4_retention_summary.json",
+      "sha256": "caacef23e35d5a1a78a5f92d788f29ddca0d5c027fc5179650cd41080fb454cf",
+      "bytes": 1904
+    },
+    {
+      "path": "artifacts/strengthening_seed4_cost_summary.json",
+      "sha256": "c10a1e6a5d6aff15d049e6bd8edacfe380aaa86c83cc6126f794a50e48fa1cef",
+      "bytes": 36436
+    },
+    {
+      "path": "artifacts/strengthening_seed4_task3_1_summary.json",
+      "sha256": "43ed6e27dd364b0f722ef06cf22f74d58205fac630358e607fc9c1554b2bd06c",
+      "bytes": 25814
+    },
+    {
+      "path": "docs/research/strengthening_seed4_authoritative_report.md",
+      "sha256": "2ff0594a4f53c611641a4ac36ef292e4affa26e133e6b5140112f86322cfc80e",
+      "bytes": 78964
+    },
+    {
+      "path": "docs/research/seed4_cost_reduction_forensic_audit.md",
+      "sha256": "cb3de684fb09b6b590801c7ddf909706b37a4edbdffabb03fb9cb2e596ea2beb",
+      "bytes": 4436
+    }
+  ]
+}

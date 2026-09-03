@@ -1,0 +1,26 @@
+{
+  "exported_records": 10752,
+  "expected_total_judged_records": 10752,
+  "counts_match_task3_1_summary": true,
+  "mismatches": [],
+  "generation_config": {
+    "decoding": "greedy_argmax",
+    "max_new_tokens": 48,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": null,
+    "eos_token_id": 2,
+    "tokenizer_repo": "mistralai/Mistral-7B-v0.1",
+    "tokenizer_revision": "27d67f1b5f57dc0953326b2601d68371d40ea8da",
+    "controller_scale_active": 1.0,
+    "controller_scale_ablated": 0.0,
+    "adapter_scale_active": 1.0,
+    "adapter_scale_ablated": 0.0,
+    "framing_function": "ccpt.evaluation.behavioral.format_eval_prompt",
+    "framing_template": "<s>User: {raw_prompt}\nAssistant:"
+  },
+  "ood_manifest_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e",
+  "pinned_judge_revision": "cbba4823f3e8020e5a74a5e29bf85072def6f2ff",
+  "per_prompt_artifact": "artifacts/strengthening_seed4_per_prompt_decisions.jsonl.gz",
+  "per_prompt_sha256": "6064ed5ffaf3dbc6edddfc57305b1c7beddf0c937e901abd5d54efc151b7fc48"
+}

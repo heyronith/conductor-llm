@@ -1,0 +1,226 @@
+[
+  {
+    "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "CPU",
+    "cost": "0.00965288"
+  },
+  {
+    "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "H100",
+    "cost": "0.84705502"
+  },
+  {
+    "object_id": "ap-5ES39Xb7BxYBW0jioMg90N",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "Memory",
+    "cost": "0.00271941"
+  },
+  {
+    "object_id": "ap-5aEw0N96E8fPsi8GjEKHuW",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "CPU",
+    "cost": "0.00010515"
+  },
+  {
+    "object_id": "ap-5aEw0N96E8fPsi8GjEKHuW",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "Memory",
+    "cost": "0.00003557"
+  },
+  {
+    "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "CPU",
+    "cost": "0.04322985"
+  },
+  {
+    "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "H100",
+    "cost": "3.59011031"
+  },
+  {
+    "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "Memory",
+    "cost": "0.01298941"
+  },
+  {
+    "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "CPU",
+    "cost": "0.04904670"
+  },
+  {
+    "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "H100",
+    "cost": "4.10361111"
+  },
+  {
+    "object_id": "ap-7GuG5S7ZgfLoJQ5jblKaSd",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "Memory",
+    "cost": "0.01552396"
+  },
+  {
+    "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "CPU",
+    "cost": "0.09153900"
+  },
+  {
+    "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "H100",
+    "cost": "7.65861142"
+  },
+  {
+    "object_id": "ap-GFdlGDVfdLa2WWrzMxnEU7",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "Memory",
+    "cost": "0.02821760"
+  },
+  {
+    "object_id": "ap-IVE2czu8bXOb5vY3TAOUca",
+    "description": "strengthening-task3-1-eval",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "L40S",
+    "cost": "1.77234019"
+  },
+  {
+    "object_id": "ap-IVE2czu8bXOb5vY3TAOUca",
+    "description": "strengthening-task3-1-eval",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "CPU",
+    "cost": "0.04070371"
+  },
+  {
+    "object_id": "ap-IVE2czu8bXOb5vY3TAOUca",
+    "description": "strengthening-task3-1-eval",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "Memory",
+    "cost": "0.00892615"
+  },
+  {
+    "object_id": "ap-KkJC0LAk3UPi5JeoGhQKtw",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "CPU",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-KkJC0LAk3UPi5JeoGhQKtw",
+    "description": "reaper-wp7-model-v1",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "Memory",
+    "cost": "0E-8"
+  },
+  {
+    "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "CPU",
+    "cost": "0.00910510"
+  },
+  {
+    "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "H100",
+    "cost": "0.87558309"
+  },
+  {
+    "object_id": "ap-UzEWsDC987CLWk85xZTexg",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "Memory",
+    "cost": "0.00345462"
+  },
+  {
+    "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "CPU",
+    "cost": "0.07061972"
+  },
+  {
+    "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "H100",
+    "cost": "5.94036143"
+  },
+  {
+    "object_id": "ap-b86xRW7l8ZiyqLMKibSOE7",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-02T00:00:00",
+    "resource": "Memory",
+    "cost": "0.01983157"
+  },
+  {
+    "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "CPU",
+    "cost": "0.09490504"
+  },
+  {
+    "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "H100",
+    "cost": "7.90438424"
+  },
+  {
+    "object_id": "ap-d70OjGWdjRP9UJP1JuEw67",
+    "description": "strengthening-task2-sentinel",
+    "environment": "main",
+    "interval_start": "2026-09-03T00:00:00",
+    "resource": "Memory",
+    "cost": "0.02848118"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "task": "strengthening_seed4_eval_checkpoint_linkage",
+  "seed1_expected_state_hash_assertions_disabled_for_seed4": true,
+  "response_groups_checkpoint_hash_equals_manifest_canonical": true,
+  "mismatches": [],
+  "generation_invariants": {
+    "framing_function": "ccpt.evaluation.behavioral.format_eval_prompt",
+    "max_new_tokens": 48,
+    "beavertails_ood_manifest_hash": "f8cf3fd0f0ca7502e9b7fef37f49ae4b9fd13cb71438ed64fc093c0649d71b9e",
+    "expected_beavertails_prefix": "f8cf3fd0",
+    "beavertails_match": true,
+    "pinned_judge_revision": "cbba4823f3e8020e5a74a5e29bf85072def6f2ff",
+    "generation_config_hash": "fde7992750f1b1d545ecfa4ce40338f66087565f9e4973bf2bd1434aca3247b0",
+    "all_judged_records_share_generation_config_hash": true,
+    "all_judged_records_use_format_eval_prompt_v1": true,
+    "no_old_task2_unframed_response_cache": true,
+    "evidence": "All 10752 judged records inspected: framing_identifier=ccpt.evaluation.behavioral.format_eval_prompt_v1; generation_config_hash constant; evaluation_sha=e062271..."
+  }
+}

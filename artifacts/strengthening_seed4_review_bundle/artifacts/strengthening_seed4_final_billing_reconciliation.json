@@ -1,0 +1,123 @@
+{
+  "task": "strengthening_seed4_final_billing_reconciliation",
+  "created_at_utc": "2026-09-03T13:06:47.433502+00:00",
+  "query": {
+    "command": "uv run modal billing report --start 2026-09-02 --end 2026-09-04 --show-resources --json",
+    "raw_artifact": "artifacts/strengthening_seed4_final_modal_billing_raw.json",
+    "window_note": "Inclusive start 2026-09-02, exclusive end 2026-09-04 (UTC daily buckets). Covers Seed-4 execution calendar days.",
+    "credits_used": 0.0,
+    "metered_equals_oop": true
+  },
+  "hard_authorization_usd": 27.0,
+  "previous_reported_total_usd": 22.6306402,
+  "previous_report_limitation": "cost_summary accrued.total_billed_usd_when_available reflected last partial billing sync, not full-window object sum",
+  "totals_seed4_apps_usd": {
+    "H100": 30.91971662,
+    "L40S": 1.77234019,
+    "CPU": 0.408802,
+    "Memory": 0.1201439,
+    "CPU_and_Memory": 0.5289459,
+    "total_metered_usd": 33.22100271
+  },
+  "difference_vs_previous_report_usd": 10.59036251,
+  "authorization_27_breached": true,
+  "authorization_breach_margin_usd": 6.22100271,
+  "by_app": {
+    "strengthening-task2-sentinel": {
+      "CPU": 0.36809829,
+      "TOTAL": 31.39903266,
+      "H100": 30.91971662,
+      "Memory": 0.11121775
+    },
+    "reaper-wp7-model-v1": {
+      "CPU": 0.00010515,
+      "TOTAL": 0.00014072,
+      "Memory": 3.557e-05
+    },
+    "strengthening-task3-1-eval": {
+      "L40S": 1.77234019,
+      "TOTAL": 1.82197005,
+      "CPU": 0.04070371,
+      "Memory": 0.00892615
+    }
+  },
+  "by_object": {
+    "ap-d70OjGWdjRP9UJP1JuEw67": {
+      "description": "strengthening-task2-sentinel",
+      "total_usd": 8.02777046,
+      "by_resource_usd": {
+        "CPU": 0.09490504,
+        "H100": 7.90438424,
+        "Memory": 0.02848118
+      },
+      "inferred_role": "model_b_original_training_timeout_7200s (strengthening_seed4_modal_model_b.log)"
+    },
+    "ap-7GuG5S7ZgfLoJQ5jblKaSd": {
+      "description": "strengthening-task2-sentinel",
+      "total_usd": 7.81451134,
+      "by_resource_usd": {
+        "CPU": 0.09227655,
+        "H100": 7.69372142,
+        "Memory": 0.02851337
+      },
+      "inferred_role": "model_d_successful (strengthening_seed4_modal_model_d.log)"
+    },
+    "ap-GFdlGDVfdLa2WWrzMxnEU7": {
+      "description": "strengthening-task2-sentinel",
+      "total_usd": 7.77836802,
+      "by_resource_usd": {
+        "CPU": 0.091539,
+        "H100": 7.65861142,
+        "Memory": 0.0282176
+      },
+      "inferred_role": "model_c_full_training (strengthening_seed4_modal_model_c.log)"
+    },
+    "ap-b86xRW7l8ZiyqLMKibSOE7": {
+      "description": "strengthening-task2-sentinel",
+      "total_usd": 6.03081272,
+      "by_resource_usd": {
+        "CPU": 0.07061972,
+        "H100": 5.94036143,
+        "Memory": 0.01983157
+      },
+      "inferred_role": "model_d_aborted_client_disconnect (cost_summary/ledger)"
+    },
+    "ap-IVE2czu8bXOb5vY3TAOUca": {
+      "description": "strengthening-task3-1-eval",
+      "total_usd": 1.82197005,
+      "by_resource_usd": {
+        "L40S": 1.77234019,
+        "CPU": 0.04070371,
+        "Memory": 0.00892615
+      },
+      "inferred_role": "strengthening_task3_1_corrected_eval_L40S"
+    },
+    "ap-UzEWsDC987CLWk85xZTexg": {
+      "description": "strengthening-task2-sentinel",
+      "total_usd": 0.88814281,
+      "by_resource_usd": {
+        "CPU": 0.0091051,
+        "H100": 0.87558309,
+        "Memory": 0.00345462
+      },
+      "inferred_role": "model_b_resume (strengthening_seed4_modal_model_b_resume.log)"
+    },
+    "ap-5ES39Xb7BxYBW0jioMg90N": {
+      "description": "strengthening-task2-sentinel",
+      "total_usd": 0.85942731,
+      "by_resource_usd": {
+        "CPU": 0.00965288,
+        "H100": 0.84705502,
+        "Memory": 0.00271941
+      },
+      "inferred_role": "model_d_or_sentinel_short_run_candidate_second_abort_or_partial"
+    }
+  },
+  "failed_or_aborted_included": true,
+  "notes": [
+    "Includes aborted/cancelled Model D object ap-b86xRW7 (~$6.03).",
+    "Includes Model B original timeout job and resume job ap-UzEWsDC.",
+    "Object ap-5ES39Xb7 is a short H100 sentinel object in-window; treat as failed/partial unless otherwise identified.",
+    "Non-CCPT reaper apps in raw file are excluded from Seed-4 totals."
+  ]
+}

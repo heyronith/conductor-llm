@@ -1,0 +1,29 @@
+{
+  "task": "strengthening_seed4_stale_35_authorization_comment_note",
+  "do_not_amend_commits": [
+    "e062271628c3c4434fde6310aa5e0b9024c3dadf",
+    "b6d8f7bdd1c2adb143aa3d75284e2e21396bdcef"
+  ],
+  "findings": [
+    {
+      "fact": "scripts/orchestrate_strengthening_seed4.py module docstring still states Hard ceiling: $35.00",
+      "status": "stale/incorrect comment relative to operator authorization"
+    },
+    {
+      "fact": "Actual user authorization remained $27.00",
+      "status": "authoritative operator constraint for this evidence freeze"
+    },
+    {
+      "fact": "Functional ledger constant HARD_AUTHORIZATION_USD in src/ccpt/analysis/seed4_execution_ledger.py is 27.00",
+      "status": "verified in source"
+    },
+    {
+      "fact": "Parallel orchestrator and Model-B resume script reset live ledger hard_authorization_usd to HARD_AUTHORIZATION_USD (27.00)",
+      "status": "verified in scripts/orchestrate_strengthening_seed4_parallel.py and scripts/resume_seed4_model_b_and_eval.py"
+    },
+    {
+      "fact": "Final billing reconciliation determines whether actual $27 ceiling was exceeded",
+      "status": "final_total_metered_usd=33.22100271; breached=True"
+    }
+  ]
+}
