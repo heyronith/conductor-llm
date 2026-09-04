@@ -1,0 +1,129 @@
+{
+  "task": "successor_task1_training_summary",
+  "fit_code_sha": "078c0954aff0cc7725b250a980c9114e187c37b8",
+  "eval_code_sha": "c834b5ed2c81dba6c5d53c40ed25593b00c146a3",
+  "training_steps": 500,
+  "seeds": {
+    "20260821": {
+      "POST_OBSERVER_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.09622758626937866,
+        "FINITE": true,
+        "ADAPTER_HASH": "d687d319d8f284bf2f6ec386c786cb0685beceed6c9e4ed8c2be651253a27e9a",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_ACTUATOR_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.1923549473285675,
+        "FINITE": true,
+        "ADAPTER_HASH": "77e061b9f5aac849c825385c909bdb380391dca41647706550d8d69ca9befb26",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_OBSERVER_PLUS_ACTUATOR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.06509045511484146,
+        "FINITE": true,
+        "ADAPTER_HASH": "9e13eb26bf402c0eb25e735f4c6bf0dd361316832106adadd057fdf5b0225b73",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_MATCHED_GENERIC_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.1754615604877472,
+        "FINITE": true,
+        "ADAPTER_HASH": "4a4bc5318887fa7b5185f39faf1eb5b41d78e5dc0a5f813f2d27035a3c141f4c",
+        "BASE_HASH_UNCHANGED": true
+      }
+    },
+    "20260823": {
+      "POST_OBSERVER_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.10934047400951385,
+        "FINITE": true,
+        "ADAPTER_HASH": "71826903d65e00224167495d8acb8901fb9397ac219cc0e5b52ae350f57063e2",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_ACTUATOR_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.1640647053718567,
+        "FINITE": true,
+        "ADAPTER_HASH": "b3ce81cba178bb887160f3cca4c4d1b5547f0a52b8199d7ec634d267f4508f27",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_OBSERVER_PLUS_ACTUATOR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.09182904660701752,
+        "FINITE": true,
+        "ADAPTER_HASH": "5d02ad7ea2f1ab2282cdbdc3f6b711ca6ff45abd845b1e92d603fd29fefd5307",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_MATCHED_GENERIC_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.1762523651123047,
+        "FINITE": true,
+        "ADAPTER_HASH": "014645f425145247583376e7d50cc7bf050c99ac234a252774dd3ed61b24e1ef",
+        "BASE_HASH_UNCHANGED": true
+      }
+    },
+    "20260824": {
+      "POST_OBSERVER_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.1152133122086525,
+        "FINITE": true,
+        "ADAPTER_HASH": "b09f7fba883548b497805a0bbfa3b75ff3c6f4c191cb7f439558ac657f607c78",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_ACTUATOR_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.08422350138425827,
+        "FINITE": true,
+        "ADAPTER_HASH": "bf8929b53b2d5c3407dc1797db86dbe9fb63181c331365fadf1271c44a78c4c8",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_OBSERVER_PLUS_ACTUATOR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.08500087261199951,
+        "FINITE": true,
+        "ADAPTER_HASH": "def91301fd909fe30001506ce108b624464e9c91c538a8b853d95ddb2b817713",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_MATCHED_GENERIC_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.11315101385116577,
+        "FINITE": true,
+        "ADAPTER_HASH": "f2f65d63a1e03065af32c7f6a025747e03c1a55f5da41c486b260e05123e3e97",
+        "BASE_HASH_UNCHANGED": true
+      }
+    },
+    "20260825": {
+      "POST_OBSERVER_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.1539807915687561,
+        "FINITE": true,
+        "ADAPTER_HASH": "3fffcd48b35a2f184f1aa6d1f9f39166bc19dd6d6d5433292a2b6f140f169ae1",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_ACTUATOR_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.18213197588920593,
+        "FINITE": true,
+        "ADAPTER_HASH": "5c55ade4dc945de01075fc0c5e14b2686b1e454f9c84d56969e479a4193e19f0",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_OBSERVER_PLUS_ACTUATOR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.09827069193124771,
+        "FINITE": true,
+        "ADAPTER_HASH": "6812b3d8a30fcd057cbdd658b620bf1e9b94eeb4a604bf1a22ad186fb1320bcf",
+        "BASE_HASH_UNCHANGED": true
+      },
+      "POST_MATCHED_GENERIC_REPAIR": {
+        "FINAL_STEP": 500,
+        "FINAL_DISTILLATION_LOSS": 0.14426526427268982,
+        "FINITE": true,
+        "ADAPTER_HASH": "a91dd0fd84396f8e1b971a65b1c3c65f40412ef7f11b363d7871c855ec18deae",
+        "BASE_HASH_UNCHANGED": true
+      }
+    }
+  },
+  "existing_parameters_changed_all_zero": true
+}

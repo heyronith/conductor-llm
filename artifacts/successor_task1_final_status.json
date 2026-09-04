@@ -1,0 +1,26 @@
+{
+  "task": "successor_task1_final_status",
+  "recorded_at_utc": "2026-09-04T01:46:35.928871+00:00",
+  "EVAL_JUDGE_PHASE_COMPLETE": true,
+  "PRIMARY_ANALYSIS_COMPLETE": true,
+  "EXPLORATORY_4000_EXECUTED": false,
+  "decision": "REJECT_WRONG_FIREWALL_EXPLANATION_AS_PRIMARY",
+  "HARD_AUTHORIZATION_USD": 9.0,
+  "HARD_AUTHORIZATION_BREACHED": "NO",
+  "SELF_AUTHORIZATION_CHANGE": "NO",
+  "H100_GPU_SECONDS": 0,
+  "final_metered_usd": 6.09479833,
+  "fit_code_sha": "078c0954aff0cc7725b250a980c9114e187c37b8",
+  "eval_judge_code_sha": "c834b5ed2c81dba6c5d53c40ed25593b00c146a3",
+  "primary_seeds": [
+    20260821,
+    20260823,
+    20260824,
+    20260825
+  ],
+  "pytest": {
+    "targeted_successor": "14 passed",
+    "full_suite": "339 passed, 2 warnings"
+  },
+  "status_line": "ADAPTIVE-INTERFACE FALSIFICATION FAILED \u2014 DO NOT SCALE THIS ARCHITECTURE"
+}

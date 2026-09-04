@@ -1,0 +1,29 @@
+{
+  "task": "successor_task1_adapter_configs",
+  "created_at_utc": "2026-09-03T21:06:59.241560+00:00",
+  "code_sha_at_preflight": "a7bb050cfa38c8f8a037e019f967b214a05993c3",
+  "observer_rank": 32,
+  "actuator_rank": 32,
+  "training": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "gradient_clip_norm": 1.0,
+    "training_steps": 500,
+    "risk_loss_weight": 0.1
+  },
+  "budget": {
+    "base_parameters": 35920384,
+    "observer_parameters": 49920,
+    "actuator_parameters": 100416,
+    "combined_parameters": 150336,
+    "generic_parameters": 150528,
+    "generic_rank": 73,
+    "combined_percent_of_base": 0.4185255925994555,
+    "generic_match_error_percent": 0.1277139208173691,
+    "observer_rank": 32,
+    "actuator_rank": 32,
+    "within_1pct_budget": true,
+    "generic_within_1pct_match": true
+  }
+}

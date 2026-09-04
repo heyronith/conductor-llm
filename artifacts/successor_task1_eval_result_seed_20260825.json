@@ -1,0 +1,10 @@
+{
+  "seed": 20260825,
+  "code_sha": "c834b5ed2c81dba6c5d53c40ed25593b00c146a3",
+  "n_records": 6144,
+  "pre_hash": "5f1937edfb346d536a92ffb2794e90f6661e639b09967a4444fb29a24e635057",
+  "post_hash": "0d2d9a2258bbfe79c3cccef94604ec2e00c39532da045572168a223ae44661cb",
+  "l40s_seconds": 1609.0489468574524,
+  "responses_path": "/runs/ccpt/successor_task1/seed_20260825/responses.jsonl",
+  "status": "EVAL_COMPLETE"
+}

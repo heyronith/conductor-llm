@@ -1,0 +1,70 @@
+{
+  "seed": 20260823,
+  "pre_rel": "ccpt/task7_4/multiseed_replication_v1/seed_20260823/model_c/safety_20m_final.pt",
+  "post_rel": "ccpt/task7_4/multiseed_replication_v1/seed_20260823/model_c/persistence_1000_final.pt",
+  "code_sha": "078c0954aff0cc7725b250a980c9114e187c37b8",
+  "calibration": {
+    "task": "successor_task1_calibration_manifest",
+    "reuses_existing_manifest": true,
+    "source_path": "artifacts/strengthening_calibration_prompt_manifest.json",
+    "source_manifest_version": "strengthening_calibration_v1.0",
+    "source_records_logical_hash": "e39be5aed40e698d12b5132980c208ff68ad7208501fcd918ceae1011491ef7d",
+    "source_revision": "d29c47f41c8b51348b5c8e8c81c039b3132b66d1",
+    "source_repo": "allenai/wildguardmix",
+    "source_split": "wildguardtrain",
+    "total_source_records": 2335,
+    "held_out_diagnostic_count": 64,
+    "fit_record_count": 2271,
+    "diagnostic_record_ids_head": [
+      "000df809d9607f3d2ce1032b10ddc8f52b8a99d3ffbc984f8b700408d210ab7d",
+      "0071ddbecea83440ed48f3b85da55bd9d09e14b2e2555c3b1542c0a0db8124e3",
+      "0076efe85d6a0ebb5aa1cde49123e972671241fcdaffc39395d9cb1a528b6b1d",
+      "007976c2207992305a2179ba582c5f7a8628d3938b2d03b2bc176bb82462cc3a",
+      "010138ddbb38a58e8838aff7a81597aac1935812e19eb99949c08c3dda9579d2",
+      "01333e514d070e00b80fa4ed6109737bb069cfd3b6b8b55f0f4275a1fdecac5f",
+      "019317f5974734c435c0f6e554826756144c1527acd720e69a09d392237e1433",
+      "0197471267ea4c0c26a6c31c0f5ea71a97de5560c8541adee2f4161f4469494e"
+    ],
+    "fit_record_ids_head": [
+      "0d392bb8f93bfeb4d09632920949ed4754d832b70508bacdec8560213b291c07",
+      "0d4dec70b59351f89a56f07c3e884ddfd862c2333d9a734d99fa3ac82ebe808e",
+      "0dfcb68050bb4d4797eb4eec355dbcca339a1d18a957389d9062664041335c8e",
+      "0e3a48928757a1ae9f3619e9230d2204f3b1a43be0c83a80443f922cee7e5650",
+      "0e46b2083d3e14b65d7d8aa5144aea14fea88ba10850e01c7169e3232623119c",
+      "0eb9bdf79972ab36ede0d64740f70c9565f553b8a52bc23ecca584477765ff7a",
+      "0ec0802888c511340a94ccce62dac5d722197513ff47b0a1fb2bc0693d1f509a",
+      "0ee50ceb61adbda90b839a7e6710df1eb7861beed0b5ed1bf018b07529e37f5f"
+    ],
+    "fit_diagnostic_id_overlap": [],
+    "harmful_records_count_source": 1189,
+    "benign_records_count_source": 1146,
+    "wildguard_test_overlap": 0,
+    "beavertails_ood_overlap": 0,
+    "xstest_overlap": 0,
+    "isolation_status": "PASSED_ZERO_OVERLAP",
+    "CALIBRATION_FINAL_TEST_OVERLAP": 0,
+    "ordering": "source_manifest_record_order_stable",
+    "deduplication_rule": "normalized_prompt_text_nfc",
+    "policy": {
+      "no_beavertails_ood_in_loss": true,
+      "no_wildguard_test_in_loss": true,
+      "no_xstest_in_loss": true,
+      "teacher": "PRE_ACTIVE",
+      "student_base": "POST_FROZEN"
+    }
+  },
+  "training_cfg": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "weight_decay": 0.0,
+    "gradient_clip_norm": 1.0,
+    "training_steps": 500,
+    "risk_loss_weight": 0.1,
+    "max_fit_records": 256,
+    "teacher_continuation_tokens": 32
+  },
+  "adapter_ranks": {
+    "observer_rank": 32,
+    "actuator_rank": 32
+  }
+}

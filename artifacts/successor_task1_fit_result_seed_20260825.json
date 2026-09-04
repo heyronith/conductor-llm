@@ -1,0 +1,77 @@
+{
+  "seed": 20260825,
+  "code_sha": "078c0954aff0cc7725b250a980c9114e187c37b8",
+  "pre_hash": "5f1937edfb346d536a92ffb2794e90f6661e639b09967a4444fb29a24e635057",
+  "post_hash": "0d2d9a2258bbfe79c3cccef94604ec2e00c39532da045572168a223ae44661cb",
+  "base_param_hash": "0d2d9a2258bbfe79c3cccef94604ec2e00c39532da045572168a223ae44661cb",
+  "existing_parameters_changed": 0,
+  "train_summaries": {
+    "POST_OBSERVER_REPAIR": {
+      "FINAL_STEP": 500,
+      "FINAL_DISTILLATION_LOSS": 0.1539807915687561,
+      "FINITE": true,
+      "ADAPTER_HASH": "3fffcd48b35a2f184f1aa6d1f9f39166bc19dd6d6d5433292a2b6f140f169ae1",
+      "BASE_HASH_UNCHANGED": true
+    },
+    "POST_ACTUATOR_REPAIR": {
+      "FINAL_STEP": 500,
+      "FINAL_DISTILLATION_LOSS": 0.18213197588920593,
+      "FINITE": true,
+      "ADAPTER_HASH": "5c55ade4dc945de01075fc0c5e14b2686b1e454f9c84d56969e479a4193e19f0",
+      "BASE_HASH_UNCHANGED": true
+    },
+    "POST_OBSERVER_PLUS_ACTUATOR": {
+      "FINAL_STEP": 500,
+      "FINAL_DISTILLATION_LOSS": 0.09827069193124771,
+      "FINITE": true,
+      "ADAPTER_HASH": "6812b3d8a30fcd057cbdd658b620bf1e9b94eeb4a604bf1a22ad186fb1320bcf",
+      "BASE_HASH_UNCHANGED": true
+    },
+    "POST_MATCHED_GENERIC_REPAIR": {
+      "FINAL_STEP": 500,
+      "FINAL_DISTILLATION_LOSS": 0.14426526427268982,
+      "FINITE": true,
+      "ADAPTER_HASH": "a91dd0fd84396f8e1b971a65b1c3c65f40412ef7f11b363d7871c855ec18deae",
+      "BASE_HASH_UNCHANGED": true
+    }
+  },
+  "adapter_manifest": {
+    "POST_OBSERVER_REPAIR": {
+      "path": "/runs/ccpt/successor_task1/seed_20260825/POST_OBSERVER_REPAIR_step500.pt",
+      "adapter_state_hash": "3fffcd48b35a2f184f1aa6d1f9f39166bc19dd6d6d5433292a2b6f140f169ae1",
+      "base_param_hash": "0d2d9a2258bbfe79c3cccef94604ec2e00c39532da045572168a223ae44661cb"
+    },
+    "POST_ACTUATOR_REPAIR": {
+      "path": "/runs/ccpt/successor_task1/seed_20260825/POST_ACTUATOR_REPAIR_step500.pt",
+      "adapter_state_hash": "5c55ade4dc945de01075fc0c5e14b2686b1e454f9c84d56969e479a4193e19f0",
+      "base_param_hash": "0d2d9a2258bbfe79c3cccef94604ec2e00c39532da045572168a223ae44661cb"
+    },
+    "POST_OBSERVER_PLUS_ACTUATOR": {
+      "path": "/runs/ccpt/successor_task1/seed_20260825/POST_OBSERVER_PLUS_ACTUATOR_step500.pt",
+      "adapter_state_hash": "6812b3d8a30fcd057cbdd658b620bf1e9b94eeb4a604bf1a22ad186fb1320bcf",
+      "base_param_hash": "0d2d9a2258bbfe79c3cccef94604ec2e00c39532da045572168a223ae44661cb"
+    },
+    "POST_MATCHED_GENERIC_REPAIR": {
+      "path": "/runs/ccpt/successor_task1/seed_20260825/POST_MATCHED_GENERIC_REPAIR_step500.pt",
+      "adapter_state_hash": "a91dd0fd84396f8e1b971a65b1c3c65f40412ef7f11b363d7871c855ec18deae",
+      "base_param_hash": "0d2d9a2258bbfe79c3cccef94604ec2e00c39532da045572168a223ae44661cb"
+    }
+  },
+  "budget_geometry": {
+    "base_parameters": 35920384,
+    "observer_parameters": 49920,
+    "actuator_parameters": 100416,
+    "combined_parameters": 150336,
+    "generic_parameters": 150528,
+    "generic_rank": 73,
+    "combined_percent_of_base": 0.4185255925994555,
+    "generic_match_error_percent": 0.1277139208173691,
+    "observer_rank": 32,
+    "actuator_rank": 32,
+    "within_1pct_budget": true,
+    "generic_within_1pct_match": true
+  },
+  "l40s_seconds": 79.72382736206055,
+  "exploratory_note": "",
+  "status": "FIT_COMPLETE"
+}

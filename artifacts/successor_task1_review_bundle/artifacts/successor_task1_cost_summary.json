@@ -1,0 +1,17 @@
+{
+  "task": "successor_task1_cost_summary",
+  "HARD_AUTHORIZATION_USD": 9.0,
+  "HARD_AUTHORIZATION_BREACHED": false,
+  "SELF_AUTHORIZATION_CHANGE": false,
+  "operator_authorization_update_path": "artifacts/successor_task1_authorization_update.json",
+  "H100_GPU_SECONDS": 0,
+  "billing_window": "2026-09-03 to 2026-09-05 exclusive",
+  "totals_usd": {
+    "L40S": 5.94916859,
+    "CPU": 0.1236759,
+    "Memory": 0.02195384,
+    "total_metered_usd": 6.09479833
+  },
+  "prior_5usd_gate_stop": true,
+  "final_authorization_usd": 9.0
+}

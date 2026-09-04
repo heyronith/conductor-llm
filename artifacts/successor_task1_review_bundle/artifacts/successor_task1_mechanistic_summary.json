@@ -1,0 +1,57 @@
+{
+  "task": "successor_task1_mechanistic_summary",
+  "seeds": {
+    "20260821": {
+      "OBSERVER_REPRESENTATION_RESTORATION": "NOT_RUN_OPTIONAL_DIAGNOSTIC_SKIPPED",
+      "ACTUATOR_EFFECT_RESTORATION": "NOT_RUN_OPTIONAL_DIAGNOSTIC_SKIPPED",
+      "CONTROLLER_EFFICACY_DISTANCE_TO_PRE": {
+        "gap_PRE": 0.18132560483870963,
+        "gap_POST": 0.2034815871369295,
+        "gap_COMBINED": 0.10582533713692949,
+        "dist_post_to_pre": 0.022155982298219856,
+        "dist_combined_to_pre": 0.07550026770178014,
+        "relative_distance_reduction": -2.4076696165191596
+      },
+      "note": "Behavioral controller-gap distances used; internal CKA/L2 observer probes not run (cost-gated optional diagnostics excluded)."
+    },
+    "20260823": {
+      "OBSERVER_REPRESENTATION_RESTORATION": "NOT_RUN_OPTIONAL_DIAGNOSTIC_SKIPPED",
+      "ACTUATOR_EFFECT_RESTORATION": "NOT_RUN_OPTIONAL_DIAGNOSTIC_SKIPPED",
+      "CONTROLLER_EFFICACY_DISTANCE_TO_PRE": {
+        "gap_PRE": 0.4386780753968254,
+        "gap_POST": 0.22722157921810698,
+        "gap_COMBINED": 0.258471579218107,
+        "dist_post_to_pre": 0.21145649617871842,
+        "dist_combined_to_pre": 0.18020649617871842,
+        "relative_distance_reduction": 0.14778453518679407
+      },
+      "note": "Behavioral controller-gap distances used; internal CKA/L2 observer probes not run (cost-gated optional diagnostics excluded)."
+    },
+    "20260824": {
+      "OBSERVER_REPRESENTATION_RESTORATION": "NOT_RUN_OPTIONAL_DIAGNOSTIC_SKIPPED",
+      "ACTUATOR_EFFECT_RESTORATION": "NOT_RUN_OPTIONAL_DIAGNOSTIC_SKIPPED",
+      "CONTROLLER_EFFICACY_DISTANCE_TO_PRE": {
+        "gap_PRE": 0.14419291338582674,
+        "gap_POST": 0.4722936445147679,
+        "gap_COMBINED": 0.3785436445147679,
+        "dist_post_to_pre": 0.32810073112894117,
+        "dist_combined_to_pre": 0.23435073112894117,
+        "relative_distance_reduction": 0.2857354193555788
+      },
+      "note": "Behavioral controller-gap distances used; internal CKA/L2 observer probes not run (cost-gated optional diagnostics excluded)."
+    },
+    "20260825": {
+      "OBSERVER_REPRESENTATION_RESTORATION": "NOT_RUN_OPTIONAL_DIAGNOSTIC_SKIPPED",
+      "ACTUATOR_EFFECT_RESTORATION": "NOT_RUN_OPTIONAL_DIAGNOSTIC_SKIPPED",
+      "CONTROLLER_EFFICACY_DISTANCE_TO_PRE": {
+        "gap_PRE": 0.27566056910569103,
+        "gap_POST": 0.12745129048582998,
+        "gap_COMBINED": 0.19385754048582998,
+        "dist_post_to_pre": 0.14820927861986105,
+        "dist_combined_to_pre": 0.08180302861986105,
+        "relative_distance_reduction": 0.4480573053076119
+      },
+      "note": "Behavioral controller-gap distances used; internal CKA/L2 observer probes not run (cost-gated optional diagnostics excluded)."
+    }
+  }
+}

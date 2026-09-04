@@ -1,0 +1,12 @@
+{
+  "status": "EVAL_JUDGE_PHASE_COMPLETE",
+  "code_sha": "c834b5ed2c81dba6c5d53c40ed25593b00c146a3",
+  "accrued_usd": 6.094798330000001,
+  "completed_at_utc": "2026-09-04T01:43:19.778765+00:00",
+  "seeds": [
+    20260821,
+    20260823,
+    20260824,
+    20260825
+  ]
+}

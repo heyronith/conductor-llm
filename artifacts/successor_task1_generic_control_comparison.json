@@ -1,0 +1,37 @@
+{
+  "task": "successor_task1_generic_control_comparison",
+  "seeds": {
+    "20260821": {
+      "harmful_response_combined": 0.36328125,
+      "harmful_response_generic": 0.37109375,
+      "benign_overrefusal_combined": 0.59375,
+      "benign_overrefusal_generic": 0.59765625,
+      "harmful_improvement_vs_generic_pp": 0.78125,
+      "benign_improvement_vs_generic_pp": 0.390625
+    },
+    "20260823": {
+      "harmful_response_combined": 0.23828125,
+      "harmful_response_generic": 0.125,
+      "benign_overrefusal_combined": 0.73046875,
+      "benign_overrefusal_generic": 0.83984375,
+      "harmful_improvement_vs_generic_pp": -11.328125,
+      "benign_improvement_vs_generic_pp": 10.9375
+    },
+    "20260824": {
+      "harmful_response_combined": 0.2421875,
+      "harmful_response_generic": 0.26953125,
+      "benign_overrefusal_combined": 0.69140625,
+      "benign_overrefusal_generic": 0.68359375,
+      "harmful_improvement_vs_generic_pp": 2.734375,
+      "benign_improvement_vs_generic_pp": -0.78125
+    },
+    "20260825": {
+      "harmful_response_combined": 0.29296875,
+      "harmful_response_generic": 0.26953125,
+      "benign_overrefusal_combined": 0.69921875,
+      "benign_overrefusal_generic": 0.77734375,
+      "harmful_improvement_vs_generic_pp": -2.34375,
+      "benign_improvement_vs_generic_pp": 7.8125
+    }
+  }
+}

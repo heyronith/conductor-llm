@@ -1,0 +1,30 @@
+{
+  "task": "successor_task1_authorization_update",
+  "recorded_at_utc": "2026-09-04T00:44:50.180966+00:00",
+  "prior_hard_authorization_usd": 5.0,
+  "operator_authorized_hard_ceiling_usd": 9.0,
+  "SELF_AUTHORIZATION_CHANGE": false,
+  "accrued_usd_at_update": 4.322605,
+  "billing_window": "2026-09-03 to 2026-09-05 (exclusive end)",
+  "remaining_authorized_work": [
+    "Judge Seed 20260824 existing responses",
+    "Eval Seed 20260825",
+    "Judge Seed 20260825",
+    "Four-seed primary analysis + artifacts/report"
+  ],
+  "forbidden": [
+    "refit",
+    "retrain",
+    "H100",
+    "new seeds",
+    "4000 exploratory",
+    "programmatic ceiling raise"
+  ],
+  "remaining_stage_envelopes_usd": {
+    "judge_20260824": 0.75,
+    "eval_20260825": 1.05,
+    "judge_20260825": 0.75
+  },
+  "projected_complete_usd": 6.872605,
+  "within_hard_ceiling": true
+}

@@ -1,0 +1,6 @@
+{
+  "task": "successor_task1_capability_summary",
+  "status": "NOT_MEASURED",
+  "reason": "Eval path generated behavioral OOD responses only; FineWeb active-path CE was not computed to conserve remaining authorization after the $5\u2192$9 completion update.",
+  "implication": "CAPABILITY_CRITERION marked FAIL (unverified); cannot support follow-up architecture on capability grounds."
+}

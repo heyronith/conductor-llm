@@ -1,0 +1,21 @@
+ artifacts/successor_task1_adapter_configs.json     |  29 +
+ .../successor_task1_calibration_manifest.json      |  50 ++
+ artifacts/successor_task1_checkpoint_cohort.json   | 129 +++++
+ artifacts/successor_task1_parameter_partition.json |  91 ++++
+ artifacts/successor_task1_preflight.json           |  25 +
+ ..._task1_adaptive_interface_falsification_spec.md | 168 ++++++
+ modal/successor_task1_falsification.py             | 586 +++++++++++++++++++++
+ scripts/_successor_task1_modal_fit_seed.py         |  76 +++
+ scripts/orchestrate_successor_task1.py             | 202 +++++++
+ scripts/orchestrate_successor_task1_eval.py        | 140 +++++
+ scripts/run_successor_task1_preflight.py           | 134 +++++
+ src/ccpt/successor/__init__.py                     |  29 +
+ src/ccpt/successor/adapters.py                     |  90 ++++
+ src/ccpt/successor/calibration.py                  |  95 ++++
+ src/ccpt/successor/cohort.py                       | 147 ++++++
+ src/ccpt/successor/criteria.py                     | 141 +++++
+ src/ccpt/successor/partition.py                    |  49 ++
+ src/ccpt/successor/retrofit.py                     | 275 ++++++++++
+ src/ccpt/successor/training.py                     |  82 +++
+ tests/test_successor_adaptive_interface.py         | 223 ++++++++
+ 20 files changed, 2761 insertions(+)
